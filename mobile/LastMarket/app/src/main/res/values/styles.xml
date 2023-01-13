@@ -20,4 +20,16 @@
     <style name="checkbox" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
         <item name="android:fontFamily">@font/gmarket_sans_ttf_light</item>
     </style>
+    <style name="last_market">
+        <item name="android:fontFamily">
+            @font/gmarket_sans_ttf_bold
+        </item>
+        <item name="android:textSize">
+            48sp
+        </item>
+        <item name="android:textColor">
+            #FFFFFF
+        </item>
+
+    </style>
 </resources>

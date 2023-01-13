@@ -28,8 +28,52 @@
             48sp
         </item>
         <item name="android:textColor">
-            #FFFFFF
+            @color/blue1
+        </item>
+    </style>
+    <style name="subtitle">
+        <item name="android:fontFamily">
+            @font/gmarket_sans_ttf_light
+        </item>
+        <item name="android:textSize">
+            24sp
+        </item>
+        <item name="android:textColor">
+            #2FA599
+        </item>
+    </style>
+    <style name="color_mid">
+        <item name="android:fontFamily">
+            @font/gmarket_sans_ttf_medium
+        </item>
+        <item name="android:textSize">
+            20sp
+        </item>
+        <item name="android:textColor">
+            #818DCC
+        </item>
+    </style>
+    <style name="info">
+        <item name="android:textSize">
+            12sp
+        </item>
+        <item name="android:letterSpacing">
+            0.03
+        </item>
+        <item name="android:textColor">
+            #C8C7CB
+        </item>
+    </style>
+    <style name="content">
+        <item name="android:fontFamily">@font/gmarket_sans_ttf_light</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">
+            #111111
         </item>
 
     </style>
+
 </resources>

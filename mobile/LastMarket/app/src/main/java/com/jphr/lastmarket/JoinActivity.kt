@@ -21,8 +21,6 @@ class JoinActivity : AppCompatActivity() {
                 kakaologin()
             }else Log.d(TAG, "onCreate: kakao login  is not available-카카오톡 설치 필요" )
 
-
-
         }
 
 
@@ -61,13 +59,8 @@ class JoinActivity : AppCompatActivity() {
                 }
 //TODO: 받을 정보 저장하기
 //                if (user.kakaoAccount?.emailNeedsAgreement == true) { scopes.add("account_email") }
-//                if (user.kakaoAccount?.birthdayNeedsAgreement == true) { scopes.add("birthday") }
-//                if (user.kakaoAccount?.birthyearNeedsAgreement == true) { scopes.add("birthyear") }
 //                if (user.kakaoAccount?.genderNeedsAgreement == true) { scopes.add("gender") }
-//                if (user.kakaoAccount?.phoneNumberNeedsAgreement == true) { scopes.add("phone_number") }
-//                if (user.kakaoAccount?.profileNeedsAgreement == true) { scopes.add("profile") }
 //                if (user.kakaoAccount?.ageRangeNeedsAgreement == true) { scopes.add("age_range") }
-//                if (user.kakaoAccount?.ciNeedsAgreement == true) { scopes.add("account_ci") }
 
 
 

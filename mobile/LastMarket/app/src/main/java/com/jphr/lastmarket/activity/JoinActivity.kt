@@ -26,15 +26,16 @@ class JoinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_join)
         var kakao: ImageButton = findViewById(R.id.kakao)
         var naver: NidOAuthLoginButton = findViewById(R.id.naver)
-        var age = ""
-        var email = ""
-        var gender = ""
 
 
         kakao.setOnClickListener {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 kakaoLogin(this)
-            } else Log.d(TAG, "onCreate: kakao login  is not available-카카오톡 설치 필요")
+            } else {
+                Log.d(TAG, "onCreate: kakao login  is not available-카카오톡 설치 필요")
+                changeActivity()        //TODO:임시로 화면 넘어가게 하려고 넣은거라서 나중에 빼야함
+
+            }
 
         }
         naver.setOnClickListener {

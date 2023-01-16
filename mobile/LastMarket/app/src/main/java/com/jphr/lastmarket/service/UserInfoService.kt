@@ -1,6 +1,9 @@
 package com.jphr.lastmarket.service
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import com.jphr.lastmarket.dto.CategoryDTO
+import com.jphr.lastmarket.dto.JobDTO
 import com.jphr.lastmarket.util.RetrofitUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -8,17 +11,18 @@ import retrofit2.Response
 
 private const val TAG = "UserInfoService"
 class UserInfoService {
-    fun getCategory():MutableList<String>{
+    fun getCategory():LiveData<MutableList<String>>{
 
-        val responseCategory: MutableList<String> = mutableListOf()
-        val categoryInterface: Call<MutableList<String>> = RetrofitUtil.UserInfoService.getCategory()
+        var responseCategory= mutableListOf<String>()
+        val categoryInterface: Call<CategoryDTO> = RetrofitUtil.UserInfoService.getCategory()
 
-        categoryInterface.enqueue(object : Callback<MutableList<String>> {
-            override fun onResponse(call: Call<MutableList<String>>, response: Response<MutableList<String>>) {
+        categoryInterface.enqueue(object : Callback<CategoryDTO> {
+            override fun onResponse(call: Call<CategoryDTO>, response: Response<LiveData<CategoryDTO>>) {
                 val res = response.body()
+                Log.d(TAG, "onResponse res 값: $res")
                 if(response.code() == 200){
                     if (res != null) {
-                        responseCategory.add(res.toString())
+                        responseCategory=res
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {
@@ -26,7 +30,7 @@ class UserInfoService {
                 }
             }
 
-            override fun onFailure(call: Call<MutableList<String>>, t: Throwable) {
+            override fun onFailure(call: Call<CategoryDTO>, t: Throwable) {
                 Log.d(TAG, t.message ?: "오류")
             }
         })
@@ -34,17 +38,17 @@ class UserInfoService {
         return responseCategory
     }
 
-    fun getJob():List<String>{
+    fun getJob():MutableList<String>{
 
-        val responseJob: MutableList<String> = mutableListOf()
-        val jobInterface: Call<MutableList<String>> = RetrofitUtil.UserInfoService.getJob()
+        var responseJob: MutableList<String> = mutableListOf()
+        val jobInterface: Call<JobDTO> = RetrofitUtil.UserInfoService.getJob()
 
-        jobInterface.enqueue(object : Callback<MutableList<String>> {
-            override fun onResponse(call: Call<MutableList<String>>, response: Response<MutableList<String>>) {
+        jobInterface.enqueue(object : Callback<JobDTO> {
+            override fun onResponse(call: Call<JobDTO>, response: Response<JobDTO>) {
                 val res = response.body()
                 if(response.code() == 200){
                     if (res != null) {
-                        responseJob.add(res.toString())
+                        responseJob=res.jobs
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {
@@ -52,7 +56,7 @@ class UserInfoService {
                 }
             }
 
-            override fun onFailure(call: Call<MutableList<String>>, t: Throwable) {
+            override fun onFailure(call: Call<JobDTO>, t: Throwable) {
                 Log.d(TAG, t.message ?: "오류")
             }
         })

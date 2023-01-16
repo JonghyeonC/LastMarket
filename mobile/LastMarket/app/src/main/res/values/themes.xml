@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.LastMarket" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue1</item>
+        <item name="colorPrimaryVariant">@color/blue2</item>
+        <item name="colorOnPrimary">@color/blue3</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/green1</item>
+        <item name="colorSecondaryVariant">@color/green2</item>
+        <item name="colorOnSecondary">@color/green4</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:buttonStyle">@style/button_borderless</item>
+        <item name="android:editTextStyle">@style/edittext</item>
+        <item name="android:radioButtonStyle">@style/radiobutton</item>
+        <item name="android:checkboxStyle">@style/checkbox</item>
+        <item name="android:textViewStyle">@style/text</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+</resources>

@@ -1,4 +1,5 @@
 import { KAKAO_AUTH_URL } from "./KakaoLoginData";
+import NaverLogin from "./NaverLogin"
 import React from "react";
 
 const Login = () => {
@@ -11,6 +12,7 @@ const Login = () => {
 				<img src="../images/kakao_login_medium_wide.png" alt="" />
 				<span>카카오계정 로그인</span>
 			</button>
+			<NaverLogin />
 		</div>
 	)
 }

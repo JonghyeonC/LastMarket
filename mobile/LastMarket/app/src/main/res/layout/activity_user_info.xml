@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="40dp"
-    tools:context=".UserInfoActivity">
+    tools:context=".activity.UserInfoActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
         android:text="닉네임" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/userName"
         android:layout_marginBottom="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:text="무슨일을 하고 있으신가요?" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/userJob"
         style="@style/content"
         android:layout_marginBottom="25dp"
         android:layout_width="match_parent"
@@ -65,7 +65,7 @@
         android:text="요즘 어디에 관심이 있나요?" />
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/userCategory"
         style="@style/content"
         android:layout_marginBottom="25dp"
         android:layout_width="match_parent"
@@ -102,9 +102,10 @@
             android:text="현재 위치를 기준으로 자동으로 등록됩니다." />
 
     </LinearLayout>
+    <!--TODO:버튼레이아웃 바꾸기-->
     <Button
-        android:id="@+id/button"
+        android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="start" />
 </LinearLayout>

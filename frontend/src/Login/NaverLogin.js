@@ -70,8 +70,8 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
 
 	return (
 		<>
-         // 구현할 위치에 아래와 같이 코드를 입력해주어야 한다. 
-         // 태그에 id="naverIdLogin" 를 해주지 않으면 오류가 발생한다!
+         {/* // 구현할 위치에 아래와 같이 코드를 입력해주어야 한다.  */}
+         {/* // 태그에 id="naverIdLogin" 를 해주지 않으면 오류가 발생한다! */}
 			<div id="naverIdLogin" />
 		</>
 	)

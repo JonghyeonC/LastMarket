@@ -1,19 +1,14 @@
 package com.jphr.lastmarket.activity
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
-import com.jphr.lastmarket.api.UserInfoAPI
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.jphr.lastmarket.databinding.ActivityUserInfoBinding
 import com.jphr.lastmarket.service.UserInfoService
-import com.jphr.lastmarket.viewmodel.UserInfoViewModel
-import kotlinx.coroutines.launch
 
 private const val TAG = "UserInfoActivity"
 class UserInfoActivity : AppCompatActivity() {
@@ -21,27 +16,27 @@ class UserInfoActivity : AppCompatActivity() {
     lateinit var userName :String
     lateinit var userJob :String
     lateinit var userCategory :String
-    private val userInfoViewModel: UserInfoViewModel by viewModels()
-    var categoryList= mutableListOf<String>()
-    var jobList= mutableListOf<String>()
+    var categoryList= MutableLiveData<MutableList<String>>()
+    var jobList= MutableLiveData<MutableList<String>>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityUserInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        categoryList=userInfoViewModel.getcategory()
+        Log.d(TAG, "onCreate: 시작------")
 
-        lifecycleScope.launch(){
-            jobList= UserInfoService().getJob()
-            binding.userJob.adapter = ArrayAdapter(this@UserInfoActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, jobList)
-            binding.userCategory.adapter = ArrayAdapter(this@UserInfoActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categoryList)
-            Log.d(TAG, "onCreate: $categoryList")
+        categoryList=UserInfoService().getCategory()
+        jobList=UserInfoService().getJob()
 
-        }
+        categoryList.observe(this, Observer {
+            binding.userCategory.adapter = ArrayAdapter(this@UserInfoActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, it)
+            Log.d(TAG, "onCreate: $it")
 
+        })
+        jobList.observe(this, Observer {
+            binding.userJob.adapter = ArrayAdapter(this@UserInfoActivity, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, it)
+            Log.d(TAG, "onCreate: $it")
+        })
 
-
-
-//        Log.d(TAG, "onCreate: $jobList")
 
 
 
@@ -53,7 +48,5 @@ class UserInfoActivity : AppCompatActivity() {
         }
 
     }
-
-
 
 }

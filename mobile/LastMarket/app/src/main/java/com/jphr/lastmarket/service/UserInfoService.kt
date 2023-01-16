@@ -2,6 +2,7 @@ package com.jphr.lastmarket.service
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.jphr.lastmarket.dto.CategoryDTO
 import com.jphr.lastmarket.dto.JobDTO
 import com.jphr.lastmarket.util.RetrofitUtil
@@ -11,18 +12,18 @@ import retrofit2.Response
 
 private const val TAG = "UserInfoService"
 class UserInfoService {
-    fun getCategory():LiveData<MutableList<String>>{
+    fun getCategory(): MutableLiveData<MutableList<String>> {
 
-        var responseCategory= mutableListOf<String>()
+        var responseCategory= MutableLiveData<MutableList<String>>()
         val categoryInterface: Call<CategoryDTO> = RetrofitUtil.UserInfoService.getCategory()
 
         categoryInterface.enqueue(object : Callback<CategoryDTO> {
-            override fun onResponse(call: Call<CategoryDTO>, response: Response<LiveData<CategoryDTO>>) {
+            override fun onResponse(call: Call<CategoryDTO>, response: Response<CategoryDTO>) {
                 val res = response.body()
                 Log.d(TAG, "onResponse res 값: $res")
                 if(response.code() == 200){
                     if (res != null) {
-                        responseCategory=res
+                        responseCategory.value=res.categories
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {
@@ -38,9 +39,9 @@ class UserInfoService {
         return responseCategory
     }
 
-    fun getJob():MutableList<String>{
+    fun getJob():MutableLiveData<MutableList<String>>{
 
-        var responseJob: MutableList<String> = mutableListOf()
+        var responseJob=MutableLiveData<MutableList<String>>()
         val jobInterface: Call<JobDTO> = RetrofitUtil.UserInfoService.getJob()
 
         jobInterface.enqueue(object : Callback<JobDTO> {
@@ -48,7 +49,7 @@ class UserInfoService {
                 val res = response.body()
                 if(response.code() == 200){
                     if (res != null) {
-                        responseJob=res.jobs
+                        responseJob.value=res.jobs
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {

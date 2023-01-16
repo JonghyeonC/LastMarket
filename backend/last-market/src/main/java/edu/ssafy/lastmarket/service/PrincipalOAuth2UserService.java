@@ -2,6 +2,7 @@ package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.domain.eneity.Member;
 import edu.ssafy.lastmarket.repository.MemberRepository;
+import edu.ssafy.lastmarket.security.provider.KakaoOAuthUserInfo;
 import edu.ssafy.lastmarket.security.provider.NaverOAuthUserInfo;
 import edu.ssafy.lastmarket.security.provider.OAuthUserInfo;
 import edu.ssafy.lastmarket.security.user.OAuth2UserImpl;
@@ -39,6 +40,10 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         if (provider.equals("naver")) {
             oAuthUserInfo = new NaverOAuthUserInfo(oAuth2User.getAttribute("response"));
         }
+//        else if(provider.equals("kakao")){
+//            System.out.println(oAuth2User);
+//            oAuthUserInfo= new KakaoOAuthUserInfo(oAuth2User.getAttributes());
+//        }
         String providerId = oAuthUserInfo != null ? oAuthUserInfo.getProviderId() : "";
         String username = provider + "_" + providerId;
         String email = oAuthUserInfo.getEmail();

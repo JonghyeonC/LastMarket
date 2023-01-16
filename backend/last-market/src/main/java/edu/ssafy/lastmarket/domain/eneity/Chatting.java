@@ -6,7 +6,6 @@ import javax.persistence.*;
 public class Chatting extends BaseEntity {
     @Id
     @GeneratedValue
-    @Column(name = "chatting_id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

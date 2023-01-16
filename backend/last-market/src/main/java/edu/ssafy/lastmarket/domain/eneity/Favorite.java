@@ -6,7 +6,6 @@ import javax.persistence.*;
 public class Favorite extends BaseEntity {
     @Id
     @GeneratedValue
-    @Column(name = "favorite_id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

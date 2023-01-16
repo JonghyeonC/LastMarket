@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Trade extends BaseEntity {
     @Id
-    @Column(name = "trade_id")
     @GeneratedValue
     private Long id;
     @OneToOne(fetch = FetchType.LAZY)

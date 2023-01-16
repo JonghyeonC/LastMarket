@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Ban extends BaseEntity{
     @Id
-    @Column(name = "ban_id")
     @GeneratedValue
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)

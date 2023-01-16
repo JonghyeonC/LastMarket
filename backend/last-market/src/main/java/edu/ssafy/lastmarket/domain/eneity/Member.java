@@ -7,23 +7,22 @@ import java.util.List;
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue
-    @Column(name = "member_id")
     private Long id;
     private String username;
     private String nickname;
     @OneToOne(fetch = FetchType.LAZY)
-    private Image profileImage;
+    private Image profile;
     private Job job;
     @OneToOne(fetch = FetchType.LAZY)
     private Location location;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "seller",fetch = FetchType.LAZY)
     private List<Product> products;
     @OneToMany(mappedBy = "from", fetch = FetchType.LAZY)
     private List<Ban> banList;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
     private List<Favorite> favorites;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<ReceiveReview> receiveReviews;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<SendReview> sendReviews;
+    @OneToMany(mappedBy = "seller",fetch = FetchType.LAZY)
+    private List<SellerReview> sellerReviews;
+    @OneToMany(mappedBy = "buyer",fetch = FetchType.LAZY)
+    private List<BuyerReview> buyerReviews;
 }

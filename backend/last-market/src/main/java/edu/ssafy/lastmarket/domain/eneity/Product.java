@@ -10,7 +10,6 @@ import java.util.List;
 public class Product extends BaseEntity{
     @Id
     @GeneratedValue
-    @Column(name = "product_id")
     private Long id;
     private String title;
     private String content;
@@ -18,8 +17,7 @@ public class Product extends BaseEntity{
     @JoinColumn(name = "dongCode")
     private Location location;
     private DealState dealState;
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_image_id")
+    @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     private List<ProductImage> images = new ArrayList<>();
     private LocalDateTime liveTime;
     @OneToOne(fetch = FetchType.LAZY)

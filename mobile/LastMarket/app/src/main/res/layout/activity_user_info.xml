@@ -85,23 +85,23 @@
         android:layout_marginBottom="10dp"
         style="@style/content"
         android:text="00동" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="30dp"
-    android:orientation="horizontal">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_outline_info_24" />
-    <TextView
-        android:id="@+id/textView12"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="현재 위치를 기준으로 자동으로 등록됩니다." />
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_outline_info_24" />
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="현재 위치를 기준으로 자동으로 등록됩니다." />
+
+    </LinearLayout>
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"

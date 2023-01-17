@@ -1,15 +1,27 @@
 package edu.ssafy.lastmarket.security.provider;
 
 import lombok.RequiredArgsConstructor;
+
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class KakaoOAuthUserInfo  implements OAuthUserInfo{
-    private final Map<String, Object> attributes;
+public class KakaoOAuthUserInfo implements OAuthUserInfo {
+    private Map<String, Object> attributes;
+    private Map<String, Object> attributesAccount;
+    private Map<String, Object> attributesProfile;
+
+    public KakaoOAuthUserInfo(Map<String, Object> attributes) {
+
+        System.out.println(attributes);
+
+        this.attributes = attributes;
+        this.attributesAccount = (Map<String, Object>) attributes.get("kakao_account");
+        this.attributesProfile = (Map<String, Object>) attributesAccount.get("profile");
+    }
 
     @Override
     public String getProviderId() {
-        return (String) attributes.get("id");
+        return  attributes.get("id").toString();
     }
 
     @Override

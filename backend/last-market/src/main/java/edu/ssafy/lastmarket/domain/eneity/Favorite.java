@@ -3,6 +3,7 @@ package edu.ssafy.lastmarket.domain.eneity;
 import javax.persistence.*;
 
 @Entity
+
 public class Favorite extends BaseEntity {
     @Id
     @GeneratedValue

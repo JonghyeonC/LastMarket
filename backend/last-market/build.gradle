@@ -59,3 +59,11 @@ tasks.named('asciidoctor') {
 	inputs.dir snippetsDir
 	dependsOn test
 }
+
+task copyPrivate(type: Copy){
+	copy {
+		from "../../last-market-config"
+		include "*.yml"
+		into "src/main/resources"
+	}
+}

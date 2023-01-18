@@ -1,4 +1,3 @@
-import { KAKAO_AUTH_URL } from "./KakaoLoginData";
 import NaverLogin from "./NaverLogin"
 import KakaoLogin from "./KakaoLogin"
 import React from "react";

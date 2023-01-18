@@ -11,6 +11,8 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import HeadsetOffIcon from "@mui/icons-material/HeadsetOff";
 import CallEndIcon from "@mui/icons-material/CallEnd";
 import ChatIcon from "@mui/icons-material/Chat";
+import LiveChat from "./Chat"
+
 
 // 로컬 미디어 서버 주소
 const OPENVIDU_SERVER_URL = "https://jadu-study-flatform.shop:8443";
@@ -216,6 +218,11 @@ class OnlineMeeting extends Component {
               ) : null}
             </VideoContainer>
           </Left>
+          <Right primary={this.state.isChat}>
+            <Chat>
+            <LiveChat />
+            </Chat>
+          </Right>
         </Middle>
         <Bottom>
           <BottomBox>
@@ -243,7 +250,6 @@ class OnlineMeeting extends Component {
             >
               {this.state.isSpeaker ? <HeadsetIcon /> : <HeadsetOffIcon />}
             </Icon>
-
             <Icon primary onClick={this.leaveSession}>
               <CallEndIcon />
             </Icon>

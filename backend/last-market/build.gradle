@@ -70,4 +70,10 @@ task copyPrivate(type: Copy) {
         include "*.yml"
         into "src/main/resources"
     }
+
+    copy {
+        from "../../last-market-config"
+        include "*.yml"
+        into "src/test/resources"
+    }
 }

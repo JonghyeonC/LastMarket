@@ -30,6 +30,7 @@
                 app:navigationIcon="@drawable/hamberger"
 
                 />
+            
             <!--fit systemwindow윈도우 창이랑 자연스럽게 이어지게-->
         </com.google.android.material.appbar.AppBarLayout>
 

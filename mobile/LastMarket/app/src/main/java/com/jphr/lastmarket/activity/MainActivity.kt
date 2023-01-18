@@ -54,7 +54,9 @@ class MainActivity : AppCompatActivity() {
 
 
         setSupportActionBar(toolbar)
-        toolbar.title=null
+        toolbar.setOnClickListener {
+            changeFragment(1)
+        }
 
 
 
@@ -118,25 +120,25 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            android.R.id.home->{//메뉴버튼을 눌렀을 때
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-            R.id.search->{//검색버튼
-                Log.d(TAG, "onOptionsItemSelected: ")
-
-            }
-            R.id.chat->{//채팅버튼
-
-            }
-            R.id.mypage->{//마이페이지
-
-            }
-
-        }
-       return super.onOptionsItemSelected(item)
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId){
+//            android.R.id.home->{//메뉴버튼을 눌렀을 때
+//                drawerLayout.openDrawer(GravityCompat.START);
+//            }
+//            R.id.search->{//검색버튼
+//                Log.d(TAG, "onOptionsItemSelected: ")
+//
+//            }
+//            R.id.chat->{//채팅버튼
+//
+//            }
+//            R.id.mypage->{//마이페이지
+//
+//            }
+//
+//        }
+//       return super.onOptionsItemSelected(item)
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main,menu)

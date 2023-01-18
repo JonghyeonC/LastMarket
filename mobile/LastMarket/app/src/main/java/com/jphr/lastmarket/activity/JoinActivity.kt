@@ -130,4 +130,7 @@ class JoinActivity : AppCompatActivity() {
         startActivity(intent)
 
     }
+
 }
+
+

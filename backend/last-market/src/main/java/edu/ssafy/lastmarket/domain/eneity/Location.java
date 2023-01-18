@@ -1,8 +1,7 @@
 package edu.ssafy.lastmarket.domain.eneity;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +9,9 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString(exclude = "dongCode")
 public class Location {
     @Id

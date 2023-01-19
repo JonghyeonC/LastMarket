@@ -33,7 +33,7 @@ public class OAuth2UserImpl implements OAuth2User {
 
     @Override
     public String getName() {
-        return oAuthUserInfo.getProviderId();
+        return oAuthUserInfo.getProvider()+"_"+ oAuthUserInfo.getProviderId();
     }
 
     public String getUsername() {

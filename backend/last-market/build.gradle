@@ -24,7 +24,6 @@ ext {
 }
 
 dependencies {
-<<<<<<< backend/last-market/build.gradle
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

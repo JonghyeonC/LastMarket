@@ -1,11 +1,13 @@
 package edu.ssafy.lastmarket.service;
 
+import edu.ssafy.lastmarket.domain.eneity.Location;
 import edu.ssafy.lastmarket.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -14,7 +16,7 @@ public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
 
     @Override
-    public String findDongCodeByAddress(String address) {
+    public Optional<Location> findDongCodeByAddress(String address) {
         String[] addressArgs = address.split(" ");
 
         if (addressArgs.length > 3) {
@@ -22,9 +24,7 @@ public class LocationServiceImpl implements LocationService {
         }
 
         return locationRepository
-                .findBySidoAndDongAndGugun(addressArgs[0], addressArgs[1], addressArgs[2])
-                .orElseThrow(() -> new NoSuchElementException("없는 지역입니다."))
-                .getDongCode();
+                .findBySidoAndGugunAndDong(addressArgs[0], addressArgs[1], addressArgs[2]);
 
     }
 }

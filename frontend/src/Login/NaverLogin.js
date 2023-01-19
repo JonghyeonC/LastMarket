@@ -4,23 +4,23 @@ import axios from 'axios'
 
 const NaverLogin = ({ setGetToken, setUserInfo }) => {
 
-	let [signup_status, setSignup_status]  = useState('')
+	let [signup_status, setSignup_status]  = useState('http://localhost:3000/signup')
 	let url = 'http://treenovel.tk:8080/oauth2/authorization/naver'
-	axios.get(url)
-        .then((Response) => {
-            console.log(Response.data)
-            if (Response.data === 200) {
-								setSignup_status('http://localhost:3000/')
-            } else {
-								setSignup_status('http://localhost:3000/login')
-            }
-        })
-        .catch((error) => console.log(error))
+	// axios.get(url)
+  //       .then((Response) => {
+  //           console.log(Response.data)
+  //           if (Response.data === 200) {
+	// 							setSignup_status('http://localhost:3000/')
+  //           } else {
+	// 							setSignup_status('http://localhost:3000/login')
+  //           }
+  //       })
+  //       .catch((error) => console.log(error))
 
 	const { naver } = window
-	// const NAVER_CLIENT_ID = "npz20uxg7uwa05RpYjnV"
-	const NAVER_CLIENT_ID = "CAgPJNeTleyiPVXM_NzV"
-	
+	const NAVER_CLIENT_ID = "npz20uxg7uwa05RpYjnV"
+	// const NAVER_CLIENT_ID = "CAgPJNeTleyiPVXM_NzV"
+
 	const NAVER_CALLBACK_URL = signup_status
 
 	const initializeNaverLogin = () => {

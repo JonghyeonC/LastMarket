@@ -13,7 +13,6 @@ const KakaoLogIn = () => {
 
   const kakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
-    
   }
 
   return (

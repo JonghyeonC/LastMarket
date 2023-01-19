@@ -11,8 +11,9 @@ import Chat from './Router/Chat'
 import Login from './Login/Login'
 import Navbar from './Navbar'
 import OnlineMeeting from './OnlineMeeting'
+import KakaoAuthHandler from './Login/KakaoAuthHandler'
+import Signup from './Router/Signup'
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-
 
 function App() {
   return (
@@ -57,6 +58,13 @@ function App() {
             <Login />
           } />
 
+          <Route path="/oauth" element={
+            <KakaoAuthHandler />
+          } />
+
+          <Route path="/signup" element={
+            <Signup />
+          } />
         </Routes>
       </Router>
     </div>

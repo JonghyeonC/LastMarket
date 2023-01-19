@@ -18,8 +18,6 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         
         //임시로 처리
-//        http.authorizeRequests().antMatchers("/upload").permitAll();
-
         http.authorizeRequests()
                 .anyRequest().permitAll();
         http.csrf().disable();

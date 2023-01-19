@@ -1,3 +1,5 @@
+
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.7'
@@ -53,6 +55,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.amqp/spring-rabbit
     implementation 'org.springframework.amqp:spring-rabbit:2.4.8'
     implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
+    // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
+
 
 
 }

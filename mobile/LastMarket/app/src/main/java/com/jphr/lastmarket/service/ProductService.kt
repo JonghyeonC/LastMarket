@@ -14,7 +14,7 @@ class ProductService {
     var searchFragment=SearchFragment()
 
 
-    fun getProduct(word:String, category: String?, callback: RetrofitCallback<ProductDTO>){
+    fun getProduct(word:String?, category: String?, callback: RetrofitCallback<ProductDTO>,issearch:Boolean){
         val productInterface: Call<ProductDTO> = RetrofitUtil.ProductService.getProductList(word,category)
         productInterface.enqueue(object : Callback<ProductDTO> {
             override fun onResponse(call: Call<ProductDTO>, response: Response<ProductDTO>) {
@@ -22,7 +22,7 @@ class ProductService {
                 Log.d(TAG, "onResponse res 값: $res")
                 if(response.code() == 200){
                     if (res != null) {
-                        callback.onSuccess(response.code(), res)
+                        callback.onSuccess(response.code(), res,issearch)
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {

@@ -18,10 +18,7 @@ import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.dto.ProductDTO
-import com.jphr.lastmarket.fragment.ChatFragment
-import com.jphr.lastmarket.fragment.MainFragment
-import com.jphr.lastmarket.fragment.MypageFragment
-import com.jphr.lastmarket.fragment.SearchFragment
+import com.jphr.lastmarket.fragment.*
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.service.UserInfoService
 import com.jphr.lastmarket.util.RetrofitCallback
@@ -35,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     var categoryList = MutableLiveData<MutableList<String>>()
 
     var SearchFragment=SearchFragment()
-
+    var ProductListFragment= ProductListFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -66,13 +63,6 @@ class MainActivity : AppCompatActivity() {
                 if(i%3==0) groupId++
             }
         })
-
-//        searchResult.observe(this,Observer{
-//            Log.d(TAG, "observe에서 searchResult: $it")
-//            var bundle= bundleOf()
-//            bundle.putSerializable("products",it)
-//            changeFragment(4,bundle)
-//        })
 
         setSupportActionBar(toolbar)
         toolbar.setOnClickListener {
@@ -109,24 +99,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
         navigationView.setNavigationItemSelectedListener {menuItem->
+            var title=""
             when(menuItem.itemId){
-                android.R.id.home->{//메뉴버튼을 눌렀을 때
+
+                0->{
                     menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProduct(null,title,ProductCallback(),false)
                     drawerLayout.close()
                     true
                 }
-                R.id.search->{//검색버튼
-                    menuItem.isChecked = true
-                    drawerLayout.close()
-                    true
-                }
-                R.id.chat->{//채팅버튼
+                1->{
                     menuItem.isChecked = true
 //                    changeFragment(3)
                     drawerLayout.close()
                     true
                 }
-                R.id.mypage->{//마이페이지
+                2->{
                     menuItem.isChecked = true
 //                    changeFragment(2)
                     drawerLayout.close()
@@ -145,41 +134,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-
         super.onResume()
-
         searchBar.visibility=View.GONE
         searchView
             .editText
             .setOnEditorActionListener { v, actionId, event ->
                 searchBar.text = searchView.text
                 searchView.hide()
-                ProductService().getProduct(searchView.text.toString(),null,productCallback())
+                ProductService().getProduct(searchView.text.toString(),null,ProductCallback(),true)
                 searchBar.visibility=View.GONE
-                Log.d(TAG, "onCreate: ---")
                 false
             }
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            android.R.id.home->{//메뉴버튼을 눌렀을 때
-//                drawerLayout.openDrawer(GravityCompat.START);
-//            }
-//            R.id.search->{//검색버튼
-//                Log.d(TAG, "onOptionsItemSelected: ")
-//
-//            }
-//            R.id.chat->{//채팅버튼
-//
-//            }
-//            R.id.mypage->{//마이페이지
-//
-//            }
-//
-//        }
-//       return super.onOptionsItemSelected(item)
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main,menu)
@@ -200,19 +167,30 @@ class MainActivity : AppCompatActivity() {
             4->{
                 transaction.replace(R.id.fragmentContainer,SearchFragment).commit()
             }
+            5->{
+                transaction.replace(R.id.fragmentContainer,ProductListFragment).commit()
+            }
         }
     }
 
-    inner class productCallback: RetrofitCallback<ProductDTO> {
-        override fun onSuccess(code: Int,responseData: ProductDTO) {
+    inner class ProductCallback: RetrofitCallback<ProductDTO> {
+        override fun onSuccess(code: Int,responseData: ProductDTO, issearch:Boolean) {
             if(responseData!=null) {
+                if(issearch){
+                    Log.d(TAG, "initData: ${responseData}")
 
-                Log.d(TAG, "initData: ${responseData}")
+                    var bundle= bundleOf()
+                    bundle.putSerializable("products",responseData)
+                    SearchFragment.arguments=bundle
+                    changeFragment(4)
+                }
+                else {
+                    var bundle= bundleOf()
+                    bundle.putSerializable("products",responseData)
+                    ProductListFragment.arguments=bundle
+                    changeFragment(5)
+                }
 
-                var bundle= bundleOf()
-                bundle.putSerializable("products",responseData)
-                SearchFragment.arguments=bundle
-                changeFragment(4)
             }
 
         }
@@ -224,6 +202,7 @@ class MainActivity : AppCompatActivity() {
         override fun onFailure(code: Int) {
             Log.d(TAG, "onResponse: Error Code $code")
         }
+
     }
 
 }

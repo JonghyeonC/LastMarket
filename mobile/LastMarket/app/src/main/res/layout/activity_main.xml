@@ -30,9 +30,24 @@
                 app:navigationIcon="@drawable/hamberger"
 
                 />
-            
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:hint="hint" />
             <!--fit systemwindow윈도우 창이랑 자연스럽게 이어지게-->
         </com.google.android.material.appbar.AppBarLayout>
+        <com.google.android.material.search.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="hint"
+            app:layout_anchor="@id/search_bar"
+            android:id="@+id/search_view"
+            >
+            <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
+
+        </com.google.android.material.search.SearchView>
 
         <!-- Note: A RecyclerView can also be used -->
         <androidx.core.widget.NestedScrollView
@@ -49,7 +64,6 @@
             </FrameLayout>
 
         </androidx.core.widget.NestedScrollView>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView

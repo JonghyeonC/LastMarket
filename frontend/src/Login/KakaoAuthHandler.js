@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { useDispatch } from "react-redux";
 import { actionCreators as userAction } from "../redux/modules/user";
-import Spinner from "../elements/Spinner";
+// import Spinner from "../elements/Spinner";
 
 const KakaoAuthHandler = (props) => {
   const dispatch = useDispatch();

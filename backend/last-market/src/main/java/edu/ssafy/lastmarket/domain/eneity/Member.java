@@ -18,6 +18,8 @@ public class Member extends BaseEntity {
     private String nickname;
     @OneToOne(fetch = FetchType.LAZY)
     private Image profile;
+
+    @Enumerated(EnumType.STRING)
     private Job job;
 
     @Enumerated(EnumType.STRING)

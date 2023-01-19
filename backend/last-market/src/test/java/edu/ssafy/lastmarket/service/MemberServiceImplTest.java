@@ -1,6 +1,7 @@
 package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
+import edu.ssafy.lastmarket.domain.eneity.Job;
 import edu.ssafy.lastmarket.domain.eneity.Location;
 import edu.ssafy.lastmarket.domain.eneity.Member;
 import edu.ssafy.lastmarket.repository.LocationRepository;
@@ -39,17 +40,20 @@ public class MemberServiceImplTest {
         Member member = Member.builder()
                 .id(1L)
                 .nickname("nick")
+                .job(Job.PROGRAMMER)
                 .username("asdf")
                 .build();
 
         MemberRegistDto memberRegistDto = MemberRegistDto.builder()
                 .nickname("nick2")
+                .job(Job.STUDENT)
                 .build();
 
         Member predict = Member.builder()
                 .id(1L)
                 .nickname("nick2")
                 .username("asdf")
+                .job(Job.STUDENT)
                 .build();
 
         Optional<Member> memberOptional = Optional.of(member);
@@ -65,6 +69,7 @@ public class MemberServiceImplTest {
 
 
         assertThat(predict.getNickname()).isEqualTo(result.getNickname());
+        assertThat(predict.getJob()).isEqualTo(result.getJob());
     }
 
 

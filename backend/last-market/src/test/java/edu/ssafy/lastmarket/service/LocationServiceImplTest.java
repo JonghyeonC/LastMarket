@@ -29,9 +29,9 @@ public class LocationServiceImplTest {
         //given
         String address = "서울시 용산구 도원동";
         //when
-        String dongCode = locationService.findDongCodeByAddress(address);
+        Optional<Location> locationOptional = locationService.findDongCodeByAddress(address);
         //then
-        assertThat(dongCode).isEqualTo("1117012000");
+        assertThat(locationOptional.get().getDongCode()).isEqualTo("1117012000");
     }
 
     @Test
@@ -52,7 +52,7 @@ public class LocationServiceImplTest {
                 .dong("도원동")
                 .dongCode("1117012000")
                 .build();
-        doReturn(Optional.of(location)).when(locationRepository).findBySidoAndDongAndGugun("서울시", "용산구", "도원동");
+        doReturn(Optional.of(location)).when(locationRepository).findBySidoAndGugunAndDong("서울시", "용산구", "도원동");
         locationService = new LocationServiceImpl(locationRepository);
     }
 }

@@ -31,7 +31,7 @@ public class KakaoOAuthUserInfo implements OAuthUserInfo {
 
     @Override
     public String getName() {
-        return (String) attributes.get("name");
+        return (String)attributes.get("name") ;
     }
 
     @Override

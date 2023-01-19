@@ -1,7 +1,6 @@
 package edu.ssafy.lastmarket.domain.eneity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -9,7 +8,10 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue

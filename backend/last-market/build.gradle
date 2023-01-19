@@ -1,8 +1,8 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.7'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'org.asciidoctor.convert' version '2.2.0'
+    id 'java'
+    id 'org.springframework.boot' version '2.7.7'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.asciidoctor.convert' version '2.2.0'
 }
 
 group = 'edu.ssafy'
@@ -10,20 +10,21 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
+    set('snippetsDir', file("build/generated-snippets"))
 }
 
 dependencies {
+<<<<<<< backend/last-market/build.gradle
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -50,23 +51,33 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-aws
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    // https://mvnrepository.com/artifact/org.springframework.amqp/spring-rabbit
+    implementation 'org.springframework.amqp:spring-rabbit:2.4.8'
+    implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
+
 
 }
 
 tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
+    outputs.dir snippetsDir
+    useJUnitPlatform()
 }
 
 tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
+    inputs.dir snippetsDir
+    dependsOn test
 }
 
-task copyPrivate(type: Copy){
-	copy {
-		from "../../last-market-config"
-		include "*.yml"
-		into "src/main/resources"
-	}
+task copyPrivate(type: Copy) {
+    copy {
+        from "../../last-market-config"
+        include "*.yml"
+        into "src/main/resources"
+    }
+
+    copy {
+        from "../../last-market-config"
+        include "*.yml"
+        into "src/test/resources"
+    }
 }

@@ -6,19 +6,20 @@ import Edit from './Router/Edit'
 import Profile from './Router/Profile'
 import Detail from './Router/Detail'
 import Search from './Router/Search'
-import Live from './Router/Live'
+// import Live from './Router/Live'
 import Chat from './Router/Chat'
 import Login from './Login/Login'
 import Navbar from './Navbar'
 import OnlineMeeting from './OnlineMeeting'
+import KakaoAuthHandler from './Login/KakaoAuthHandler'
+import Signup from './Router/Signup'
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
       <Router>
+      <Navbar />
         <Routes>
 
           <Route path="/" element={
@@ -45,11 +46,11 @@ function App() {
             <Profile />
           } />
 
-          <Route path="/detail" element={
+          <Route path="/detail/:id" element={
             <Detail />
           } />
 
-          <Route path="/search" element={
+          <Route path="/search/:result" element={
             <Search />
           } />
           
@@ -57,6 +58,13 @@ function App() {
             <Login />
           } />
 
+          <Route path="/oauth" element={
+            <KakaoAuthHandler />
+          } />
+
+          <Route path="/signup" element={
+            <Signup />
+          } />
         </Routes>
       </Router>
     </div>

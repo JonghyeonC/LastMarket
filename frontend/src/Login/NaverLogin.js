@@ -1,11 +1,27 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+
 
 const NaverLogin = ({ setGetToken, setUserInfo }) => {
-      
-  
+
+	let [signup_status, setSignup_status]  = useState('http://localhost:3000/signup')
+	let url = 'http://treenovel.tk:8080/oauth2/authorization/naver'
+	// axios.get(url)
+  //       .then((Response) => {
+  //           console.log(Response.data)
+  //           if (Response.data === 200) {
+	// 							setSignup_status('http://localhost:3000/')
+  //           } else {
+	// 							setSignup_status('http://localhost:3000/login')
+  //           }
+  //       })
+  //       .catch((error) => console.log(error))
+
 	const { naver } = window
 	const NAVER_CLIENT_ID = "npz20uxg7uwa05RpYjnV"
-	const NAVER_CALLBACK_URL = 'http://localhost:3000/login'
+	// const NAVER_CLIENT_ID = "CAgPJNeTleyiPVXM_NzV"
+
+	const NAVER_CALLBACK_URL = signup_status
 
 	const initializeNaverLogin = () => {
 		const naverLogin = new naver.LoginWithNaverId({
@@ -14,7 +30,7 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
           // 팝업창으로 로그인을 진행할 것인지?           
 			isPopup: false,
           // 버튼 타입 ( 색상, 타입, 크기 변경 가능 )
-			loginButton: { color: 'green', type: 3, height: 58 },
+			loginButton: { color: 'green',  type: 3, height: 25 },
 			callbackHandle: true,
 		})
 		naverLogin.init()
@@ -29,16 +45,16 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
            // 백엔드 개발자가 정보를 전달해준다면 아래 요기! 라고 작성된 부분까지는 
            // 코드 생략이 가능하다.  
       
-      naverLogin.getLoginStatus(async function (status) {
-			if (status) {
-              // 아래처럼 선택하여 추출이 가능하고, 
-				const userid = naverLogin.user.getEmail()
-				const username = naverLogin.user.getName()
-              // 정보 전체를 아래처럼 state 에 저장하여 추출하여 사용가능하다. 
-              // setUserInfo(naverLogin.user)
-			}
-		})     
-            // 요기!
+    //   naverLogin.getLoginStatus(async function (status) {
+		// 	if (status) {
+    //           // 아래처럼 선택하여 추출이 가능하고, 
+		// 		const userid = naverLogin.user.getEmail()
+		// 		const username = naverLogin.user.getName()
+    //           // 정보 전체를 아래처럼 state 에 저장하여 추출하여 사용가능하다. 
+    //           // setUserInfo(naverLogin.user)
+		// 	}
+		// })     
+    //         // 요기!
 	}
     
     
@@ -46,7 +62,7 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
             // 네이버 소셜 로그인 (네아로) 는 URL 에 엑세스 토큰이 붙어서 전달된다.
             // 우선 아래와 같이 토큰을 추출 할 수 있으며,
             // 3부에 작성 될 Redirect 페이지를 통해 빠르고, 깨끗하게 처리가 가능하다.
-   
+
 	    const userAccessToken = () => {
 		    window.location.href.includes('access_token') && getToken()
 	}

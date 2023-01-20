@@ -1,14 +1,12 @@
-import { KAKAO_AUTH_URL } from "./KakaoLoginData";
 import NaverLogin from "./NaverLogin"
-import KakaoLogin from "./KakaoLogin"
+import KakaoLogin from "./KakaoLogin";
 import React from "react";
 
 const Login = () => {
-	
 
 	return (
 		<div>
-			<p>회원가입 창</p>
+			<h1>LOG IN</h1>
 			<KakaoLogin />
 			<NaverLogin />
 		</div>

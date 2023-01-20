@@ -5,6 +5,7 @@ import com.jphr.lastmarket.dto.CategoryDTO
 import com.jphr.lastmarket.dto.JobDTO
 import com.jphr.lastmarket.dto.UserInfoDTO
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
@@ -16,7 +17,7 @@ interface UserInfoAPI {
     fun getJob():Call<JobDTO>
 
     @POST("/user")
-    fun insertUserInfo():Call<UserInfoDTO>
+    fun insertUserInfo(@Body userinfo:UserInfoDTO):Call<Unit>
 
 
 }

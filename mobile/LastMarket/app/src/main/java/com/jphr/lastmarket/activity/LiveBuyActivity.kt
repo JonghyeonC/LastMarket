@@ -1,11 +1,12 @@
-package com.jphr.lastmarket
+package com.jphr.lastmarket.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.jphr.lastmarket.R
 
-class UserInfoActivity : AppCompatActivity() {
+class LiveBuyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user_info)
+        setContentView(R.layout.activity_live_buy)
     }
 }

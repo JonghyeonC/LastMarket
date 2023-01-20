@@ -1,4 +1,4 @@
-package com.jphr.lastmarket
+package com.jphr.lastmarket.activity
 
 import android.content.Intent
 import android.os.Bundle

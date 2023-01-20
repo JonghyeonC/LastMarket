@@ -46,11 +46,11 @@ function App() {
             <Profile />
           } />
 
-          <Route path="/detail" element={
+          <Route path="/detail/:id" element={
             <Detail />
           } />
 
-          <Route path="/search" element={
+          <Route path="/search/:result" element={
             <Search />
           } />
           

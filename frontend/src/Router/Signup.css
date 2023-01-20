@@ -7,14 +7,24 @@
   align-items: center;
 }
 
+.nickNameInput {
+  width: 400px;
+}
+
+.labelBox {
+  padding :12px;
+  margin: 0px;
+}
+
 .nameWrap {
   display: flex;
   width: 700px;
   justify-content: space-between;
 }
 
-.container {
-  width: 500px;
+.signupbox {
+  width: 400px;
+  /* flex-basis: 30%; */
   box-shadow: 0 4px 5px 0 #00000026;
   position: relative;
   z-index: 10;
@@ -36,20 +46,23 @@
   width: 400px;
   justify-content: space-between;
   padding: 12px;
-
 }
+
 .dropdownLabel2 {
   display: flex;
   width: 400px;
   justify-content: space-between;
   padding: 12px;
 }
+
 .dropdownLabel1:hover {
   cursor: pointer;
 }
+
 .dropdownLabel2:hover {
   cursor: pointer;
 }
+
 .content {
   display: none;
   position: absolute;

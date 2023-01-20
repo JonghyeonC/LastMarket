@@ -1,12 +1,11 @@
-import { 
-  useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 function Navbar() {
   
   let navigate = useNavigate()
   let [inputValue, setInputValue] = useState('')
-
+  console.log(inputValue)
   return (
     <div >
       <div className="navbar_up">
@@ -19,7 +18,7 @@ function Navbar() {
       <hr className="nav_line1"/>
       <div className="navbar_down">
         <img className="W_logo" src="logos/W_logo.png" alt="W_logo" onClick={() => navigate('/')}/>
-        <span><input className="nav_input" type="text" placeholder="검색해보세요" onChange={(e) => setInputValue(e.target.value)} value={inputValue} />{inputValue}</span>
+        <span><input className="nav_input" type="text" placeholder="검색해보세요" onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') { navigate("/search/" + inputValue) } }} /></span>
         <span>
           {/* <span>
             <div className="nav_btn_box"> 
@@ -32,7 +31,7 @@ function Navbar() {
           <span>
             <div className="nav_btn_box">
               <img className="login_icon" src="login_icon.png" alt="login_icon" onClick={() => navigate('/login')} />
-              <img className="signup_icon" src="signup_icon.png" alt="signup_icon" onClick={() => navigate('/login')} />
+              <img className="signup_icon" src="signup_icon.png" alt="signup_icon" onClick={() => navigate('/signup')} />
             </div>
           </span>
         </span>

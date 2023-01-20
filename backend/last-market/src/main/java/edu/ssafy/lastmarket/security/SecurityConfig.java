@@ -3,9 +3,14 @@ package edu.ssafy.lastmarket.security;
 import edu.ssafy.lastmarket.service.PrincipalOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+
+import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -19,7 +24,16 @@ public class SecurityConfig {
         
         //임시로 처리
         http.authorizeRequests()
-                .anyRequest().permitAll();
+                .antMatchers(HttpMethod.POST, "/user").authenticated()
+                .anyRequest().permitAll()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+
+        http.exceptionHandling()
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        });
         http.csrf().disable();
         http.headers()
                 .frameOptions()

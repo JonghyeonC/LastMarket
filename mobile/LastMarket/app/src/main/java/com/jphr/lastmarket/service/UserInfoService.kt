@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jphr.lastmarket.dto.CategoryDTO
 import com.jphr.lastmarket.dto.JobDTO
+import com.jphr.lastmarket.dto.UserInfoDTO
+import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.util.RetrofitUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -64,5 +66,28 @@ class UserInfoService {
 
         return responseJob
     }
+    fun insertUserInfo(userInfo:UserInfoDTO) {
+        RetrofitUtil.UserInfoService.insertUserInfo(userInfo).enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                val res = response.body()
+                Log.d(TAG, "onResponse: ${res}")
+                if (response.isSuccessful) {
+                    if (res != null) {
+                        Log.d(TAG, "onResponse: true")
+                        true
+                    }
+                } else {
+                    Log.d(TAG, "onResponse:false ")
+
+                    false
+                }
+            }
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                Log.d(TAG, "onResponse:false ")
+
+            }
+        })
+    }
+
 
 }

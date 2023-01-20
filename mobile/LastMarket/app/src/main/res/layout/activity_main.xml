@@ -9,7 +9,8 @@
     tools:context=".activity.MainActivity">
 
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,9 +25,10 @@
                 android:layout_height="?attr/actionBarSize"
                 android:fitsSystemWindows="true"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
+                android:backgroundTint="@color/blue1"
+                android:background="@color/blue1"
                 app:liftOnScroll="true"
-                app:liftOnScrollTargetViewId="nestedview"
-                app:menu="@menu/main"
+                app:liftOnScrollTargetViewId="@id/nestedview"
                 app:navigationIcon="@drawable/hamberger"
                 app:title="title" />
             <!--fit systemwindow윈도우 창이랑 자연스럽게 이어지게-->

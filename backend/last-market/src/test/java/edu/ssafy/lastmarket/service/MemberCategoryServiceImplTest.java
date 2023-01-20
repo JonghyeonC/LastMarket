@@ -40,13 +40,15 @@ public class MemberCategoryServiceImplTest {
 
         List<Category> categories = TestUtils.getCategories();
         List<MemberCategory> memberCategories = TestUtils.getMemberCategories(memberOptional.get(), categories);
-        lenient().doReturn(memberCategories).when(memberCategoryRepository).findByMember(any());
+        lenient().doReturn(memberCategories).when(memberCategoryRepository).saveAll(any());
 
         memberCategoryService = new MemberCategoryServiceImpl(memberCategoryRepository, memberRepository);
         List<MemberCategory> result = memberCategoryService.save(categories, "nick");
 
 
-        assertThat(new MemberCategory(1L,memberOptional.get(),categories.get(1)));
+        assertThat(0L).isEqualTo(result.get(0).getId());
+        assertThat(memberOptional.get()).isEqualTo(result.get(0).getMember());
+        assertThat(categories.get(0)).isEqualTo(result.get(0).getCategory());
 
 
 

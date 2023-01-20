@@ -29,8 +29,8 @@ public class MemberCategoryServiceImpl implements MemberCategoryService {
             list.add(new MemberCategory(memberOptional.get(),category));
         }
 
-        list = memberCategoryRepository.saveAll(list);
+        List<MemberCategory> result = memberCategoryRepository.saveAll(list);
 
-        return list;
+        return result;
     }
 }

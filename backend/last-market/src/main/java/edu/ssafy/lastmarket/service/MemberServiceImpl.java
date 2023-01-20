@@ -1,6 +1,7 @@
 package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
+import edu.ssafy.lastmarket.domain.eneity.Image;
 import edu.ssafy.lastmarket.domain.eneity.Location;
 import edu.ssafy.lastmarket.domain.eneity.Member;
 import edu.ssafy.lastmarket.exception.NotMemberUsernameException;
@@ -21,7 +22,6 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final LocationService locationService;
-
     @Override
     @Transactional
     public Member updateMember(MemberRegistDto memberRegistDto, String username) {
@@ -48,13 +48,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member updateProfile(String imgUrl, String username) {
+    public Member updateProfile(Optional<Image> imageOptional, String username) {
         Optional<Member> memberOptional = memberRepository.findByUsername(username);
         if(memberOptional.isEmpty()){
             throw new NotMemberUsernameException();
         }
-        Member member = memberOptional.get();
 
+        Member member = memberOptional.get();
+        imageOptional.ifPresent(member::setProfile);
 
         return member;
 

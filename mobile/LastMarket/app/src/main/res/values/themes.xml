@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.LastMarket" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.LastMarket" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue1</item>
         <item name="colorPrimaryVariant">@color/blue2</item>
@@ -17,6 +17,9 @@
         <item name="android:radioButtonStyle">@style/radiobutton</item>
         <item name="android:checkboxStyle">@style/checkbox</item>
         <item name="android:textViewStyle">@style/text</item>
+        <!--반투명 -->
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.DarkActionBar">

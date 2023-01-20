@@ -10,7 +10,7 @@ class LastMarketApplication:Application() {
     companion object{
         //전역변수를 통해 앱실행시 1번만 생성(singleton)
         lateinit var wRetrofit: Retrofit
-        var baseurl="https://naver.com"//TODO: BASEURL나오면 입력해주기
+        var baseurl="https://d090430e-7192-49f0-8612-c0e6dbe175a9.mock.pstmn.io"//TODO: BASEURL나오면 입력해주기
     }
     override fun onCreate() {
         super.onCreate()

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".LastMarketApplication"
@@ -16,13 +18,19 @@
         android:theme="@style/Theme.LastMarket"
         tools:targetApi="31">
         <activity
-            android:name=".UserInfoActivity"
+            android:name=".activity.MainActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <!-- Redirect URI에 접근하기위한 Activity -->
+        <activity
+            android:name=".activity.UserInfoActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity> <!-- Redirect URI에 접근하기위한 Activity -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -39,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SplashActivity"
+            android:name=".activity.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -48,12 +56,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".JoinActivity"
+            android:name=".activity.JoinActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

@@ -2,5 +2,7 @@
     <string name="app_name">LastMarket</string>
     <string name="title_enter">LAST\nMARKET</string>
     <string name="subtitle"><b>당신</b>의 <b>라이프스타일</b>을\n알려주세요!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -1,14 +1,14 @@
 package edu.ssafy.lastmarket.domain.eneity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Setter
+@Getter
 public class MemberCategory {
     @Id
     @GeneratedValue

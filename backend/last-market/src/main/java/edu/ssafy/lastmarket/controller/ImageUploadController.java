@@ -22,7 +22,7 @@ public class ImageUploadController {
     @PostMapping("/upload")
     public ResponseEntity<?> findUpload(@RequestParam("image")MultipartFile multipartFile) throws IOException {
 
-        String result = imageUploadServicelogic.findUrlById(imageUploadServicelogic.upload(multipartFile));
+        String result = imageUploadServicelogic.findUrlById(imageUploadServicelogic.upload(multipartFile).get().getId());
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CardView">
+        <attr name="image" format="string" />
+        <attr name="title" format="string"/>
+        <attr name="second_text" format="string"/>
+        <attr name="support_text" format="string"/>
+        <attr name="button_text1" format="string"/>
+        <attr name="button_text2" format="string"/>
+    </declare-styleable>
+</resources>

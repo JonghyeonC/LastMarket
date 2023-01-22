@@ -20,6 +20,7 @@
     <style name="checkbox" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
         <item name="android:fontFamily">@font/gmarket_sans_ttf_light</item>
     </style>
+
     <style name="last_market">
         <item name="android:fontFamily">
             @font/gmarket_sans_ttf_bold
@@ -31,6 +32,7 @@
             @color/blue1
         </item>
     </style>
+
     <style name="subtitle">
         <item name="android:fontFamily">
             @font/gmarket_sans_ttf_light
@@ -42,6 +44,7 @@
             #2FA599
         </item>
     </style>
+
     <style name="color_mid">
         <item name="android:fontFamily">
             @font/gmarket_sans_ttf_medium
@@ -53,6 +56,7 @@
             #818DCC
         </item>
     </style>
+
     <style name="info">
         <item name="android:textSize">
             12sp
@@ -64,6 +68,7 @@
             #C8C7CB
         </item>
     </style>
+
     <style name="content">
         <item name="android:fontFamily">@font/gmarket_sans_ttf_light</item>
         <item name="android:textStyle">normal</item>
@@ -76,4 +81,17 @@
 
     </style>
 
+    <style name="price">
+        <item name="android:fontFamily">@font/esamanru_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.03</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/blue1</item>
+    </style>
+
+    <style name="live">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:fontFamily">@font/esamanru_bold</item>
+    </style>
 </resources>

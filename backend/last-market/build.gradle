@@ -57,6 +57,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
     // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
 
+    // dependency for openvidu
+    implementation 'io.openvidu:openvidu-java-client:2.25.0'
 
 
 }

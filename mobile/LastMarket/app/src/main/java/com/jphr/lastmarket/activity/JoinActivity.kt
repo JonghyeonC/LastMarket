@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
 import com.jphr.lastmarket.R
+import com.jphr.lastmarket.databinding.ActivityJoinBinding
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.Account
 import com.kakao.sdk.user.model.User
@@ -21,12 +23,13 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 private const val TAG = "JoinActivity"
 
 class JoinActivity : AppCompatActivity() {
+    lateinit var binding:ActivityJoinBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_join)
+        binding=ActivityJoinBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         var kakao: ImageButton = findViewById(R.id.kakao)
         var naver: NidOAuthLoginButton = findViewById(R.id.naver)
-
 
         kakao.setOnClickListener {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
@@ -34,13 +37,56 @@ class JoinActivity : AppCompatActivity() {
             } else {
                 Log.d(TAG, "onCreate: kakao login  is not available-카카오톡 설치 필요")
                 changeActivity()        //TODO:임시로 화면 넘어가게 하려고 넣은거라서 나중에 빼야함
-
             }
 
         }
-        naver.setOnClickListener {
-            naverLogin()
+        binding.run {
+            naver.setOnClickListener {
+                var age = ""
+                var email = ""
+                var gender = ""
+                val oAuthLoginCallback = object : OAuthLoginCallback {
+                    override fun onSuccess() {
+                        // 네이버 로그인 API 호출 성공 시 유저 정보를 가져온다
+                        NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
+                            override fun onSuccess(result: NidProfileResponse) {
+                                var str=NaverIdLoginSDK.getAccessToken()
+                                var str2=NaverIdLoginSDK.getRefreshToken()
+                                Log.d(TAG, "onSuccess: $str")
+                                age = result.profile?.age.toString()
+                                email = result.profile?.email.toString()
+                                gender = result.profile?.gender.toString()
+                                Log.e(TAG, "네이버 로그인한 유저 정보 - 이름 : $age")
+                                Log.e(TAG, "네이버 로그인한 유저 정보 - 이메일 : $email")
+                                Log.e(TAG, "네이버 로그인한 유저 정보 - 성별 : $gender")
+                                changeActivity()
+                            }
+
+                            override fun onError(errorCode: Int, message: String) {
+                                Log.d(TAG, "onError: ")
+                            }
+
+                            override fun onFailure(httpStatus: Int, message: String) {
+                                Log.d(TAG, "onFailure: ")
+                            }
+                        })
+                    }
+
+                    override fun onError(errorCode: Int, message: String) {
+                        val naverAccessToken = NaverIdLoginSDK.getAccessToken()
+                        Log.e(TAG, "naverAccessToken : $naverAccessToken")
+                        Log.d(TAG, "onError: ")
+                    }
+
+                    override fun onFailure(httpStatus: Int, message: String) {
+                        Log.d(TAG, "onFailure: ")
+                    }
+                }
+
+                NaverIdLoginSDK.authenticate(this@JoinActivity, oAuthLoginCallback)
+            }
         }
+
 
     }
 
@@ -55,47 +101,7 @@ class JoinActivity : AppCompatActivity() {
             }
         }
     }
-    fun naverLogin(){
-        var age = ""
-        var email = ""
-        var gender = ""
-        val oAuthLoginCallback = object : OAuthLoginCallback {
-            override fun onSuccess() {
-                // 네이버 로그인 API 호출 성공 시 유저 정보를 가져온다
-                NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
-                    override fun onSuccess(result: NidProfileResponse) {
-                        age = result.profile?.age.toString()
-                        email = result.profile?.email.toString()
-                        gender = result.profile?.gender.toString()
-                        Log.e(TAG, "네이버 로그인한 유저 정보 - 이름 : $age")
-                        Log.e(TAG, "네이버 로그인한 유저 정보 - 이메일 : $email")
-                        Log.e(TAG, "네이버 로그인한 유저 정보 - 성별 : $gender")
-                        changeActivity()
-                    }
 
-                    override fun onError(errorCode: Int, message: String) {
-                        Log.d(TAG, "onError: ")
-                    }
-
-                    override fun onFailure(httpStatus: Int, message: String) {
-                        Log.d(TAG, "onFailure: ")
-                    }
-                })
-            }
-
-            override fun onError(errorCode: Int, message: String) {
-                val naverAccessToken = NaverIdLoginSDK.getAccessToken()
-                Log.e(TAG, "naverAccessToken : $naverAccessToken")
-                Log.d(TAG, "onError: ")
-            }
-
-            override fun onFailure(httpStatus: Int, message: String) {
-                Log.d(TAG, "onFailure: ")
-            }
-        }
-
-        NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
-    }
     fun kakaoGetUserInfo() {
         val TAG = "getUserInfo()"
         UserApiClient.instance.me { user: User?, meError: Throwable? ->

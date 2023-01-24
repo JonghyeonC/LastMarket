@@ -1,8 +1,10 @@
+import RegisterPage from '../Pages/Register/RegisterPage'
+
 function Register() {
 
   return (
     <div>
-      <p>상품등록페이지 입니다</p> 
+      <RegisterPage />
     </div>
   )
 }

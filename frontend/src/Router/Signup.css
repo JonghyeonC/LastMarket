@@ -100,3 +100,8 @@
 .content ul li {
   margin: 0.8rem 0;
 }
+
+.sendBtn {
+  display: flex;
+  flex-direction: column;
+}

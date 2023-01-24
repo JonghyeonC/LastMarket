@@ -1,8 +1,17 @@
 package edu.ssafy.lastmarket.domain.eneity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Ban extends BaseEntity{
     @Id
     @GeneratedValue

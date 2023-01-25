@@ -65,7 +65,7 @@ public class MemberServiceImplTest {
 
 
         memberService = new MemberServiceImpl(memberRepository, locationService);
-        Member result = memberService.updateMember(memberRegistDto, "asdf");
+        Member result = memberService.updateMember(memberRegistDto, member);
 
 
 

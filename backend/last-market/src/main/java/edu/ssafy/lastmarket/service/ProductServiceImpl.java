@@ -6,29 +6,31 @@ import edu.ssafy.lastmarket.domain.entity.Image;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.domain.entity.Product;
 import edu.ssafy.lastmarket.domain.entity.ProductImage;
+import edu.ssafy.lastmarket.exception.NotYourAuthority;
 import edu.ssafy.lastmarket.repository.ProductImageRepository;
 import edu.ssafy.lastmarket.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ProdoctServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
+
     @Override
     public Page<ProductListDto> getProducts(Pageable pageable) {
         return null;
     }
 
     @Override
+    @Transactional
     public Product save(ProductDto productDto, Member member) {
         Product product = ProductDto.convert(productDto);
         product.setSeller(member);
@@ -39,7 +41,11 @@ public class ProdoctServiceImpl implements ProductService{
     }
 
     @Override
+    @Transactional
     public Product saveImgs(Product product, List<Image> images, Member member) {
+
+        checkSeller(product, member);
+
         List<ProductImage> productImages = product.getImages();
         for (Image image : images) {
             ProductImage productImage = new ProductImage(product, image);
@@ -48,7 +54,6 @@ public class ProdoctServiceImpl implements ProductService{
 
         }
 
-
         return product;
     }
 
@@ -56,4 +61,11 @@ public class ProdoctServiceImpl implements ProductService{
     public void delete(Product product, Member member) {
         productRepository.delete(product);
     }
+
+    private void checkSeller(Product product, Member member) {
+        if (product.getSeller().equals(member)) {
+            throw new NotYourAuthority();
+        }
+    }
+
 }

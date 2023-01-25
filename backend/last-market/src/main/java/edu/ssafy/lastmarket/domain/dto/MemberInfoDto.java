@@ -1,13 +1,7 @@
 package edu.ssafy.lastmarket.domain.dto;
 
-import edu.ssafy.lastmarket.domain.eneity.Favorite;
-import edu.ssafy.lastmarket.domain.eneity.Image;
-import edu.ssafy.lastmarket.domain.eneity.Location;
-import edu.ssafy.lastmarket.domain.eneity.Member;
+import edu.ssafy.lastmarket.domain.entity.Member;
 import lombok.Getter;
-
-import java.util.List;
-import java.util.Objects;
 
 @Getter
 public class MemberInfoDto {

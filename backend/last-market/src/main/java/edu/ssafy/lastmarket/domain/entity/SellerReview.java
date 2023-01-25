@@ -1,11 +1,12 @@
-package edu.ssafy.lastmarket.domain.eneity;
+package edu.ssafy.lastmarket.domain.entity;
 
 import javax.persistence.*;
 
 @Entity
-public class BuyerReview extends BaseEntity{
+public class SellerReview extends BaseEntity{
     @Id
-    @Column(name = "send_review_id")
+    @Column(name = "receive_review_id")
+    @GeneratedValue
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
@@ -13,7 +14,6 @@ public class BuyerReview extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id")
     private Member buyer;
-
     @Enumerated(EnumType.STRING)
     private ReviewTemplate reviewTemplate;
     @OneToOne(fetch = FetchType.LAZY)

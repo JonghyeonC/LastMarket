@@ -1,13 +1,12 @@
 package edu.ssafy.lastmarket.service;
 
-import edu.ssafy.lastmarket.domain.eneity.Member;
+import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.repository.MemberRepository;
 import edu.ssafy.lastmarket.security.provider.KakaoOAuthUserInfo;
 import edu.ssafy.lastmarket.security.provider.NaverOAuthUserInfo;
 import edu.ssafy.lastmarket.security.provider.OAuthUserInfo;
 import edu.ssafy.lastmarket.security.user.OAuth2UserImpl;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -17,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.logging.Logger;
 
 @Service
 @Transactional

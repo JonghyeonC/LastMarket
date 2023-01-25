@@ -1,6 +1,6 @@
 package edu.ssafy.lastmarket.service;
 
-import edu.ssafy.lastmarket.domain.eneity.Location;
+import edu.ssafy.lastmarket.domain.entity.Location;
 
 import java.util.Optional;
 

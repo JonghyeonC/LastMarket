@@ -1,6 +1,6 @@
 package edu.ssafy.lastmarket.service;
 
-import edu.ssafy.lastmarket.domain.eneity.*;
+import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.exception.BanExistException;
 import edu.ssafy.lastmarket.repository.BanRepository;
 import org.junit.jupiter.api.DisplayName;

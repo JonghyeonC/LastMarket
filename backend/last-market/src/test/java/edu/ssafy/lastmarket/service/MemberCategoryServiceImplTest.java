@@ -2,9 +2,9 @@ package edu.ssafy.lastmarket.service;
 
 
 import edu.ssafy.lastmarket.TestUtils;
-import edu.ssafy.lastmarket.domain.eneity.Category;
-import edu.ssafy.lastmarket.domain.eneity.Member;
-import edu.ssafy.lastmarket.domain.eneity.MemberCategory;
+import edu.ssafy.lastmarket.domain.entity.Category;
+import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.domain.entity.MemberCategory;
 import edu.ssafy.lastmarket.repository.MemberCategoryRepository;
 import edu.ssafy.lastmarket.repository.MemberRepository;
 import org.junit.jupiter.api.Test;

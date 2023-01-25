@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -40,10 +41,15 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
 //		response.setStatus(307);
 
-        response.setStatus(200);
+        if(Objects.isNull(memberOptional.get().getNickname())){
+            response.setStatus(201);
+        }else{
+            response.setStatus(200);
 
-        PrintWriter writer = response.getWriter();
-        writer.print(gson.toJson(new MemberInfoDto(memberOptional.get())));
+            PrintWriter writer = response.getWriter();
+            writer.print(gson.toJson(new MemberInfoDto(memberOptional.get())));
+
+        }
 //        RequestDispatcher rd = request.getRequestDispatcher("/oauth/redirect");
 //        rd.forward(request, response);
 

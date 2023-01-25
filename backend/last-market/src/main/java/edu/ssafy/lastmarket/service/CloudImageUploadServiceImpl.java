@@ -32,6 +32,7 @@ public class CloudImageUploadServiceImpl implements CloudImageUploadService{
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
+
     @Override
     public void delete(String fileName) {
         DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(this.bucket, fileName);

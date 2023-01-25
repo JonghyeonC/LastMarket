@@ -11,6 +11,8 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,6 +46,18 @@ public class ImageUploadServiceImpl implements ImageUploadService{
         removeNewFile(uploadFile);
 
         return imageOptional;
+    }
+
+    @Override
+    @Transactional
+    public List<Image> upload(MultipartFile[] multipartFiles) throws IOException {
+        List<Image> result = new ArrayList<>();
+        for (MultipartFile multipartFile : multipartFiles) {
+            Optional<Image> upload = upload(multipartFile);
+            result.add(upload.get());
+        }
+
+        return result;
     }
 
     // S3로 업로드

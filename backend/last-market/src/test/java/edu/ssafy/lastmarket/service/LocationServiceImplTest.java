@@ -1,8 +1,7 @@
 package edu.ssafy.lastmarket.service;
 
-import edu.ssafy.lastmarket.domain.eneity.Location;
+import edu.ssafy.lastmarket.domain.entity.Location;
 import edu.ssafy.lastmarket.repository.LocationRepository;
-import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

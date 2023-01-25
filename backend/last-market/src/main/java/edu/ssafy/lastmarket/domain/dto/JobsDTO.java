@@ -1,6 +1,6 @@
 package edu.ssafy.lastmarket.domain.dto;
 
-import edu.ssafy.lastmarket.domain.eneity.Job;
+import edu.ssafy.lastmarket.domain.entity.Job;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -1,7 +1,7 @@
 package edu.ssafy.lastmarket.repository;
 
-import edu.ssafy.lastmarket.domain.eneity.Member;
-import edu.ssafy.lastmarket.domain.eneity.MemberCategory;
+import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.domain.entity.MemberCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

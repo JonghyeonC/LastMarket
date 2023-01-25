@@ -1,6 +1,6 @@
 package edu.ssafy.lastmarket.repository;
 
-import edu.ssafy.lastmarket.domain.eneity.Location;
+import edu.ssafy.lastmarket.domain.entity.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

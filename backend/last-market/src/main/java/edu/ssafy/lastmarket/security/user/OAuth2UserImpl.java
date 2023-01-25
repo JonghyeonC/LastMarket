@@ -1,6 +1,6 @@
 package edu.ssafy.lastmarket.security.user;
 
-import edu.ssafy.lastmarket.domain.eneity.Member;
+import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.security.provider.OAuthUserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

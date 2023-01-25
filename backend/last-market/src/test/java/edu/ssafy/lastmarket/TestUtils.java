@@ -1,6 +1,6 @@
 package edu.ssafy.lastmarket;
 
-import edu.ssafy.lastmarket.domain.eneity.*;
+import edu.ssafy.lastmarket.domain.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,7 @@ package edu.ssafy.lastmarket.controller;
 
 import edu.ssafy.lastmarket.argumentresolver.Login;
 import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
-import edu.ssafy.lastmarket.domain.eneity.Member;
+import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.service.ImageUploadService;
 import edu.ssafy.lastmarket.service.MemberCategoryService;
 import edu.ssafy.lastmarket.service.MemberService;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.security.Principal;
+
 @Controller
 @RequiredArgsConstructor
 public class MemberController {

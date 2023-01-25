@@ -6,6 +6,7 @@ function Navbar() {
   let navigate = useNavigate()
   let [inputValue, setInputValue] = useState('')
   console.log(inputValue)
+  
   return (
     <div >
       <div className="navbar_up">

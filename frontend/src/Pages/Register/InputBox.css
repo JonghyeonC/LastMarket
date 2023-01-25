@@ -1,0 +1,4 @@
+.InputForm {
+  display: flex;
+  flex-direction: column;
+}

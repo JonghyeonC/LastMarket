@@ -42,7 +42,7 @@
                 android:textSize="11sp" />
 
             <TextView
-                android:id="@+id/second"
+                android:id="@+id/price"
                 style="@style/price"
                 android:layout_gravity="right"
                 android:layout_width="wrap_content"
@@ -53,18 +53,21 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/live_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/rectangle_2"
         android:paddingTop="7dp"
         android:paddingLeft="4dp"
+        android:visibility="gone"
         />
     <TextView
+        android:id="@+id/live_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LIVE"
         android:paddingTop="8dp"
         android:paddingLeft="6.5dp"
-
+        android:visibility="gone"
         style="@style/live"/>
 </FrameLayout>

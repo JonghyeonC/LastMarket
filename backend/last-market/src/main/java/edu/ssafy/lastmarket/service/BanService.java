@@ -6,7 +6,7 @@ import edu.ssafy.lastmarket.domain.eneity.Member;
 import java.util.List;
 
 public interface BanService {
-    Ban banUser(Member from, Member to);
+    Ban banUser(Member from, String banUser);
 
     List<Ban> findBanList(Member from);
 }

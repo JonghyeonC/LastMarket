@@ -32,7 +32,7 @@ public class ImageUploadServicelogicImpl implements ImageUploadService{
     // S3로 파일 업로드하기
     @Override
     @Transactional
-    public Long upload(MultipartFile multipartFile) throws IOException {
+    public Optional<Image> upload(MultipartFile multipartFile) throws IOException {
 
         String originFileName = multipartFile.getName();
         File uploadFile = convert(multipartFile);
@@ -47,7 +47,7 @@ public class ImageUploadServicelogicImpl implements ImageUploadService{
 
         removeNewFile(uploadFile);
 
-        return imageOptional.get().getId();
+        return imageOptional;
     }
 
     // S3로 업로드

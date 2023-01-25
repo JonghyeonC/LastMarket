@@ -9,6 +9,7 @@ import edu.ssafy.lastmarket.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -28,7 +29,7 @@ public class MemberServiceImplTest {
 
     @Mock
     LocationService locationService;
-
+    @InjectMocks
     MemberServiceImpl memberService;
 
 

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +22,8 @@ public class BanServiceImpl implements BanService {
                 .to(to)
                 .build();
 
-        boolean isExists = banRepository.exists(ban);
-        if (isExists) {
+        Optional<Ban> found = banRepository.findByFromAndTo(from, to);
+        if (found.isPresent()) {
             throw new BanExistException("이미 벤한 유저입니다.");
         }
 

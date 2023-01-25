@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -36,7 +37,7 @@ class BanServiceImplTest {
         //테스트 시 banUser 안에서 새로운 ban객체가 만들어지는데 해당 객체가
         //mocking할 떄 객체랑 다른 객체로 인식되기 때문에 오류가 난다.
         doReturn(ban).when(banRepository).save(any(Ban.class));
-        doReturn(false).when(banRepository).exists(any(Ban.class));
+        doReturn(Optional.empty()).when(banRepository).findByFromAndTo(member1,member2);
 
         banService = new BanServiceImpl(banRepository);
         //when
@@ -58,7 +59,7 @@ class BanServiceImplTest {
 
         //테스트 시 banUser 안에서 새로운 ban객체가 만들어지는데 해당 객체가
         //mocking할 떄 객체랑 다른 객체로 인식되기 때문에 오류가 난다.
-        doReturn(true).when(banRepository).exists(any(Ban.class));
+        doReturn(Optional.of(ban)).when(banRepository).findByFromAndTo(member1,member2);
 
         banService = new BanServiceImpl(banRepository);
         //when

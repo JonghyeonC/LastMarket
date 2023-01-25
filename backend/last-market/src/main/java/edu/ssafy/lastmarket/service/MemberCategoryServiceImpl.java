@@ -17,16 +17,14 @@ import java.util.Optional;
 public class MemberCategoryServiceImpl implements MemberCategoryService {
 
     private final MemberCategoryRepository memberCategoryRepository;
-    private final MemberRepository memberRepository;
 
     @Override
-    public List<MemberCategory> save(List<Category> categories, String username) {
-        Optional<Member> memberOptional = memberRepository.findByUsername(username);
+    public List<MemberCategory> save(List<Category> categories, Member member) {
 
 
         List<MemberCategory> list =new ArrayList<>();
         for (Category category : categories) {
-            list.add(new MemberCategory(memberOptional.get(),category));
+            list.add(new MemberCategory(member,category));
         }
 
         List<MemberCategory> result = memberCategoryRepository.saveAll(list);

@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface MemberService {
 
-    Member updateMember(MemberRegistDto memberRegistDto, String username);
+    Member updateMember(MemberRegistDto memberRegistDto, Member member);
 
-    Member updateProfile(Optional<Image> imageOptional, String username);
+    Member updateProfile(Optional<Image> imageOptional, Member member);
 
 }

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,18 +20,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-
     private final MemberRepository memberRepository;
     private final LocationService locationService;
     @Override
     @Transactional
-    public Member updateMember(MemberRegistDto memberRegistDto, String username) {
+    public Member updateMember(MemberRegistDto memberRegistDto, Member member) {
 
-        Optional<Member> memberOptional = memberRepository.findByUsername(username);
-        if(memberOptional.isEmpty()){
-            throw new NotMemberUsernameException();
-        }
-        Member member = memberOptional.get();
+        memberRepository.save(member);
 
         if(!Objects.isNull(memberRegistDto.getNickname())){
             member.setNickname(memberRegistDto.getNickname());
@@ -48,13 +44,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member updateProfile(Optional<Image> imageOptional, String username) {
-        Optional<Member> memberOptional = memberRepository.findByUsername(username);
-        if(memberOptional.isEmpty()){
-            throw new NotMemberUsernameException();
-        }
+    public Member updateProfile(Optional<Image> imageOptional, Member member) {
 
-        Member member = memberOptional.get();
+
         imageOptional.ifPresent(member::setProfile);
 
         return member;

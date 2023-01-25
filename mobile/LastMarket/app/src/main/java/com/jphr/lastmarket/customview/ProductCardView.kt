@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.jphr.lastmarket.R
 
-class ProductCardView (context: Context, attrs: AttributeSet): LinearLayout(context,attrs) {
+class ProductCardView @JvmOverloads  constructor (context: Context, attrs: AttributeSet?=null, defStyleAttr: Int=0): LinearLayout(context,attrs,defStyleAttr) {
 
      var image : ImageView
      var title: TextView

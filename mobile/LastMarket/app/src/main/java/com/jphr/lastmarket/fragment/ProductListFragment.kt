@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jphr.lastmarket.R
+import com.jphr.lastmarket.databinding.FragmentProductListBinding
+import com.jphr.lastmarket.databinding.ProductCardBinding
 import com.jphr.lastmarket.dto.ProductDTO
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,6 +26,7 @@ class ProductListFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: ProductDTO? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentProductListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +42,12 @@ class ProductListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_list, container, false)
+        binding=FragmentProductListBinding.inflate(inflater,container,false)
+
+        binding.recyclerview.apply {
+            layoutManager=
+        }
+        return binding.root
     }
 
     companion object {

@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ImageUploadServicelogicImpl implements ImageUploadService{
+public class ImageUploadServiceImpl implements ImageUploadService{
 
     private final CloudImageUploadService cloudImageUploadService;
     private final ImageRepository imageRepository;

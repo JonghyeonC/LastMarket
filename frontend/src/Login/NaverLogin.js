@@ -17,9 +17,26 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
   //       })
   //       .catch((error) => console.log(error))
 
+	const responseGoogle = async (response) => {
+		console.log(1, response);
+		let jwtToken = await axios.get(
+			"http://treenovel.tk:8080/oauth2/authorization/naver",
+			// JSON.stringify(response),
+			// config
+		);
+		console.log(jwtToken)
+		if (jwtToken.status === 200) {
+			console.log(2, jwtToken.data);
+			localStorage.setItem("jwtToken", jwtToken.data);
+		}
+		if (jwtToken.status === 201) {
+			console.log(33)
+		}
+	};
+
 	const { naver } = window
-	const NAVER_CLIENT_ID = "npz20uxg7uwa05RpYjnV"
-	// const NAVER_CLIENT_ID = "CAgPJNeTleyiPVXM_NzV"
+	// const NAVER_CLIENT_ID = "npz20uxg7uwa05RpYjnV"
+	const NAVER_CLIENT_ID = "CAgPJNeTleyiPVXM_NzV"
 
 	const NAVER_CALLBACK_URL = signup_status
 
@@ -89,6 +106,7 @@ const NaverLogin = ({ setGetToken, setUserInfo }) => {
          {/* // 구현할 위치에 아래와 같이 코드를 입력해주어야 한다.  */}
          {/* // 태그에 id="naverIdLogin" 를 해주지 않으면 오류가 발생한다! */}
 			<div id="naverIdLogin" />
+			<button onClick={responseGoogle}>로그인</button>
 		</>
 	)
 }

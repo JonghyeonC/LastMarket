@@ -1,17 +1,14 @@
 package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
-import edu.ssafy.lastmarket.domain.eneity.Job;
-import edu.ssafy.lastmarket.domain.eneity.Location;
-import edu.ssafy.lastmarket.domain.eneity.Member;
-import edu.ssafy.lastmarket.repository.LocationRepository;
+import edu.ssafy.lastmarket.domain.entity.Job;
+import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;

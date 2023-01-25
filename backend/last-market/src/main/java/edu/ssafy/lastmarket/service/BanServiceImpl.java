@@ -1,7 +1,7 @@
 package edu.ssafy.lastmarket.service;
 
-import edu.ssafy.lastmarket.domain.eneity.Ban;
-import edu.ssafy.lastmarket.domain.eneity.Member;
+import edu.ssafy.lastmarket.domain.entity.Ban;
+import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.exception.BanExistException;
 import edu.ssafy.lastmarket.exception.NotMemberUsernameException;
 import edu.ssafy.lastmarket.repository.BanRepository;

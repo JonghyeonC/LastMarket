@@ -1,17 +1,13 @@
 package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
-import edu.ssafy.lastmarket.domain.eneity.Image;
-import edu.ssafy.lastmarket.domain.eneity.Location;
-import edu.ssafy.lastmarket.domain.eneity.Member;
-import edu.ssafy.lastmarket.exception.NotMemberUsernameException;
-import edu.ssafy.lastmarket.repository.LocationRepository;
+import edu.ssafy.lastmarket.domain.entity.Image;
+import edu.ssafy.lastmarket.domain.entity.Location;
+import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.Objects;
 import java.util.Optional;

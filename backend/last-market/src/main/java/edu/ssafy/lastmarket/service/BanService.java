@@ -1,7 +1,7 @@
 package edu.ssafy.lastmarket.service;
 
-import edu.ssafy.lastmarket.domain.eneity.Ban;
-import edu.ssafy.lastmarket.domain.eneity.Member;
+import edu.ssafy.lastmarket.domain.entity.Ban;
+import edu.ssafy.lastmarket.domain.entity.Member;
 
 import java.util.List;
 

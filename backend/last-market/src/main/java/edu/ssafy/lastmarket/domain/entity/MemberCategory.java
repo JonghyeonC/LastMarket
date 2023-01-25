@@ -1,4 +1,4 @@
-package edu.ssafy.lastmarket.domain.eneity;
+package edu.ssafy.lastmarket.domain.entity;
 
 import lombok.*;
 

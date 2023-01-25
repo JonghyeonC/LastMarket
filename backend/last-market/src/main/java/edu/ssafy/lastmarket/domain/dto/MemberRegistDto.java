@@ -1,7 +1,7 @@
 package edu.ssafy.lastmarket.domain.dto;
 
-import edu.ssafy.lastmarket.domain.eneity.Category;
-import edu.ssafy.lastmarket.domain.eneity.Job;
+import edu.ssafy.lastmarket.domain.entity.Category;
+import edu.ssafy.lastmarket.domain.entity.Job;
 import lombok.Builder;
 import lombok.Data;
 

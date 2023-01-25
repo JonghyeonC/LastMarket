@@ -1,6 +1,6 @@
 package edu.ssafy.lastmarket.service;
 
-import edu.ssafy.lastmarket.domain.eneity.Image;
+import edu.ssafy.lastmarket.domain.entity.Image;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

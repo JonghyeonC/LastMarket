@@ -3,6 +3,7 @@ package edu.ssafy.lastmarket.service;
 import edu.ssafy.lastmarket.domain.eneity.*;
 import edu.ssafy.lastmarket.exception.BanExistException;
 import edu.ssafy.lastmarket.repository.BanRepository;
+import edu.ssafy.lastmarket.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +19,8 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BanServiceImplTest {
-
+    @Mock
+    MemberRepository memberRepository;
     @Mock
     BanRepository banRepository;
     BanServiceImpl banService;
@@ -37,11 +39,12 @@ class BanServiceImplTest {
         //테스트 시 banUser 안에서 새로운 ban객체가 만들어지는데 해당 객체가
         //mocking할 떄 객체랑 다른 객체로 인식되기 때문에 오류가 난다.
         doReturn(ban).when(banRepository).save(any(Ban.class));
-        doReturn(Optional.empty()).when(banRepository).findByFromAndTo(member1,member2);
+        doReturn(Optional.empty()).when(banRepository).findByFromAndTo(member1, member2);
+        doReturn(Optional.of(member2)).when(memberRepository).findByUsername("user2");
 
-        banService = new BanServiceImpl(banRepository);
+        banService = new BanServiceImpl(banRepository, memberRepository);
         //when
-        Ban banSaved = banService.banUser(member1, member2);
+        Ban banSaved = banService.banUser(member1, "user2");
         //then
         assertThat(banSaved).isEqualTo(ban);
     }
@@ -59,12 +62,13 @@ class BanServiceImplTest {
 
         //테스트 시 banUser 안에서 새로운 ban객체가 만들어지는데 해당 객체가
         //mocking할 떄 객체랑 다른 객체로 인식되기 때문에 오류가 난다.
-        doReturn(Optional.of(ban)).when(banRepository).findByFromAndTo(member1,member2);
+        doReturn(Optional.of(ban)).when(banRepository).findByFromAndTo(member1, member2);
+        doReturn(Optional.of(member2)).when(memberRepository).findByUsername("member2");
 
-        banService = new BanServiceImpl(banRepository);
+        banService = new BanServiceImpl(banRepository, memberRepository);
         //when
         assertThatThrownBy(() -> {
-            Ban banSaved = banService.banUser(member1, member2);
+            Ban banSaved = banService.banUser(member1, "member2");
         }).isInstanceOf(BanExistException.class);
     }
 
@@ -87,8 +91,9 @@ class BanServiceImplTest {
         //테스트 시 banUser 안에서 새로운 ban객체가 만들어지는데 해당 객체가
         //mocking할 떄 객체랑 다른 객체로 인식되기 때문에 오류가 난다.
         doReturn(List.of(ban1, ban2)).when(banRepository).findByFrom(member1);
+//        doReturn(Optional.of(member2)).when(memberRepository).findByUsername("user2");
 
-        banService = new BanServiceImpl(banRepository);
+        banService = new BanServiceImpl(banRepository, memberRepository);
         List<Ban> banList = banService.findBanList(member1);
         //when
         assertThat(List.of(ban1, ban2)).isEqualTo(banList);

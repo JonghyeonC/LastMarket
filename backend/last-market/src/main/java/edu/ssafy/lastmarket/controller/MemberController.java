@@ -1,6 +1,8 @@
 package edu.ssafy.lastmarket.controller;
 
+import edu.ssafy.lastmarket.argumentresolver.Login;
 import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
+import edu.ssafy.lastmarket.domain.eneity.Member;
 import edu.ssafy.lastmarket.service.ImageUploadService;
 import edu.ssafy.lastmarket.service.MemberCategoryService;
 import edu.ssafy.lastmarket.service.MemberService;
@@ -24,18 +26,18 @@ public class MemberController {
 
     private final ImageUploadService imageUploadService;
     @PostMapping("/user")
-    public ResponseEntity<?> registMember(Principal principal, MemberRegistDto memberRegistDto){
+    public ResponseEntity<?> registMember(@Login Member member, MemberRegistDto memberRegistDto){
 
-        memberService.updateMember(memberRegistDto, principal.getName());
-        memberCategoryService.save(memberRegistDto.getCategories(), principal.getName());
+        memberService.updateMember(memberRegistDto, member);
+        memberCategoryService.save(memberRegistDto.getCategories(), member);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("/user/profile")
-    public ResponseEntity<?> registProfile(Principal principal,  @RequestParam("image")MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<?> registProfile(@Login Member member,  @RequestParam("image")MultipartFile multipartFile) throws IOException {
 
-        memberService.updateProfile(imageUploadService.upload(multipartFile),principal.getName());
+        memberService.updateProfile(imageUploadService.upload(multipartFile),member);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

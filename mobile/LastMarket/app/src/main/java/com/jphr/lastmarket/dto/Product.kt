@@ -13,5 +13,5 @@ data class Product(
     val sellerId: String,
     val sellerNickname: String,
     val startingPrice: String,
-    val titile: String
+    val title: String
 )

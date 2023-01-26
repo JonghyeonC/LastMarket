@@ -3,6 +3,8 @@ package edu.ssafy.lastmarket.controller;
 import edu.ssafy.lastmarket.exception.BanExistException;
 import edu.ssafy.lastmarket.exception.NotMemberUsernameException;
 import edu.ssafy.lastmarket.exception.NotYourAuthority;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.ErrorMessage;
@@ -24,6 +26,25 @@ public class ControllerExceptionHandler {
         result.put("error msg", e.toString());
         result.put("msg", "your username is not validate");
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<?> jwtSignature(Exception e){
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "your jwt signature is not validate");
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<?> expiredJwt(Exception e){
+
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "jwt is expired");
+        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(BanExistException.class)

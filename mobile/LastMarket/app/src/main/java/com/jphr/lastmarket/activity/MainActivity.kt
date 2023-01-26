@@ -106,6 +106,8 @@ class MainActivity : AppCompatActivity() {
                     menuItem.isChecked = true
                     title= menuItem.title as String
                     ProductService().getProduct(null,title,ProductCallback(),false)
+
+
                     drawerLayout.close()
                     true
                 }
@@ -174,19 +176,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     inner class ProductCallback: RetrofitCallback<ProductDTO> {
-        override fun onSuccess(code: Int,responseData: ProductDTO, issearch:Boolean) {
+        override fun onSuccess(code: Int,responseData: ProductDTO, issearch:Boolean,word:String?,category:String?) {
             if(responseData!=null) {
                 if(issearch){
                     Log.d(TAG, "initData: ${responseData}")
 
                     var bundle= bundleOf()
                     bundle.putSerializable("products",responseData)
+                    bundle.putString("word",word)
                     SearchFragment.arguments=bundle
                     changeFragment(4)
                 }
                 else {
                     var bundle= bundleOf()
                     bundle.putSerializable("products",responseData)
+                    bundle.putString("category",category)
                     ProductListFragment.arguments=bundle
                     changeFragment(5)
                 }

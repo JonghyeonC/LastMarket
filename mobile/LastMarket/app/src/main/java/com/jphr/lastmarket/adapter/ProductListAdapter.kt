@@ -30,31 +30,28 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
                 .load("${product.imgURI}")
                 .into(image)
             title.text=product.title
-            price.text=product.instantPrice
+            price.text=product.startingPrice
             if(product.liveTime!=null){
                 liveImage.visibility=View.VISIBLE
                 liveText.visibility=View.VISIBLE
+            }else{
+                liveImage.visibility=View.GONE
+                liveText.visibility=View.GONE
             }
-//            menuNames.text = if (order.orderCnt - 1 > 0) {
-//                "${order.productName} 외 ${order.orderCnt - 1}"
-//            } else {
-//                "${order.productName}"
-//            }
-//
-//            menuPrice.text = "${order.totalPrice}원"
-//            menuDate.text = dateToString(order.orderDate)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductListHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.product_card, parent, false)
+
         return ProductListHolder(view)
     }
 
     override fun onBindViewHolder(holder: ProductListHolder, position: Int) {
 //        holder.bind()
+
         holder.apply {
-            bindInfo(list[position])
+            bindInfo(list!!.products[position])
             //클릭연결
             itemView.setOnClickListener{
                 itemClickListner.onClick(it, position)
@@ -63,7 +60,7 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
     }
 
     override fun getItemCount(): Int {
-        return 10.coerceAtMost(list.size)
+        return 10.coerceAtMost(list!!.products.size)
     }
 
     //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
@@ -75,14 +72,6 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
     //클릭리스너 등록 매소드
     fun setItemClickListener(itemClickListener: ItemClickListener) {
         this.itemClickListner = itemClickListener
-    }
-
-    fun dateToString(date: Date): String {
-        val dateFormatter = SimpleDateFormat("yyyy.MM.dd").apply {
-            timeZone = TimeZone.getTimeZone("Asia/Seoul")
-        }
-        val formattedDate = dateFormatter.format(date)
-        return formattedDate.toString()
     }
 
 }

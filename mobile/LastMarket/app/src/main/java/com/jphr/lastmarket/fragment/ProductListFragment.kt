@@ -1,15 +1,18 @@
 package com.jphr.lastmarket.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jphr.lastmarket.R
+import androidx.recyclerview.widget.GridLayoutManager
+import com.jphr.lastmarket.activity.MainActivity
+import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentProductListBinding
-import com.jphr.lastmarket.databinding.ProductCardBinding
 import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.util.RecyclerViewDecoration
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,17 +27,25 @@ private const val ARG_PARAM2 = "param2"
 private const val TAG = "ProductListFragment"
 class ProductListFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: ProductDTO? = null
-    private var param2: String? = null
+    private var productDTO: ProductDTO? = null
+    private var category: String? = null
     private lateinit var binding: FragmentProductListBinding
+    private lateinit var productListAdapter:ProductListAdapter
+    private lateinit var mainActivity: MainActivity
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity=context as MainActivity
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getSerializable("products") as ProductDTO
-            param2 = it.getString(ARG_PARAM2)
+            productDTO = it.getSerializable("products") as ProductDTO
+            category = it.getString("category")
         }
-        Log.d(TAG, "onCreate: $param1")
+        Log.d(TAG, "onCreate: $productDTO")
+        Log.d(TAG, "onCreate: $category")
+
     }
 
     override fun onCreateView(
@@ -43,10 +54,14 @@ class ProductListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding=FragmentProductListBinding.inflate(inflater,container,false)
-
+        productListAdapter= ProductListAdapter(mainActivity)
         binding.recyclerview.apply {
-            layoutManager=
+            productListAdapter.list=productDTO
+            layoutManager=GridLayoutManager(context,3)
+            adapter=productListAdapter
+            addItemDecoration(RecyclerViewDecoration(60,0))
         }
+        binding.resultText.text="${category} 카테고리"
         return binding.root
     }
 

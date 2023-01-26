@@ -61,19 +61,19 @@
         android:id="@+id/live_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/rectangle_2"
-        android:paddingTop="7dp"
         android:paddingLeft="4dp"
-        android:visibility="gone"
-        />
+        android:paddingTop="7dp"
+        android:src="@drawable/rectangle_2"
+        android:visibility="visible" />
+
     <TextView
         android:id="@+id/live_text"
+        style="@style/live"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LIVE"
+        android:paddingLeft="8dp"
         android:paddingTop="8dp"
-        android:paddingLeft="6.5dp"
-        android:visibility="gone"
-        style="@style/live"/>
+        android:text="LIVE"
+        android:visibility="visible" />
 </FrameLayout>
 </LinearLayout>

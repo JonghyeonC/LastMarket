@@ -1,4 +1,4 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.security.user;
 
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.repository.MemberRepository;
@@ -8,6 +8,9 @@ import edu.ssafy.lastmarket.security.provider.OAuthUserInfo;
 import edu.ssafy.lastmarket.security.user.OAuth2UserImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -21,7 +24,7 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
+public class PrincipalOAuth2UserService extends DefaultOAuth2UserService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
@@ -52,6 +55,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         Member member;
 
         if (findUser.isEmpty()) {
+//            member = new Member(username,"");
             member = new Member(username);
             memberRepository.save(member);
         } else {
@@ -64,6 +68,18 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
 
     public OAuth2User getOAuth2User(OAuth2UserRequest userRequest) {
         return super.loadUser(userRequest);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Member> memberOptional = memberRepository.findByUsername(username);
+        if (memberOptional.isEmpty()) {
+            throw new UsernameNotFoundException("this token's owner username not found");
+
+        }
+        Member member = memberOptional.orElse(null);
+        return new OAuth2UserImpl(member);
+
     }
 }
 

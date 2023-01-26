@@ -3,6 +3,7 @@ package edu.ssafy.lastmarket.security;
 import com.google.gson.Gson;
 import edu.ssafy.lastmarket.domain.dto.MemberInfoDto;
 import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.jwt.JwtManager;
 import edu.ssafy.lastmarket.repository.MemberRepository;
 import edu.ssafy.lastmarket.security.user.OAuth2UserImpl;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,34 +27,47 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
     private final MemberRepository memberRepository;
     private final Gson gson;
 
+    private final JwtManager jwtManager;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
         OAuth2UserImpl oAuth2User =  (OAuth2UserImpl) authentication.getPrincipal();
+
+//        System.out.println(oAuth2User.getName()+" "+oAuth2User.getUsername());
         Optional<Member> memberOptional = memberRepository.findByUsername(oAuth2User.getUsername());
 
+//        System.out.println(((OAuth2UserImpl) authentication.getPrincipal()).getName());
+        System.out.println("member username "+memberOptional.get().getUsername());
 
+        MemberInfoDto memberInfoDto = new MemberInfoDto(memberOptional.get());
+        String shortToken = jwtManager.generateJwtToken(memberOptional.get());
+        String longToken = jwtManager.generateRefreshJwtToken(memberOptional.get());
+//			System.out.println(token);
 
-
-        if(Objects.isNull(memberOptional.get().getNickname())){
+        System.out.println(memberOptional.get().getNickname());
+        if(memberInfoDto.getNickname().equals("")){
             response.setStatus(201);
+
         }else{
             response.setStatus(200);
-
-            PrintWriter writer = response.getWriter();
-            writer.print(gson.toJson(new MemberInfoDto(memberOptional.get())));
-
         }
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.addCookie(new Cookie("Authentication", shortToken));
+        response.getWriter().print(gson.toJson(memberInfoDto));
+        response.addHeader("Authorization", shortToken);
 //        RequestDispatcher rd = request.getRequestDispatcher("/oauth/redirect");
 //        rd.forward(request, response);
 
 
     }
 
-    private void writeTokenResponse(HttpServletResponse response, String token) throws IOException {
-        response.setContentType("application/json;charset=UTF-8");
-        response.addHeader("Authorization", token);
-
-    }
+//    private void writeTokenResponse(HttpServletResponse response, String token) throws IOException {
+//        response.setContentType("application/json;charset=UTF-8");
+//        response.addHeader("Authorization", token);
+//
+//    }
 }

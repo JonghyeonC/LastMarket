@@ -1,0 +1,3 @@
+[submodule "last-market-config"]
+	path = last-market-config
+	url = https://lab.ssafy.com/k950331/last-market-config.git

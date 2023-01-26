@@ -1,13 +1,12 @@
 package edu.ssafy.lastmarket.repository;
 
-import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.domain.entity.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member,Long> {
-
-    Optional<Member> findByUsername(String username);
+public interface ImageRepository extends JpaRepository<Image, Long> {
+    Optional<Image> findByImageURL(String imageURL);
 }

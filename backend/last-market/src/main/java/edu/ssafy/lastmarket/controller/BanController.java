@@ -1,8 +1,8 @@
 package edu.ssafy.lastmarket.controller;
 
 import edu.ssafy.lastmarket.argumentresolver.Login;
-import edu.ssafy.lastmarket.domain.eneity.Ban;
-import edu.ssafy.lastmarket.domain.eneity.Member;
+import edu.ssafy.lastmarket.domain.entity.Ban;
+import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.service.BanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,7 +2,6 @@ package edu.ssafy.lastmarket.controller;
 
 
 import edu.ssafy.lastmarket.service.ImageUploadService;
-import edu.ssafy.lastmarket.service.ImageUploadServicelogicImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

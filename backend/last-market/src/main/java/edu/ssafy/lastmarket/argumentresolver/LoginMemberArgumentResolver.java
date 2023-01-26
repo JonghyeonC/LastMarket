@@ -24,6 +24,7 @@ import java.util.Optional;
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
     private final MemberRepository memberRepository;
     private final JwtManager jwtManager;
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
@@ -33,27 +34,28 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        HttpServletRequest request= (HttpServletRequest) webRequest.getNativeRequest();
+        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
-        String token;
-        if(!Objects.isNull(request.getCookies())){
+        String token = "";
+        if (!Objects.isNull(request.getCookies())) {
             Cookie[] cookies = request.getCookies();
-            for(int i=0;i<cookies.length;i++){
-                if(cookies[i].getName().equals("Authentication")){
+            for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals("Authentication")) {
                     token = cookies[i].getValue();
                 }
             }
+        } else {
+            token = request.getHeader("Authentication");
         }
 
-        token = request.getHeader("Authentication");
 
-        if(token.equals("")){
+        if (token.equals("")) {
             return null;
         }
 
         String username = jwtManager.getUsername(token);
 
-        Optional<Member> memberOptional= memberRepository.findByUsername(username);
+        Optional<Member> memberOptional = memberRepository.findByUsername(username);
 
         return memberOptional.orElse(null);
 

@@ -1,12 +1,19 @@
 package edu.ssafy.lastmarket.domain.entity;
 
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 public class Product extends BaseEntity{
     @Id
     @GeneratedValue
@@ -28,5 +35,7 @@ public class Product extends BaseEntity{
     private Integer favoriteCnt;
     private Long startingPrice;
     private Long instantPrice;
+
+
 }
 

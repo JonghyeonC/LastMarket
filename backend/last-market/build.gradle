@@ -59,6 +59,8 @@ dependencies {
 
     // dependency for openvidu
     implementation 'io.openvidu:openvidu-java-client:2.25.0'
+    implementation 'org.apache.tika:tika-core:2.5.0'
+    implementation 'org.apache.tika:tika:2.5.0'
 
 
 }

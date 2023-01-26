@@ -17,6 +17,7 @@ public class Member extends BaseEntity {
     private Long id;
     private String username;
     private String nickname;
+//    private String password;
     @OneToOne(fetch = FetchType.LAZY)
     private Image profile;
 
@@ -39,8 +40,14 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "buyer",fetch = FetchType.LAZY)
     private List<BuyerReview> buyerReviews;
 
-    public Member(String username) {
-        this.username = username;
-        this.role = Role.USER;
+    public Member(String username){
+        this.username =username;
+        this.role= Role.USER;
     }
+//    public Member(String username, String password) {
+//        this.username = username;
+//        this.password = password;
+//        this.role = Role.USER;
+//
+//    }
 }

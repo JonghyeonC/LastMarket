@@ -1,4 +1,5 @@
 import React, { useRef, useState, useMemo } from "react";
+import './UploadPagecss.css'
 
 function UploadPage() {
 
@@ -27,22 +28,33 @@ function UploadPage() {
       )
   }
 
+
+  const deleteImage = (id) => {
+    setImageFile(imageFile.filter((_, index) => index !== id))
+  }
+
+
   const showImage = useMemo(() => {
     if (!imageFile && imageFile == null) {
       return <img src="BlankImage.png" alt="비어있는 사진" />
     }
       return imageFile.map((image, id) => {
-        return <img src={image} alt={`${image}-${id}`} />
+        return (
+        <div>
+          <img src={image} alt={`${image}-${id}`} width="400px" height="400px" />
+          <button onClick={() => deleteImage(id)}>X</button>
+        </div>
+        )
       })
   }, [imageFile])
 
-  const deleteImage = (id) => {}
+
   return (
     <React.Fragment>
-      <div>
+      <div className="showImage">
         {showImage}
       </div>
-      <button onClick={handleButtonClick}>사진 업로드</button>
+      <button onClick={handleButtonClick} className="uploadBtn">사진 업로드</button>
       <input type="file" multiple ref={fileInput} onChange={handleChange} style={{ display : "none" }} />
     </React.Fragment>
   )

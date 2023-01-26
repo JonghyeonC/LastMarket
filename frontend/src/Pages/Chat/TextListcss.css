@@ -1,0 +1,17 @@
+.textBox {
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+  height: 400px;
+  border: 0.5mm black solid;
+  text-align: center;
+}
+
+.chatText {
+  width: 450px;
+}
+
+.pText {
+  margin-bottom: 0px;
+  width: 450px;
+}

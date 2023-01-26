@@ -1,9 +1,14 @@
+import MessageList from "../Pages/Chat/MessageList"
+import TextList from "../Pages/Chat/TextList"
+
 function Chat() {
 
   return (
-    <div>
-      <p>1대1 채팅 페이지 입니다</p> 
+    <div className="chatBox">
+        <MessageList />
+        <TextList />
     </div>
+
   )
 }
 

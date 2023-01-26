@@ -21,9 +21,9 @@ class LastMarketApplication:Application() {
             .build()
 
         // Kakao SDK 초기화
-        KakaoSdk.init(this, getString(R.string.kakao_native_key))
-
-        NaverIdLoginSDK.initialize(this, getString(R.string.client_id),getString(R.string.client_secret), getString(R.string.client_name))
+//        KakaoSdk.init(this, getString(R.string.kakao_native_key))
+//
+//        NaverIdLoginSDK.initialize(this, getString(R.string.client_id),getString(R.string.client_secret), getString(R.string.client_name))
 
     }
 }

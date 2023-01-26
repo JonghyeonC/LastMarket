@@ -101,25 +101,24 @@ class MainActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {menuItem->
             var title=""
             when(menuItem.itemId){
-
                 0->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
                     ProductService().getProduct(null,title,ProductCallback(),false)
-
-
                     drawerLayout.close()
                     true
                 }
                 1->{
                     menuItem.isChecked = true
-//                    changeFragment(3)
+                    title= menuItem.title as String
+                    ProductService().getProduct(null,title,ProductCallback(),false)
                     drawerLayout.close()
                     true
                 }
                 2->{
                     menuItem.isChecked = true
-//                    changeFragment(2)
+                    title= menuItem.title as String
+                    ProductService().getProduct(null,title,ProductCallback(),false)
                     drawerLayout.close()
                     true
                 }
@@ -131,8 +130,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-
     }
 
     override fun onResume() {

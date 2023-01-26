@@ -1,15 +1,14 @@
 package edu.ssafy.lastmarket.domain.dto;
 
-import edu.ssafy.lastmarket.domain.eneity.Favorite;
-import edu.ssafy.lastmarket.domain.eneity.Image;
-import edu.ssafy.lastmarket.domain.eneity.Location;
-import edu.ssafy.lastmarket.domain.eneity.Member;
+import edu.ssafy.lastmarket.domain.entity.Member;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
-import java.util.Objects;
-
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberInfoDto {
 
     private Long id;
@@ -21,7 +20,7 @@ public class MemberInfoDto {
     public MemberInfoDto(Member member) {
         this.id = member.getId();
         this.username = member.getUsername();
-        this.nickname = member.getNickname();
+        this.nickname = (member.getNickname() == null)? "" : member.getNickname();
         this.profile = (member.getProfile() == null) ? "" : member.getProfile().getImageURL();
         this.location = (member.getLocation() == null) ? "" : member.getLocation().toString();
     }

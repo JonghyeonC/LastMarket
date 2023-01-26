@@ -14,10 +14,11 @@ interface ProductAPI {
     fun getProductList(
         @Query("word") word:String?=null, @Query("categroy") category:String?=null): Call<ProductDTO>
 
-//    @GET("/user/job")
-//    fun getJob(): Call<JobDTO>
-//
-//    @POST("/user")
-//    fun insertUserInfo(@Body userinfo: UserInfoDTO): Call<Unit>
+    @GET("/products")
+    fun getProductListWithSort(@Query("category") category:String?=null,
+                               @Query("location") location:String?=null,
+                               @Query("sort") sort:String?=null,
+                               @Query("dealState") dealState:String?=null,
+                               @Query("page") page:String?=null): Call<ProductDTO>
 
 }

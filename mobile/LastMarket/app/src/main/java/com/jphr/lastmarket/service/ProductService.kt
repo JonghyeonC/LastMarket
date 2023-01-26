@@ -35,4 +35,25 @@ class ProductService {
             }
         })
     }
+    fun getProductWithSort(category: String?,location: String?,sort: String?,dealState: String?,page: String?, callback: RetrofitCallback<ProductDTO>,issearch:Boolean){
+        val productInterface: Call<ProductDTO> = RetrofitUtil.ProductService.getProductListWithSort(category,location,sort,dealState,page)
+        productInterface.enqueue(object : Callback<ProductDTO> {
+            override fun onResponse(call: Call<ProductDTO>, response: Response<ProductDTO>) {
+                val res = response.body()
+                Log.d(TAG, "onResponse res 값: $res")
+                if(response.code() == 200){
+                    if (res != null) {
+                        callback.onSuccess(response.code(), res,issearch,null,null)
+                    }
+                    Log.d(TAG, "onResponse: $res")
+                } else {
+                    callback.onFailure(response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<ProductDTO>, t: Throwable) {
+                callback.onError(t)
+            }
+        })
+    }
 }

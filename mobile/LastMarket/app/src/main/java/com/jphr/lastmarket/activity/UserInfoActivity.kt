@@ -5,6 +5,7 @@ import android.R.array
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -36,6 +37,7 @@ class UserInfoActivity : AppCompatActivity() {
     lateinit var userJob: String
     lateinit var userCategory: String
     lateinit var userAddress: String
+    lateinit var cityData:SharedPreferences
 
     val MY_PERMISSION_ACCESS_ALL = 100
     var categoryList = MutableLiveData<MutableList<String>>()
@@ -108,6 +110,8 @@ class UserInfoActivity : AppCompatActivity() {
             userAddress= binding.address.text as String
             var userinfo=UserInfoDTO(userAddress,userCategory,userJob,userName)
             Log.d(TAG, "onCreate: $userinfo")
+            var editor :SharedPreferences.Editor=cityData.edit()
+            editor.putString("city",userAddress)
             UserInfoService().insertUserInfo(userinfo)
             var intent=Intent(this@UserInfoActivity, MainActivity::class.java)
             startActivity(intent)
@@ -240,26 +244,5 @@ class UserInfoActivity : AppCompatActivity() {
         super.finish()
     }
 
-//    inner class JoinCallback: RetrofitCallback<Boolean> {
-//
-//        override fun onSuccess(code: Int, responseData: Boolean) {
-//            if (responseData) {
-//                Log.d(TAG, "onSuccess: ")
-//                var intent=Intent(this@UserInfoActivity, UserInfoActivity::class.java)
-//                startActivity(intent)
-//
-//            } else {
-//
-//                Toast.makeText(this@UserInfoActivity, "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//
-//        override fun onFailure(code: Int) {
-//            Log.d(TAG, "onResponse: Error Code $code")
-//        }
-//
-//        override fun onError(t: Throwable) {
-//            Log.d(TAG, t.message ?: "유저 정보 불러오는 중 통신오류")
-//        }
-//    }
+
 }

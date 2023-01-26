@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
 
         searchBar =findViewById(R.id.search_bar)
         searchView=findViewById<SearchView>(R.id.search_view)
+
+
         val transaction = supportFragmentManager.beginTransaction()
             .add(R.id.fragmentContainer, MainFragment())
         transaction.commit()

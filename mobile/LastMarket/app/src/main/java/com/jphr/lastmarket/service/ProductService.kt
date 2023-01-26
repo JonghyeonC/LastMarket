@@ -22,7 +22,7 @@ class ProductService {
                 Log.d(TAG, "onResponse res 값: $res")
                 if(response.code() == 200){
                     if (res != null) {
-                        callback.onSuccess(response.code(), res,issearch)
+                        callback.onSuccess(response.code(), res,issearch,word,category)
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {

@@ -3,9 +3,6 @@
     <declare-styleable name="CardView">
         <attr name="image" format="string" />
         <attr name="title" format="string"/>
-        <attr name="second_text" format="string"/>
-        <attr name="support_text" format="string"/>
-        <attr name="button_text1" format="string"/>
-        <attr name="button_text2" format="string"/>
+        <attr name="price" format="string"/>
     </declare-styleable>
 </resources>

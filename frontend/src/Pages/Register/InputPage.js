@@ -26,8 +26,8 @@ function InputPage() {
         <input type="checkbox" className='check' onClick={() => {setCheckbox(!checkbox)}}/>
         {
           checkbox ?
-          <input type="text" className='bidInput' placeholder=' 경매 시작가 입력' onChange={(e) => setBid(e.target.value)}/> :
-          <div className='textBox'><p className='liveText'>라이브 방송을 하시려면 체크해주세요</p></div>
+          <input type="text" className='bidInput' placeholder=' 경매 시작가 입력'onChange={(e) => setBid(e.target.value)}/> :
+          <div className='bidBox'><p className='liveText'>라이브 방송을 하시려면 체크해주세요</p></div>
         }
       </div>
     </div>

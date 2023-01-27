@@ -32,7 +32,7 @@ public class ImageUploadServiceImpl implements ImageUploadService{
     @Transactional
     public Optional<Image> upload(MultipartFile multipartFile) throws IOException {
 
-        String originFileName = multipartFile.getName();
+        String originFileName = multipartFile.getOriginalFilename();
         File uploadFile = convert(multipartFile);
         String fileName = "files/" + UUID.randomUUID() + uploadFile.getName(); // S3에 저장된 파일 이름
         String uploadImageUrl = cloudImageUploadService.putImage( uploadFile, fileName); // s3로 업로드

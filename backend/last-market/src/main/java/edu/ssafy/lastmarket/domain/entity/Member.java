@@ -27,7 +27,8 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
     private Role role;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "locationDongCode")
     private Location location;
     @OneToMany(mappedBy = "seller",fetch = FetchType.LAZY)
     private List<Product> products;

@@ -1,8 +1,21 @@
 import { useEffect } from 'react'
+import axios from 'axios'
 
 const NaverLogin = ({ setGetToken, setUserInfo }) => {
       
-  
+	// axios.get(url)
+	// 	.then((Response) => {
+	// 		console.log(Response.data)
+	// 		if (Response.data === 200) {
+	// 			const SIGNUP_STATUS = 'http://localhost:3000/main'
+	// 		} else {
+	// 			const SIGNUP_STATUS = 'http://localhost:3000/profile_register'
+	// 		}
+	// 	})
+	// 	.catch((error) => console.log(error))
+
+
+
 	const { naver } = window
 	const NAVER_CLIENT_ID = "npz20uxg7uwa05RpYjnV"
 	const NAVER_CALLBACK_URL = 'http://localhost:3000/login'

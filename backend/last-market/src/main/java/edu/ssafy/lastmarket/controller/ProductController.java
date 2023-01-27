@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api")
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class ProductController {
 
     private final ProductService productService;

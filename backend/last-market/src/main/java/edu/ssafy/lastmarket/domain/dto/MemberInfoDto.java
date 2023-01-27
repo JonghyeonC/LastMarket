@@ -23,7 +23,7 @@ public class MemberInfoDto {
         this.id = member.getId();
         this.username = member.getUsername();
         this.nickname = (member.getNickname() == null)? "" : member.getNickname();
-        this.profile = (member.getProfile() == null) ? "" : member.getProfile().getImageURL();
+        this.profile = (Objects.isNull(member.getProfile())) ? "" : member.getProfile().getImageURL();
         this.location = (Objects.isNull(member.getLocation())) ? "" : member.getLocation().toString();
     }
 

@@ -46,10 +46,24 @@ public class TestUtils {
 
     }
 
-    public static List<MemberCategory> getMemberCategories(Member member, List<Category> categories){
+    public static List<CategoryName> getCategoryNames(){
+        List<CategoryName> categoryNames = new ArrayList<>();
+        categoryNames.add(CategoryName.CAMPING);
+        categoryNames.add(CategoryName.BOOK);
+
+        return categoryNames;
+
+    }
+
+    public static List<MemberCategory> getMemberCategories(Member member, List<CategoryName> categoryNames){
+
+        List<Category> categories = new ArrayList<>();
+        for(int i=0;i<categoryNames.size();i++){
+            categories.add(new Category((long) i,categoryNames.get(i)));
+        }
 
         List<MemberCategory> result = new ArrayList<>();
-        for (int i=0;i<categories.size();i++) {
+        for (int i=0;i<categoryNames.size();i++) {
             MemberCategory memberCategory = new MemberCategory((long) i,member,categories.get(i));
             result.add(memberCategory);
         }

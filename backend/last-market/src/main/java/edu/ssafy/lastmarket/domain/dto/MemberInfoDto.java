@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +24,7 @@ public class MemberInfoDto {
         this.username = member.getUsername();
         this.nickname = (member.getNickname() == null)? "" : member.getNickname();
         this.profile = (member.getProfile() == null) ? "" : member.getProfile().getImageURL();
-        this.location = (member.getLocation() == null) ? "" : member.getLocation().toString();
+        this.location = (Objects.isNull(member.getLocation())) ? "" : member.getLocation().toString();
     }
 
 }

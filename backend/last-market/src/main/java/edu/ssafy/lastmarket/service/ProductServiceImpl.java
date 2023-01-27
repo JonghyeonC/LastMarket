@@ -2,11 +2,9 @@ package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.domain.dto.ProductDto;
 import edu.ssafy.lastmarket.domain.dto.ProductListDto;
-import edu.ssafy.lastmarket.domain.entity.Image;
-import edu.ssafy.lastmarket.domain.entity.Member;
-import edu.ssafy.lastmarket.domain.entity.Product;
-import edu.ssafy.lastmarket.domain.entity.ProductImage;
+import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.exception.NotYourAuthority;
+import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.repository.ProductImageRepository;
 import edu.ssafy.lastmarket.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +22,8 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
+
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Page<ProductListDto> getProducts(Pageable pageable) {
@@ -32,9 +33,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(ProductDto productDto, Member member) {
+         Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
+
+         if(categoryOptional.isEmpty()){
+             Category category = new Category(productDto.getCategory());
+             categoryRepository.save(category);
+             categoryOptional = Optional.of(category);
+         }
+
+
         Product product = ProductDto.convert(productDto);
         product.setSeller(member);
         product.setLocation(member.getLocation());
+        product.setCategory(categoryOptional.get());
+        product.setDealState(DealState.DEFAULT);
+        product.setFavoriteCnt(0);
+
 
         return productRepository.save(product);
 

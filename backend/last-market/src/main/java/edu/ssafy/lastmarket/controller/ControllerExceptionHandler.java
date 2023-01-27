@@ -50,6 +50,7 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(BanExistException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> alreadyBan(Exception e) {
+        e.printStackTrace();
         Map<String, Object> result = new HashMap<>();
         result.put("error msg", e.toString());
         result.put("msg", "user is alreay banned");
@@ -65,6 +66,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<?> iOException(Exception e) {
+        e.printStackTrace();
         Map<String, Object> result = new HashMap<>();
         result.put("error msg", e.toString());
         result.put("msg", "iOException");

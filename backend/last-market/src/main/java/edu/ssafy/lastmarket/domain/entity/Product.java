@@ -1,6 +1,10 @@
 package edu.ssafy.lastmarket.domain.entity;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +30,8 @@ public class Product extends BaseEntity{
     private DealState dealState;
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     private List<ProductImage> images = new ArrayList<>();
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime liveTime;
     @OneToOne(fetch = FetchType.LAZY)
     private Category category;

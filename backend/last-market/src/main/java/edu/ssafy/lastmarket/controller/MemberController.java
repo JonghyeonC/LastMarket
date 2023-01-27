@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -28,7 +25,7 @@ public class MemberController {
 
     private final ImageUploadService imageUploadService;
     @PostMapping("/user")
-    public ResponseEntity<?> registMember(@Login Member member, MemberRegistDto memberRegistDto){
+    public ResponseEntity<?> registMember(@Login Member member, @RequestBody MemberRegistDto memberRegistDto){
 
         memberService.updateMember(memberRegistDto, member);
         memberCategoryService.save(memberRegistDto.getCategories(), member);

@@ -15,7 +15,7 @@ import LiveChat from "./Chat"
 
 
 // 로컬 미디어 서버 주소
-const OPENVIDU_SERVER_URL = "https://jadu-study-flatform.shop:8443";
+const OPENVIDU_SERVER_URL = "localhost:4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 const Container = styled.div`

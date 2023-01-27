@@ -1,11 +1,15 @@
 import React, { useRef, useState, useMemo } from "react";
+import Cropper from 'react-cropper';
 import './UploadPagecss.css'
 
 function UploadPage() {
-
+  
+  const cropperRef = useRef(null);
   const fileInput = useRef(null);
-  const [imageFile, setImageFile] = useState([])
 
+  const [imageFile, setImageFile] = useState([])
+  const [cropperImage, setCroppedImage] = useState([])
+  
   const handleButtonClick = e => {
     fileInput.current?.click()
   }
@@ -15,7 +19,7 @@ function UploadPage() {
     let imageUrlList = [...imageFile]
     console.log(imageUrlList)
 
-    for (let i = 0; i < imageList.length; i ++ ) {
+    for (let i = 0 ; i < imageList.length; i ++ ) {
       const currentImageUrl = URL.createObjectURL(imageList[i])
       imageUrlList.push(currentImageUrl)
     }
@@ -23,9 +27,9 @@ function UploadPage() {
       imageUrlList = imageUrlList.slice(0, 10)
     }
 
-    setImageFile(
+    setImageFile (
       imageUrlList
-      )
+    )
   }
 
 
@@ -51,11 +55,15 @@ function UploadPage() {
 
   return (
     <React.Fragment>
-      <div className="showImage">
-        {showImage}
+      <div>
+        <div>
+          <button onClick={handleButtonClick} className="uploadBtn">사진 업로드</button>
+          <input type="file" multiple ref={fileInput} onChange={handleChange} style={{ display : "none" }} />
+        </div>
+        <div className="showImage">
+          {showImage}
+        </div>
       </div>
-      <button onClick={handleButtonClick} className="uploadBtn">사진 업로드</button>
-      <input type="file" multiple ref={fileInput} onChange={handleChange} style={{ display : "none" }} />
     </React.Fragment>
   )
 }

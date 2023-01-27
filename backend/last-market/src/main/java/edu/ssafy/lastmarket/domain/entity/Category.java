@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+
 public class Category {
     @Id
     @GeneratedValue
@@ -16,6 +17,10 @@ public class Category {
     //카테고리명
     @Enumerated(EnumType.STRING)
     private CategoryName categoryName;
+
+    public Category(CategoryName categoryName){
+        this.categoryName = categoryName;
+    }
 
 
 }

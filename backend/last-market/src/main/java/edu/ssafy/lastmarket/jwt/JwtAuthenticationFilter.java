@@ -32,31 +32,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            System.out.println("=================\n===================");
-            ObjectMapper omo = new ObjectMapper();
-
-            System.out.println(omo.toString());
+//            System.out.println("=================\n===================");
+//            ObjectMapper omo = new ObjectMapper();
+//            System.out.println(omo.toString());
             String temp =request.getHeader("Authentication");
             String token = (temp ==null)? "": temp;
             String username = jwtManager.getUsername(token);
 
-
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    username, "");
-
             UserDetails userDetails = principalOAuth2UserService.loadUserByUsername(username);
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-            System.out.println("==authentication");
-            System.out.println(authentication.getPrincipal());
-            System.out.println(authentication.isAuthenticated());
 
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(authentication);
             SecurityContextHolder.setContext(context);
 
-            System.out.println(authenticationToken.getPrincipal());
-            System.out.println(authenticationToken.getAuthorities());
+//            System.out.println(authenticationToken.getPrincipal());
+//            System.out.println(authenticationToken.getAuthorities());
             // PrincipalDetailsService의 loadUserByUsername() 함수 실행됨
             // DB에 있는 id와 pwd가 일치
 

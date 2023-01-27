@@ -18,7 +18,7 @@ public class Member extends BaseEntity {
     private String username;
     private String nickname;
 //    private String password;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Image profile;
 
     @Enumerated(EnumType.STRING)

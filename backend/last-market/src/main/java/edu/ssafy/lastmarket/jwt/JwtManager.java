@@ -50,8 +50,8 @@ public class JwtManager {
         claims.put("id", member.getId());
         claims.put("nickname",member.getNickname());
         claims.put("username", member.getUsername());
-        claims.put("profile", member.getProfile());
-        claims.put("localtion", member.getLocation());
+        claims.put("profile", member.getProfile().getImageURL());
+        claims.put("localtion", member.getLocation().toString());
         return claims;
     }
 

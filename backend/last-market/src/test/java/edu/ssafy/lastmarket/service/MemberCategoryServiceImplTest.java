@@ -3,8 +3,10 @@ package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.TestUtils;
 import edu.ssafy.lastmarket.domain.entity.Category;
+import edu.ssafy.lastmarket.domain.entity.CategoryName;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.domain.entity.MemberCategory;
+import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.repository.MemberCategoryRepository;
 import edu.ssafy.lastmarket.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,9 @@ public class MemberCategoryServiceImplTest {
     MemberCategoryRepository memberCategoryRepository;
 
     @Mock
+    CategoryRepository categoryRepository;
+
+    @Mock
     MemberRepository memberRepository;
 
     MemberCategoryServiceImpl memberCategoryService;
@@ -38,17 +43,18 @@ public class MemberCategoryServiceImplTest {
         Optional<Member> memberOptional= TestUtils.getMemberOptional(TestUtils.getMember());
         lenient().doReturn(memberOptional).when(memberRepository).findByUsername(any());
 
-        List<Category> categories = TestUtils.getCategories();
-        List<MemberCategory> memberCategories = TestUtils.getMemberCategories(memberOptional.get(), categories);
+        List<CategoryName> categoryNames = TestUtils.getCategoryNames();
+        List<MemberCategory> memberCategories = TestUtils.getMemberCategories(memberOptional.get(), categoryNames);
         lenient().doReturn(memberCategories).when(memberCategoryRepository).saveAll(any());
 
-        memberCategoryService = new MemberCategoryServiceImpl(memberCategoryRepository);
-        List<MemberCategory> result = memberCategoryService.save(categories, TestUtils.getMember());
+        memberCategoryService = new MemberCategoryServiceImpl(memberCategoryRepository, categoryRepository);
+        List<MemberCategory> result = memberCategoryService.save(categoryNames, TestUtils.getMember());
 
 
         assertThat(0L).isEqualTo(result.get(0).getId());
         assertThat(memberOptional.get()).isEqualTo(result.get(0).getMember());
-        assertThat(categories.get(0)).isEqualTo(result.get(0).getCategory());
+        CategoryName categoryName = categoryNames.get(0);
+        assertThat(categoryName).isEqualTo(result.get(0).getCategory().getCategoryName());
 
 
 

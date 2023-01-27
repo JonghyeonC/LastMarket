@@ -3,6 +3,7 @@ package edu.ssafy.lastmarket.service;
 import edu.ssafy.lastmarket.domain.dto.ProductDto;
 import edu.ssafy.lastmarket.domain.dto.ProductListDto;
 import edu.ssafy.lastmarket.domain.entity.*;
+import edu.ssafy.lastmarket.exception.NotFoundException;
 import edu.ssafy.lastmarket.exception.NotYourAuthority;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.repository.ProductImageRepository;
@@ -22,12 +23,16 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
-
     private final CategoryRepository categoryRepository;
 
     @Override
     public Page<ProductListDto> getProducts(Pageable pageable) {
         return null;
+    }
+
+    @Override
+    public Optional<Product> read(Long id) {
+        return productRepository.findById(id);
     }
 
     @Override
@@ -71,9 +76,20 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+
+
     @Override
-    public void delete(Product product, Member member) {
-        productRepository.delete(product);
+    @Transactional
+    public void delete(Member member, Long id) {
+
+        Optional<Product> productOptional = productRepository.findById(id);
+        Product.isProductNull(productOptional);
+        if(!productOptional.get().getSeller().equals(member)){
+            throw new NotYourAuthority();
+        }
+
+        productRepository.delete(productOptional.get());
+
     }
 
     private void checkSeller(Product product, Member member) {
@@ -81,5 +97,8 @@ public class ProductServiceImpl implements ProductService {
             throw new NotYourAuthority();
         }
     }
+
+
+
 
 }

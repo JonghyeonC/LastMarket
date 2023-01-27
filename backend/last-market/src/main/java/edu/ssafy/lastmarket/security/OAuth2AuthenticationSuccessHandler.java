@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
@@ -39,14 +40,19 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         Optional<Member> memberOptional = memberRepository.findByUsername(oAuth2User.getUsername());
 
 //        System.out.println(((OAuth2UserImpl) authentication.getPrincipal()).getName());
-        System.out.println("member username "+memberOptional.get().getUsername());
+//        System.out.println("member username "+memberOptional.get().getUsername());
 
-        MemberInfoDto memberInfoDto = new MemberInfoDto(memberOptional.get());
-        String shortToken = jwtManager.generateJwtToken(memberOptional.get());
-        String longToken = jwtManager.generateRefreshJwtToken(memberOptional.get());
+        Member member = memberOptional.get();
+//        System.out.println(member.getLocation().toString());
+//        member.getProducts();
+
+
+        MemberInfoDto memberInfoDto = new MemberInfoDto(member);
+        String shortToken = jwtManager.generateJwtToken(member);
+        String longToken = jwtManager.generateRefreshJwtToken(member);
 //			System.out.println(token);
 
-        System.out.println(memberOptional.get().getNickname());
+//        System.out.println(memberOptional.get().getNickname());
         if(memberInfoDto.getNickname().equals("")){
             response.setStatus(201);
 

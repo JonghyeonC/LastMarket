@@ -1,5 +1,9 @@
 package edu.ssafy.lastmarket.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.gson.Gson;
 import edu.ssafy.lastmarket.argumentresolver.Login;
 import edu.ssafy.lastmarket.domain.dto.ProductDto;
 import edu.ssafy.lastmarket.domain.entity.Image;
@@ -15,10 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -33,10 +34,13 @@ public class ProductController {
     private final ImageUploadService imageUploadService;
     private final ProductImageService productImageService;
 
-
     @PostMapping("/product")
-    public ResponseEntity<?> saveProduct(@Login Member member, ProductDto productDto, MultipartFile[] multipartFiles) throws IOException {
+    public ResponseEntity<?> saveProduct(@Login Member member,
+                                         @RequestPart("product") String productDtoString,
+                                         @RequestPart("imgs") MultipartFile[] multipartFiles) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
+        ProductDto productDto = objectMapper.readValue(productDtoString,ProductDto.class);
         Product product = productService.save(productDto, member);
         List<Image> upload =  imageUploadService.upload(multipartFiles);
         List<ProductImage> productImageList = productImageService.save(product, upload);

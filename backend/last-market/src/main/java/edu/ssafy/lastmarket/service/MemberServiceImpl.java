@@ -5,6 +5,7 @@ import edu.ssafy.lastmarket.domain.entity.Image;
 import edu.ssafy.lastmarket.domain.entity.Location;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.repository.MemberRepository;
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,7 @@ public class MemberServiceImpl implements MemberService {
     public Member updateMember(MemberRegistDto memberRegistDto, Member member) {
 
         memberRepository.save(member);
-
-        if(!Objects.isNull(memberRegistDto.getNickname())){
+        if(!StringUtil.isNullOrEmpty(memberRegistDto.getNickname())){
             member.setNickname(memberRegistDto.getNickname());
         }
         if(!Objects.isNull(memberRegistDto.getJob())){

@@ -4,19 +4,21 @@ import edu.ssafy.lastmarket.domain.entity.Image;
 import edu.ssafy.lastmarket.domain.entity.Product;
 import edu.ssafy.lastmarket.domain.entity.ProductImage;
 import edu.ssafy.lastmarket.repository.ProductImageRepository;
+import edu.ssafy.lastmarket.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ProductImageServiceImpl implements ProductImageService{
 
     private final ProductImageRepository productImageRepository;
-
+    private final ProductRepository productRepository;
     @Override
     @Transactional
     public List<ProductImage> save(Product product, List<Image> images) {
@@ -29,5 +31,23 @@ public class ProductImageServiceImpl implements ProductImageService{
         }
 
         return productImageList;
+    }
+
+    @Override
+    public List<ProductImage> getProductImageByProductId(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        Product.isProductNull(productOptional);
+        return productOptional.get().getImages();
+    }
+
+    @Override
+    @Transactional
+    public void delete(ProductImage productImage) {
+        productImageRepository.delete(productImage);
+    }
+
+    @Override
+    public void delete(List<ProductImage> productImages) {
+        productImageRepository.deleteAll(productImages);
     }
 }

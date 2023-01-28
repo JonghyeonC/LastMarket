@@ -60,7 +60,20 @@ public class ImageUploadServiceImpl implements ImageUploadService{
         return result;
     }
 
-    // S3로 업로드
+    @Override
+    @Transactional
+    public void delete(Image image) {
+        imageRepository.save(image);
+//        cloudImageUploadService.delete(image.getImageURL());
+
+    }
+
+    @Override
+    @Transactional
+    public void delete(List<Image> images) {
+        imageRepository.deleteAll(images);
+
+    }
 
 
     // 로컬에 저장된 이미지 지우기

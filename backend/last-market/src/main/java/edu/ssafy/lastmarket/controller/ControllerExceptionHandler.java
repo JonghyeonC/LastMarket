@@ -1,8 +1,6 @@
 package edu.ssafy.lastmarket.controller;
 
-import edu.ssafy.lastmarket.exception.BanExistException;
-import edu.ssafy.lastmarket.exception.NotMemberUsernameException;
-import edu.ssafy.lastmarket.exception.NotYourAuthority;
+import edu.ssafy.lastmarket.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.http.HttpStatus;
@@ -50,6 +48,7 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(BanExistException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> alreadyBan(Exception e) {
+        e.printStackTrace();
         Map<String, Object> result = new HashMap<>();
         result.put("error msg", e.toString());
         result.put("msg", "user is alreay banned");
@@ -65,10 +64,31 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<?> iOException(Exception e) {
+        e.printStackTrace();
         Map<String, Object> result = new HashMap<>();
         result.put("error msg", e.toString());
         result.put("msg", "iOException");
         return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> notFoundException(Exception e) {
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "notFoundException");
+        return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+    }
+
+
+
+    @ExceptionHandler(NotAuthenticated.class)
+    public ResponseEntity<?> notAuthenticated(Exception e) {
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "notAuthenticated");
+        return new ResponseEntity<>(result, HttpStatus.valueOf(401));
+    }
 }

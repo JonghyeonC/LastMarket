@@ -50,5 +50,15 @@ public class Product extends BaseEntity{
             throw new NotFoundException("notFoundException");
         }
     }
+
+    public List<String> getImgUrls(){
+        List<String> result = new ArrayList<>();
+
+        for (ProductImage image : images) {
+            result.add(image.getImage().getImageURL());
+        }
+
+        return result;
+    }
 }
 

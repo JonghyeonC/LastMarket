@@ -1,18 +1,21 @@
 package edu.ssafy.lastmarket.service;
 
+import edu.ssafy.lastmarket.argumentresolver.Login;
 import edu.ssafy.lastmarket.domain.dto.ProductDto;
 import edu.ssafy.lastmarket.domain.dto.ProductListDto;
+import edu.ssafy.lastmarket.domain.dto.ProductReadDto;
 import edu.ssafy.lastmarket.domain.entity.*;
-import edu.ssafy.lastmarket.exception.NotFoundException;
 import edu.ssafy.lastmarket.exception.NotYourAuthority;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.repository.ProductImageRepository;
 import edu.ssafy.lastmarket.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +28,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductImageRepository productImageRepository;
     private final CategoryRepository categoryRepository;
 
+
+
     @Override
     public Page<ProductListDto> getProducts(Pageable pageable) {
         return null;
@@ -33,6 +38,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> read(Long id) {
         return productRepository.findById(id);
+    }
+
+    @Override
+    public ProductReadDto getDtoById( Long id, boolean isFavoriteCehcked) {
+        Optional<Product> productOptional = productRepository.findProductFetchJoinById(id);
+        Product.isProductNull(productOptional);
+        Product product = productOptional.get();
+
+//        System.out.println(product.getTitle());
+//        System.out.println(product.getLocation());
+        ProductReadDto productReadDto = new ProductReadDto(product, isFavoriteCehcked);
+
+        return productReadDto;
     }
 
     @Override

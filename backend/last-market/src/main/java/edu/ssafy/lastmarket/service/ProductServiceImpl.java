@@ -16,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceContext;
+import javax.sound.sampled.Port;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +33,17 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Page<ProductListDto> getProducts(Pageable pageable) {
-        return null;
+    public List<ProductListDto> getProducts(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageabl) {
+
+        List<Product> products = productRepository.getProductList(locationOptional, categoryOptional,dealState,pageabl);
+        List<ProductListDto> result = new ArrayList<>();
+
+        for (Product product : products) {
+            ProductListDto productListDto= new ProductListDto(product,false);
+            result.add(productListDto);
+        }
+
+        return result;
     }
 
     @Override

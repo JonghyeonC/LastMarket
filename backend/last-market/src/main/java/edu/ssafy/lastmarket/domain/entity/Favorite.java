@@ -1,9 +1,13 @@
 package edu.ssafy.lastmarket.domain.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class Favorite extends BaseEntity {
     @Id
     @GeneratedValue

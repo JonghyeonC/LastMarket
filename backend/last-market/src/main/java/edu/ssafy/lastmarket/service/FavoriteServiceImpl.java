@@ -15,6 +15,12 @@ public class FavoriteServiceImpl implements FavoriteService{
 
     private final FavoriteRepository favoriteRepository;
 
+    /**
+     *
+     * @param member
+     * @param productId
+     * @return
+     */
     @Override
     public boolean isFavoriteChecked(Member member, Long productId) {
         Optional<Favorite> favoriteOptional = favoriteRepository.findByMemberAndProductId(member,productId);

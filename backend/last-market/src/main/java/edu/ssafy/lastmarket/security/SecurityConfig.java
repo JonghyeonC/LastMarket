@@ -29,27 +29,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        JwtAuthenticationFilter jwtAuthenticationFilter=  new JwtAuthenticationFilter(principalOauth2UserService, jwtManager);
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
+
         //임시로 처리
         http.authorizeRequests()
 //                .antMatchers(HttpMethod.POST, "/us  er").authenticated()
                 .anyRequest().permitAll();
-        http.exceptionHandling()
-                .authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    @Override
-                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    }
-                })
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                });
-
-
-
-
+        http.formLogin().disable();
+        http.httpBasic().disable();
         http.csrf().disable();
         http.headers()
                 .frameOptions()
@@ -60,8 +46,28 @@ public class SecurityConfig {
                 .userInfoEndpoint() // 필수
                 .userService(principalOauth2UserService)
                 .and().
-                successHandler(oAuth2AuthenticationSuccessHandler)
-        ;
+                successHandler(oAuth2AuthenticationSuccessHandler);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        JwtAuthenticationFilter jwtAuthenticationFilter=  new JwtAuthenticationFilter(principalOauth2UserService, jwtManager);
+        http.addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
+
+//        http.exceptionHandling()
+//                .authenticationEntryPoint(new AuthenticationEntryPoint() {
+//                    @Override
+//                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+//                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                    }
+//                })
+//                .accessDeniedHandler((request, response, accessDeniedException) -> {
+//                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//                });
+
         return http.build();
+
+
+
+
+
+
     }
 }

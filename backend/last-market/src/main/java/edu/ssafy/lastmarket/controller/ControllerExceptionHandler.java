@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.ErrorMessage;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -90,5 +91,15 @@ public class ControllerExceptionHandler {
         result.put("error msg", e.toString());
         result.put("msg", "notAuthenticated");
         return new ResponseEntity<>(result, HttpStatus.valueOf(401));
+    }
+
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<?> missingServletRequestParameterException(Exception e) {
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "missingServletRequestParameterException");
+        return new ResponseEntity<>(result, HttpStatus.valueOf(400));
     }
 }

@@ -3,10 +3,7 @@ package edu.ssafy.lastmarket.service;
 import edu.ssafy.lastmarket.domain.dto.ProductDto;
 import edu.ssafy.lastmarket.domain.dto.ProductListDto;
 import edu.ssafy.lastmarket.domain.dto.ProductReadDto;
-import edu.ssafy.lastmarket.domain.entity.Image;
-import edu.ssafy.lastmarket.domain.entity.Member;
-import edu.ssafy.lastmarket.domain.entity.Product;
-import edu.ssafy.lastmarket.domain.entity.ProductImage;
+import edu.ssafy.lastmarket.domain.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +13,15 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    Page<ProductListDto> getProducts(Pageable pageable);
+    /**
+     *
+     * @param locationOptional
+     * @param categoryOptional
+     * @param dealState
+     * @param pageabl
+     * @return
+     */
+    Page<ProductListDto> getProducts(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageabl);
     Optional<Product> read(Long id);
     ProductReadDto getDtoById(Long id, boolean isFavoriteChecked);
     Product save(ProductDto productDto, Member member);

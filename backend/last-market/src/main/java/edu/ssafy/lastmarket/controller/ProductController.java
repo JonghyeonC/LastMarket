@@ -11,12 +11,15 @@ import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.service.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.patterns.HasMemberTypePatternForPerThisMatching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +31,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api")
 public class ProductController {
 
@@ -59,7 +63,7 @@ public class ProductController {
     @GetMapping("/product")
     public ResponseEntity<?> getProductList(@Login Member member,
                                             @RequestParam(name = "location", required = true) String locationString,
-                                            @RequestParam(name = "category",required = true) String categoryNameString,
+                                            @RequestParam(name = "category", required = true) String categoryNameString,
                                             @RequestParam(name = "dealState", required = true) DealState dealState,
                                             Pageable pageable) {
 
@@ -74,10 +78,10 @@ public class ProductController {
         if (!locationString.equals("")) {
             locationOptional = locationService.findDongCodeByAddress(locationString);
         }
-        Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional, dealState,  pageable);
+        Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional, dealState, pageable);
 
 
-        return new ResponseEntity<>(products,HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @PostMapping("/product")
@@ -91,6 +95,17 @@ public class ProductController {
         List<Image> upload = imageUploadService.upload(multipartFiles);
         List<ProductImage> productImageList = productImageService.save(product, upload);
         product.setImages(productImageList);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/product/{id}")
+    public ResponseEntity<?> modifyProduct(@Login Member member,
+                                           @RequestBody ProductDto productDto,
+                                           @PathVariable("id") Long id) {
+        log.info("{}", productDto);
+        Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
+        productService.updateProduct(member,id,productDto, categoryOptional );
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

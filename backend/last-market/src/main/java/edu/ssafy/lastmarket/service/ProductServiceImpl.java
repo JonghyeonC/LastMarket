@@ -1,21 +1,21 @@
 package edu.ssafy.lastmarket.service;
 
-import edu.ssafy.lastmarket.argumentresolver.Login;
 import edu.ssafy.lastmarket.domain.dto.ProductDto;
 import edu.ssafy.lastmarket.domain.dto.ProductListDto;
 import edu.ssafy.lastmarket.domain.dto.ProductReadDto;
 import edu.ssafy.lastmarket.domain.entity.*;
+import edu.ssafy.lastmarket.exception.NotFoundException;
 import edu.ssafy.lastmarket.exception.NotYourAuthority;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.repository.ProductImageRepository;
 import edu.ssafy.lastmarket.repository.ProductRepository;
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Product saveImgs(Product product, List<Image> images, Member member) {
 
-        checkSeller(product, member);
+        checkSeller(Optional.ofNullable(product), member);
 
         List<ProductImage> productImages = product.getImages();
         for (Image image : images) {
@@ -103,6 +103,30 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+    @Override
+    @Transactional
+    public void updateProduct(Member member, Long productId, ProductDto productDto, Optional<Category> categoryOptional) {
+        Optional<Product> productOptional = productRepository.findById(productId);
+        Product.isProductNull(productOptional);
+        Product product = productOptional.get();
+
+        if(!StringUtil.isNullOrEmpty(productDto.getTitle())){
+            product.setTitle(productDto.getTitle());
+        }
+        if(!StringUtil.isNullOrEmpty(productDto.getContent())){
+            product.setContent(productDto.getContent());
+        }
+        if(!categoryOptional.isEmpty()){
+            product.setCategory(categoryOptional.get());
+        }
+        if(productDto.getStartingPrice()!=0){
+            product.setStartingPrice(productDto.getStartingPrice());
+        }
+        if(productDto.getInstantPrice()!=0){
+            product.setInstantPrice(productDto.getInstantPrice());
+        }
+
+    }
 
 
     @Override
@@ -111,16 +135,17 @@ public class ProductServiceImpl implements ProductService {
 
         Optional<Product> productOptional = productRepository.findById(id);
         Product.isProductNull(productOptional);
-        if(!productOptional.get().getSeller().equals(member)){
-            throw new NotYourAuthority();
-        }
+
 
         productRepository.delete(productOptional.get());
 
     }
 
-    private void checkSeller(Product product, Member member) {
-        if (product.getSeller().equals(member)) {
+    private void checkSeller(Optional<Product> productOptional, Member member) {
+        if(productOptional.isEmpty()){
+            throw new NotFoundException("product NotFoundException");
+        }
+        if (productOptional.get().getSeller().equals(member)) {
             throw new NotYourAuthority();
         }
     }

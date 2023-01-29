@@ -27,6 +27,8 @@ public interface ProductService {
     Product save(ProductDto productDto, Member member);
     Product saveImgs(Product product, List<Image> image, Member member);
 
+    void updateProduct(Member member, Long productId, ProductDto productDto, Optional<Category> categoryOptional);
+
     void delete(Member member, Long id);
 
 }

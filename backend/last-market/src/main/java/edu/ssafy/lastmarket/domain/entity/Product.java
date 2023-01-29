@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import edu.ssafy.lastmarket.exception.NotFoundException;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Builder
@@ -43,5 +45,10 @@ public class Product extends BaseEntity{
     private Long instantPrice;
 
 
+    public static void isProductNull(Optional<Product> productOptional){
+        if(productOptional.isEmpty()){
+            throw new NotFoundException("notFoundException");
+        }
+    }
 }
 

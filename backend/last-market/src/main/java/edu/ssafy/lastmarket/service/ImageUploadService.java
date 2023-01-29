@@ -12,5 +12,8 @@ public interface ImageUploadService {
     Optional<Image> upload(MultipartFile multipartFile)throws IOException;
 
     List<Image> upload(MultipartFile[] multipartFiles)throws IOException;
+
+    void delete(Image image);
+    void delete(List<Image> images);
     String findUrlById(Long id);
 }

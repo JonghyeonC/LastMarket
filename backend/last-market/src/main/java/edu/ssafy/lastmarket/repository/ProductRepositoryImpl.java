@@ -19,6 +19,7 @@ import java.util.Optional;
 import static edu.ssafy.lastmarket.domain.entity.QLocation.location;
 import static edu.ssafy.lastmarket.domain.entity.QMember.member;
 import static edu.ssafy.lastmarket.domain.entity.QProduct.product;
+import static edu.ssafy.lastmarket.domain.entity.QFavorite.favorite;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 public class ProductRepositoryImpl implements ProductRepositoryCustom{
@@ -30,7 +31,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
 
 
     @Override
-    public Page<Product> getProductList(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageable) {
+    public Page<Product> getProductList(Optional<Location> locationOptional,
+                                        Optional<Category> categoryOptional,
+                                        DealState dealState,
+                                        Pageable pageable) {
 
         List<OrderSpecifier> ORDERS = getAllOrderSpecifiers(pageable);
 

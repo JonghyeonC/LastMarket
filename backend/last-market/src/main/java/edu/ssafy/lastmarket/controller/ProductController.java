@@ -57,9 +57,10 @@ public class ProductController {
     }
 
     @GetMapping("/product")
-    public ResponseEntity<?> getProductList(@Login Member member, @RequestParam("location") String locationString,
-                                            @RequestParam("category") String categoryNameString,
-                                            @RequestParam("dealState") DealState dealState,
+    public ResponseEntity<?> getProductList(@Login Member member,
+                                            @RequestParam(name = "location", required = true) String locationString,
+                                            @RequestParam(name = "category",required = true) String categoryNameString,
+                                            @RequestParam(name = "dealState", required = true) DealState dealState,
                                             Pageable pageable) {
 
         Optional<Location> locationOptional = Optional.ofNullable(null);
@@ -73,8 +74,7 @@ public class ProductController {
         if (!locationString.equals("")) {
             locationOptional = locationService.findDongCodeByAddress(locationString);
         }
-        Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional, dealState, (org.springframework.data.domain.Pageable) pageable);
-
+        Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional, dealState,  pageable);
 
 
         return new ResponseEntity<>(products,HttpStatus.OK);

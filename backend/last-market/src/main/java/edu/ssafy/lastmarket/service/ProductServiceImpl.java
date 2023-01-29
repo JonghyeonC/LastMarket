@@ -10,17 +10,15 @@ import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.repository.ProductImageRepository;
 import edu.ssafy.lastmarket.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.PersistenceContext;
-import javax.sound.sampled.Port;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,15 +31,15 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ProductListDto> getProducts(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageabl) {
+    public Page<ProductListDto> getProducts(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageabl) {
 
-        List<Product> products = productRepository.getProductList(locationOptional, categoryOptional,dealState,pageabl);
-        List<ProductListDto> result = new ArrayList<>();
 
-        for (Product product : products) {
-            ProductListDto productListDto= new ProductListDto(product,false);
-            result.add(productListDto);
-        }
+        Page<Product> products = productRepository.getProductList(locationOptional, categoryOptional,dealState,pageabl);
+        PageImpl<ProductListDto> result= new PageImpl<>(
+                products.getContent().stream()
+                        .map(product -> new ProductListDto(product,false))
+                        .collect(Collectors.toList())
+                ,pageabl,products.getTotalPages());
 
         return result;
     }

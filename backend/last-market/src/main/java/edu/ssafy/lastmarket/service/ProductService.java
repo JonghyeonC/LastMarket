@@ -21,7 +21,7 @@ public interface ProductService {
      * @param pageabl
      * @return
      */
-    List<ProductListDto> getProducts(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageabl);
+    Page<ProductListDto> getProducts(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageabl);
     Optional<Product> read(Long id);
     ProductReadDto getDtoById(Long id, boolean isFavoriteChecked);
     Product save(ProductDto productDto, Member member);

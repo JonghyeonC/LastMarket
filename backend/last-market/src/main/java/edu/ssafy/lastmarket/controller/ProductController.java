@@ -11,6 +11,8 @@ import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,8 +62,8 @@ public class ProductController {
                                             @RequestParam("dealState") DealState dealState,
                                             Pageable pageable) {
 
-        Optional<Location> locationOptional = Optional.of(null);
-        Optional<Category> categoryOptional = Optional.of(null);
+        Optional<Location> locationOptional = Optional.ofNullable(null);
+        Optional<Category> categoryOptional = Optional.ofNullable(null);
 
 
         if (!categoryNameString.equals("")) {
@@ -71,7 +73,8 @@ public class ProductController {
         if (!locationString.equals("")) {
             locationOptional = locationService.findDongCodeByAddress(locationString);
         }
-        List<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional, dealState, (org.springframework.data.domain.Pageable) pageable);
+        Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional, dealState, (org.springframework.data.domain.Pageable) pageable);
+
 
 
         return new ResponseEntity<>(products,HttpStatus.OK);

@@ -12,5 +12,5 @@ import java.util.Optional;
 
 public interface ProductRepositoryCustom {
 
-    List<Product> getProductList(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageable);
+    Page<Product> getProductList(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageable);
 }

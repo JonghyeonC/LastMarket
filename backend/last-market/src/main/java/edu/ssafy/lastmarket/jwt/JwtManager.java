@@ -1,9 +1,8 @@
 package edu.ssafy.lastmarket.jwt;
 
 import edu.ssafy.lastmarket.domain.entity.Member;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class JwtManager {
 
     @Value("${JWT.SECRET}")
@@ -52,6 +52,8 @@ public class JwtManager {
         claims.put("username", member.getUsername());
         claims.put("profile", member.getProfile().getImageURL());
         claims.put("localtion", member.getLocation().toString());
+        claims.put("role",member.getRole());
+
         return claims;
     }
 
@@ -61,7 +63,9 @@ public class JwtManager {
     }
 
     public Claims getClaims(String token) {
-        return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
+
+        return Jwts.parserBuilder().setSigningKey(securityKey).build().parseClaimsJws(token).getBody();
+//        return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
     }
 
     public int getIdFromToken(String token) {
@@ -83,9 +87,37 @@ public class JwtManager {
     public String getNickFromToken(String token) {
         return (String) getClaims(token).get("nickname");
     }
-
+    public String getRoleFromToken(String token) {
+        return (String) getClaims(token).get("role");
+    }
     public String getUsername(String token) {
         return (String) getClaims(token).get("username");
+    }
+
+    public Boolean isVidate(String token){
+        try {
+            Jwts.parserBuilder().setSigningKey(securityKey).build().parseClaimsJws(token);
+            return true;
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.info("Invalid JWT Token", e);
+        } catch (ExpiredJwtException e) {
+            log.info("Expired JWT Token", e);
+        } catch (UnsupportedJwtException e) {
+            log.info("Unsupported JWT Token", e);
+        } catch (IllegalArgumentException e) {
+            log.info("JWT claims string is empty.", e);
+        }
+        return false;
+    }
+
+    public Boolean isExpired(String token){
+        try {
+            Jwts.parserBuilder().setSigningKey(securityKey).build().parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException e) {
+            log.info("ExpiredJwtException", e);
+        }
+        return false;
     }
 
 

@@ -1,9 +1,17 @@
 package edu.ssafy.lastmarket.jwt;
 
+
+import ch.qos.logback.core.net.SyslogOutputStream;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.domain.entity.Role;
+import edu.ssafy.lastmarket.exception.NotAuthenticated;
 import edu.ssafy.lastmarket.security.user.OAuth2UserImpl;
 import edu.ssafy.lastmarket.security.user.PrincipalOAuth2UserService;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.BeanDefinitionDslKt;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +24,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.BreakIterator;
 import java.util.HashMap;
+
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

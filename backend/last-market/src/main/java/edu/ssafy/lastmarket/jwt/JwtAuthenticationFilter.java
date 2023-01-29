@@ -8,6 +8,7 @@ import edu.ssafy.lastmarket.domain.entity.Role;
 import edu.ssafy.lastmarket.exception.NotAuthenticated;
 import edu.ssafy.lastmarket.security.user.OAuth2UserImpl;
 import edu.ssafy.lastmarket.security.user.PrincipalOAuth2UserService;
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.BeanDefinitionDslKt;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -17,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,9 +26,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.BreakIterator;
 import java.util.HashMap;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -43,10 +45,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //            ObjectMapper omo = new ObjectMapper();
 //            System.out.println(omo.toString());
             String temp =request.getHeader("Authentication");
-            if(Objects.isNull(temp)){
+
+            if(StringUtil.isNullOrEmpty(temp)){
                 filterChain.doFilter(request,response);
                 return;
             }
+
             String username = jwtManager.getUsername(temp);
 
             UserDetails userDetails = principalOAuth2UserService.loadUserByUsername(username);

@@ -1,6 +1,7 @@
 package edu.ssafy.lastmarket.controller;
 
 import edu.ssafy.lastmarket.exception.BanExistException;
+import edu.ssafy.lastmarket.exception.NotFoundException;
 import edu.ssafy.lastmarket.exception.NotMemberUsernameException;
 import edu.ssafy.lastmarket.exception.NotYourAuthority;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -73,4 +74,13 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> notFoundException(Exception e) {
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "notFoundException");
+        return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+    }
 }

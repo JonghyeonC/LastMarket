@@ -29,6 +29,7 @@ public class Product extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dongCode")
     private Location location;
+    @Enumerated(EnumType.STRING)
     private DealState dealState;
     @OneToMany(mappedBy = "product",fetch = FetchType.LAZY)
     private List<ProductImage> images = new ArrayList<>();

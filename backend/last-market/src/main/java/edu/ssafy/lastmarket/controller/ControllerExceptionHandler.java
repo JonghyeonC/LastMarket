@@ -10,6 +10,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -43,7 +44,7 @@ public class ControllerExceptionHandler {
         Map<String, Object> result = new HashMap<>();
         result.put("error msg", e.toString());
         result.put("msg", "jwt is expired");
-        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BanExistException.class)
@@ -100,6 +101,15 @@ public class ControllerExceptionHandler {
         Map<String, Object> result = new HashMap<>();
         result.put("error msg", e.toString());
         result.put("msg", "missingServletRequestParameterException");
+        return new ResponseEntity<>(result, HttpStatus.valueOf(400));
+    }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public ResponseEntity<?> missingServletRequestPartException(Exception e) {
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "missingServletRequestPartException");
         return new ResponseEntity<>(result, HttpStatus.valueOf(400));
     }
 }

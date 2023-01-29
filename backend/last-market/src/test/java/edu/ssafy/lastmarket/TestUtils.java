@@ -73,18 +73,19 @@ public class TestUtils {
     }
 
     public static Product getProduct() {
-        return Product.builder()
-                .id(1L)
-                .title("title")
-                .content("content")
-                .location(getLocatino())
-                .dealState(DealState.DEFAULT)
-                .liveTime(LocalDateTime.now())
-                .seller(getMember())
-                .favoriteCnt(0)
-                .startingPrice(100000L)
-                .instantPrice(120000L)
-                .build();
+        Product product = new Product();
+        product.setId(1L);
+        product.setTitle("title");
+        product.setContent("content");
+        product.setLocation(getLocatino());
+        product.setDealState(DealState.DEFAULT);
+        product.setLiveTime(LocalDateTime.now());
+        product.setSeller(getMember());
+        product.setFavoriteCnt(0);
+        product.setStartingPrice(100000L);
+        product.setInstantPrice(120000L);
+        product.setImages(new ArrayList<>());
+        return product;
     }
 
     public static Favorite getFavorite() {

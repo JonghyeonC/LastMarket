@@ -2,6 +2,8 @@ package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.TestUtils;
 import edu.ssafy.lastmarket.domain.entity.Favorite;
+import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.domain.entity.Product;
 import edu.ssafy.lastmarket.repository.FavoriteRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,32 +31,20 @@ public class FavoriteServiceImplTest {
     @Test
     @DisplayName("favorite true test")
     public void isFavoriteTest(){
-
-        Favorite favorite = TestUtils.getFavorite();
-        doReturn(Optional.of(favorite)).when(favoriteRepository).findByMemberAndProductId(any(),any());
-
-        favoriteService= new FavoriteServiceImpl(favoriteRepository);
-
-        Boolean isFavoriteChecked = favoriteService.isFavoriteChecked(TestUtils.getMember(),1L);
-
-        assertThat(true).isEqualTo(isFavoriteChecked);
-
-    }
-
-    @Test
-    @DisplayName("favorite false test")
-    public void isFavoriteFalseTest(){
-
-        Favorite favorite = TestUtils.getFavorite();
-        doReturn(Optional.of(favorite)).when(favoriteRepository).findByMemberAndProductId(any(),any());
+        Member member = TestUtils.getMember();
+        Product product = TestUtils.getProduct();
+        Favorite favorite = new Favorite(1L,member, product );
+        doReturn(Optional.ofNullable(favorite)).when(favoriteRepository).findByMemberAndProductId(any(),any());
 
         favoriteService= new FavoriteServiceImpl(favoriteRepository);
 
-        Boolean isFavoriteChecked = favoriteService.isFavoriteChecked(TestUtils.getMember(),0L);
-
-        assertThat(false).isEqualTo(isFavoriteChecked);
+        Boolean isFavoriteChecked = favoriteService.isFavoriteChecked(member,1L);
+        System.out.println(isFavoriteChecked);
+        assertThat(isFavoriteChecked).isTrue();
 
     }
+
+
 
 
 

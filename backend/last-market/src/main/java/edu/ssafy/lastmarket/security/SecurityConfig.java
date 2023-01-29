@@ -5,6 +5,7 @@ import edu.ssafy.lastmarket.jwt.JwtManager;
 import edu.ssafy.lastmarket.security.user.PrincipalOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,8 +33,14 @@ public class SecurityConfig {
 
         //임시로 처리
         http.authorizeRequests()
+                .antMatchers(HttpMethod.GET)
+//                .antMatchers(HttpMethod.PATCH,"/api/product")
+                .permitAll()
+
 //                .antMatchers(HttpMethod.POST, "/us  er").authenticated()
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
+
+
         http.formLogin().disable();
         http.httpBasic().disable();
         http.csrf().disable();
@@ -51,16 +58,16 @@ public class SecurityConfig {
         JwtAuthenticationFilter jwtAuthenticationFilter=  new JwtAuthenticationFilter(principalOauth2UserService, jwtManager);
         http.addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
 
-//        http.exceptionHandling()
-//                .authenticationEntryPoint(new AuthenticationEntryPoint() {
-//                    @Override
-//                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-//                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//                    }
-//                })
-//                .accessDeniedHandler((request, response, accessDeniedException) -> {
-//                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-//                });
+        http.exceptionHandling()
+                .authenticationEntryPoint(new AuthenticationEntryPoint() {
+                    @Override
+                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    }
+                })
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                });
 
         return http.build();
 

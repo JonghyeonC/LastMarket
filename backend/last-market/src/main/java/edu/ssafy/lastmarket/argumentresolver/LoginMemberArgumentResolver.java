@@ -44,10 +44,10 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
                     token = cookies[i].getValue();
                 }
             }
-        } else {
+        }
+        if(!Objects.isNull(request.getHeader("Authentication"))){
             token = request.getHeader("Authentication");
         }
-
 
         if (token.equals("")) {
             return null;

@@ -37,7 +37,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         OAuth2UserImpl oAuth2User =  (OAuth2UserImpl) authentication.getPrincipal();
 
 //        System.out.println(oAuth2User.getName()+" "+oAuth2User.getUsername());
-        Optional<Member> memberOptional = memberRepository.findByUsername(oAuth2User.getUsername());
+        Optional<Member> memberOptional = memberRepository.findMemberFetchJoinByUsername(oAuth2User.getUsername());
 
 //        System.out.println(((OAuth2UserImpl) authentication.getPrincipal()).getName());
 //        System.out.println("member username "+memberOptional.get().getUsername());

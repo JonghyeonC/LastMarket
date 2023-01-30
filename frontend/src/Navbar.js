@@ -22,9 +22,9 @@ function OffCanvasExample({ name, ...props }) {
   return (
     <>
     <div>
-      <Button variant="primary" onClick={toggleShow} className="me-2">
-        <img className="category_btn1" src="category_btn.png" alt="category_btn1"/>
-      </Button>
+      {/* <Button variant="primary" onClick={toggleShow} className="me-2" > */}
+      <img className="category_btn1" src="category_btn.png" alt="category_btn1" onClick={toggleShow} />
+      {/* </Button> */}
       <Offcanvas className="cate_zone" show={show} onHide={handleClose} {...props}>
         {/* <Offcanvas.Header closeButton> */}
           <Offcanvas.Title><h2>지금 뭐해요??</h2></Offcanvas.Title>

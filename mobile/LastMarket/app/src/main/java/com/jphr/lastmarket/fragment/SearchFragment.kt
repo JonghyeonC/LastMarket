@@ -1,5 +1,6 @@
 package com.jphr.lastmarket.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -35,6 +36,10 @@ class SearchFragment : Fragment() {
     private lateinit var productListAdapter: ProductListAdapter
     private lateinit var mainActivity: MainActivity
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity=context as MainActivity
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

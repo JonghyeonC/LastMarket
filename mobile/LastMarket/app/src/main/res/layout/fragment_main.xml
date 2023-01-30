@@ -8,6 +8,8 @@
     tools:context=".fragment.MainFragment">
 
     <LinearLayout
+        android:layout_marginLeft="10dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -74,6 +76,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"/>
     <LinearLayout
+        android:layout_marginLeft="10dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -138,6 +142,8 @@
         android:layout_marginBottom="20dp"/>
 
         <LinearLayout
+            android:layout_marginLeft="10dp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

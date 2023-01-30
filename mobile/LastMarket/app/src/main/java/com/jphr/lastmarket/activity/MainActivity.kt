@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         var navigationView=findViewById<NavigationView>(R.id.navigation_view)
         var toolbar=findViewById<MaterialToolbar>(R.id.topAppBar)
         var menu=navigationView.menu
-
+        var floatingActionButton=findViewById<FloatingActionButton>(R.id.floating_action_button)
         searchBar =findViewById(R.id.search_bar)
         searchView=findViewById<SearchView>(R.id.search_view)
 
@@ -48,6 +49,11 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
             .add(R.id.fragmentContainer, MainFragment())
         transaction.commit()
+
+        floatingActionButton.setOnClickListener {
+
+        }
+
 
         searchBar.visibility=View.GONE
 

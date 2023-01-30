@@ -16,50 +16,33 @@
   margin: 0px;
 }
 
-.nameWrap {
+.inputWrap {
   display: flex;
-  width: 700px;
+  width: 400px;
   justify-content: space-between;
 }
 
 .signupbox {
   width: 400px;
-  /* flex-basis: 30%; */
   box-shadow: 0 4px 5px 0 #00000026;
   position: relative;
   z-index: 10;
 }
 
-#dropdown1 {
-  left: 0;
-  visibility: hidden;
-  position: absolute;
-}
-#dropdown2 {
+#dropdown {
   left: 0;
   visibility: hidden;
   position: absolute;
 }
 
-.dropdownLabel1 {
+.dropdownLabel {
   display: flex;
   width: 400px;
   justify-content: space-between;
   padding: 12px;
 }
 
-.dropdownLabel2 {
-  display: flex;
-  width: 400px;
-  justify-content: space-between;
-  padding: 12px;
-}
-
-.dropdownLabel1:hover {
-  cursor: pointer;
-}
-
-.dropdownLabel2:hover {
+.dropdownLabel:hover {
   cursor: pointer;
 }
 
@@ -72,11 +55,7 @@
   box-shadow: 0 4px 5px 0 #00000026;
 }
 
-#dropdown1:checked + label + div.content {
-  display: block;
-  border-top: 1px solid #00000026;
-}
-#dropdown2:checked + label + div.content {
+#dropdown:checked + label + div.content {
   display: block;
   border-top: 1px solid #00000026;
 }
@@ -85,10 +64,7 @@
   transition: transform 250ms ease-out;
 }
 
-#dropdown1:checked + label > .caretIcon {
-  transform: rotate(-180deg);
-}
-#dropdown2:checked + label > .caretIcon {
+#dropdown:checked + label > .caretIcon {
   transform: rotate(-180deg);
 }
 

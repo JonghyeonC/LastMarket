@@ -18,55 +18,53 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Outlet } fro
 function App() {
   return (
     <div className="App">
-      <Router>
       <Navbar />
-        <Routes>
+      <Routes>
 
-          <Route path="/" element={
-            <Main />
-          } />
+        <Route path="/" element={
+          <Main />
+        } />
 
-          <Route path="/register" element={
-            <Register />
-          } />
-          
-          <Route path="/edit" element={
-            <Edit />
-          } />
+        <Route path="/register" element={
+          <Register />
+        } />
+        
+        <Route path="/edit" element={
+          <Edit />
+        } />
 
-          <Route path="/chat" element={
-            <Chat />
-          } />
+        <Route path="/chat" element={
+          <Chat />
+        } />
 
-          <Route path="/live" element={
-            <OnlineMeeting />
-          } />
+        <Route path="/live" element={
+          <OnlineMeeting />
+        } />
 
-          <Route path="/profile" element={
-            <Profile />
-          } />
+        <Route path="/profile" element={
+          <Profile />
+        } />
 
-          <Route path="/detail/:id" element={
-            <Detail />
-          } />
+        <Route path="/detail/:id" element={
+          <Detail />
+        } />
 
-          <Route path="/search/:result" element={
-            <Search />
-          } />
-          
-          <Route path="/login" element={
-            <Login />
-          } />
+        <Route path="/search/:result" element={
+          <Search />
+        } />
+        
+        <Route path="/login" element={
+          <Login />
+        } />
 
-          <Route path="/oauth" element={
-            <KakaoAuthHandler />
-          } />
+        <Route path="/oauth" element={
+          <KakaoAuthHandler />
+        } />
 
-          <Route path="/signup" element={
-            <Signup />
-          } />
-        </Routes>
-      </Router>
+        <Route path="/signup" element={
+          <Signup />
+        } />
+      </Routes>
     </div>
   );
 }

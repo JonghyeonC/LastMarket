@@ -1,8 +1,20 @@
+import UploadPage from '../Pages/Register/UploadPage'
+import InputPage from '../Pages/Register/InputPage'
+import './Routercss.css'
+
 function Register() {
 
   return (
     <div>
-      <p>상품등록페이지 입니다</p> 
+      <div className='registerBox'>
+        <div className='uploadBox'>
+          <UploadPage />
+        </div>
+        <div className='inputRegisterBox'>
+          <InputPage />
+        </div>
+      </div>
+      <button>등록하기</button>
     </div>
   )
 }

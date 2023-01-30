@@ -2,7 +2,6 @@
 
 import React from "react";
 import styled from "styled-components";
-
 import { useDispatch } from "react-redux";
 import { actionCreators as userAction } from "../redux/modules/user";
 // import Spinner from "../elements/Spinner";
@@ -16,13 +15,16 @@ const KakaoAuthHandler = (props) => {
 
   React.useEffect(() => {
 	// 꺼내온 code(인가코드)를 미들웨어를 통해 백엔드로 넘겨준다.
-    dispatch(userAction.kakaoLoginAC(code));
+    dispatch(userAction.kakaoLogin(code));
   }, []);
 
   return (
-    <Wrap>
-      <Spinner />
-    </Wrap>
+    // <Wrap>
+    //   <Spinner />
+    // </Wrap>
+    <div>
+      로딩중
+    </div>
   )
 };
 

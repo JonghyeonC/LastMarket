@@ -109,7 +109,7 @@ class BanServiceImplTest {
         return Member.builder()
                 .username(username)
                 .nickname(nickname)
-                .job(Job.STUDENT)
+                .lifestyle(Lifestyle.MINIMAL)
                 .banList(new ArrayList<>())
                 .favorites(new ArrayList<>())
                 .products(new ArrayList<>())

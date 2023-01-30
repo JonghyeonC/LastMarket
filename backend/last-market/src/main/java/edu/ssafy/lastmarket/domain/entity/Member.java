@@ -22,7 +22,7 @@ public class Member extends BaseEntity {
     private Image profile;
 
     @Enumerated(EnumType.STRING)
-    private Job job;
+    private Lifestyle lifestyle;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)

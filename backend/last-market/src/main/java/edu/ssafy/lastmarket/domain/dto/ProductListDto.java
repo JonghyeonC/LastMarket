@@ -2,6 +2,7 @@ package edu.ssafy.lastmarket.domain.dto;
 
 import edu.ssafy.lastmarket.domain.entity.CategoryName;
 import edu.ssafy.lastmarket.domain.entity.DealState;
+import edu.ssafy.lastmarket.domain.entity.Lifestyle;
 import edu.ssafy.lastmarket.domain.entity.Product;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class ProductListDto {
 //    @JsonSerialize(using = LocalDateTimeSerializer.class)
 //    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private CategoryName category;
+
+    private Lifestyle lifestyle;
     private Long startingPrice;
     private Long instantPrice;
 
@@ -48,6 +51,7 @@ public class ProductListDto {
         this.dealState = product.getDealState();
         this.liveTime = product.getLiveTime();
         this.category = product.getCategory().getCategoryName();
+        this.lifestyle = product.getLifestyle();
         this.favoriteCnt = product.getFavoriteCnt();
         this.startingPrice = product.getStartingPrice();
         this.instantPrice = product.getInstantPrice();

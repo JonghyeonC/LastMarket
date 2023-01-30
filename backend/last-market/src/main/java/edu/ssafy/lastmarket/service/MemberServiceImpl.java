@@ -28,8 +28,8 @@ public class MemberServiceImpl implements MemberService {
         if(!StringUtil.isNullOrEmpty(memberRegistDto.getNickname())){
             member.setNickname(memberRegistDto.getNickname());
         }
-        if(!Objects.isNull(memberRegistDto.getJob())){
-            member.setJob(memberRegistDto.getJob());
+        if(!Objects.isNull(memberRegistDto.getLifestyle())){
+            member.setLifestyle(memberRegistDto.getLifestyle());
         }
         if(!Objects.isNull(memberRegistDto.getCategories())){
             Optional<Location> location= locationService.findDongCodeByAddress(memberRegistDto.getAddr());

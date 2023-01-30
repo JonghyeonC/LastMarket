@@ -35,6 +35,9 @@ public class ProductReadDto {
 //    @JsonSerialize(using = LocalDateTimeSerializer.class)
 //    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private CategoryName category;
+
+    private Lifestyle lifestyle;
+
     private Long startingPrice;
     private Long instantPrice;
 
@@ -53,6 +56,7 @@ public class ProductReadDto {
         this.dealState = product.getDealState();
         this.liveTime = product.getLiveTime();
         this.category = product.getCategory().getCategoryName();
+        this.lifestyle = product.getLifestyle();
         this.favoriteCnt = product.getFavoriteCnt();
         this.startingPrice = product.getStartingPrice();
         this.instantPrice = product.getInstantPrice();

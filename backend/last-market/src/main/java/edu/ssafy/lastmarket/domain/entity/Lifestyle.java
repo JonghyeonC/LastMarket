@@ -1,5 +1,5 @@
 package edu.ssafy.lastmarket.domain.entity;
 
-public enum Job {
-    STUDENT,PROGRAMMER
+public enum Lifestyle {
+    MINIMAL, YOLO
 }

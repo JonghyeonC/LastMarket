@@ -2,6 +2,8 @@ package edu.ssafy.lastmarket.security;
 
 import com.google.gson.Gson;
 import edu.ssafy.lastmarket.domain.dto.MemberInfoDto;
+import edu.ssafy.lastmarket.domain.entity.Image;
+import edu.ssafy.lastmarket.domain.entity.Location;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.jwt.JwtManager;
 import edu.ssafy.lastmarket.repository.MemberRepository;
@@ -27,7 +29,6 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
     private final MemberRepository memberRepository;
     private final Gson gson;
-
     private final JwtManager jwtManager;
 
     @Override
@@ -43,17 +44,20 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 //        System.out.println("member username "+memberOptional.get().getUsername());
 
         Member member = memberOptional.get();
+
+        Location location = (member.getLocation()==null)?null : member.getLocation();
+        Image profile = (member.getProfile() == null)? null : member.getProfile();
 //        System.out.println(member.getLocation().toString());
 //        member.getProducts();
 
 
         MemberInfoDto memberInfoDto = new MemberInfoDto(member);
-        String shortToken = jwtManager.generateJwtToken(member);
-        String longToken = jwtManager.generateRefreshJwtToken(member);
+        String shortToken = jwtManager.generateJwtToken(member, location, profile);
+//        String longToken = jwtManager.generateRefreshJwtToken(member);
 //			System.out.println(token);
 
 //        System.out.println(memberOptional.get().getNickname());
-        if(memberInfoDto.getNickname().equals("")){
+        if(member.getNickname().equals("")){
             response.setStatus(201);
 
         }else{

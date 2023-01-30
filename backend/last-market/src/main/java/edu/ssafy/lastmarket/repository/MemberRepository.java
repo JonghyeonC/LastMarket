@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member,Long> {
-    @Query("select m from Member m join fetch m.location join fetch m.profile where m.username = :username")
+    @Query("select m from Member m left join fetch m.location left join fetch m.profile where m.username = :username")
     Optional<Member> findMemberFetchJoinByUsername(@Param("username")String username);
     Optional<Member> findByUsername(String username);
 }

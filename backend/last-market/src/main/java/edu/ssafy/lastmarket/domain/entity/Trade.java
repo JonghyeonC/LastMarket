@@ -13,4 +13,11 @@ public class Trade extends BaseEntity {
     private Member seller;
     @ManyToOne(fetch = FetchType.LAZY)
     private Member buyer;
+
+    public Trade(Product product, Member seller, Member buyer){
+        this.product = product;
+        this.seller = seller;
+        this.buyer = buyer;
+    }
+
 }

@@ -10,7 +10,7 @@ class LastMarketApplication:Application() {
     companion object{
         //전역변수를 통해 앱실행시 1번만 생성(singleton)
         lateinit var wRetrofit: Retrofit
-        var baseurl="https://d090430e-7192-49f0-8612-c0e6dbe175a9.mock.pstmn.io"//TODO: BASEURL나오면 입력해주기
+        var baseurl="https://c1d1e486-0a6a-449a-a1b5-d12ec8679d3b.mock.pstmn.io"//TODO: BASEURL나오면 입력해주기
     }
     override fun onCreate() {
         super.onCreate()
@@ -21,9 +21,9 @@ class LastMarketApplication:Application() {
             .build()
 
         // Kakao SDK 초기화
-        KakaoSdk.init(this, getString(R.string.kakao_native_key))
-
-        NaverIdLoginSDK.initialize(this, getString(R.string.client_id),getString(R.string.client_secret), getString(R.string.client_name))
+//        KakaoSdk.init(this, getString(R.string.kakao_native_key))
+//
+//        NaverIdLoginSDK.initialize(this, getString(R.string.client_id),getString(R.string.client_secret), getString(R.string.client_name))
 
     }
 }

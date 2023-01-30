@@ -20,7 +20,7 @@ public class TestUtils {
         Member member = Member.builder()
                 .id(1L)
                 .nickname("nick")
-                .job(Job.PROGRAMMER)
+                .lifestyle(Lifestyle.MINIMAL)
                 .username("asdf")
                 .build();
         return member;

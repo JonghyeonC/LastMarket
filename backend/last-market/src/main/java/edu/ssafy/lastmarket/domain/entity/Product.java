@@ -36,6 +36,8 @@ public class Product extends BaseEntity{
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime liveTime;
+    @Enumerated(EnumType.STRING)
+    private Lifestyle lifestyle;
     @OneToOne(fetch = FetchType.LAZY)
     private Category category;
     @ManyToOne(fetch = FetchType.LAZY)

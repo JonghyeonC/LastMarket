@@ -31,10 +31,15 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Page<ProductListDto> getProducts(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageabl) {
+    public Page<ProductListDto> getProducts(Optional<Location> locationOptional,
+                                            Optional<Category> categoryOptional,
+                                            DealState dealStateOptional,
+                                            Lifestyle lifestyleOptional,
+                                            Pageable pageabl) {
 
 
-        Page<Product> products = productRepository.getProductList(locationOptional, categoryOptional,dealState,pageabl);
+        Page<Product> products = productRepository.getProductList(locationOptional, categoryOptional,
+                dealStateOptional,lifestyleOptional,pageabl);
         PageImpl<ProductListDto> result= new PageImpl<>(
                 products.getContent().stream()
                         .map(product -> new ProductListDto(product,false))
@@ -116,9 +121,13 @@ public class ProductServiceImpl implements ProductService {
         if(!StringUtil.isNullOrEmpty(productDto.getContent())){
             product.setContent(productDto.getContent());
         }
+        if(productDto.getLifestyle()!=null){
+            product.setLifestyle(productDto.getLifestyle());
+        }
         if(!categoryOptional.isEmpty()){
             product.setCategory(categoryOptional.get());
         }
+
         if(productDto.getStartingPrice()!=0){
             product.setStartingPrice(productDto.getStartingPrice());
         }

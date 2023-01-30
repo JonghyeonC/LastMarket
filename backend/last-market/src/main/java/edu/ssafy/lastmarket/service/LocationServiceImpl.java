@@ -18,7 +18,7 @@ public class LocationServiceImpl implements LocationService {
     public Optional<Location> findDongCodeByAddress(String address) {
         String[] addressArgs = address.split(" ");
 
-        if (addressArgs.length > 3) {
+        if (addressArgs.length != 3) {
             throw new IllegalArgumentException("지역명 오류");
         }
 

@@ -1,7 +1,7 @@
 package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
-import edu.ssafy.lastmarket.domain.entity.Job;
+import edu.ssafy.lastmarket.domain.entity.Lifestyle;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -38,20 +38,20 @@ public class MemberServiceImplTest {
         Member member = Member.builder()
                 .id(1L)
                 .nickname("nick")
-                .job(Job.PROGRAMMER)
+                .lifestyle(Lifestyle.MINIMAL)
                 .username("asdf")
                 .build();
 
         MemberRegistDto memberRegistDto = MemberRegistDto.builder()
                 .nickname("nick2")
-                .job(Job.STUDENT)
+                .lifestyle(Lifestyle.YOLO)
                 .build();
 
         Member predict = Member.builder()
                 .id(1L)
                 .nickname("nick2")
                 .username("asdf")
-                .job(Job.STUDENT)
+                .lifestyle(Lifestyle.MINIMAL)
                 .build();
 
         Optional<Member> memberOptional = Optional.of(member);
@@ -67,7 +67,7 @@ public class MemberServiceImplTest {
 
 
         assertThat(predict.getNickname()).isEqualTo(result.getNickname());
-        assertThat(predict.getJob()).isEqualTo(result.getJob());
+        assertThat(predict.getLifestyle()).isEqualTo(result.getLifestyle());
     }
 
 

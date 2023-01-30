@@ -10,6 +10,7 @@ import edu.ssafy.lastmarket.domain.dto.ProductReadDto;
 import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.service.*;
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.patterns.HasMemberTypePatternForPerThisMatching;
@@ -40,7 +41,8 @@ public class ProductController {
     private final FavoriteService favoriteService;
     private final ProductService productService;
     private final LocationService locationService;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
+    private final EnumChechService enumChechService;
 
     @GetMapping("/product/{id}")
     public ResponseEntity<?> getOneById(@Login Member member, @PathVariable("id") Long id) {
@@ -65,20 +67,16 @@ public class ProductController {
                                             @RequestParam(name = "location", required = true) String locationString,
                                             @RequestParam(name = "category", required = true) String categoryNameString,
                                             @RequestParam(name = "dealState", required = true) DealState dealState,
+                                            @RequestParam(name = "lifestyle", required = true) Lifestyle lifestyle,
                                             Pageable pageable) {
 
-        Optional<Location> locationOptional = Optional.ofNullable(null);
-        Optional<Category> categoryOptional = Optional.ofNullable(null);
 
-
-        if (!categoryNameString.equals("")) {
-            CategoryName categoryName = CategoryName.valueOf(categoryNameString);
-            categoryOptional = categoryRepository.findByCategoryName(categoryName);
-        }
-        if (!locationString.equals("")) {
-            locationOptional = locationService.findDongCodeByAddress(locationString);
-        }
-        Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional, dealState, pageable);
+        Optional<Category> categoryOptional = categoryService.findByCategoryNameString(categoryNameString);
+        Optional<Location> locationOptional = locationService.findDongCodeByAddress(locationString);
+//        Optional<DealState> dealStateOptional = enumChechService.checkDealStateEnum(dealState);
+//        Optional<Lifestyle> lifestyleOptional = enumChechService.checkLifestyleEnum(lifestyle);
+        Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional,
+                dealState,lifestyle, pageable);
 
 
         return new ResponseEntity<>(products, HttpStatus.OK);
@@ -103,8 +101,7 @@ public class ProductController {
     public ResponseEntity<?> modifyProduct(@Login Member member,
                                            @RequestBody ProductDto productDto,
                                            @PathVariable("id") Long id) {
-        log.info("{}", productDto);
-        Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
+        Optional<Category> categoryOptional = categoryService.findByCategoryName(productDto.getCategory());
         productService.updateProduct(member,id,productDto, categoryOptional );
 
         return new ResponseEntity<>(HttpStatus.CREATED);

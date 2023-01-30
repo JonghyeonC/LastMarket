@@ -17,11 +17,17 @@ public interface ProductService {
      *
      * @param locationOptional
      * @param categoryOptional
-     * @param dealState
+     * @param dealStateOptional
+     * @param lifestyleOptional
      * @param pageabl
      * @return
      */
-    Page<ProductListDto> getProducts(Optional<Location> locationOptional, Optional<Category> categoryOptional, DealState dealState, Pageable pageabl);
+
+    Page<ProductListDto> getProducts(Optional<Location> locationOptional,
+                                     Optional<Category> categoryOptional,
+                                     DealState dealStateOptional,
+                                     Lifestyle lifestyleOptional,
+                                     Pageable pageabl);
     Optional<Product> read(Long id);
     ProductReadDto getDtoById(Long id, boolean isFavoriteChecked);
     Product save(ProductDto productDto, Member member);

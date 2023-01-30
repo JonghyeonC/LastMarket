@@ -1,5 +1,6 @@
 package edu.ssafy.lastmarket.repository;
 
+import com.mongodb.internal.operation.DeleteOperation;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -33,7 +34,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
     @Override
     public Page<Product> getProductList(Optional<Location> locationOptional,
                                         Optional<Category> categoryOptional,
-                                        DealState dealState,
+                                        DealState dealStateOptional,
+                                        Lifestyle lifestyleOptional,
                                         Pageable pageable) {
 
         List<OrderSpecifier> ORDERS = getAllOrderSpecifiers(pageable);
@@ -43,7 +45,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                 .where(
                         isLocation(locationOptional),
                         isCategory(categoryOptional),
-                        product.dealState.eq(dealState)
+                        product.dealState.eq(dealStateOptional),
+                        product.lifestyle.eq(lifestyleOptional)
+
                 )
                 .leftJoin(product.seller, member)
                 .fetchJoin()
@@ -54,6 +58,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                 .limit(pageable.getPageSize())
                 .fetch();
         PageImpl<Product> result = new PageImpl<>(productList,pageable, productList.size());
+
+        System.out.println(productList);
+//        System.out.println(locationOptional.get());
+//        System.out.println(categoryOptional.get());
+//        System.out.println(dealStateOptional.get());
+//        System.out.println(lifestyleOptional.get());
         return result;
 
     }
@@ -66,6 +76,27 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
 
     private BooleanExpression isCategory(Optional<Category> categoryOptional){
         return categoryOptional.isEmpty()?null: product.category.eq(categoryOptional.get());
+    }
+
+    private BooleanExpression isDealState(Optional<DealState> dealStateOptional){
+        if(dealStateOptional.isEmpty()){
+            return null;
+        }else{
+            DealState dealState = dealStateOptional.get();
+            return product.dealState.eq(dealState);
+        }
+
+//        return dealStateOptional.map(product.dealState::eq).orElse(null);
+    }
+
+    private BooleanExpression isLifestyle(Optional<Lifestyle> lifestyleOptional){
+        if(lifestyleOptional.isEmpty()){
+            return null;
+        }else{
+            Lifestyle lifestyle = lifestyleOptional.get();
+            return product.lifestyle.eq(lifestyle);
+        }
+//        return lifestyleOptional.map(product.lifestyle::eq).orElse(null);
     }
 
     private List<OrderSpecifier> getAllOrderSpecifiers(Pageable pageable) {

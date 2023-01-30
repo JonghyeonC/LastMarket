@@ -2,6 +2,7 @@ package edu.ssafy.lastmarket.domain.dto;
 
 import edu.ssafy.lastmarket.domain.entity.Category;
 import edu.ssafy.lastmarket.domain.entity.CategoryName;
+import edu.ssafy.lastmarket.domain.entity.Lifestyle;
 import edu.ssafy.lastmarket.domain.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class ProductDto {
     private String title;
     private String content;
+    private Lifestyle lifestyle;
     private CategoryName category;
     private LocalDateTime liveTime;
     private Long startingPrice;
@@ -31,6 +33,7 @@ public class ProductDto {
                  .liveTime(productDto.liveTime)
                  .startingPrice(productDto.startingPrice)
                  .instantPrice(productDto.instantPrice)
+                 .lifestyle(productDto.lifestyle)
                  .build();
     }
 

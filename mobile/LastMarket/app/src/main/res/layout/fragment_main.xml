@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/esamanru_light"
                 android:lineSpacingExtra="1sp"
-                android:text="이"
+                android:text="관련"
                 android:translationY="0.44sp" />
         </LinearLayout>
 
@@ -64,14 +64,15 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/esamanru_light"
             android:lineSpacingExtra="1sp"
-            android:text="취미라면"
+            android:text="인기 상품"
             android:translationY="0.44sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_category"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -133,7 +134,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_live"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -173,7 +175,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_new"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"

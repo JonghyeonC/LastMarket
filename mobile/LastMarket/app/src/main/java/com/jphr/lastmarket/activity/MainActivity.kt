@@ -179,7 +179,6 @@ class MainActivity : AppCompatActivity() {
             if(responseData!=null) {
                 if(issearch){
                     Log.d(TAG, "initData: ${responseData}")
-
                     var bundle= bundleOf()
                     bundle.putSerializable("products",responseData)
                     bundle.putString("word",word)
@@ -193,9 +192,7 @@ class MainActivity : AppCompatActivity() {
                     ProductListFragment.arguments=bundle
                     changeFragment(5)
                 }
-
             }
-
         }
 
         override fun onError(t: Throwable) {
@@ -207,5 +204,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
 
 }

@@ -66,15 +66,16 @@ public class ProductController {
     public ResponseEntity<?> getProductList(@Login Member member,
                                             @RequestParam(name = "location", required = true) String locationString,
                                             @RequestParam(name = "category", required = true) String categoryNameString,
-                                            @RequestParam(name = "dealState", required = true) DealState dealState,
-                                            @RequestParam(name = "lifestyle", required = true) Lifestyle lifestyle,
+                                            @RequestParam(name = "dealState", required = true) String dealStateString,
+                                            @RequestParam(name = "lifestyle", required = true) String lifestyleString,
                                             Pageable pageable) {
 
 
         Optional<Category> categoryOptional = categoryService.findByCategoryNameString(categoryNameString);
         Optional<Location> locationOptional = locationService.findDongCodeByAddress(locationString);
-//        Optional<DealState> dealStateOptional = enumChechService.checkDealStateEnum(dealState);
-//        Optional<Lifestyle> lifestyleOptional = enumChechService.checkLifestyleEnum(lifestyle);
+        DealState dealState= enumChechService.checkDealStateEnum(dealStateString);
+        Lifestyle lifestyle = enumChechService.checkLifestyleEnum(lifestyleString);
+
         Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional,
                 dealState,lifestyle, pageable);
 

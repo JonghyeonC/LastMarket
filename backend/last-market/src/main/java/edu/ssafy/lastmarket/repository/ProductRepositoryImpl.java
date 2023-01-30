@@ -45,9 +45,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                 .where(
                         isLocation(locationOptional),
                         isCategory(categoryOptional),
-                        product.dealState.eq(dealStateOptional),
-                        product.lifestyle.eq(lifestyleOptional)
-
+//                        product.dealState.eq(dealStateOptional),
+//                        product.lifestyle.eq(lifestyleOptional)
+                        isDealState(dealStateOptional),
+                        isLifestyle(lifestyleOptional)
                 )
                 .leftJoin(product.seller, member)
                 .fetchJoin()
@@ -78,25 +79,20 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
         return categoryOptional.isEmpty()?null: product.category.eq(categoryOptional.get());
     }
 
-    private BooleanExpression isDealState(Optional<DealState> dealStateOptional){
-        if(dealStateOptional.isEmpty()){
+    private BooleanExpression isDealState(DealState dealState){
+        if(dealState==null){
             return null;
         }else{
-            DealState dealState = dealStateOptional.get();
             return product.dealState.eq(dealState);
         }
-
-//        return dealStateOptional.map(product.dealState::eq).orElse(null);
     }
 
-    private BooleanExpression isLifestyle(Optional<Lifestyle> lifestyleOptional){
-        if(lifestyleOptional.isEmpty()){
+    private BooleanExpression isLifestyle(Lifestyle lifestyle){
+        if(lifestyle == null){
             return null;
         }else{
-            Lifestyle lifestyle = lifestyleOptional.get();
             return product.lifestyle.eq(lifestyle);
         }
-//        return lifestyleOptional.map(product.lifestyle::eq).orElse(null);
     }
 
     private List<OrderSpecifier> getAllOrderSpecifiers(Pageable pageable) {

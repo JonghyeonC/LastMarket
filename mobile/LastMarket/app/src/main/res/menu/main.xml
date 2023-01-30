@@ -4,15 +4,13 @@
     <item
         android:id="@+id/search"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_launcher_background"
-        android:iconTint="@color/black1"
+        android:icon="@drawable/search"
         android:title="search"/>
 
     <item
         android:id="@+id/chat"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_outline_chat_bubble_outline_24"
-        android:iconTint="@color/blue1"
         android:title="chat"/>
     <item
         android:id="@+id/mypage"

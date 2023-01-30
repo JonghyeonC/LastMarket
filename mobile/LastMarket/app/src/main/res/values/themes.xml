@@ -18,8 +18,7 @@
         <item name="android:checkboxStyle">@style/checkbox</item>
         <item name="android:textViewStyle">@style/text</item>
         <!--반투명 -->
-        <item name="android:windowTranslucentStatus">true</item>
-
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
 
     </style>
 

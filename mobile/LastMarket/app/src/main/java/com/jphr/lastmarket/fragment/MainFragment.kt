@@ -2,18 +2,24 @@ package com.jphr.lastmarket.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jphr.lastmarket.activity.LiveBuyActivity
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentMainBinding
+import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RecyclerViewDecoration
+import com.jphr.lastmarket.util.RetrofitCallback
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +40,11 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var productListAdapter:ProductListAdapter
     private lateinit var mainActivity: MainActivity
+    val PREFERENCES_NAME = "user_info"
 
+    private fun getPreferences(context: Context): SharedPreferences? {
+        return context.getSharedPreferences(PREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE)
+    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
@@ -54,43 +64,20 @@ class MainFragment : Fragment() {
         // Inflate the layout for this fragment
         binding=FragmentMainBinding.inflate(inflater,container,false)
 
+        var pref:SharedPreferences?= getPreferences(requireContext())
+        var city= pref?.getString("city","null")
+        var lifestyle= pref?.getString("lifestyle","null")
 
-        //취미별
-        productListAdapter= ProductListAdapter(mainActivity)
-        binding.recyclerviewCategory.apply {
-            productListAdapter.list=productDTO
-            var linearLayoutManager= LinearLayoutManager(context)
-            linearLayoutManager.orientation=LinearLayoutManager.VERTICAL
-            setLayoutManager(linearLayoutManager)
-            adapter=productListAdapter
-            addItemDecoration(RecyclerViewDecoration(60,0))
-        }
+
+        ProductService().getProductWithSort(null,lifestyle,city,"favoriteCnt","default","1",ProductSortCallback1(),false)
+        ProductService().getProductWithSort(null,lifestyle,city,"favoriteCnt","onbroadcast","1",ProductSortCallback2(),false)
+        ProductService().getProductWithSort(null,lifestyle,city,"desc","default","1",ProductSortCallback3(),false)
+
+
+
         binding.city.text=city
         binding.city2.text=city
         binding.city3.text=city
-
-
-        //라이브 중인것
-        productListAdapter= ProductListAdapter(mainActivity)
-        binding.recyclerviewCategory.apply {
-            productListAdapter.list=productDTO
-            var linearLayoutManager= LinearLayoutManager(context)
-            linearLayoutManager.orientation=LinearLayoutManager.VERTICAL
-            setLayoutManager(linearLayoutManager)
-            adapter=productListAdapter
-            addItemDecoration(RecyclerViewDecoration(60,0))
-        }
-
-        //새로운 것
-        productListAdapter= ProductListAdapter(mainActivity)
-        binding.recyclerviewCategory.apply {
-            productListAdapter.list=productDTO
-            var linearLayoutManager= LinearLayoutManager(context)
-            linearLayoutManager.orientation=LinearLayoutManager.VERTICAL
-            setLayoutManager(linearLayoutManager)
-            adapter=productListAdapter
-            addItemDecoration(RecyclerViewDecoration(60,0))
-        }
 
 
         binding.button.setOnClickListener{
@@ -119,5 +106,83 @@ class MainFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    inner class ProductSortCallback1: RetrofitCallback<ProductDTO> {
+        override fun onSuccess(code: Int, responseData: ProductDTO, issearch:Boolean, word:String?, category:String?) {
+            if(responseData!=null) {
+                //취미별
+                productListAdapter= ProductListAdapter(mainActivity)
+                binding.recyclerviewCategory.apply {
+                    productListAdapter.list=responseData
+                    var linearLayoutManager= LinearLayoutManager(context)
+                    linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
+                    setLayoutManager(linearLayoutManager)
+                    adapter=productListAdapter
+                    addItemDecoration(RecyclerViewDecoration(20,20))
+                }
+            }else Log.d(TAG, "onSuccess: data is null")
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+    }
+    inner class ProductSortCallback2: RetrofitCallback<ProductDTO> {
+        override fun onSuccess(code: Int, responseData: ProductDTO, issearch:Boolean, word:String?, category:String?) {
+            if(responseData!=null) {
+                //라이브 중인것
+                productListAdapter= ProductListAdapter(mainActivity)
+                binding.recyclerviewLive.apply {
+                    productListAdapter.list=responseData
+                    var linearLayoutManager= LinearLayoutManager(context)
+                    linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
+                    setLayoutManager(linearLayoutManager)
+                    adapter=productListAdapter
+                    addItemDecoration(RecyclerViewDecoration(20,20))
+                }
+            }else Log.d(TAG, "onSuccess: data is null")
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+
+    }
+    inner class ProductSortCallback3: RetrofitCallback<ProductDTO> {
+        override fun onSuccess(code: Int, responseData: ProductDTO, issearch:Boolean, word:String?, category:String?) {
+            if(responseData!=null) {
+                //새로운 것
+                productListAdapter= ProductListAdapter(mainActivity)
+                binding.recyclerviewNew.apply {
+                    productListAdapter.list=responseData
+                    var linearLayoutManager= LinearLayoutManager(context)
+                    linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
+                    layoutManager = linearLayoutManager
+                    adapter=productListAdapter
+                    addItemDecoration(RecyclerViewDecoration(20,20))
+                }
+
+            }else Log.d(TAG, "onSuccess: data is null")
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
     }
 }

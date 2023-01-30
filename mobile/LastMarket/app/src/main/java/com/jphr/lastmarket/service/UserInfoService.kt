@@ -1,12 +1,10 @@
 package com.jphr.lastmarket.service
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jphr.lastmarket.dto.CategoryDTO
-import com.jphr.lastmarket.dto.JobDTO
+import com.jphr.lastmarket.dto.LifeStyleDTO
 import com.jphr.lastmarket.dto.UserInfoDTO
-import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.util.RetrofitUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,17 +39,18 @@ class UserInfoService {
         return responseCategory
     }
 
-    fun getJob():MutableLiveData<MutableList<String>>{
+    fun getLifeStyle():MutableLiveData<MutableList<String>>{
 
-        var responseJob=MutableLiveData<MutableList<String>>()
-        val jobInterface: Call<JobDTO> = RetrofitUtil.UserInfoService.getJob()
+        var responseLifeStyle=MutableLiveData<MutableList<String>>()
+        val lifeStyleInterface: Call<LifeStyleDTO> = RetrofitUtil.UserInfoService.getLifeStyle()
 
-        jobInterface.enqueue(object : Callback<JobDTO> {
-            override fun onResponse(call: Call<JobDTO>, response: Response<JobDTO>) {
+        lifeStyleInterface.enqueue(object : Callback<LifeStyleDTO> {
+            override fun onResponse(call: Call<LifeStyleDTO>, response: Response<LifeStyleDTO>) {
                 val res = response.body()
                 if(response.code() == 200){
                     if (res != null) {
-                        responseJob.value=res.jobs
+                        Log.d(TAG, "onResponse: ${res}")
+                        responseLifeStyle.value=res.lifestyle
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {
@@ -59,12 +58,12 @@ class UserInfoService {
                 }
             }
 
-            override fun onFailure(call: Call<JobDTO>, t: Throwable) {
+            override fun onFailure(call: Call<LifeStyleDTO>, t: Throwable) {
                 Log.d(TAG, t.message ?: "오류")
             }
         })
 
-        return responseJob
+        return responseLifeStyle
     }
     fun insertUserInfo(userInfo:UserInfoDTO) {
         RetrofitUtil.UserInfoService.insertUserInfo(userInfo).enqueue(object : Callback<Unit> {

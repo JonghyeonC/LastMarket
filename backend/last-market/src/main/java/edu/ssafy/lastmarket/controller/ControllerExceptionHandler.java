@@ -112,4 +112,15 @@ public class ControllerExceptionHandler {
         result.put("msg", "missingServletRequestPartException");
         return new ResponseEntity<>(result, HttpStatus.valueOf(400));
     }
+
+
+    @ExceptionHandler(ProductSoldException.class)
+    public ResponseEntity<?> productSoldException(Exception e) {
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "productSoldException");
+        return new ResponseEntity<>(result, HttpStatus.valueOf(400));
+    }
+
 }

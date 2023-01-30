@@ -30,6 +30,7 @@ public class TradeController {
         Optional<Product> productOptional = productService.findProductMemberById(id);
         tradeService.saveTrade(productOptional.get(),productOptional.get().getSeller(),member);
         productService.sellProduct(productOptional.get());
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

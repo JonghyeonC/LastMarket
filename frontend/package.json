@@ -12,9 +12,11 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.2",
     "bootstrap": "^5.2.3",
+    "http-proxy-middleware": "^2.0.6",
     "openvidu-browser": "^2.25.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
+    "react-cropper": "^2.1.8",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
     "react-kakao-login": "^2.1.1",
@@ -23,7 +25,9 @@
     "react-scripts": "5.0.1",
     "socket.io-client": "^4.5.4",
     "styled-components": "^5.3.6",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

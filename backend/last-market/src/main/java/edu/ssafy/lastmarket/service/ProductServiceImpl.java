@@ -55,6 +55,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Optional<Product> findProductMemberById(Long id) {
+        return productRepository.findProductMemberById(id);
+    }
+
+    @Override
     public ProductReadDto getDtoById( Long id, boolean isFavoriteCehcked) {
         Optional<Product> productOptional = productRepository.findProductFetchJoinById(id);
         Product.isProductNull(productOptional);

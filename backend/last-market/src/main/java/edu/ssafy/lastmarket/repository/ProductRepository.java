@@ -6,10 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long>, ProductRepositoryCustom {
     @Query("select m from Product m join fetch m.location join fetch m.seller where m.id = :id")
     Optional<Product> findProductFetchJoinById(@Param("id")Long id);
+
+    @Query("select p from Product p join fetch p.seller where p.id = :id")
+    Optional<Product> findProductMemberById(@Param("id")Long id);
 
 }

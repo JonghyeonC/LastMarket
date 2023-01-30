@@ -33,13 +33,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductListDto> getProducts(Optional<Location> locationOptional,
                                             Optional<Category> categoryOptional,
-                                            DealState dealStateOptional,
-                                            Lifestyle lifestyleOptional,
+                                            DealState dealState,
+                                            Lifestyle lifestyle,
                                             Pageable pageabl) {
 
 
         Page<Product> products = productRepository.getProductList(locationOptional, categoryOptional,
-                dealStateOptional,lifestyleOptional,pageabl);
+                dealState,lifestyle,pageabl);
         PageImpl<ProductListDto> result= new PageImpl<>(
                 products.getContent().stream()
                         .map(product -> new ProductListDto(product,false))

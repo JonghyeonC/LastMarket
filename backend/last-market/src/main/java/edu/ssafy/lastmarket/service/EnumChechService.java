@@ -2,34 +2,36 @@ package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.domain.entity.DealState;
 import edu.ssafy.lastmarket.domain.entity.Lifestyle;
+import io.netty.util.internal.StringUtil;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
 public class EnumChechService {
-    public Optional<DealState> checkDealStateEnum(String dealStateString){
-        if(dealStateString==null){
-            dealStateString="";
+    public DealState checkDealStateEnum(String dealStateString){
+        if(StringUtil.isNullOrEmpty(dealStateString)){
+            return null;
         }
         try{
             DealState dealState = DealState.valueOf(dealStateString);
-            return  Optional.of(dealState);
+            return  dealState;
         }catch (IllegalArgumentException e){
-            return Optional.ofNullable(null);
+            return null;
         }
 
     }
 
-    public Optional<Lifestyle> checkLifestyleEnum(String lifestyleString){
-        if(lifestyleString==null){
-            lifestyleString="";
+    public Lifestyle checkLifestyleEnum(String lifestyleString){
+        if(StringUtil.isNullOrEmpty(lifestyleString)){
+            return null;
         }
         try{
-            Lifestyle result = Lifestyle.valueOf(lifestyleString);
-            return  Optional.of(result);
+            Lifestyle lifestyle = Lifestyle.valueOf(lifestyleString);
+            return  lifestyle;
         }catch (IllegalArgumentException e){
-            return Optional.ofNullable(null);
+            return null;
         }
+
 
     }
 

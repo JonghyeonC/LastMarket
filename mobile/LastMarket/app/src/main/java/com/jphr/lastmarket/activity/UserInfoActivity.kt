@@ -1,7 +1,6 @@
 package com.jphr.lastmarket.activity
 
 import android.Manifest
-import android.R.array
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -24,7 +23,6 @@ import com.google.android.gms.location.*
 import com.jphr.lastmarket.databinding.ActivityUserInfoBinding
 import com.jphr.lastmarket.dto.UserInfoDTO
 import com.jphr.lastmarket.service.UserInfoService
-import com.jphr.lastmarket.util.RetrofitCallback
 import java.io.IOException
 import java.util.*
 
@@ -32,16 +30,18 @@ import java.util.*
 private const val TAG = "UserInfoActivity"
 
 class UserInfoActivity : AppCompatActivity() {
+    val PREFERENCES_NAME = "user_info"
+
+
     lateinit var binding: ActivityUserInfoBinding
     lateinit var userName: String
-    lateinit var userJob: String
+    lateinit var userLifeStyle: String
     lateinit var userCategory: String
     lateinit var userAddress: String
-    lateinit var cityData:SharedPreferences
 
     val MY_PERMISSION_ACCESS_ALL = 100
     var categoryList = MutableLiveData<MutableList<String>>()
-    var jobList = MutableLiveData<MutableList<String>>()
+    var lifeStyleList = MutableLiveData<MutableList<String>>()
 
     private var mFusedLocationProviderClient: FusedLocationProviderClient? =
         null // 현재 위치를 가져오기 위한 변수
@@ -50,26 +50,30 @@ class UserInfoActivity : AppCompatActivity() {
     internal lateinit var mLocationRequest: LocationRequest // 위치 정보 요청의 매개변수를 저장하는
     private val REQUEST_PERMISSION_LOCATION = 10
 
+    private fun getPreferences(context: Context): SharedPreferences? {
+        return context.getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d(TAG, "onCreate: 시작------")
 
-        categoryList = UserInfoService().getCategory()
-        jobList = UserInfoService().getJob()
 
-        categoryList.observe(this, Observer {
-            binding.userCategory.adapter = ArrayAdapter(
-                this@UserInfoActivity,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                it
-            )
-            Log.d(TAG, "onCreate: $it")
+//        categoryList = UserInfoService().getCategory()
+        lifeStyleList = UserInfoService().getLifeStyle()
 
-        })
-        jobList.observe(this, Observer {
-            binding.userJob.adapter = ArrayAdapter(
+//        categoryList.observe(this, Observer {
+//            binding.userCategory.adapter = ArrayAdapter(
+//                this@UserInfoActivity,
+//                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+//                it
+//            )
+//            Log.d(TAG, "onCreate: $it")
+//
+//        })
+        lifeStyleList.observe(this, Observer {
+            binding.userLifeStyle.adapter = ArrayAdapter(
                 this@UserInfoActivity,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 it
@@ -105,13 +109,18 @@ class UserInfoActivity : AppCompatActivity() {
 
         binding.save.setOnClickListener {
             userName = binding.userName.text.toString()
-            userJob = binding.userJob.selectedItem as String
-            userCategory = binding.userCategory.selectedItem as String
+            userLifeStyle = binding.userLifeStyle.selectedItem as String
+//            userCategory = binding.userCategory.selectedItem as String
             userAddress= binding.address.text as String
-            var userinfo=UserInfoDTO(userAddress,userCategory,userJob,userName)
+            var userinfo=UserInfoDTO(userAddress,userLifeStyle,userName)
             Log.d(TAG, "onCreate: $userinfo")
-            var editor :SharedPreferences.Editor=cityData.edit()
-            editor.putString("city",userAddress)
+
+            var prefs=getPreferences(this)
+            var editor :SharedPreferences.Editor?=prefs?.edit()
+            editor?.putString("city",userAddress)
+//            editor?.putString("category",userCategory)
+            editor?.putString("lifestyle",userLifeStyle)
+            editor?.commit()
             UserInfoService().insertUserInfo(userinfo)
             var intent=Intent(this@UserInfoActivity, MainActivity::class.java)
             startActivity(intent)

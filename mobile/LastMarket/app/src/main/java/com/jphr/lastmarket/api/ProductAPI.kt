@@ -1,12 +1,8 @@
 package com.jphr.lastmarket.api
 
-import com.jphr.lastmarket.dto.JobDTO
 import com.jphr.lastmarket.dto.ProductDTO
-import com.jphr.lastmarket.dto.UserInfoDTO
 import retrofit2.Call
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ProductAPI {
@@ -16,6 +12,7 @@ interface ProductAPI {
 
     @GET("/products")
     fun getProductListWithSort(@Query("category") category:String?=null,
+                               @Query("lifestyle") lifestyle:String?=null,
                                @Query("location") location:String?=null,
                                @Query("sort") sort:String?=null,
                                @Query("dealState") dealState:String?=null,

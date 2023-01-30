@@ -35,8 +35,8 @@ class ProductService {
             }
         })
     }
-    fun getProductWithSort(category: String?,location: String?,sort: String?,dealState: String?,page: String?, callback: RetrofitCallback<ProductDTO>,issearch:Boolean){
-        val productInterface: Call<ProductDTO> = RetrofitUtil.ProductService.getProductListWithSort(category,location,sort,dealState,page)
+    fun getProductWithSort(category: String?,lifestyle:String?,location: String?,sort: String?,dealState: String?,page: String?, callback: RetrofitCallback<ProductDTO>,issearch:Boolean){
+        val productInterface: Call<ProductDTO> = RetrofitUtil.ProductService.getProductListWithSort(category, lifestyle,location,sort,dealState,page)
         productInterface.enqueue(object : Callback<ProductDTO> {
             override fun onResponse(call: Call<ProductDTO>, response: Response<ProductDTO>) {
                 val res = response.body()

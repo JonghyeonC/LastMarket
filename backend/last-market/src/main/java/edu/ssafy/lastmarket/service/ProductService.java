@@ -37,6 +37,7 @@ public interface ProductService {
 
     void updateProduct(Member member, Long productId, ProductDto productDto, Optional<Category> categoryOptional);
 
+    Product sellProduct(Product product);
 
     void delete(Member member, Long id);
 

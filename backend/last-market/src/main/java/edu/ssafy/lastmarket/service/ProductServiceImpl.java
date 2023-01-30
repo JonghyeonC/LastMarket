@@ -142,6 +142,13 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Override
+    @Transactional
+    public Product sellProduct(Product product) {
+        product.setDealState(DealState.FINISH);
+        return product;
+    }
+
 
     @Override
     @Transactional

@@ -39,6 +39,8 @@ class UserInfoActivity : AppCompatActivity() {
     lateinit var userCategory: String
     lateinit var userAddress: String
 
+    var display_address: String = ""
+
     val MY_PERMISSION_ACCESS_ALL = 100
     var categoryList = MutableLiveData<MutableList<String>>()
     var lifeStyleList = MutableLiveData<MutableList<String>>()
@@ -117,7 +119,7 @@ class UserInfoActivity : AppCompatActivity() {
 
             var prefs=getPreferences(this)
             var editor :SharedPreferences.Editor?=prefs?.edit()
-            editor?.putString("city",userAddress)
+            editor?.putString("city",display_address)
 //            editor?.putString("category",userCategory)
             editor?.putString("lifestyle",userLifeStyle)
             editor?.commit()
@@ -143,9 +145,11 @@ class UserInfoActivity : AppCompatActivity() {
                     var i = 0
                     var add: String = ""
                     for (i in 1 until 4) {
-                        add += arr[i];
+                        add += arr[i]+" ";
                         Log.d(TAG, "getAddress: ${arr[i]}")
                     }
+                    display_address=arr[3]
+                    Log.d(TAG, "getAddress: $display_address")
                     binding.address.let {
                         it.visibility = View.VISIBLE
                         it.text = add

@@ -119,7 +119,7 @@ class MainFragment : Fragment() {
                     linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
                     setLayoutManager(linearLayoutManager)
                     adapter=productListAdapter
-                    addItemDecoration(RecyclerViewDecoration(60,0))
+                    addItemDecoration(RecyclerViewDecoration(20,20))
                 }
             }else Log.d(TAG, "onSuccess: data is null")
         }
@@ -144,7 +144,7 @@ class MainFragment : Fragment() {
                     linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
                     setLayoutManager(linearLayoutManager)
                     adapter=productListAdapter
-                    addItemDecoration(RecyclerViewDecoration(60,0))
+                    addItemDecoration(RecyclerViewDecoration(20,20))
                 }
             }else Log.d(TAG, "onSuccess: data is null")
         }
@@ -168,9 +168,9 @@ class MainFragment : Fragment() {
                     productListAdapter.list=responseData
                     var linearLayoutManager= LinearLayoutManager(context)
                     linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
-                    setLayoutManager(linearLayoutManager)
+                    layoutManager = linearLayoutManager
                     adapter=productListAdapter
-                    addItemDecoration(RecyclerViewDecoration(60,0))
+                    addItemDecoration(RecyclerViewDecoration(20,20))
                 }
 
             }else Log.d(TAG, "onSuccess: data is null")

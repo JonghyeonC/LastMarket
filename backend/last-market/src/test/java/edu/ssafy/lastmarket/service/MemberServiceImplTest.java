@@ -51,7 +51,7 @@ public class MemberServiceImplTest {
                 .id(1L)
                 .nickname("nick2")
                 .username("asdf")
-                .lifestyle(Lifestyle.MINIMAL)
+                .lifestyle(Lifestyle.YOLO)
                 .build();
 
         Optional<Member> memberOptional = Optional.of(member);

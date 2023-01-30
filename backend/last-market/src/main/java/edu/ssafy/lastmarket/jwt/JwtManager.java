@@ -1,5 +1,7 @@
 package edu.ssafy.lastmarket.jwt;
 
+import edu.ssafy.lastmarket.domain.entity.Image;
+import edu.ssafy.lastmarket.domain.entity.Location;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +23,10 @@ public class JwtManager {
     private final Long shortTokeneExpiredTime = 1000 * 60 * 30L;
     private final Long longTokenExpiredTime = 1000 * 60 * 60 * 24 * 7L;
 
-    public String generateJwtToken(Member member) {
+    public String generateJwtToken(Member member, Location location, Image image) {
         Date now = new Date();
         return Jwts.builder().setSubject(member.getUsername()) // 보통 username
-                .setHeader(createHeader()).setClaims(createClaims(member)) // 클레임, 토큰에 포함될 정보
+                .setHeader(createHeader()).setClaims(createClaims(member, location, image)) // 클레임, 토큰에 포함될 정보
                 .setExpiration(new Date(now.getTime() + shortTokeneExpiredTime)) // 만료일
                 .signWith(SignatureAlgorithm.HS256, securityKey).compact();
     }
@@ -45,14 +47,14 @@ public class JwtManager {
         return header;
     }
 
-    private Map<String, Object> createClaims(Member member) {
+    private Map<String, Object> createClaims(Member member, Location location, Image image) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", member.getId());
-        claims.put("nickname",member.getNickname());
+        claims.put("nickname", member.getNickname());
         claims.put("username", member.getUsername());
-        claims.put("profile", member.getProfile().getImageURL());
-        claims.put("localtion", member.getLocation().toString());
-        claims.put("role",member.getRole());
+        claims.put("profile", (image == null) ? "" : image.getImageURL());
+        claims.put("localtion", (location == null) ? "" : location.toString());
+        claims.put("role", member.getRole());
 
         return claims;
     }
@@ -74,7 +76,7 @@ public class JwtManager {
 
     public int isRefreshToken(String token) {
 
-        if(!getClaims(token).containsKey("RefreshToken")) {
+        if (!getClaims(token).containsKey("RefreshToken")) {
 
             return -1;
         }
@@ -84,17 +86,20 @@ public class JwtManager {
     public String getUserIdFromToken(String token) {
         return (String) getClaims(token).get("id");
     }
+
     public String getNickFromToken(String token) {
         return (String) getClaims(token).get("nickname");
     }
+
     public String getRoleFromToken(String token) {
         return (String) getClaims(token).get("role");
     }
+
     public String getUsername(String token) {
         return (String) getClaims(token).get("username");
     }
 
-    public Boolean isVidate(String token){
+    public Boolean isVidate(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(securityKey).build().parseClaimsJws(token);
             return true;
@@ -110,7 +115,7 @@ public class JwtManager {
         return false;
     }
 
-    public Boolean isExpired(String token){
+    public Boolean isExpired(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(securityKey).build().parseClaimsJws(token);
             return true;
@@ -119,7 +124,6 @@ public class JwtManager {
         }
         return false;
     }
-
 
 
 }

@@ -65,10 +65,13 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         }else{
             response.setStatus(200);
         }
+        Cookie cookie = new Cookie("Authentication", shortToken);
+        cookie.setPath("/");
+
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.addCookie(new Cookie("Authentication", shortToken));
+        response.addCookie(cookie);
         response.getWriter().print(gson.toJson(memberInfoDto));
         response.addHeader("Authorization", shortToken);
 //        RequestDispatcher rd = request.getRequestDispatcher("/oauth/redirect");

@@ -65,6 +65,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -80,7 +81,7 @@
             android:text="이 물건에 담긴 라이프를 알려주세요" />
 
         <EditText
-            android:id="@+id/product_detail"
+            android:id="@+id/content"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="167dp" />
@@ -102,7 +103,6 @@
             >
 
             <AutoCompleteTextView
-                android:layout_gravity="center|left"
                 android:id="@+id/category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -207,7 +207,6 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/start_price"
                 style="?attr/textInputFilledStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -215,6 +214,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/startPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -231,12 +231,12 @@
             android:text="즉시 판매가" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/instant_price"
             style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/instantPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -285,6 +285,7 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

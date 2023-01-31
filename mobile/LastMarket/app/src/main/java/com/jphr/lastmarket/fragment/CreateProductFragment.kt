@@ -26,8 +26,11 @@ import com.jphr.lastmarket.adapter.MultiImageAdapter
 import com.jphr.lastmarket.databinding.FragmentCreateProductBinding
 import com.jphr.lastmarket.dto.CategoryDTO
 import com.jphr.lastmarket.dto.LifeStyleDTO
+import com.jphr.lastmarket.dto.ProductRegisterDTO
+import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.service.UserInfoService
 import com.jphr.lastmarket.util.RetrofitCallback
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -51,6 +54,16 @@ class CreateProductFragment : Fragment() {
     var categoryList = mutableListOf<String>()
     var lifeStyleList = mutableListOf<String>()
     var imageUriList= mutableListOf<Uri>()
+
+    var year=0
+    var month=0
+    var day=0
+    var hour=0
+    var min=0
+    var sec=0
+
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
@@ -164,6 +177,10 @@ class CreateProductFragment : Fragment() {
                 //버튼text를에 선택한 날짜로바꿔주기
                 binding.datePicker.text = "${calendar.get(Calendar.MONTH) + 1}/${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.YEAR)}"
 
+                year=calendar.get(Calendar.YEAR)
+                month=calendar.get(Calendar.MONTH)+1
+                day=calendar.get(Calendar.DAY_OF_MONTH)
+
             }
             datePicker.show(mainActivity.supportFragmentManager,datePicker.toString()) //datePicker를 보여주기
 
@@ -179,9 +196,51 @@ class CreateProductFragment : Fragment() {
 
             picker.addOnPositiveButtonClickListener {
                 binding.timePicker.text= picker.hour.toString() +" 시"+picker.minute.toString()+" 분"
+                hour=picker.hour
+                min=picker.minute
             }
             picker.show(mainActivity.supportFragmentManager,picker.toString())
         }
+
+        binding.save.setOnClickListener{
+
+
+
+//            if(binding.radioGroup.checkedRadioButtonId==R.id.live_true){
+//                //라이브 할 때
+//                if(liveTime==null||startingPrice==null){
+//                    Toast.makeText(requireContext(), "입력하지않은 항목이 있습니다.", Toast.LENGTH_LONG).show()
+//                }else {
+//                    var product=ProductRegisterDTO(category,content, instantPrice,lifeStyle, liveTime ,startingPrice,title)
+//                    ProductService().insertProduct(product)
+//                    mainActivity.changeFragment(1)
+//                }
+//            }else{
+//                var product=ProductRegisterDTO(category,content, instantPrice,lifeStyle, liveTime ,startingPrice,title)
+//                ProductService().insertProduct(product)
+//                mainActivity.changeFragment(1)
+//            }
+//
+
+            try {
+                var category=binding.category.text.toString()
+                var content=binding.content.text.toString()
+                var instantPrice=binding.instantPrice.text.toString()
+                var lifeStyle=binding.lifestyle.toString()
+                var liveTime=LocalDateTime.of(year,month,day,hour,min,sec).toString()
+                var startingPrice=binding.startPrice.text.toString()
+                var title=binding.title.text.toString()
+                var product=ProductRegisterDTO(category,content, instantPrice,lifeStyle, liveTime ,startingPrice,title)
+                ProductService().insertProduct(product)
+                mainActivity.changeFragment(1)
+
+            }catch (e:Exception){
+                Toast.makeText(requireContext(), "입력하지않은 항목이 있습니다.", Toast.LENGTH_LONG).show()
+
+            }
+        }
+
+
 
         return binding.root
     }

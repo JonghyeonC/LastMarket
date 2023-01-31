@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
 
         floatingActionButton.setOnClickListener {
-
+            changeFragment(6)
         }
 
 
@@ -176,6 +176,9 @@ class MainActivity : AppCompatActivity() {
             }
             5->{
                 transaction.replace(R.id.fragmentContainer,ProductListFragment).commit()
+            }
+            6->{
+                transaction.replace(R.id.fragmentContainer,CreateProductFragment()).commit()
             }
         }
     }

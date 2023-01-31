@@ -8,7 +8,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
-import java.util.Optional;
 
 @Slf4j
 @Component
@@ -16,6 +15,9 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("[{}] connection ", request.getRequestURI());
+        if (request.getCookies() == null) {
+            return true;
+        }
         Cookie authentication = Arrays.stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals("Authentication"))
                 .findFirst()

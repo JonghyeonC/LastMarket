@@ -6,6 +6,7 @@ import edu.ssafy.lastmarket.security.user.PrincipalOAuth2UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 
 
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final PrincipalOAuth2UserService principalOAuth2UserService;
 
@@ -35,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //            ObjectMapper omo = new ObjectMapper();
 //            System.out.println(omo.toString());
             String temp =parseJwt(request);
-
+            log.info("==================={}",temp);
 //            if(StringUtil.isNullOrEmpty(temp)){
 //                throw new NotAuthenticated();
 //            }
@@ -95,16 +97,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String parseJwt(HttpServletRequest request){
        String headerAuth=null;
-       headerAuth= request.getHeader("Authentication");
-       Cookie[] cookies = request.getCookies();
-       if(!StringUtil.isNullOrEmpty(headerAuth)){
-           for(int i=0;i<cookies.length;i++){
-               if(cookies[i].getName().equals("Authentication")){
-                   headerAuth = cookies[i].getValue();
-               }
-           }
-           return headerAuth;
-       }
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null){
+            for(int i=0;i<cookies.length;i++){
+                if(cookies[i].getName().equals("Authentication")){
+                    headerAuth = cookies[i].getValue();
+                    log.info("**************{}",headerAuth);
+                }
+            }
+            return headerAuth;
+        }
+        if(StringUtil.isNullOrEmpty(headerAuth)){
+            headerAuth= request.getHeader("Authentication");
+            log.info("************{}",headerAuth);
+            return headerAuth;
+        }
+
+
 
         return null;
     }

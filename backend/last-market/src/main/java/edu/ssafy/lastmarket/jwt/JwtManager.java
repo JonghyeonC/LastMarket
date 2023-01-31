@@ -25,6 +25,7 @@ public class JwtManager {
 
     public String generateJwtToken(Member member, Location location, Image image) {
         Date now = new Date();
+        log.info("now ============ {}", now.getTime());
         return Jwts.builder().setSubject(member.getUsername()) // 보통 username
                 .setHeader(createHeader()).setClaims(createClaims(member, location, image)) // 클레임, 토큰에 포함될 정보
                 .setExpiration(new Date(now.getTime() + shortTokeneExpiredTime)) // 만료일
@@ -66,7 +67,7 @@ public class JwtManager {
 
     public Claims getClaims(String token) {
 
-        return Jwts.parserBuilder().setSigningKey(securityKey).build().parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
 //        return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
     }
 
@@ -101,7 +102,7 @@ public class JwtManager {
 
     public Boolean isVidate(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(securityKey).build().parseClaimsJws(token);
+             Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);

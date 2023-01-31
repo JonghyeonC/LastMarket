@@ -1,26 +1,35 @@
 package com.jphr.lastmarket.fragment
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.MutableLiveData
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
+import com.jphr.lastmarket.adapter.MultiImageAdapter
 import com.jphr.lastmarket.databinding.FragmentCreateProductBinding
 import com.jphr.lastmarket.dto.CategoryDTO
 import com.jphr.lastmarket.dto.LifeStyleDTO
 import com.jphr.lastmarket.service.UserInfoService
 import com.jphr.lastmarket.util.RetrofitCallback
 import java.util.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,8 +50,7 @@ class CreateProductFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     var categoryList = mutableListOf<String>()
     var lifeStyleList = mutableListOf<String>()
-
-
+    var imageUriList= mutableListOf<Uri>()
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
@@ -64,7 +72,78 @@ class CreateProductFragment : Fragment() {
 
         UserInfoService().getCategory(CategoryCallback())
         UserInfoService().getLifeStyle(LifeStyleCallback())
+        binding.radioGroup.check(R.id.live_false)
+        binding.radioGroup.setOnCheckedChangeListener{group,checkedId->
+            when(checkedId){
+                R.id.live_true->{
+                    binding.startPriceLinear.visibility=View.VISIBLE
+                    binding.liveStartTimeLinear.visibility=View.VISIBLE
+                }
+                R.id.live_false->{
+                    binding.startPriceLinear.visibility=View.GONE
+                    binding.liveStartTimeLinear.visibility=View.GONE
+                }
+            }
 
+        }
+        var adapter: MultiImageAdapter
+        val launcher: ActivityResultLauncher<Intent> = registerForActivityResult(
+            StartActivityForResult()
+        ) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                if(data==null){
+                    Toast.makeText(requireContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_LONG).show()
+                }else{
+                    if(data.clipData==null){//하나만 선택
+                        var imageUri=data.data
+                        if (imageUri != null) {
+                            imageUriList.add(imageUri)
+                            adapter=MultiImageAdapter(mainActivity)
+                            Log.d(TAG, "onCreateView: ${imageUriList.size}")
+                            adapter.list=imageUriList
+                            binding.recyclerview.adapter=adapter
+                            var linearLayoutManager= LinearLayoutManager(context)
+                            linearLayoutManager.orientation= LinearLayoutManager.HORIZONTAL
+                            binding.recyclerview.setLayoutManager(linearLayoutManager)
+                        }
+                    }else {
+                        var clipData=data.clipData
+                        if(clipData?.itemCount!! >10){
+                            Toast.makeText(requireContext(), "사진은 10장까지 선택 가능합니다.", Toast.LENGTH_LONG).show();
+                        }else {
+
+                            for (i in 0 until clipData.itemCount) {
+                                val imageUri = clipData.getItemAt(i).uri // 선택한 이미지들의 uri를 가져온다.
+                                try {
+                                    imageUriList.add(imageUri) //uri를 list에 담는다.
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "File select error", e)
+                                }
+                            }
+                            Log.d(TAG, "onCreateView: ${imageUriList}")
+
+                            adapter=MultiImageAdapter(mainActivity)
+                            adapter.list=imageUriList
+                            binding.recyclerview.adapter=adapter
+                            var linearLayoutManager= LinearLayoutManager(context)
+                            linearLayoutManager.orientation= LinearLayoutManager.HORIZONTAL
+                            binding.recyclerview.setLayoutManager(linearLayoutManager)
+                        }
+                    }
+                }
+            }
+        }
+        binding.imageUpload.setOnClickListener {
+
+
+            var intent =Intent(Intent.ACTION_PICK)
+            intent.type = MediaStore.Images.Media.CONTENT_TYPE
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true)
+            intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            launcher.launch(intent)
+
+        }
 
 
         binding.datePicker.setOnClickListener {
@@ -129,7 +208,7 @@ class CreateProductFragment : Fragment() {
         override fun onSuccess(code: Int, responseData: CategoryDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
                 categoryList=responseData.categories
-                (binding.categoryField.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(lifeStyleList.toTypedArray())
+                (binding.categoryField.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(categoryList.toTypedArray())
                 binding.category.setText(categoryList[0],false)
 
             }

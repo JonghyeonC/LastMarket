@@ -29,6 +29,7 @@ public class OpenviduController {
     @PostConstruct
     public void init() {
         this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
+        log.info("[OPENVIDU] {}", openvidu.toString());
     }
 
     /**
@@ -39,7 +40,9 @@ public class OpenviduController {
     public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
             throws OpenViduJavaClientException, OpenViduHttpException {
         SessionProperties properties = SessionProperties.fromJson(params).build();
+        log.info("[OPENVIDU] properties={}", properties.toString());
         Session session = openvidu.createSession(properties);
+        log.info("[OPENVIDU] session={}", session.toString());
         return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
     }
 

@@ -82,9 +82,9 @@ function Signup() {
       <div className='nameWrap'>
         <p className="labelBox">회원님은 어디에 있나요?</p>
         <div className='signupbox'>
-          <div>{location[0]}</div>
-          <div>{location[1]}</div>
-          <div>{location[2]}</div>
+          <span>{location[0]} </span>
+          <span>{location[1]} </span>
+          <span>{location[2]}</span>
         </div>
       </div>
       <br />

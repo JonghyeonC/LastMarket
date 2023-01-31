@@ -1,10 +1,11 @@
-.InputForm {
+.FormInput {
   display: flex;
   flex-direction: column;
   width: 400px;
+  height: 600px;
 }
 
-.InputBox {
+.BoxInput {
   width: 400px;
   height: 48px;
 }
@@ -32,4 +33,10 @@
   display: flex;
   align-items: center;
   height: 48px;
+}
+
+.TimeInput {
+  display: flex;
+  height: 48px;
+  width: 400px;
 }

@@ -56,9 +56,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         MemberInfoDto memberInfoDto = new MemberInfoDto(member);
         String shortToken = jwtManager.generateJwtToken(member, location, profile);
 //        String longToken = jwtManager.generateRefreshJwtToken(member);
-//			System.out.println(token);
 
-//        System.out.println(memberOptional.get().getNickname());
         if(StringUtil.isNullOrEmpty(member.getNickname())){
             response.setStatus(201);
 

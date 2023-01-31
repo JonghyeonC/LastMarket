@@ -2,17 +2,24 @@ package com.jphr.lastmarket.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.MutableLiveData
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.databinding.FragmentCreateProductBinding
+import com.jphr.lastmarket.dto.CategoryDTO
+import com.jphr.lastmarket.dto.LifeStyleDTO
+import com.jphr.lastmarket.service.UserInfoService
+import com.jphr.lastmarket.util.RetrofitCallback
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,12 +32,15 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CreateProductFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+private const val TAG = "CreateProductFragment"
 class CreateProductFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     lateinit var binding:FragmentCreateProductBinding
     private lateinit var mainActivity: MainActivity
+    var categoryList = mutableListOf<String>()
+    var lifeStyleList = mutableListOf<String>()
 
 
     override fun onAttach(context: Context) {
@@ -51,6 +61,11 @@ class CreateProductFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding=FragmentCreateProductBinding.inflate(inflater,container,false)
+
+        UserInfoService().getCategory(CategoryCallback())
+        UserInfoService().getLifeStyle(LifeStyleCallback())
+
+
 
         binding.datePicker.setOnClickListener {
 
@@ -91,6 +106,48 @@ class CreateProductFragment : Fragment() {
 
         return binding.root
     }
+    inner class LifeStyleCallback: RetrofitCallback<LifeStyleDTO> {
+        override fun onSuccess(code: Int, responseData: LifeStyleDTO, issearch:Boolean, word:String?, category:String?) {
+            if(responseData!=null) {
+                lifeStyleList=responseData.lifestyle
+                (binding.lifestyleField.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(lifeStyleList.toTypedArray())
+                binding.lifestyle.setText(lifeStyleList[0],false)
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+    }
+
+    inner class CategoryCallback: RetrofitCallback<CategoryDTO> {
+        override fun onSuccess(code: Int, responseData: CategoryDTO, issearch:Boolean, word:String?, category:String?) {
+            if(responseData!=null) {
+                categoryList=responseData.categories
+                (binding.categoryField.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(lifeStyleList.toTypedArray())
+                binding.category.setText(categoryList[0],false)
+
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+    }
+
+
+
+
 
     companion object {
         /**

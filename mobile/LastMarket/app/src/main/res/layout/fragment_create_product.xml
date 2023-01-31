@@ -51,13 +51,19 @@
             android:fontFamily="@font/gmarket_sans_ttf_medium"
             android:text="상품명(게시글 제목)" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            style="?attr/textInputFilledStyle"
             android:id="@+id/product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="fsdasdf">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView17"
@@ -69,11 +75,12 @@
 
         <EditText
             android:id="@+id/product_detail"
+            style="?attr/textInputFilledStyle"
             android:layout_width="match_parent"
-            android:layout_height="167dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:layout_height="167dp"/>
+
+
+
 
         <TextView
             android:id="@+id/textView2"
@@ -84,11 +91,22 @@
             android:fontFamily="@font/gmarket_sans_ttf_medium"
             android:text="카테고리" />
 
-        <Spinner
-            android:id="@+id/category"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/category_field"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="dddd">
 
+            <AutoCompleteTextView
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:id="@+id/textView3"
             style="@style/product_create"
@@ -98,10 +116,21 @@
             android:fontFamily="@font/gmarket_sans_ttf_medium"
             android:text="라이프 스타일" />
 
-        <Spinner
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lifestyle_field"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="dddd">
+
+        <AutoCompleteTextView
             android:id="@+id/lifestyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="none"
+
+            />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

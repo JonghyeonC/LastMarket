@@ -1,5 +1,6 @@
 package edu.ssafy.lastmarket.security;
 
+import antlr.StringUtils;
 import com.google.gson.Gson;
 import edu.ssafy.lastmarket.domain.dto.MemberInfoDto;
 import edu.ssafy.lastmarket.domain.entity.Image;
@@ -8,6 +9,7 @@ import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.jwt.JwtManager;
 import edu.ssafy.lastmarket.repository.MemberRepository;
 import edu.ssafy.lastmarket.security.user.OAuth2UserImpl;
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -57,7 +59,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 //			System.out.println(token);
 
 //        System.out.println(memberOptional.get().getNickname());
-        if(member.getNickname().equals("")){
+        if(StringUtil.isNullOrEmpty(member.getNickname())){
             response.setStatus(201);
 
         }else{

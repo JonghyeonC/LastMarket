@@ -13,10 +13,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.SortedMap;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,6 +30,17 @@ public class SecurityConfig {
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final PrincipalOAuth2UserService principalOauth2UserService;
     private final JwtManager jwtManager;
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**",corsConfiguration);
+        return  source;
+
+    }
 
 
 
@@ -50,6 +66,7 @@ public class SecurityConfig {
         http.oauth2Login()
 //                .loginPage("/login")
 //                .defaultSuccessUrl("/")
+
                 .userInfoEndpoint() // 필수
                 .userService(principalOauth2UserService)
                 .and().

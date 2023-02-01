@@ -42,11 +42,9 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         String shortToken = jwtManager.generateJwtToken(member, location, profile);
 
         if (StringUtil.isNullOrEmpty(member.getNickname())) {
-            response.setStatus(302);
-            response.setHeader("Location","/signup");
+            response.setStatus(201);
         } else {
-            response.setStatus(302);
-            response.setHeader("Location","/");
+            response.setStatus(200);
         }
         Cookie cookie = new Cookie("Authentication", shortToken);
         cookie.setPath("/");

@@ -7,6 +7,8 @@ import com.jphr.lastmarket.dto.UserInfoDTO
 import com.jphr.lastmarket.fragment.SearchFragment
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.util.RetrofitUtil
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,26 +60,26 @@ class ProductService {
             }
         })
     }
-
-    fun insertProduct(product: ProductRegisterDTO) {
-        RetrofitUtil.ProductService.insertProduct(product).enqueue(object : Callback<ProductRegisterDTO> {
-            override fun onResponse(call: Call<ProductRegisterDTO>, response: Response<ProductRegisterDTO>) {
+//멀티파트(참고) : https://velog.io/@dldmswo1209/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C%EC%97%90%EC%84%9C-%EC%84%9C%EB%B2%84%EB%A1%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%A0%84%EC%86%A1%ED%95%98%EA%B8%B0
+    fun insertProduct(product: RequestBody,images: MutableList<MultipartBody.Part>) {
+        RetrofitUtil.ProductService.insertProduct(product,images).enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
                 val res = response.body()
                 Log.d(TAG, "onResponse: ${res}")
                 if (response.isSuccessful) {
                     if (res != null) {
-                        Log.d(TAG, "onResponse: ${response.code()}")
+                        Log.d(TAG, "onResponse insert: ${response.code()}")
                         true
                     }
                 } else {
-                    Log.d(TAG, "onResponse:false ")
-                    Log.d(TAG, "onResponse: ${response.code()}")
+                    Log.d(TAG, "onResponseinsert:false :${response.code()} ")
+                    Log.d(TAG, "onResponseinsert: ${response.code()}")
 
                     false
                 }
             }
-            override fun onFailure(call: Call<ProductRegisterDTO>, t: Throwable) {
-                Log.d(TAG, "onResponse:false ")
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d(TAG, "onResponseinsert:false ${t.message}")
 
             }
         })

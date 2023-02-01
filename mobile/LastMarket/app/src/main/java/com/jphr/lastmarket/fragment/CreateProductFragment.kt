@@ -1,8 +1,11 @@
 package com.jphr.lastmarket.fragment
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,8 +17,10 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -30,6 +35,10 @@ import com.jphr.lastmarket.dto.ProductRegisterDTO
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.service.UserInfoService
 import com.jphr.lastmarket.util.RetrofitCallback
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import java.time.LocalDateTime
 import java.util.*
 
@@ -49,11 +58,20 @@ class CreateProductFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private val REQUEST_EXTERNAL_STORAGE = 1
+    private val PERMISSIONS_STORAGE = arrayOf<String>(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
+
+
     lateinit var binding:FragmentCreateProductBinding
     private lateinit var mainActivity: MainActivity
     var categoryList = mutableListOf<String>()
     var lifeStyleList = mutableListOf<String>()
     var imageUriList= mutableListOf<Uri>()
+    var imageMultipartList= mutableListOf<MultipartBody.Part>()
 
     var year=0
     var month=0
@@ -83,6 +101,8 @@ class CreateProductFragment : Fragment() {
         // Inflate the layout for this fragment
         binding=FragmentCreateProductBinding.inflate(inflater,container,false)
 
+        verifyStoragePermissions(requireActivity())     //권한
+
         UserInfoService().getCategory(CategoryCallback())
         UserInfoService().getLifeStyle(LifeStyleCallback())
         binding.radioGroup.check(R.id.live_false)
@@ -99,6 +119,7 @@ class CreateProductFragment : Fragment() {
             }
 
         }
+
         var adapter: MultiImageAdapter
         val launcher: ActivityResultLauncher<Intent> = registerForActivityResult(
             StartActivityForResult()
@@ -111,7 +132,14 @@ class CreateProductFragment : Fragment() {
                     if(data.clipData==null){//하나만 선택
                         var imageUri=data.data
                         if (imageUri != null) {
+                            val file = File(absolutelyPath(imageUri,requireContext()))  //절대경로로 바꿈
+                            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                            val body= MultipartBody.Part.createFormData("profile",file.name,requestFile)
+
+                            imageMultipartList.add(body)
                             imageUriList.add(imageUri)
+
+
                             adapter=MultiImageAdapter(mainActivity)
                             Log.d(TAG, "onCreateView: ${imageUriList.size}")
                             adapter.list=imageUriList
@@ -119,6 +147,7 @@ class CreateProductFragment : Fragment() {
                             var linearLayoutManager= LinearLayoutManager(context)
                             linearLayoutManager.orientation= LinearLayoutManager.HORIZONTAL
                             binding.recyclerview.setLayoutManager(linearLayoutManager)
+
                         }
                     }else {
                         var clipData=data.clipData
@@ -128,8 +157,13 @@ class CreateProductFragment : Fragment() {
 
                             for (i in 0 until clipData.itemCount) {
                                 val imageUri = clipData.getItemAt(i).uri // 선택한 이미지들의 uri를 가져온다.
+                                val file = File(absolutelyPath(imageUri,requireContext()))  //절대경로로 바꿈
+                                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                                val body= MultipartBody.Part.createFormData("profile",file.name,requestFile)
+
                                 try {
                                     imageUriList.add(imageUri) //uri를 list에 담는다.
+                                    imageMultipartList.add(body)        //멀티파트 리스트에 담는다.
                                 } catch (e: Exception) {
                                     Log.e(TAG, "File select error", e)
                                 }
@@ -147,6 +181,9 @@ class CreateProductFragment : Fragment() {
                 }
             }
         }
+
+
+
         binding.imageUpload.setOnClickListener {
 
 
@@ -164,7 +201,7 @@ class CreateProductFragment : Fragment() {
             val builder = MaterialDatePicker.Builder.datePicker() //datePicker를 만들어줍니다.
                 .setTitleText("라이브 날짜 선택") //DatePicker창에 타이틀을 정해줍니다.
                 .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT) //첫번째 목표 이미지처럼 캘린더를 숨기고싶을때 활성화 하시면됩니다.
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())//기본 선택값을정하는곳이고 오늘로 설정했습니다.
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())//기본 선택을정하는곳이고 오늘로 설정했습니다.
 
             val datePicker = builder.build()
 
@@ -205,45 +242,88 @@ class CreateProductFragment : Fragment() {
         binding.save.setOnClickListener{
 
 
+                if (binding.radioGroup.checkedRadioButtonId == R.id.live_true) {
+                    //라이브 할 때
+                    var category=binding.category.text.toString()
+                    var content=binding.content.text.toString()
+                    var instantPrice=binding.instantPrice.text.toString()
+                    var lifeStyle=binding.lifestyle.toString()
+                    var liveTime=LocalDateTime.of(year,month,day,hour,min,sec).toString()
+                    var startingPrice=binding.startPrice.text.toString()
+                    var title=binding.title.text.toString()
 
-//            if(binding.radioGroup.checkedRadioButtonId==R.id.live_true){
-//                //라이브 할 때
-//                if(liveTime==null||startingPrice==null){
-//                    Toast.makeText(requireContext(), "입력하지않은 항목이 있습니다.", Toast.LENGTH_LONG).show()
-//                }else {
-//                    var product=ProductRegisterDTO(category,content, instantPrice,lifeStyle, liveTime ,startingPrice,title)
-//                    ProductService().insertProduct(product)
-//                    mainActivity.changeFragment(1)
-//                }
-//            }else{
+                    try{
+                        var product = ProductRegisterDTO(
+                            category,
+                            content,
+                            instantPrice,
+                            lifeStyle,
+                            liveTime,
+                            startingPrice,
+                            title
+                        )
+                        var mapper:ObjectMapper= ObjectMapper()
+                        var jsonString=mapper.writeValueAsString(product)
+                        var jsonBody=RequestBody.create("application/json".toMediaTypeOrNull(),jsonString)
+                        ProductService().insertProduct(jsonBody,imageMultipartList)
+                        mainActivity.changeFragment(1)
+                    }catch (e:Exception){
+                        Toast.makeText(requireContext(), "입력하지 않은 항목이 있습니다", Toast.LENGTH_LONG).show()
+                    }
+
+                } else {//라이브 안할 때
+                    var category=binding.category.text.toString()
+                    var content=binding.content.text.toString()
+                    var instantPrice=binding.instantPrice.text.toString()
+                    var lifeStyle=binding.lifestyle.toString()
+                    var title=binding.title.text.toString()
+
+
+                    try{
+                        var product = ProductRegisterDTO(
+                            category,
+                            content,
+                            instantPrice,
+                            lifeStyle,
+                            "",
+                            "",
+                            title
+                        )
+                        var mapper:ObjectMapper= ObjectMapper()
+                        var jsonString=mapper.writeValueAsString(product)
+                        var jsonBody=RequestBody.create("application/json".toMediaTypeOrNull(),jsonString)
+                        ProductService().insertProduct(jsonBody,imageMultipartList)
+                        mainActivity.changeFragment(1)
+                    }catch (e:Exception){
+                        Log.d(TAG, "onCreateView: $e")
+                        Toast.makeText(requireContext(), "입력하지 않은 항목이 있습니다", Toast.LENGTH_LONG).show()
+                    }
+
+
+                }
 //                var product=ProductRegisterDTO(category,content, instantPrice,lifeStyle, liveTime ,startingPrice,title)
-//                ProductService().insertProduct(product)
+//                ProductService().insertProduct(product,imageMultipartList)
 //                mainActivity.changeFragment(1)
-//            }
-//
 
-            try {
-                var category=binding.category.text.toString()
-                var content=binding.content.text.toString()
-                var instantPrice=binding.instantPrice.text.toString()
-                var lifeStyle=binding.lifestyle.toString()
-                var liveTime=LocalDateTime.of(year,month,day,hour,min,sec).toString()
-                var startingPrice=binding.startPrice.text.toString()
-                var title=binding.title.text.toString()
-                var product=ProductRegisterDTO(category,content, instantPrice,lifeStyle, liveTime ,startingPrice,title)
-                ProductService().insertProduct(product)
-                mainActivity.changeFragment(1)
 
-            }catch (e:Exception){
-                Toast.makeText(requireContext(), "입력하지않은 항목이 있습니다.", Toast.LENGTH_LONG).show()
-
-            }
         }
 
 
 
         return binding.root
     }
+    // 절대경로 변환
+    fun absolutelyPath(path: Uri?, context : Context): String {
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
+        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
+
+        var result = c?.getString(index!!)
+
+        return result!!
+    }
+
     inner class LifeStyleCallback: RetrofitCallback<LifeStyleDTO> {
         override fun onSuccess(code: Int, responseData: LifeStyleDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
@@ -284,7 +364,21 @@ class CreateProductFragment : Fragment() {
     }
 
 
-
+    fun verifyStoragePermissions(activity: Activity?) {
+        // Check if we have write permission
+        val permission = ActivityCompat.checkSelfPermission(
+            activity!!,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                activity,
+                PERMISSIONS_STORAGE,
+                REQUEST_EXTERNAL_STORAGE
+            )
+        }
+    }
 
 
     companion object {

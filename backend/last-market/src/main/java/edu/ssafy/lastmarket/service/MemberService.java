@@ -1,5 +1,6 @@
 package edu.ssafy.lastmarket.service;
 
+import edu.ssafy.lastmarket.domain.dto.MemberInfoDto;
 import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
 import edu.ssafy.lastmarket.domain.entity.Image;
 import edu.ssafy.lastmarket.domain.entity.Member;
@@ -12,4 +13,5 @@ public interface MemberService {
 
     Member updateProfile(Optional<Image> imageOptional, Member member);
 
+    MemberInfoDto getMemberInfo(Member member);
 }

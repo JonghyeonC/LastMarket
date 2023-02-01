@@ -123,4 +123,12 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(result, HttpStatus.valueOf(400));
     }
 
+    @ExceptionHandler(NoChatRoomException.class)
+    public ResponseEntity<?> noChatRoomException(Exception e) {
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "noChatRoomException");
+        return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+    }
 }

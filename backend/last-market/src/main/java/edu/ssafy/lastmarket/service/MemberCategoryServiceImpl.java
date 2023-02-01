@@ -9,6 +9,7 @@ import edu.ssafy.lastmarket.repository.MemberCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ public class MemberCategoryServiceImpl implements MemberCategoryService {
     private final MemberCategoryRepository memberCategoryRepository;
     private final CategoryRepository categoryRepository;
     @Override
+    @Transactional
     public List<MemberCategory> save(List<CategoryName> categoryNames, Member member) {
 
 

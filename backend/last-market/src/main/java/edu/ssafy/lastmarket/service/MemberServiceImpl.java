@@ -43,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public Member updateProfile(Optional<Image> imageOptional, Member member) {
         imageOptional.ifPresent(member::setProfile);
 

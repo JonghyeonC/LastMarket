@@ -47,6 +47,7 @@ public class ProductImageServiceImpl implements ProductImageService{
     }
 
     @Override
+    @Transactional
     public void delete(List<ProductImage> productImages) {
         productImageRepository.deleteAll(productImages);
     }

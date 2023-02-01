@@ -9,9 +9,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jphr.lastmarket.activity.LiveBuyActivity
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
@@ -20,6 +24,7 @@ import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
+import com.jphr.lastmarket.viewmodel.MainViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,7 +45,12 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var productListAdapter:ProductListAdapter
     private lateinit var mainActivity: MainActivity
+    private val mainViewModel by activityViewModels<MainViewModel>()
+
     val PREFERENCES_NAME = "user_info"
+    var productList1 : ProductDTO? =null
+    var productList2 : ProductDTO? =null
+    var productList3 : ProductDTO? =null
 
     private fun getPreferences(context: Context): SharedPreferences? {
         return context.getSharedPreferences(PREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE)
@@ -51,6 +61,7 @@ class MainFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initAdapter()
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -113,7 +124,8 @@ class MainFragment : Fragment() {
         override fun onSuccess(code: Int, responseData: ProductDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
                 //취미별
-                productListAdapter= ProductListAdapter(mainActivity)
+                productList1=responseData
+
                 binding.recyclerviewCategory.apply {
                     productListAdapter.list=responseData
                     var linearLayoutManager= LinearLayoutManager(context)
@@ -138,7 +150,8 @@ class MainFragment : Fragment() {
         override fun onSuccess(code: Int, responseData: ProductDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
                 //라이브 중인것
-                productListAdapter= ProductListAdapter(mainActivity)
+                productList2=responseData
+
                 binding.recyclerviewLive.apply {
                     productListAdapter.list=responseData
                     var linearLayoutManager= LinearLayoutManager(context)
@@ -164,7 +177,8 @@ class MainFragment : Fragment() {
         override fun onSuccess(code: Int, responseData: ProductDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
                 //새로운 것
-                productListAdapter= ProductListAdapter(mainActivity)
+                productList3=responseData
+
                 binding.recyclerviewNew.apply {
                     productListAdapter.list=responseData
                     var linearLayoutManager= LinearLayoutManager(context)
@@ -184,6 +198,21 @@ class MainFragment : Fragment() {
         override fun onFailure(code: Int) {
             Log.d(TAG, "onResponse: Error Code $code")
         }
+
+    }
+
+    fun initAdapter() {
+        productListAdapter= ProductListAdapter(mainActivity)
+
+
+        //메인화면에서 최근 목록 클릭시 장바구니로 이동
+        productListAdapter.setItemClickListener(object : ProductListAdapter.ItemClickListener{
+            override fun onClick(view: View, position: Int) {
+                productListAdapter.list?.products?.get(position)
+                    ?.let { mainViewModel.setProductDetailCategory(it) }
+                mainActivity!!.changeFragment(7)
+            }
+        })
 
     }
 }

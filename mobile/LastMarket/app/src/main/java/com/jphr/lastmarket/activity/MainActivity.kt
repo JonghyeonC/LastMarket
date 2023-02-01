@@ -171,6 +171,10 @@ class MainActivity : AppCompatActivity() {
             6->{
                 transaction.replace(R.id.fragmentContainer,CreateProductFragment()).commit()
             }
+            7->{
+                transaction.replace(R.id.fragmentContainer,DetailFragment()).commit()
+
+            }
         }
     }
 

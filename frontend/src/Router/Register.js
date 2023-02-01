@@ -5,8 +5,8 @@ import './Routercss.css'
 
 function Register() {
 
-  const [inputData, setInputData] = useState('')
-  const [imageUrls, setImageUrls] = useState('')
+  const [inputData, setInputData] = useState([])
+  const [imageUrls, setImageUrls] = useState([])
 
   console.log(inputData)
   return (

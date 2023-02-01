@@ -56,8 +56,8 @@ function Signup() {
     )
     .then(res=>{
         setLocation(res.data.documents[0].address.address_name)
-        dispatch(changeRegion(res.data.documents[0].address.region_1depth_name))
-        dispatch(changeCity(res.data.documents[0].address.region_2depth_name)) 
+        // dispatch(changeRegion(res.data.documents[0].address.region_1depth_name))
+        // dispatch(changeCity(res.data.documents[0].address.region_2depth_name)) 
     }
     ).catch(e=>console.log(e))
     }

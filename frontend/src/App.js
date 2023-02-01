@@ -10,8 +10,7 @@ import Search from './Router/Search'
 import Chat from './Router/Chat'
 import Login from './Login/Login'
 import Navbar from './Navbar'
-import OnlineMeeting from './OnlineMeeting'
-import KakaoAuthHandler from './Login/KakaoAuthHandler'
+import OnlineMeeting from './Router/OnlineMeeting'
 import Signup from './Router/Signup'
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 
@@ -55,10 +54,6 @@ function App() {
         
         <Route path="/login" element={
           <Login />
-        } />
-
-        <Route path="/oauth" element={
-          <KakaoAuthHandler />
         } />
 
         <Route path="/signup" element={

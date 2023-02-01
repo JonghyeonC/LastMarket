@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa"
 import { useState } from 'react'
 
 
-function Dropbox_cate({SetCate}) {
+function Dropbox_cate({ SetCate }) {
 
   const [value, SetValue] = useState('')
 
@@ -24,9 +24,9 @@ function Dropbox_cate({SetCate}) {
             {/* {arr.function.map((el, idx) => {
               <li onClick={el}>{arr.label[idx]}</li>
             })} */}
-            <li onClick={() => {SetCate(1), SetValue(1)}}>1</li>
-            <li onClick={() => {SetCate(2), SetValue(2)}}>2</li>
-            <li onClick={(event) => {event.stopPropagation(); SetCate(3), SetValue(3)}}>3</li>
+            <li onClick={() => {SetCate(1); SetValue(1)}}>1</li>
+            <li onClick={() => {SetCate(2); SetValue(2)}}>2</li>
+            <li onClick={(event) => {event.stopPropagation(); SetCate(3); SetValue(3)}}>3</li>
           </ul>
         </div>
       </div>

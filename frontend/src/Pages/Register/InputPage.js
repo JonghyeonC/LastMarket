@@ -24,15 +24,7 @@ function InputPage({setInputData}) {
   //   setStartDate(null)
   // }
 
-  // if (name && content && price && cate && life){
-  //   setInputData({
-  //     name,
-  //     content,
-  //     price,
-  //     cate,
-  //     life
-  //   })
-  // } else if (name && content && price && cate && life && bid && startDate) {
+  // if (name && content && price && cate && life && bid && startDate) {
   //   setInputData({
   //     name,
   //     content,
@@ -41,6 +33,14 @@ function InputPage({setInputData}) {
   //     life,
   //     bid,
   //     startDate
+  //   })
+  // } else if (name && content && price && cate && life) {
+  //   setInputData({
+  //     name,
+  //     content,
+  //     price,
+  //     cate,
+  //     life,
   //   })
   // }
 
@@ -60,7 +60,7 @@ function InputPage({setInputData}) {
   // console.log(bid)
   // console.log(cate)
   // console.log(life)
-  console.log(startDate)
+  // console.log(startDate)
 
   
   return (

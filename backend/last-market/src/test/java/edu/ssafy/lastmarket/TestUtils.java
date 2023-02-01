@@ -20,8 +20,10 @@ public class TestUtils {
         Member member = Member.builder()
                 .id(1L)
                 .nickname("nick")
+                .profile(new Image("imageName","imageURL"))
                 .lifestyle(Lifestyle.MINIMAL)
                 .username("asdf")
+                .location(getLocation())
                 .build();
         return member;
     }
@@ -77,7 +79,7 @@ public class TestUtils {
         product.setId(1L);
         product.setTitle("title");
         product.setContent("content");
-        product.setLocation(getLocatino());
+        product.setLocation(getLocation());
         product.setDealState(DealState.DEFAULT);
         product.setLiveTime(LocalDateTime.now());
         product.setSeller(getMember());
@@ -92,7 +94,7 @@ public class TestUtils {
         return new Favorite(1L, getMember(), getProduct());
     }
 
-    public static Location getLocatino() {
+    public static Location getLocation() {
         return new Location("1111010300", "서울특별시", "종로구", "궁정동");
 
     }

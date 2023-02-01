@@ -15,13 +15,13 @@ import LiveChat from "./Chat"
 
 
 // 로컬 미디어 서버 주소
-const OPENVIDU_SERVER_URL = "localhost:4443";
+const OPENVIDU_SERVER_URL = "https://i8d206.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 const Container = styled.div`
   height: 100vh;
   width: 100%;
-  background-color: #202124;
+  background-color: #202124; // 바탕화면 색
 `;
 
 const Header = styled.div`
@@ -75,11 +75,11 @@ const VideoContainer = styled.div`
   height: 77vh;
   overflow: hidden;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 `;
 
 const StreamContainerWrapper = styled.div`
-  display: grid;
+  // display: grid;
   place-items: center;
   ${(props) =>
     props.primary
@@ -520,6 +520,7 @@ class OnlineMeeting extends Component {
                 `OPENVIDUAPP:${OPENVIDU_SERVER_SECRET}`
               )}`,
               "Content-Type": "application/json",
+              "Authentication": "eyJyZWdEYXRlIjoxNjc1MjM2MjU5OTczLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJpZCI6NzAwMywidXNlcm5hbWUiOiJuYXZlcl9rd0FqYXMtU0JqMlhlaHdZMG1LVnViWFNxbjNISGZ0WHdoZG5NcGdJRERjIiwiZXhwIjoxNjc1MjM4MDU5fQ.j0Q2aPosXqsX9PmyKSKdVtr9-4eUcq895TDgk6Lyq7E",
             },
           }
         )

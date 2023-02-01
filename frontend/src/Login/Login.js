@@ -5,17 +5,21 @@ import axios from "axios";
 
 const Login = () => {
 
-	const url = 'http://treenovel.tk:8080/oauth2/authorization/naver'
+	const url = 'https://i8d206.p.ssafy.io/oauth2/authorization/naver'
+
+	// const NaverLogin = () => {
+  //   axios.get(url)
+  //   .then((res) => {
+  //     console.log(res.data)
+  //   })
+  //   .catch((res) => {
+  //     console.log("실패")
+  //   })
+  // }
 
 	const NaverLogin = () => {
-    axios.get(url)
-    .then((res) => {
-      console.log(res.data)
-    })
-    .catch((res) => {
-      console.log("실패")
-    })
-  }
+		<a href="https://i8d206.p.ssafy.io/oauth2/authorization/naver"></a>
+	}
 
 	return (
 		<div>

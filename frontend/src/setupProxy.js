@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/login',
     createProxyMiddleware({
-      target: 'http://treenovel.tk:8080/',
+      target: 'https://i8d206.p.ssafy.io/',
       changeOrigin: true,
     })
   );

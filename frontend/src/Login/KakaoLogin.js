@@ -11,11 +11,11 @@ const KakaoLogIn = () => {
   // const REDIRECT_URI = 'https://localhost:3000/oauth';
   // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-  const KAKAO_AUTH_URL =  'http://treenovel.tk:8080/oauth2/authorization/kakao'
+  const KAKAO_AUTH_URL =  'https://i8d206.p.ssafy.io/oauth2/authorization/kakao'
 
   const kakaoLogin = () => {
     // window.location.href = KAKAO_AUTH_URL;
-    axios.get(KAKAO_AUTH_URL)
+    axios.get(KAKAO_AUTH_URL, { withCredentials: true })
     .then((res) => {
       console.log(res.data)
     })
@@ -27,7 +27,8 @@ const KakaoLogIn = () => {
 
   return (
     <React.Fragment>
-      <img src="kakao_login_medium_wide.png" alt="카카오로그인" onClick={kakaoLogin}/>
+      <a href="https://i8d206.p.ssafy.io/oauth2/authorization/kakao"><img src="kakao_login_medium_wide.png"  alt="카카오로그인" /></a>
+      {/* <img src="kakao_login_medium_wide.png"  alt="카카오로그인" onClick={kakaoLogin}/> */}
     </React.Fragment>
   )
 }

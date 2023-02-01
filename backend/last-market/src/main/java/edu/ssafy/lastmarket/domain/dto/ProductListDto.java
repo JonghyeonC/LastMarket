@@ -1,9 +1,6 @@
 package edu.ssafy.lastmarket.domain.dto;
 
-import edu.ssafy.lastmarket.domain.entity.CategoryName;
-import edu.ssafy.lastmarket.domain.entity.DealState;
-import edu.ssafy.lastmarket.domain.entity.Lifestyle;
-import edu.ssafy.lastmarket.domain.entity.Product;
+import edu.ssafy.lastmarket.domain.entity.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -55,5 +52,27 @@ public class ProductListDto {
         this.favoriteCnt = product.getFavoriteCnt();
         this.startingPrice = product.getStartingPrice();
         this.instantPrice = product.getInstantPrice();
+    }
+
+    public ProductListDto(Favorite favorite){
+        this.productId = favorite.getProduct().getId();
+        this.title =favorite.getProduct().getTitle();
+        this.sellerId = favorite.getProduct().getSeller().getId();
+        this.sellerNickname = favorite.getProduct().getSeller().getNickname();
+        this.createdDateTime = favorite.getProduct().getCreatedDateTime();
+        if(favorite.getProduct().getImages().size()>0){
+            this.imgURI = favorite.getProduct().getImgUrls().get(0);
+        }else{
+            this.imgURI = "";
+        }
+        this.isFavorite = true;
+        this.location = favorite.getProduct().getLocation().toString();
+        this.dealState = favorite.getProduct().getDealState();
+        this.liveTime = favorite.getProduct().getLiveTime();
+        this.category = favorite.getProduct().getCategory().getCategoryName();
+        this.lifestyle = favorite.getProduct().getLifestyle();
+        this.favoriteCnt = favorite.getProduct().getFavoriteCnt();
+        this.startingPrice = favorite.getProduct().getStartingPrice();
+        this.instantPrice = favorite.getProduct().getInstantPrice();
     }
 }

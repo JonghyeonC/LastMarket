@@ -40,7 +40,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         Image profile = (member.getProfile() == null) ? null : member.getProfile();
 
         String shortToken = jwtManager.generateJwtToken(member, location, profile);
-        String origins = request.getHeader("Origin");
+        String origins = request.getHeader("Referer");
 
         if (StringUtil.isNullOrEmpty(member.getNickname())) {
             response.setStatus(302);

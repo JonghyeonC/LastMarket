@@ -48,13 +48,15 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 //        }
 
         if (StringUtil.isNullOrEmpty(member.getNickname())) {
-            response.sendRedirect("http://localhost:3000/signup");
+            //response.sendRedirect("http://localhost:3000/signup");
 //            response.setStatus(302);
 //            response.setHeader("Location", origins+"/signup");
+            response.setStatus(201);
         } else {
-            response.sendRedirect("http://localhost:3000/");
+            //response.sendRedirect("http://localhost:3000/");
 //            response.setStatus(302);
 //            response.setHeader("Location", origins+"/");
+            response.setStatus(200);
         }
         Cookie cookie = new Cookie("Authentication", shortToken);
         cookie.setPath("/");

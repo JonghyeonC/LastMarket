@@ -13,5 +13,6 @@ public interface ProductRepositoryCustom {
                                  Optional<Category> categoryOptional,
                                  DealState dealStateOptional,
                                  Lifestyle lifestyleOptional,
+                                 String keyword,
                                  Pageable pageable);
 }

@@ -7,7 +7,10 @@ import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,4 +37,23 @@ public class CategoryServiceImpl implements CategoryService{
     public Optional<Category> findByCategoryName(CategoryName categoryName) {
         return categoryRepository.findByCategoryName(categoryName);
     }
+
+    @Override
+    public List<CategoryName> getCategoryList(){
+        List<CategoryName> categoryNameList  = new ArrayList<>();
+        for (CategoryName value : CategoryName.values()) {
+            categoryNameList.add(value);
+        }
+
+
+        return categoryNameList;
+
+//        List<Category> categoryList = categoryRepository.findAll();
+//
+//        return categoryList.stream()
+//                .map(category -> category.getCategoryName())
+//                .collect(Collectors.toList());
+    }
+
+
 }

@@ -43,13 +43,11 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
         if (StringUtil.isNullOrEmpty(member.getNickname())) {
             response.setStatus(201);
-
         } else {
             response.setStatus(200);
         }
         Cookie cookie = new Cookie("Authentication", shortToken);
         cookie.setPath("/");
-
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");

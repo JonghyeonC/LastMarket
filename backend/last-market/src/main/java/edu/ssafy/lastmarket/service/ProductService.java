@@ -27,6 +27,7 @@ public interface ProductService {
                                      Optional<Category> categoryOptional,
                                      DealState dealStateOptional,
                                      Lifestyle lifestyleOptional,
+                                     String keyword,
                                      Pageable pageabl);
     Optional<Product> read(Long id);
 
@@ -35,7 +36,7 @@ public interface ProductService {
     Product save(ProductDto productDto, Member member);
     Product saveImgs(Product product, List<Image> image, Member member);
 
-    void updateProduct(Member member, Long productId, ProductDto productDto, Optional<Category> categoryOptional);
+    Product updateProduct(Member member, Long productId, ProductDto productDto, Optional<Category> categoryOptional);
 
     Product sellProduct(Product product);
 

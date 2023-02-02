@@ -68,8 +68,9 @@ public class ProductController {
                                             @RequestParam(name = "category", required = true) String categoryNameString,
                                             @RequestParam(name = "dealState", required = true) String dealStateString,
                                             @RequestParam(name = "lifestyle", required = true) String lifestyleString,
+                                            @RequestParam(name = "keyword", required = true) String keyword,
                                             Pageable pageable) {
-
+        System.out.println("Keywrod: " + keyword);
 
         Optional<Category> categoryOptional = categoryService.findByCategoryNameString(categoryNameString);
         Optional<Location> locationOptional = locationService.findDongCodeByAddress(locationString);
@@ -77,7 +78,7 @@ public class ProductController {
         Lifestyle lifestyle = enumChechService.checkLifestyleEnum(lifestyleString);
 
         Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional,
-                dealState,lifestyle, pageable);
+                dealState,lifestyle, keyword, pageable);
 
 
         return new ResponseEntity<>(products, HttpStatus.OK);

@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.repository.querydslutil.QueryDslUtil;
+import io.netty.util.internal.StringUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -36,19 +37,22 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                                         Optional<Category> categoryOptional,
                                         DealState dealStateOptional,
                                         Lifestyle lifestyleOptional,
+                                        String keyword,
                                         Pageable pageable) {
 
         List<OrderSpecifier> ORDERS = getAllOrderSpecifiers(pageable);
+
+        System.out.println("lcatinoaOptional "+ locationOptional.isEmpty());
+        System.out.println("CategoryOptional "+ categoryOptional.isEmpty());
 
         List<Product> productList = queryFactory
                 .selectFrom(product)
                 .where(
                         isLocation(locationOptional),
                         isCategory(categoryOptional),
-//                        product.dealState.eq(dealStateOptional),
-//                        product.lifestyle.eq(lifestyleOptional)
                         isDealState(dealStateOptional),
-                        isLifestyle(lifestyleOptional)
+                        isLifestyle(lifestyleOptional),
+                        isContaionKeyword(keyword)
                 )
                 .leftJoin(product.seller, member)
                 .fetchJoin()
@@ -94,6 +98,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
             return product.lifestyle.eq(lifestyle);
         }
     }
+
+    private BooleanExpression isContaionKeyword(String keyword){
+        if(StringUtil.isNullOrEmpty(keyword)){
+            return null;
+        }else{
+            return (product.title.contains(keyword)).or(product.content.contains(keyword));
+        }
+    }
+
+
 
     private List<OrderSpecifier> getAllOrderSpecifiers(Pageable pageable) {
 

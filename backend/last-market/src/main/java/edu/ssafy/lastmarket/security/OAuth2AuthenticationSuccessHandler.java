@@ -56,6 +56,8 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         }
         Cookie cookie = new Cookie("Authentication", shortToken);
         cookie.setPath("/");
+        cookie.setDomain("http://localhost:3000");
+        cookie.setDomain("https://i8d206.p.ssafy.io");
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");

@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -19,11 +17,12 @@ import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.dto.CategoryDTO
-import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ListDTO
 import com.jphr.lastmarket.fragment.*
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.service.UserInfoService
 import com.jphr.lastmarket.util.RetrofitCallback
+import com.jphr.lastmarket.viewmodel.MainViewModel
 
 
 private const val TAG = "MainActivity"
@@ -33,9 +32,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var searchView:SearchView
     lateinit var menu: Menu
     var categoryList = mutableListOf<String>()
-
     var SearchFragment=SearchFragment()
     var ProductListFragment= ProductListFragment()
+    private val mainViewModel: MainViewModel by viewModels()
+//    var pref=getSharedPreferences("userinfo",MODE_PRIVATE)
+    var city= "경상북도 구미시 진평동"
+//        pref?.getString("city","null")
+    var lifestyle= "ㅇㅇㅇ"
+//        pref?.getString("lifestyle","null")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -46,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         var floatingActionButton=findViewById<FloatingActionButton>(R.id.floating_action_button)
         searchBar =findViewById(R.id.search_bar)
         searchView=findViewById<SearchView>(R.id.search_view)
+
+
 
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -103,21 +110,21 @@ class MainActivity : AppCompatActivity() {
                 0->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProduct(null,title,ProductCallback(),false)
+                    ProductService().getProductWithSort("BOOK",null,city,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
                 1->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProduct(null,title,ProductCallback(),false)
+                    ProductService().getProductWithSort("BOOK",null,city,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
                 2->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProduct(null,title,ProductCallback(),false)
+                    ProductService().getProductWithSort("BOOK",null,city,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
@@ -139,7 +146,7 @@ class MainActivity : AppCompatActivity() {
             .setOnEditorActionListener { v, actionId, event ->
                 searchBar.text = searchView.text
                 searchView.hide()
-                ProductService().getProduct(searchView.text.toString(),null,ProductCallback(),true)
+                ProductService().getProductWithSort("",null,city,"favoriteCnt","DEFAULT","1",ProductCallback(),false,searchView.text.toString())
                 searchBar.visibility=View.GONE
                 false
             }
@@ -178,22 +185,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    inner class ProductCallback: RetrofitCallback<ProductDTO> {
-        override fun onSuccess(code: Int,responseData: ProductDTO, issearch:Boolean,word:String?,category:String?) {
+    inner class ProductCallback: RetrofitCallback<ListDTO> {
+        override fun onSuccess(code: Int,responseData: ListDTO, issearch:Boolean,word:String?,category:String?) {
             if(responseData!=null) {
                 if(issearch){
                     Log.d(TAG, "initData: ${responseData}")
-                    var bundle= bundleOf()
-                    bundle.putSerializable("products",responseData)
-                    bundle.putString("word",word)
-                    SearchFragment.arguments=bundle
+                    mainViewModel.setProduct(responseData.content)
+                    if (word != null) {
+                        mainViewModel.setWord(word)
+                    }
                     changeFragment(4)
                 }
                 else {
-                    var bundle= bundleOf()
-                    bundle.putSerializable("products",responseData)
-                    bundle.putString("category",category)
-                    ProductListFragment.arguments=bundle
+                    mainViewModel.setProduct(responseData.content)
+                    if (category != null) {
+                        mainViewModel.setCategory(category)
+                    }
                     changeFragment(5)
                 }
             }

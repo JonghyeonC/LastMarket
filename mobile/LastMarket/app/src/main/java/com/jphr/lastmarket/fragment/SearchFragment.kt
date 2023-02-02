@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
@@ -16,7 +17,9 @@ import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentProductListBinding
 import com.jphr.lastmarket.databinding.FragmentSearchBinding
 import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ProductX
 import com.jphr.lastmarket.util.RecyclerViewDecoration
+import com.jphr.lastmarket.viewmodel.MainViewModel
 import java.time.Clock
 import java.util.*
 
@@ -33,11 +36,12 @@ private const val ARG_PARAM2 = "param2"
 private const val TAG = "SearchFragment"
 class SearchFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var productDTO: ProductDTO? = null
+    private var productDTO: MutableList<ProductX>? = null
     private var word: String? = null
     private lateinit var binding:FragmentSearchBinding
     private lateinit var productListAdapter: ProductListAdapter
     private lateinit var mainActivity: MainActivity
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -45,10 +49,12 @@ class SearchFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            productDTO = it.getSerializable("products") as ProductDTO?
-            word = it.getString("word")
-        }
+//        arguments?.let {
+//            productDTO = it.getSerializable("products") as ProductDTO?
+//            word = it.getString("word")
+//        }
+        productDTO=mainViewModel.getProduct()
+        word=mainViewModel.getWord()
     }
 
     override fun onCreateView(
@@ -60,7 +66,7 @@ class SearchFragment : Fragment() {
 
         productListAdapter= ProductListAdapter(mainActivity)
         binding.recyclerview.apply {
-            productListAdapter.list=productDTO
+            productListAdapter.list=productDTO as MutableList<ProductX>
             layoutManager= GridLayoutManager(context,3)
             adapter=productListAdapter
             addItemDecoration(RecyclerViewDecoration(60,0))

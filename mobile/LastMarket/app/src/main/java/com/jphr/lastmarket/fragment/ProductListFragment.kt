@@ -7,12 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentProductListBinding
 import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ProductX
 import com.jphr.lastmarket.util.RecyclerViewDecoration
+import com.jphr.lastmarket.viewmodel.MainViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,11 +30,12 @@ private const val ARG_PARAM2 = "param2"
 private const val TAG = "ProductListFragment"
 class ProductListFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var productDTO: ProductDTO? = null
+    private var productDTO: MutableList<Any>? = null
     private var category: String? = null
     private lateinit var binding: FragmentProductListBinding
     private lateinit var productListAdapter:ProductListAdapter
     private lateinit var mainActivity: MainActivity
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,10 +43,12 @@ class ProductListFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            productDTO = it.getSerializable("products") as ProductDTO
-            category = it.getString("category")
-        }
+//        arguments?.let {
+//            productDTO = it.getSerializable("products") as ProductDTO
+//            category = it.getString("category")
+//        }
+        mainViewModel.getProduct()
+        mainViewModel.getCategory()
         Log.d(TAG, "onCreate: $productDTO")
         Log.d(TAG, "onCreate: $category")
 
@@ -56,7 +62,7 @@ class ProductListFragment : Fragment() {
         binding=FragmentProductListBinding.inflate(inflater,container,false)
         productListAdapter= ProductListAdapter(mainActivity)
         binding.recyclerview.apply {
-            productListAdapter.list=productDTO
+            productListAdapter.list=productDTO as MutableList<ProductX>
             layoutManager=GridLayoutManager(context,3)
             adapter=productListAdapter
             addItemDecoration(RecyclerViewDecoration(60,0))

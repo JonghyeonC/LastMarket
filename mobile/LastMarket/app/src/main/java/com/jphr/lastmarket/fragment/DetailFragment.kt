@@ -66,12 +66,12 @@ class DetailFragment : Fragment() {
         var data=mainViewModel.getProductDetail()
         var state= data?.dealState
 
-        //공통기능 img, title, lifestyle, category, content,sellerinfos
+        //공통기능 img, title, lifestyle, content,sellerinfos
         binding=FragmentDetailBinding.inflate(inflater,container,false)
 
         binding.title.text=data?.title
         binding.lifestyle.text=data?.lifestyle
-
+        binding.content.text=data?.content
 
 
         if(state=="default"){// 라이브 O 아직 시작안함

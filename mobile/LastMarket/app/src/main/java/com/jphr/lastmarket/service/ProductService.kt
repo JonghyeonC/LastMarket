@@ -1,10 +1,8 @@
 package com.jphr.lastmarket.service
 
 import android.util.Log
-import com.jphr.lastmarket.dto.ProductDTO
-import com.jphr.lastmarket.dto.ProductDetailDTO
-import com.jphr.lastmarket.dto.ProductRegisterDTO
-import com.jphr.lastmarket.dto.UserInfoDTO
+import com.jphr.lastmarket.activity.MainActivity
+import com.jphr.lastmarket.dto.*
 import com.jphr.lastmarket.fragment.SearchFragment
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.util.RetrofitUtil
@@ -19,44 +17,61 @@ class ProductService {
     var searchFragment=SearchFragment()
 
 
-    fun getProduct(word:String?, category: String?, callback: RetrofitCallback<ProductDTO>,issearch:Boolean){
-        val productInterface: Call<ProductDTO> = RetrofitUtil.ProductService.getProductList(word,category)
-        productInterface.enqueue(object : Callback<ProductDTO> {
-            override fun onResponse(call: Call<ProductDTO>, response: Response<ProductDTO>) {
+//    fun getProduct(word:String?, category: String?, callback: RetrofitCallback<ProductDTO>,issearch:Boolean){
+//        val productInterface: Call<ProductDTO> = RetrofitUtil.ProductService.getProductList(word,category)
+//        productInterface.enqueue(object : Callback<ProductDTO> {
+//            override fun onResponse(call: Call<ProductDTO>, response: Response<ProductDTO>) {
+//                val res = response.body()
+//                Log.d(TAG, "onResponse res 값: $res")
+//                if(response.code() == 200){
+//                    if (res != null) {
+//                        callback.onSuccess(response.code(), res,issearch,word,category)
+//                    }
+//                    Log.d(TAG, "onResponse: $res")
+//                } else {
+//                    callback.onFailure(response.code())
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ProductDTO>, t: Throwable) {
+//                callback.onError(t)
+//            }
+//        })
+//    }
+    fun getProductWithSort(
+    category: String?,
+    lifestyle:String?,
+    location: String?,
+    sort: String?,
+    dealState: String?,
+    page: String?, callback:RetrofitCallback<ListDTO>,
+    issearch:Boolean,
+    word: String?){
+       
+        val productInterface: Call<ListDTO> = RetrofitUtil.ProductService.getProductListWithSort(category, lifestyle,location,sort,dealState,page,word)
+        productInterface.enqueue(object : Callback<ListDTO> {
+            override fun onResponse(call: Call<ListDTO>, response: Response<ListDTO>) {
                 val res = response.body()
+                Log.d(TAG, "category: $category")
                 Log.d(TAG, "onResponse res 값: $res")
                 if(response.code() == 200){
                     if (res != null) {
+                        Log.d(TAG, "onResponse: ${response}")
+
                         callback.onSuccess(response.code(), res,issearch,word,category)
+
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {
+                    Log.d(TAG, "onResponse: ${response}")
+                    Log.d(TAG, "onResponse: ${response.body()}")
+                    Log.d(TAG, "onResponse: ${response.errorBody()}")
+
                     callback.onFailure(response.code())
                 }
             }
 
-            override fun onFailure(call: Call<ProductDTO>, t: Throwable) {
-                callback.onError(t)
-            }
-        })
-    }
-    fun getProductWithSort(category: String?,lifestyle:String?,location: String?,sort: String?,dealState: String?,page: String?, callback: RetrofitCallback<ProductDTO>,issearch:Boolean){
-        val productInterface: Call<ProductDTO> = RetrofitUtil.ProductService.getProductListWithSort(category, lifestyle,location,sort,dealState,page)
-        productInterface.enqueue(object : Callback<ProductDTO> {
-            override fun onResponse(call: Call<ProductDTO>, response: Response<ProductDTO>) {
-                val res = response.body()
-                Log.d(TAG, "onResponse res 값: $res")
-                if(response.code() == 200){
-                    if (res != null) {
-                        callback.onSuccess(response.code(), res,issearch,null,null)
-                    }
-                    Log.d(TAG, "onResponse: $res")
-                } else {
-                    callback.onFailure(response.code())
-                }
-            }
-
-            override fun onFailure(call: Call<ProductDTO>, t: Throwable) {
+            override fun onFailure(call: Call<ListDTO>, t: Throwable) {
                 callback.onError(t)
             }
         })

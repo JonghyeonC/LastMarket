@@ -1,16 +1,19 @@
 package com.jphr.lastmarket.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.jphr.lastmarket.dto.Product
 import com.jphr.lastmarket.dto.ProductDetailDTO
+import com.jphr.lastmarket.dto.ProductX
 
 private const val TAG = "MainViewModel"
 class MainViewModel: ViewModel() {
 
     private var productId:Long=0
     private var productDetail:ProductDetailDTO?=null
-    private var productDetailNew:Product?=null
+    private var productCategory:String?=null
+    private var productList:MutableList<ProductX>?=null
+    private var category=""
+    private var word=""
 
     fun setProductId(id:Long){
         productId=id
@@ -24,10 +27,22 @@ class MainViewModel: ViewModel() {
     fun getProductDetail(): ProductDetailDTO? {
         return productDetail
     }
-//    fun setProductDetailNew(product:Product){
-//        productDetailNew=product
-//    }
-//    fun getProductDetailNew(): Product? {
-//        return productDetailNew
-//    }
+    fun setProduct(product:MutableList<ProductX>){
+        productList=product
+    }
+    fun getProduct(): MutableList<ProductX>? {
+        return productList
+    }
+    fun setCategory(category:String){
+        this.category=category
+    }
+    fun getCategory(): String {
+        return category
+    }
+    fun setWord(word:String){
+        this.word=word
+    }
+    fun getWord(): String {
+        return word
+    }
 }

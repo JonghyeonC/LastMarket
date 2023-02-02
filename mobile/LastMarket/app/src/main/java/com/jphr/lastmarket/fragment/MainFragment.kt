@@ -9,18 +9,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.jphr.lastmarket.activity.LiveBuyActivity
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentMainBinding
+import com.jphr.lastmarket.dto.ListDTO
 import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ProductX
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
@@ -48,9 +46,9 @@ class MainFragment : Fragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
 
     val PREFERENCES_NAME = "user_info"
-    var productList1 : ProductDTO? =null
-    var productList2 : ProductDTO? =null
-    var productList3 : ProductDTO? =null
+    var productList1 : MutableList<ProductX>?=null
+    var productList2 : MutableList<ProductX>? =null
+    var productList3 : MutableList<ProductX>? =null
 
     private fun getPreferences(context: Context): SharedPreferences? {
         return context.getSharedPreferences(PREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE)
@@ -75,14 +73,16 @@ class MainFragment : Fragment() {
         // Inflate the layout for this fragment
         binding=FragmentMainBinding.inflate(inflater,container,false)
 
-        var pref:SharedPreferences?= getPreferences(requireContext())
-        var city= pref?.getString("city","null")
-        var lifestyle= pref?.getString("lifestyle","null")
+//        var pref:SharedPreferences?= getPreferences(requireContext())
+//        var city= pref?.getString("city","null")
+//        var lifestyle= pref?.getString("lifestyle","null")
 
+        var city= "경상북도 구미시 진평동"
+        var lifestyle= "ㅇㅇㅇ"
 
-        ProductService().getProductWithSort(null,lifestyle,city,"favoriteCnt","default","1",ProductSortCallback1(),false)
-        ProductService().getProductWithSort(null,lifestyle,city,"favoriteCnt","onbroadcast","1",ProductSortCallback2(),false)
-        ProductService().getProductWithSort(null,lifestyle,city,"desc","default","1",ProductSortCallback3(),false)
+        ProductService().getProductWithSort("",lifestyle,city,"favoriteCnt","DEFAULT","1",ProductSortCallback1(),false,null)
+        ProductService().getProductWithSort("",lifestyle,city,"favoriteCnt","DEFAULT","1",ProductSortCallback2(),false,null)
+        ProductService().getProductWithSort("",lifestyle,city,"favoriteCnt","DEFAULT","1",ProductSortCallback3(),false,null)
 
 
 
@@ -120,14 +120,14 @@ class MainFragment : Fragment() {
             }
     }
 
-    inner class ProductSortCallback1: RetrofitCallback<ProductDTO> {
-        override fun onSuccess(code: Int, responseData: ProductDTO, issearch:Boolean, word:String?, category:String?) {
+    inner class ProductSortCallback1: RetrofitCallback<ListDTO> {
+        override fun onSuccess(code: Int, responseData: ListDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
                 //취미별
-                productList1=responseData
+                productList1=responseData.content
 
                 binding.recyclerviewCategory.apply {
-                    productListAdapter.list=responseData
+                    productListAdapter.list=responseData.content as MutableList<ProductX>
                     var linearLayoutManager= LinearLayoutManager(context)
                     linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
                     setLayoutManager(linearLayoutManager)
@@ -146,14 +146,14 @@ class MainFragment : Fragment() {
         }
 
     }
-    inner class ProductSortCallback2: RetrofitCallback<ProductDTO> {
-        override fun onSuccess(code: Int, responseData: ProductDTO, issearch:Boolean, word:String?, category:String?) {
+    inner class ProductSortCallback2: RetrofitCallback<ListDTO> {
+        override fun onSuccess(code: Int, responseData: ListDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
                 //라이브 중인것
-                productList2=responseData
+                productList2=responseData.content
 
                 binding.recyclerviewLive.apply {
-                    productListAdapter.list=responseData
+                    productListAdapter.list=responseData.content as MutableList<ProductX>
                     var linearLayoutManager= LinearLayoutManager(context)
                     linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
                     setLayoutManager(linearLayoutManager)
@@ -173,14 +173,14 @@ class MainFragment : Fragment() {
 
 
     }
-    inner class ProductSortCallback3: RetrofitCallback<ProductDTO> {
-        override fun onSuccess(code: Int, responseData: ProductDTO, issearch:Boolean, word:String?, category:String?) {
+    inner class ProductSortCallback3: RetrofitCallback<ListDTO> {
+        override fun onSuccess(code: Int, responseData: ListDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
                 //새로운 것
-                productList3=responseData
+                productList3=responseData.content
 
                 binding.recyclerviewNew.apply {
-                    productListAdapter.list=responseData
+                    productListAdapter.list=responseData.content as MutableList<ProductX>
                     var linearLayoutManager= LinearLayoutManager(context)
                     linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
                     layoutManager = linearLayoutManager
@@ -208,7 +208,7 @@ class MainFragment : Fragment() {
         //메인화면에서 최근 목록 클릭시 장바구니로 이동
         productListAdapter.setItemClickListener(object : ProductListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
-                productListAdapter.list?.products?.get(position)?.productId
+                productListAdapter.list?.get(position)?.productId
                     ?.let { mainViewModel.setProductId(it) }
                 mainActivity!!.changeFragment(7)
             }

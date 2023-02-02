@@ -248,7 +248,7 @@ class CreateProductFragment : Fragment() {
                     var content=binding.content.text.toString()
                     var instantPrice=binding.instantPrice.text.toString().toLong()
                     var lifeStyle=binding.lifestyle.toString()
-                    var liveTime=LocalDateTime.of(year,month,day,hour,min,sec)
+                    var liveTime=LocalDateTime.of(year,month,day,hour,min,sec).toString()
                     var startingPrice=binding.startPrice.text.toString().toLong()
                     var title=binding.title.text.toString()
 

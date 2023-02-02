@@ -113,7 +113,7 @@ class UserInfoActivity : AppCompatActivity() {
             var userinfo=UserInfoDTO(userAddress,userLifeStyle,userName)
             Log.d(TAG, "onCreate: $userinfo")
 
-            var prefs=getPreferences(this)
+            var prefs=getSharedPreferences("userinfo",Context.MODE_PRIVATE)
             var editor :SharedPreferences.Editor?=prefs?.edit()
             editor?.putString("city",display_address)
 //            editor?.putString("category",userCategory)

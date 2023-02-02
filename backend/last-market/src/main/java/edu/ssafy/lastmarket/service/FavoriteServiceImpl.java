@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,6 +58,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
+    @Transactional
     public Favorite saveFavorite(Member member, Optional<Product> productOptional) {
         if (productOptional.isEmpty()) {
             throw new NotFoundException("product Not Found");
@@ -73,6 +75,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
+    @Transactional
     public void deleteFavorite(Member member, Optional<Product> productOptional) {
         if (productOptional.isEmpty()) {
             throw new NotFoundException("product Not Found");

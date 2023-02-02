@@ -35,11 +35,12 @@ public class ProductServiceImpl implements ProductService {
                                             Optional<Category> categoryOptional,
                                             DealState dealState,
                                             Lifestyle lifestyle,
+                                            String keyword,
                                             Pageable pageabl) {
 
 
         Page<Product> products = productRepository.getProductList(locationOptional, categoryOptional,
-                dealState,lifestyle,pageabl);
+                dealState,lifestyle, keyword, pageabl);
         PageImpl<ProductListDto> result= new PageImpl<>(
                 products.getContent().stream()
                         .map(product -> new ProductListDto(product,false))
@@ -115,7 +116,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void updateProduct(Member member, Long productId, ProductDto productDto, Optional<Category> categoryOptional) {
+    public Product updateProduct(Member member, Long productId, ProductDto productDto, Optional<Category> categoryOptional) {
         Optional<Product> productOptional = productRepository.findById(productId);
         Product.isProductNull(productOptional);
         Product product = productOptional.get();
@@ -140,6 +141,7 @@ public class ProductServiceImpl implements ProductService {
             product.setInstantPrice(productDto.getInstantPrice());
         }
 
+        return product;
     }
 
     @Override

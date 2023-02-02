@@ -131,4 +131,13 @@ public class ControllerExceptionHandler {
         result.put("msg", "noChatRoomException");
         return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> illegalArgumentException(Exception e) {
+        e.printStackTrace();
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "illegalArgumentException");
+        return new ResponseEntity<>(result, HttpStatus.valueOf(400));
+    }
 }

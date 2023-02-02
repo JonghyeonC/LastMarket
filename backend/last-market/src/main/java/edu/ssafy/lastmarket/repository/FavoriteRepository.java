@@ -15,7 +15,8 @@ import java.util.Optional;
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     Optional<Favorite> findByMemberAndProductId(Member member, Long ProductId);
     Boolean existsByMemberAndProductId(Member member, Long ProductId);
+    Optional<Favorite> findByMemberAndProduct(Member member, Product product);
 
-//    @Query("select f from Favorite f where f.member = :member")
-//    List<Favorite> findByMemberAndProdictIdIn(@Param("member")Member member, @Param("productId")List<Long> productId);
+    @Query("select f from Favorite f join fetch f.product where f.member =:member")
+    List<Favorite> findFetchProductByMember(@Param("member") Member member);
 }

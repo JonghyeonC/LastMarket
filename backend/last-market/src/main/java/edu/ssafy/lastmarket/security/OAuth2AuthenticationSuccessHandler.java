@@ -40,17 +40,17 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         Image profile = (member.getProfile() == null) ? null : member.getProfile();
 
         String shortToken = jwtManager.generateJwtToken(member, location, profile);
-        String origins = request.getHeader("X-FORWARED-FOR");
-        if(origins ==null){
-            origins = request.getRemoteAddr();
-        }
+//        String origins = request.getHeader("X-FORWARED-FOR");
+//        if(origins ==null){
+//            origins = request.getRemoteAddr();
+//        }
 
         if (StringUtil.isNullOrEmpty(member.getNickname())) {
-            response.sendRedirect(origins+"/signup");
+            response.sendRedirect("/signup");
 //            response.setStatus(302);
 //            response.setHeader("Location", origins+"/signup");
         } else {
-            response.sendRedirect(origins+"/");
+            response.sendRedirect("/");
 //            response.setStatus(302);
 //            response.setHeader("Location", origins+"/");
         }

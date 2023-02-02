@@ -38,24 +38,30 @@ class DetailFragment : Fragment() {
     lateinit var binding:FragmentDetailBinding
     private lateinit var mainActivity: MainActivity
     var productId: Long=0
+    lateinit var data:ProductDetailDTO
 
-    init {
-        productId= mainViewModel.getProductId()!!
-        ProductService().getProductDetail(productId,ProductDetailCallback())
+    fun initAdpater() {
+        productId= mainViewModel.getProductId()
+        data= mainViewModel.getProductDetail()!!
+//        ProductService().getProductDetail(productId,ProductDetailCallback())
+        Log.d(TAG, "initAdpater: $productId")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
-    }
+        initAdpater()
 
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        data= mainViewModel.getProductDetail()!!
         Log.d(TAG, "onCreate:$productId ")
+
     }
 
     override fun onCreateView(
@@ -63,15 +69,17 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var data=mainViewModel.getProductDetail()
         var state= data?.dealState
 
+        Log.d(TAG, "onCreateView: $data")
         //공통기능 img, title, lifestyle, content,sellerinfos
         binding=FragmentDetailBinding.inflate(inflater,container,false)
 
         binding.title.text=data?.title
         binding.lifestyle.text=data?.lifestyle
         binding.content.text=data?.content
+        binding.sellerNicname.text=data.sellerNickname
+        binding.sellerLocation.text=data.profile
 
 
         if(state=="default"){// 라이브 O 아직 시작안함
@@ -123,6 +131,7 @@ class DetailFragment : Fragment() {
             word: String?,
             category: String?
         ) {
+
             mainViewModel.setProductDetail(responseData)
         }
 

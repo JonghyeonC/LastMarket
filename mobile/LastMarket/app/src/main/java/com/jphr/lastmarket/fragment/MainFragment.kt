@@ -18,6 +18,7 @@ import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentMainBinding
 import com.jphr.lastmarket.dto.ListDTO
 import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductX
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RecyclerViewDecoration
@@ -73,16 +74,16 @@ class MainFragment : Fragment() {
         // Inflate the layout for this fragment
         binding=FragmentMainBinding.inflate(inflater,container,false)
 
-//        var pref:SharedPreferences?= getPreferences(requireContext())
-//        var city= pref?.getString("city","null")
-//        var lifestyle= pref?.getString("lifestyle","null")
+        var pref:SharedPreferences?= getPreferences(requireContext())
+        var city= pref?.getString("city","null")
+        var cityData=pref?.getString("city_data","null")
 
-        var city= "경상북도 구미시 진평동"
-        var lifestyle= "ㅇㅇㅇ"
+        var lifestyle= pref?.getString("lifestyle","null")
 
-        ProductService().getProductWithSort("",lifestyle,city,"favoriteCnt","DEFAULT","1",ProductSortCallback1(),false,null)
-        ProductService().getProductWithSort("",lifestyle,city,"favoriteCnt","DEFAULT","1",ProductSortCallback2(),false,null)
-        ProductService().getProductWithSort("",lifestyle,city,"favoriteCnt","DEFAULT","1",ProductSortCallback3(),false,null)
+
+        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt","DEFAULT","1",ProductSortCallback1(),false,null)
+        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt","DEFAULT","1",ProductSortCallback2(),false,null)
+        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt","DEFAULT","1",ProductSortCallback3(),false,null)
 
 
 
@@ -209,10 +210,36 @@ class MainFragment : Fragment() {
         productListAdapter.setItemClickListener(object : ProductListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId
-                    ?.let { mainViewModel.setProductId(it) }
-                mainActivity!!.changeFragment(7)
+                    ?.let {
+                        ProductService().getProductDetail(it,ProductDetailCallback())
+                    }
+
             }
         })
+
+    }
+    inner class ProductDetailCallback: RetrofitCallback<ProductDetailDTO> {
+
+        override fun onSuccess(
+            code: Int,
+            responseData: ProductDetailDTO,
+            option: Boolean,
+            word: String?,
+            category: String?
+        ) {
+
+            mainViewModel.setProductDetail(responseData)
+            mainActivity!!.changeFragment(7)
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
 
     }
 }

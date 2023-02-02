@@ -13,7 +13,6 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -42,6 +41,7 @@ class UserInfoActivity : AppCompatActivity() {
     lateinit var userAddress: String
 
     var display_address: String = ""
+    var add: String = ""
 
     val MY_PERMISSION_ACCESS_ALL = 100
     var categoryList = MutableLiveData<MutableList<String>>()
@@ -113,12 +113,14 @@ class UserInfoActivity : AppCompatActivity() {
             var userinfo=UserInfoDTO(userAddress,userLifeStyle,userName)
             Log.d(TAG, "onCreate: $userinfo")
 
-            var prefs=getSharedPreferences("userinfo",Context.MODE_PRIVATE)
-            var editor :SharedPreferences.Editor?=prefs?.edit()
+            var prefs=getSharedPreferences("user_info",MODE_PRIVATE)
+            var editor =prefs?.edit()
             editor?.putString("city",display_address)
+            editor?.putString("city_data",add)
 //            editor?.putString("category",userCategory)
             editor?.putString("lifestyle",userLifeStyle)
             editor?.commit()
+
             UserInfoService().insertUserInfo(userinfo)
             var intent=Intent(this@UserInfoActivity, MainActivity::class.java)
             startActivity(intent)
@@ -139,7 +141,6 @@ class UserInfoActivity : AppCompatActivity() {
                     nowAddr = address[0].getAddressLine(0).toString()
                     var arr = nowAddr.split(" ")
                     var i = 0
-                    var add: String = ""
                     for (i in 1 until 4) {
                         add += arr[i]+" ";
                         Log.d(TAG, "getAddress: ${arr[i]}")
@@ -256,7 +257,7 @@ class UserInfoActivity : AppCompatActivity() {
     inner class LifeStyleCallback: RetrofitCallback<LifeStyleDTO> {
         override fun onSuccess(code: Int, responseData: LifeStyleDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
-                lifeStyleList=responseData.lifestyle
+                lifeStyleList=responseData.lifestyles
                 (binding.lifestyleField.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(lifeStyleList.toTypedArray())
                 binding.lifestyle.setText(lifeStyleList[0],false)
 

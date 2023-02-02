@@ -327,7 +327,7 @@ class CreateProductFragment : Fragment() {
     inner class LifeStyleCallback: RetrofitCallback<LifeStyleDTO> {
         override fun onSuccess(code: Int, responseData: LifeStyleDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
-                lifeStyleList=responseData.lifestyle
+                lifeStyleList=responseData.lifestyles
                 (binding.lifestyleField.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(lifeStyleList.toTypedArray())
                 binding.lifestyle.setText(lifeStyleList[0],false)
             }

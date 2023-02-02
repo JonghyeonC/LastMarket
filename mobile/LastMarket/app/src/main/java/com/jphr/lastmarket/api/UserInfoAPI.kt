@@ -9,10 +9,10 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface UserInfoAPI {
-    @GET("api/user/category")
+    @GET("api/categories")
     fun getCategory(): Call<CategoryDTO>
 
-    @GET("api/user/lifestyle")
+    @GET("api/lifestyles")
     fun getLifeStyle():Call<LifeStyleDTO>
 
     @POST("api/user")

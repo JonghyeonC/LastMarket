@@ -30,7 +30,7 @@ private const val ARG_PARAM2 = "param2"
 private const val TAG = "ProductListFragment"
 class ProductListFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var productDTO: MutableList<Any>? = null
+    private var productDTO: MutableList<ProductX>? = null
     private var category: String? = null
     private lateinit var binding: FragmentProductListBinding
     private lateinit var productListAdapter:ProductListAdapter
@@ -62,7 +62,7 @@ class ProductListFragment : Fragment() {
         binding=FragmentProductListBinding.inflate(inflater,container,false)
         productListAdapter= ProductListAdapter(mainActivity)
         binding.recyclerview.apply {
-            productListAdapter.list=productDTO as MutableList<ProductX>
+            productListAdapter.list=productDTO
             layoutManager=GridLayoutManager(context,3)
             adapter=productListAdapter
             addItemDecoration(RecyclerViewDecoration(60,0))

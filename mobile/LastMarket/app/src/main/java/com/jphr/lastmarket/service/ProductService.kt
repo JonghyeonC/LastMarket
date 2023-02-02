@@ -104,15 +104,15 @@ class ProductService {
         RetrofitUtil.ProductService.getProudctDetail(productId).enqueue(object : Callback<ProductDetailDTO> {
             override fun onResponse(call: Call<ProductDetailDTO>, response: Response<ProductDetailDTO>) {
                 val res = response.body()
-                Log.d(TAG, "onResponse: ${res}")
+                Log.d(TAG, "Detail_onResponse: ${res}")
                 if (response.isSuccessful) {
                     if (res != null) {
                         callback.onSuccess(response.code(),res,false,null,null)
-                        Log.d(TAG, "onResponse : ${response.code()}")
+                        Log.d(TAG, "Detail_onResponse : ${response.code()}")
                         true
                     }
                 } else {
-                    Log.d(TAG, "onResponse:false :${response.code()} ")
+                    Log.d(TAG, "Detail_onResponse:false :${response.code()} ")
                     Log.d(TAG, "onResponse: ${response.code()}")
 
                     false

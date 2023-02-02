@@ -1,13 +1,11 @@
 package edu.ssafy.lastmarket.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Builder
+@Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor

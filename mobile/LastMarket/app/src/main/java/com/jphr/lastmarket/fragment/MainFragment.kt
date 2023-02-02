@@ -208,8 +208,8 @@ class MainFragment : Fragment() {
         //메인화면에서 최근 목록 클릭시 장바구니로 이동
         productListAdapter.setItemClickListener(object : ProductListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
-                productListAdapter.list?.products?.get(position)
-                    ?.let { mainViewModel.setProductDetailCategory(it) }
+                productListAdapter.list?.products?.get(position)?.productId
+                    ?.let { mainViewModel.setProductId(it) }
                 mainActivity!!.changeFragment(7)
             }
         })

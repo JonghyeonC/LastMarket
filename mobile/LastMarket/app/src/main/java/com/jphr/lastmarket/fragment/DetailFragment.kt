@@ -14,6 +14,9 @@ import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.databinding.FragmentDetailBinding
 import com.jphr.lastmarket.dto.Product
 import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ProductDetailDTO
+import com.jphr.lastmarket.service.ProductService
+import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,7 +37,12 @@ class DetailFragment : Fragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
     lateinit var binding:FragmentDetailBinding
     private lateinit var mainActivity: MainActivity
-    lateinit var data: Product
+    var productId: Long=0
+
+    init {
+        productId= mainViewModel.getProductId()!!
+        ProductService().getProductDetail(productId,ProductDetailCallback())
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,21 +55,22 @@ class DetailFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        data= mainViewModel.getProductDetailCategory()!!
-        Log.d(TAG, "onCreate:$data ")
+        Log.d(TAG, "onCreate:$productId ")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var state=data.dealState
+
+        var data=mainViewModel.getProductDetail()
+        var state= data?.dealState
 
         //공통기능 img, title, lifestyle, category, content,sellerinfos
         binding=FragmentDetailBinding.inflate(inflater,container,false)
 
-        binding.title.text=data.title
-        binding.lifestyle.text=data.lifestyle
+        binding.title.text=data?.title
+        binding.lifestyle.text=data?.lifestyle
 
 
 
@@ -78,8 +87,8 @@ class DetailFragment : Fragment() {
         }
 
         // Inflate the layout for this fragment
-        binding.instantPrice.text=data.instantPrice
-        binding.startPrice.text=data.startingPrice
+        binding.instantPrice.text=data?.instantPrice.toString()
+        binding.startPrice.text=data?.startingPrice.toString()
 
 
         return binding.root
@@ -103,5 +112,28 @@ class DetailFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    inner class ProductDetailCallback: RetrofitCallback<ProductDetailDTO> {
+
+        override fun onSuccess(
+            code: Int,
+            responseData: ProductDetailDTO,
+            option: Boolean,
+            word: String?,
+            category: String?
+        ) {
+            mainViewModel.setProductDetail(responseData)
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+
     }
 }

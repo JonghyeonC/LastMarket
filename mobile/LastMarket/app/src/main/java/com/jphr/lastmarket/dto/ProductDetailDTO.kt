@@ -18,5 +18,5 @@ data class ProductDetailDTO(
     val sellerId: Long,
     val sellerNickname: String,
     val startingPrice: Long,
-    val titile: String
+    val title: String
 )

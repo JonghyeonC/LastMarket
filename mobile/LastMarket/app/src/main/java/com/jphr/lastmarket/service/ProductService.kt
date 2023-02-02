@@ -2,6 +2,7 @@ package com.jphr.lastmarket.service
 
 import android.util.Log
 import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductRegisterDTO
 import com.jphr.lastmarket.dto.UserInfoDTO
 import com.jphr.lastmarket.fragment.SearchFragment
@@ -84,4 +85,31 @@ class ProductService {
             }
         })
     }
+    fun getProductDetail(productId:Long,callback:RetrofitCallback<ProductDetailDTO>){
+        RetrofitUtil.ProductService.getProudctDetail(productId).enqueue(object : Callback<ProductDetailDTO> {
+            override fun onResponse(call: Call<ProductDetailDTO>, response: Response<ProductDetailDTO>) {
+                val res = response.body()
+                Log.d(TAG, "onResponse: ${res}")
+                if (response.isSuccessful) {
+                    if (res != null) {
+                        callback.onSuccess(response.code(),res,false,null,null)
+                        Log.d(TAG, "onResponse : ${response.code()}")
+                        true
+                    }
+                } else {
+                    Log.d(TAG, "onResponse:false :${response.code()} ")
+                    Log.d(TAG, "onResponse: ${response.code()}")
+
+                    false
+                }
+            }
+            override fun onFailure(call: Call<ProductDetailDTO>, t: Throwable) {
+                Log.d(TAG, "onResponse:false ${t.message}")
+
+            }
+        })
+    }
+
+
+
 }

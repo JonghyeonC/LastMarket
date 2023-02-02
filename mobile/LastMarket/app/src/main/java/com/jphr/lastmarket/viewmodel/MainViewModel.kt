@@ -3,31 +3,27 @@ package com.jphr.lastmarket.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.jphr.lastmarket.dto.Product
-import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ProductDetailDTO
 
 private const val TAG = "MainViewModel"
 class MainViewModel: ViewModel() {
 
     private var productId:Long=0
-    private var productDetailCategory:Product?=null
-    private var productDetailLive:Product?=null
+    private var productDetail:ProductDetailDTO?=null
     private var productDetailNew:Product?=null
 
-    fun setProductDetailCategory(product:Product){
-        productDetailCategory=product
-        Log.d(TAG, "setProductDetailCategory: 데이터 할당 $productDetailCategory")
+    fun setProductId(id:Long){
+        productId=id
     }
-    fun getProductDetailCategory(): Product? {
-        Log.d(TAG, "getProductDetailCategory: $productDetailCategory")
-
-        return productDetailCategory
+    fun getProductId(): Long {
+        return productId
     }
-//    fun setProductDetailLive(product:Product){
-//        productDetailLive=product
-//    }
-//    fun getProductDetailLive(): Product? {
-//        return productDetailLive
-//    }
+    fun setProductDetail(product:ProductDetailDTO){
+        productDetail=product
+    }
+    fun getProductDetail(): ProductDetailDTO? {
+        return productDetail
+    }
 //    fun setProductDetailNew(product:Product){
 //        productDetailNew=product
 //    }

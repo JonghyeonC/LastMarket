@@ -11,7 +11,6 @@ function InputPage({setInputData}) {
   
   const [checkbox, setCheckbox] = useState(false)
   
-
   const [name, setName] = useState('')
   const [content, setContent] = useState('')
   const [price, setPrice] = useState('')
@@ -20,49 +19,20 @@ function InputPage({setInputData}) {
   const [life, SetLife] = useState('')
   const [startDate, setStartDate] = useState(null);
 
-  // if (checkbox === false) {
-  //   setStartDate(null)
-  // }
+  useEffect(() => {
+    const serialize = {
+      title: name,
+      content: content,
+      instantPrice: price,
+      startingPrice: bid,
+      category: cate,
+      lifestyle: life,
+      livetime: startDate
+    }
 
-  // if (name && content && price && cate && life && bid && startDate) {
-  //   setInputData({
-  //     name,
-  //     content,
-  //     price,
-  //     cate,
-  //     life,
-  //     bid,
-  //     startDate
-  //   })
-  // } else if (name && content && price && cate && life) {
-  //   setInputData({
-  //     name,
-  //     content,
-  //     price,
-  //     cate,
-  //     life,
-  //   })
-  // }
+    setInputData(serialize)
+  }, [name, content, price, bid, cate, life, startDate])
 
-  // useEffect(() => {
-  //   setStartDate(newDate)
-  //   console.log(startDate)
-  // }, [startDate])
-  // const TIME_ZONE = 3240 * 10000;
-  // const date = new Date(startDate);
-
-  // const newDate = new Date(+date + TIME_ZONE).toISOString().replace('T', ' ').replace(/\..*/, '');
-
-
-  // console.log(name)
-  // console.log(content)
-  // console.log(price)
-  // console.log(bid)
-  // console.log(cate)
-  // console.log(life)
-  // console.log(startDate)
-
-  
   return (
     <div className='FormInput'>
       <input type="text" className='BoxInput' placeholder=' 상품명 입력' onChange={(e) => setName(e.target.value)}/>

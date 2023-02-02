@@ -62,7 +62,7 @@ function Navbar() {
             <img className="App-logo" src="logos/App_logo.png" alt="App_logo"/>
             <span>앱 다운로드</span>
         </div>
-        <a href="https://www.google.com">고객센터</a>
+        <div onClick={() => navigate('/register')}>고객센터</div>
       </div>
       {/* <hr className="nav_line1"/> */}
       <br />

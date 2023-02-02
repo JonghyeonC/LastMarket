@@ -6,20 +6,38 @@ import axios from "axios"
 function Signup() {
   
   let [ nickName, setNickName ] = useState('')
-  let [ job, setJob ] = useState('')
-  let [ interest, setInterest ] = useState('')
+  let [ lifestyle, setlifeStyle ] = useState('')
   let [ location, setLocation ] = useState('')
 
+  const [life, setLife] = useState([])
+
   console.log(nickName)
-  console.log(job)
-  console.log(interest)
+  console.log(lifestyle)
+  console.log(location)
+
+  const category = (() => {
+    return (
+      axios({
+        method: 'get',
+        url: `https://i8d206.p.ssafy.io/api/lifestyles`
+      })
+      .then((res) => {
+        setLife(res.data.lifestyles)
+      })
+    )
+  })
 
   const sendInfor = (() => {
     return (
       axios({
         method : 'post',
-        url : `http://www.123.com/user`,
-        data : nickName, job, interest
+        url : `https://i8d206.p.ssafy.io/api/user`,
+        data : {
+          "nickname" : nickName,
+          "lifestyle" : lifestyle,
+          "addr" : `${location[0]} ${location[1]} ${location[2]}`,
+        },
+        withCredentials: true,
       })
       .then((res) => {
         console.log(res)
@@ -35,8 +53,8 @@ function Signup() {
   
   function success(position) {
     //좌표를 알아낼 수 있는데, 여기서 알아낸 좌표를 kakaoAPI url에 사용할 것이다.
-    console.log('위도 : ' + position.coords.latitude); 
-    console.log('경도: ' + position.coords.longitude);
+    // console.log('위도 : ' + position.coords.latitude); 
+    // console.log('경도: ' + position.coords.longitude);
   };
   
   function error(err) {
@@ -66,9 +84,13 @@ function Signup() {
     }
 
     location = location.split(' ')
-    console.log(location)
     //navigator.geolocation.getCurrentPosition(위치받는함수, 에러났을때 함수)
     navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError)
+
+
+  useEffect(() => {
+    category()
+  }, [])
 
   return (
     <div className='Signup'>
@@ -89,18 +111,26 @@ function Signup() {
       </div>
       <br />
       <div className='nameWrap'>
-        <p className="labelBox">회원님은 어떤 것에 관심이 있나요?</p>
+        <p className="labelBox">회원님의 라이프스타일은?</p>
         <div className='signupbox'>
           <input id="dropdown2" type="checkbox" />
           <label className='dropdownLabel1' for="dropdown2">
-            <div>어떤 것에 관심이 있는지 선택해주세요</div>
+            {
+              life ?
+              lifestyle :
+              <div>어떤 것에 관심이 있는지 선택해주세요</div>
+            }
             <FaAngleDown className='caretIcon' />
           </label>
           <div className='content'>
             <ul>
-              <li onClick={() => {setInterest('운동')}}>운동</li>
-              <li onClick={() => {setInterest('요리')}}>요리</li>
-              <li onClick={() => {setInterest('독서')}}>독서</li>
+              {
+                life.map((style) => {
+                  return (
+                    <li onClick={() => {setlifeStyle(style)}}>{style}</li>
+                  )
+                })
+              }
             </ul>
           </div>
         </div>

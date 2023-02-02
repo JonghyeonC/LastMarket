@@ -11,7 +11,7 @@ const KakaoLogIn = () => {
   // const REDIRECT_URI = 'https://localhost:3000/oauth';
   // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-  const KAKAO_AUTH_URL =  'https://i8d206.p.ssafy.io/oauth2/authorization/kakao'
+  const KAKAO_AUTH_URL =  `https://i8d206.p.ssafy.io/oauth2/authorization/kakao`
 
   const kakaoLogin = () => {
     // window.location.href = KAKAO_AUTH_URL;

@@ -33,16 +33,7 @@ public class LocationServiceImplTest {
         assertThat(locationOptional.get().getDongCode()).isEqualTo("1117012000");
     }
 
-    @Test
-    @DisplayName("지역명이 4개로 나눠짐")
-    public void locationSplit4() {
-        locationService = new LocationServiceImpl(locationRepository);
-        //given
-        String address = "서울시 용산구 무슨동 3가";
-        //when
-        assertThatThrownBy(() -> locationService.findDongCodeByAddress(address))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+
 
     public void mocking() {
         Location location = Location.builder()

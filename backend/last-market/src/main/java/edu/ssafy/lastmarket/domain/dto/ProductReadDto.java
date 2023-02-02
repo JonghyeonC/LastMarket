@@ -24,6 +24,7 @@ public class ProductReadDto {
     private String content;
     private Long sellerId;
     private String sellerNickname;
+    private String profile;
     private DealState dealState;
     private LocalDateTime createdDateTime;
     private LocalDateTime liveTime;
@@ -49,6 +50,7 @@ public class ProductReadDto {
         this.content= product.getContent();
         this.sellerId = product.getSeller().getId();
         this.sellerNickname = product.getSeller().getNickname();
+        this.profile = (product.getSeller().getProfile() ==null)?"" : product.getSeller().getProfile().getImageURL();
         this.createdDateTime = product.getCreatedDateTime();
         this.imgURIs = product.getImgUrls();
         this.isFavorite = isFavorite;

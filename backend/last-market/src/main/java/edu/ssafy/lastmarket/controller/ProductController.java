@@ -64,11 +64,11 @@ public class ProductController {
 
     @GetMapping("/product")
     public ResponseEntity<?> getProductList(@Login Member member,
-                                            @RequestParam(name = "location", required = true) String locationString,
-                                            @RequestParam(name = "category", required = true) String categoryNameString,
-                                            @RequestParam(name = "dealState", required = true) String dealStateString,
-                                            @RequestParam(name = "lifestyle", required = true) String lifestyleString,
-                                            @RequestParam(name = "keyword", required = true) String keyword,
+                                            @RequestParam(name = "location", required = false) String locationString,
+                                            @RequestParam(name = "category", required = false) String categoryNameString,
+                                            @RequestParam(name = "dealState", required = false) String dealStateString,
+                                            @RequestParam(name = "lifestyle", required = false) String lifestyleString,
+                                            @RequestParam(name = "keyword", required = false) String keyword,
                                             Pageable pageable) {
         System.out.println("Keywrod: " + keyword);
 

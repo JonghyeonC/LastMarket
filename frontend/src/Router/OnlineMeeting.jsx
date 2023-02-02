@@ -11,7 +11,7 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import HeadsetOffIcon from "@mui/icons-material/HeadsetOff";
 import CallEndIcon from "@mui/icons-material/CallEnd";
 import ChatIcon from "@mui/icons-material/Chat";
-import LiveChat from "../Chat"
+// import ChatBox from "../Pages/Live/ChatBox"
 
 
 // 로컬 미디어 서버 주소
@@ -218,11 +218,9 @@ class OnlineMeeting extends Component {
               ) : null}
             </VideoContainer>
           </Left>
-          <Right primary={this.state.isChat}>
-            <Chat>
-            <LiveChat />
-            </Chat>
-          </Right>
+          {/* <Right primary={this.state.isChat}>
+            <ChatBox />
+          </Right> */}
         </Middle>
         <Bottom>
           <BottomBox>

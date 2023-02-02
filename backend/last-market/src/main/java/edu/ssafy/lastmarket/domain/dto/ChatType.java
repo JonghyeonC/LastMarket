@@ -1,5 +1,5 @@
 package edu.ssafy.lastmarket.domain.dto;
 
 public enum ChatType {
-    CHAT, BID
+    CHAT, BID, TRADE_CHAT
 }

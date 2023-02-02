@@ -40,11 +40,14 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         Image profile = (member.getProfile() == null) ? null : member.getProfile();
 
         String shortToken = jwtManager.generateJwtToken(member, location, profile);
+        String origins = request.getHeader("Origin");
 
         if (StringUtil.isNullOrEmpty(member.getNickname())) {
-            response.setStatus(201);
+            response.setStatus(302);
+            response.setHeader("Location", origins+"/signup");
         } else {
-            response.setStatus(200);
+            response.setStatus(302);
+            response.setHeader("Location", origins+"/");
         }
         Cookie cookie = new Cookie("Authentication", shortToken);
         cookie.setPath("/");

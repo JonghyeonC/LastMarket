@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChatMessageDTO {
     private ChatType chatType;
+    private String seller;
+    private String buyer;
+    private String sender;
     private String roomKey;
     private String message;
 }

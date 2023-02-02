@@ -246,10 +246,10 @@ class CreateProductFragment : Fragment() {
                     //라이브 할 때
                     var category=binding.category.text.toString()
                     var content=binding.content.text.toString()
-                    var instantPrice=binding.instantPrice.text.toString()
+                    var instantPrice=binding.instantPrice.text.toString().toLong()
                     var lifeStyle=binding.lifestyle.toString()
-                    var liveTime=LocalDateTime.of(year,month,day,hour,min,sec).toString()
-                    var startingPrice=binding.startPrice.text.toString()
+                    var liveTime=LocalDateTime.of(year,month,day,hour,min,sec)
+                    var startingPrice=binding.startPrice.text.toString().toLong()
                     var title=binding.title.text.toString()
 
                     try{
@@ -274,7 +274,7 @@ class CreateProductFragment : Fragment() {
                 } else {//라이브 안할 때
                     var category=binding.category.text.toString()
                     var content=binding.content.text.toString()
-                    var instantPrice=binding.instantPrice.text.toString()
+                    var instantPrice=binding.instantPrice.text.toString().toLong()
                     var lifeStyle=binding.lifestyle.toString()
                     var title=binding.title.text.toString()
 
@@ -285,8 +285,8 @@ class CreateProductFragment : Fragment() {
                             content,
                             instantPrice,
                             lifeStyle,
-                            "",
-                            "",
+                            null,
+                            null,
                             title
                         )
                         var mapper:ObjectMapper= ObjectMapper()

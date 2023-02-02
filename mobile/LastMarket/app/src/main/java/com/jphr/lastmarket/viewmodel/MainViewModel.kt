@@ -8,6 +8,7 @@ import com.jphr.lastmarket.dto.ProductDTO
 private const val TAG = "MainViewModel"
 class MainViewModel: ViewModel() {
 
+    private var productId:Long=0
     private var productDetailCategory:Product?=null
     private var productDetailLive:Product?=null
     private var productDetailNew:Product?=null

@@ -1,5 +1,6 @@
 package com.jphr.lastmarket.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.jphr.lastmarket.R
+import com.jphr.lastmarket.activity.MainActivity
+import com.jphr.lastmarket.databinding.FragmentDetailBinding
+import com.jphr.lastmarket.dto.Product
+import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.viewmodel.MainViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +32,14 @@ class DetailFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private val mainViewModel by activityViewModels<MainViewModel>()
+    lateinit var binding:FragmentDetailBinding
+    private lateinit var mainActivity: MainActivity
+    lateinit var data: Product
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity=context as MainActivity
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +47,7 @@ class DetailFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        var data=mainViewModel.getProductDetailCategory()
+        data= mainViewModel.getProductDetailCategory()!!
         Log.d(TAG, "onCreate:$data ")
     }
 
@@ -43,8 +55,34 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        var state=data.dealState
+
+        //공통기능 img, title, lifestyle, category, content,sellerinfos
+        binding=FragmentDetailBinding.inflate(inflater,container,false)
+
+        binding.title.text=data.title
+        binding.lifestyle.text=data.lifestyle
+
+
+
+        if(state=="default"){// 라이브 O 아직 시작안함
+
+        }else if(state=="onbroadcast"){ // 라이브 중
+
+        }else if(state=="afterbroadcast"){//라이브 후 낙찰 안됨 & 라이브 X인 경우
+
+        }else if(state=="reservation") {//라이브 후 낙찰 시
+
+        }else if(state=="finish"){  //완전히 거래가 완료된 상태
+
+        }
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        binding.instantPrice.text=data.instantPrice
+        binding.startPrice.text=data.startingPrice
+
+
+        return binding.root
     }
 
     companion object {

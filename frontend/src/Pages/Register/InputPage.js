@@ -1,32 +1,70 @@
 import './InputBox.css'
-import Dropbox from '../../Components/Dropbox'
+import Dropbox_cate from './Dropbox_cate'
+import Dropbox_life from './Dropbox_life'
 import { useState } from 'react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { useEffect } from 'react'
 
-function InputPage() {
 
+function InputPage({setInputData}) {
+  
   const [checkbox, setCheckbox] = useState(false)
   
   const [name, setName] = useState('')
+  const [content, setContent] = useState('')
   const [price, setPrice] = useState('')
   const [bid, setBid] = useState('')
+  const [cate, SetCate] = useState('')
+  const [life, SetLife] = useState('')
+  const [startDate, setStartDate] = useState(null);
 
-  console.log(name)
-  console.log(price)
-  console.log(bid)
+  useEffect(() => {
+    const serialize = {
+      title: name,
+      content: content,
+      instantPrice: price,
+      startingPrice: bid,
+      category: cate,
+      lifestyle: life,
+      livetime: startDate
+    }
+
+    setInputData(serialize)
+  }, [name, content, price, bid, cate, life, startDate])
 
   return (
-    <div className='InputForm'>
-      <input type="text" className='InputBox' placeholder=' 상품명 입력' onChange={(e) => setName(e.target.value)}/>
+    <div className='FormInput'>
+      <input type="text" className='BoxInput' placeholder=' 상품명 입력' onChange={(e) => setName(e.target.value)}/>
       <br />
-      <Dropbox />
+      <textarea name="" id="" cols="30" rows="10" placeholder='상품과의 이야기를 알려주세요' height="180px" onChange={(e) => setContent(e.target.value)}></textarea>
       <br />
-      <input type="text" className='InputBox' placeholder=' 즉시 판매가 입력' onChange={(e) => setPrice(e.target.value)}/>
+      <Dropbox_cate SetCate={SetCate} />
+      <br />
+      <input type="text" className='BoxInput' placeholder=' 즉시 판매가 입력' onChange={(e) => setPrice(e.target.value)}/>
+      <br />
+      <Dropbox_life SetLife={SetLife} />
       <br />
       <div className='checkbox'>
         <input type="checkbox" className='check' onClick={() => {setCheckbox(!checkbox)}}/>
         {
           checkbox ?
-          <input type="text" className='bidInput' placeholder=' 경매 시작가 입력'onChange={(e) => setBid(e.target.value)}/> :
+          <div>
+            <div>
+              <input type="text" className='bidInput' placeholder=' 경매 시작가 입력' onChange={(e) => setBid(e.target.value)}/> 
+            </div>
+            <br />
+            <DatePicker
+              className='TimeInput'
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              timeCaption="time"
+              dateFormat="yyyy.MM.dd h:mm aa"
+            />
+          </div> :
           <div className='bidBox'><p className='liveText'>라이브 방송을 하시려면 체크해주세요</p></div>
         }
       </div>

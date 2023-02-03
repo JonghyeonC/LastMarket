@@ -27,3 +27,32 @@ export default class UserVideoComponent extends Component {
         );
     }
 }
+
+// import React from 'react';
+// import styled from 'styled-components';
+// import OpenViduVideoComponent from './OvVideo';
+// import './UserVideo.css';
+
+// const Container = styled.div`
+// width: 100%;
+// height: 100%;
+// `;
+
+// const UserVideoComponent = (props) => {
+// const getNicknameTag = () => {
+//     return JSON.parse(props.streamManager.stream.connection.data).clientData;
+// };
+
+// return (
+//     <Container>
+//     {props.streamManager !== undefined ? (
+//         <div className="streamcomponent">
+//         <OpenViduVideoComponent streamManager={props.streamManager} />
+//         <div><p>{getNicknameTag()}</p></div>
+//         </div>
+//     ) : null}
+//     </Container>
+// );
+// };
+
+// export default UserVideoComponent;

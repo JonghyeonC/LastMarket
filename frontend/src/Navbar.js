@@ -62,13 +62,13 @@ function Navbar() {
             <img className="App-logo" src="logos/App_logo.png" alt="App_logo"/>
             <span>앱 다운로드</span>
         </div>
-        <a href="https://www.google.com">고객센터</a>
+        <div onClick={() => navigate('/register')}>고객센터</div>
       </div>
       {/* <hr className="nav_line1"/> */}
       <br />
       <div className="navbar_down">
         <img className="W_logo" src="logos/W_logo.png" alt="W_logo" onClick={() => navigate('/')}/>
-        <span><input className="nav_input" type="text" placeholder="검색해보세요" onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') { navigate("/search/" + inputValue) } }} /></span>
+        <span><input className="nav_input" type="text" placeholder="검색해보세요" onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') { navigate("/search/" + inputValue) }}} /></span>
         <span>
           <span>
             <div className="nav_btn_box"> 

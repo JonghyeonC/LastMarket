@@ -1,0 +1,21 @@
+.loginDiv{
+  display: flex;
+  justify-content: center;
+}
+
+.loginBox{
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  justify-content: center;
+}
+
+.naverLogin{
+  width: 200px;
+  height: 50px;
+}
+
+.kakaoLogin{
+  height: 50px;
+}

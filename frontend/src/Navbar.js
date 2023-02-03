@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Category from "./Category";
+import ModalBasic from './Login/ModalBasic';
 
 const options = [
   {
@@ -54,6 +55,14 @@ function Navbar() {
   let navigate = useNavigate()
   let [inputValue, setInputValue] = useState('')
   console.log(inputValue)
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // 모달창 노출
+  const showModal = () => {
+      setModalOpen(true);
+  };
+
   
   return (
     <div >
@@ -74,7 +83,10 @@ function Navbar() {
             <div className="nav_btn_box"> 
               <img className="chat_icon" src="chat_icon.png" alt="chat_icon" onClick={() => navigate('/chat')}/>
               <img className="myprofile_icon" src="myprofile_icon.png" alt="myprofile_icon" onClick={() => navigate('/profile')}/>
-              <img className="logout_icon" src="logout_icon.png" alt="logout_icon" onClick={() => navigate('/login')}/>
+              <span>
+                <img className="logout_icon" src="logout_icon.png" alt="logout_icon" onClick={showModal} />
+                {modalOpen && <ModalBasic setModalOpen={setModalOpen} />}
+              </span>
             </div>
           </span>
           {/* <br /> */}

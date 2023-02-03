@@ -1,12 +1,12 @@
 import MessageList from "../Pages/Chat/MessageList"
-import TextList from "../Pages/Chat/TextList"
+import MessageRoom from "../Pages/Chat/MessageRoom"
 
 function Chat() {
 
   return (
     <div className="chatBox">
         <MessageList />
-        <TextList />
+        <MessageRoom />
     </div>
 
   )

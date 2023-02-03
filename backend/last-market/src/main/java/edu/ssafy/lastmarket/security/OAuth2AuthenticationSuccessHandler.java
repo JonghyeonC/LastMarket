@@ -52,9 +52,9 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
             Cookie cookie = new Cookie("Authentication", shortToken);
             cookie.setPath("/");
             cookie.setDomain("https://i8d206.p.ssafy.io");
-            response.sendRedirect("/signup");
-//            response.setStatus(302);
-//            response.setHeader("Location", origins+"/signup");
+//            response.sendRedirect("/signup");
+            response.setStatus(302);
+            response.setHeader("Location", "/signup");
         } else {
             response.addHeader("Authorization", shortToken);
             Cookie cookie = new Cookie("Authentication", shortToken);
@@ -63,9 +63,9 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
             response.setContentType("application/json");
             response.addCookie(cookie);
             cookie.setDomain("https://i8d206.p.ssafy.io");
-            response.sendRedirect("/");
-//            response.setStatus(302);
-//            response.setHeader("Location", origins+"/");
+//            response.sendRedirect("/");
+            response.setStatus(302);
+            response.setHeader("Location", "/");
         }
 //        response.addHeader("Authorization", shortToken);
     }

@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
+import com.jphr.lastmarket.adapter.ImageViewPagerAdapter
 import com.jphr.lastmarket.databinding.FragmentDetailBinding
 import com.jphr.lastmarket.dto.Product
 import com.jphr.lastmarket.dto.ProductDTO
@@ -73,30 +76,50 @@ class DetailFragment : Fragment() {
 
         Log.d(TAG, "onCreateView: $data")
         //공통기능 img, title, lifestyle, content,sellerinfos
+        var viewPagerAdapter=ImageViewPagerAdapter(requireContext(),data.imgURIs)
         binding=FragmentDetailBinding.inflate(inflater,container,false)
+
+        var imgSize=data.imgURIs.size
 
         binding.title.text=data?.title
         binding.lifestyle.text=data?.lifestyle
         binding.content.text=data?.content
         binding.sellerNicname.text=data.sellerNickname
-        binding.sellerLocation.text=data.profile
+        binding.sellerLocation.text=data.location
+        Glide.with(requireContext())
+            .load(data.profile)
+            .into(binding.sellerProfile)
+        binding.instantPrice.text=data?.instantPrice.toString()
+        binding.startPrice.text=data?.startingPrice.toString()
 
+
+        binding.viewPager.adapter=viewPagerAdapter
+
+        binding.indicator.apply {
+            setViewPager(binding.viewPager)
+            createIndicators(imgSize,0)
+            orientation=ViewPager2.ORIENTATION_HORIZONTAL
+        }
 
         if(state=="default"){// 라이브 O 아직 시작안함
+            binding.startPriceLinear.visibility=View.VISIBLE
+            binding.startPrice.text=data.startingPrice.toString()
+            binding.liveButton.text=data.liveTime
 
         }else if(state=="onbroadcast"){ // 라이브 중
-
+            binding.liveButton.text="Live 참여하기"
+            binding.purchaseButton.text="경매 진행중"
         }else if(state=="afterbroadcast"){//라이브 후 낙찰 안됨 & 라이브 X인 경우
 
         }else if(state=="reservation") {//라이브 후 낙찰 시
+            binding.liveButton.text="Live 참여하기"
+            binding.purchaseButton.text="경매 진행중"
 
         }else if(state=="finish"){  //완전히 거래가 완료된 상태
 
         }
 
         // Inflate the layout for this fragment
-        binding.instantPrice.text=data?.instantPrice.toString()
-        binding.startPrice.text=data?.startingPrice.toString()
 
 
         return binding.root

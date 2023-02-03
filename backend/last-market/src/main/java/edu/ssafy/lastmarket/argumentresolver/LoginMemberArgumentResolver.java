@@ -3,6 +3,7 @@ package edu.ssafy.lastmarket.argumentresolver;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.jwt.JwtManager;
 import edu.ssafy.lastmarket.repository.MemberRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,10 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
 
         if (StringUtil.isNullOrEmpty(token)) {
+            return null;
+        }
+
+        if(!jwtManager.isVidate(token)){
             return null;
         }
 

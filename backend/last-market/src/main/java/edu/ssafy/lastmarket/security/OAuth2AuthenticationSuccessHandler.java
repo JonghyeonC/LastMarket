@@ -49,23 +49,22 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
         if (StringUtil.isNullOrEmpty(member.getNickname())) {
             response.addHeader("Authorization", shortToken);
+            Cookie cookie = new Cookie("Authentication", shortToken);
+            cookie.setPath("/");
             response.sendRedirect("/signup");
 //            response.setStatus(302);
 //            response.setHeader("Location", origins+"/signup");
         } else {
             response.addHeader("Authorization", shortToken);
+            Cookie cookie = new Cookie("Authentication", shortToken);
+            cookie.setPath("/");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.addCookie(cookie);
             response.sendRedirect("/");
 //            response.setStatus(302);
 //            response.setHeader("Location", origins+"/");
         }
-        Cookie cookie = new Cookie("Authentication", shortToken);
-        cookie.setPath("/");
-        cookie.setDomain("http://localhost:3000");
-        cookie.setDomain("https://i8d206.p.ssafy.io");
-
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
-        response.addCookie(cookie);
-        response.addHeader("Authorization", shortToken);
+//        response.addHeader("Authorization", shortToken);
     }
 }

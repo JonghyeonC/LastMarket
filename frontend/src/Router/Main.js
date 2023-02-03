@@ -1,9 +1,9 @@
-import Card from "../Components/Card"
-import products from "../Data"
-import Swiper from "../Components/JjimSwiper"
+// import Card from "../Components/Card"
+// import products from "../Data"
+// import Swiper from "../Components/JjimSwiper"
 import GoodsListSwiper from "../Components/GoodsListSwiper"
 import GoodsList from "../Components/GoodsList"
-import GoodsListCard from "../Components/GoodsListCard"
+// import GoodsListCard from "../Components/GoodsListCard"
 
 
 // axios
@@ -22,14 +22,14 @@ function Main() {
           </div> */}
           {/* <hr /> */}
           <br />
-          <h1>('진평동')의 (미니멀 라이프) (운동) 상품</h1>
+          <h1>('진평동')의 (미니멀 라이프) () 상품</h1>
           <br />
           <div>
             <GoodsListSwiper />
           </div>
           <br />
           <br />
-          <h1>('진평동')에서 (미니멀 라이프)로 (요리) 라이브 중</h1>
+          <h1>('진평동')에서 (미니멀 라이프)로 () 라이브 중</h1>
           <br />
           <div>
             <GoodsListSwiper />
@@ -41,7 +41,7 @@ function Main() {
           {/* <GoodsListCard /> */}
         </div>
         <div>
-          <h1>('진평동')에서 NEW</h1>
+          <h1>('진평동')에서 NEW!</h1>
             <GoodsList />
           {/* <div className='row'>
           {

@@ -35,14 +35,14 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import GoodsListCard from './GoodsListCard'
 
-function GoodsListSwiper() {
+function GoodsListSwiper(props) {
   
   const { filter } = useParams()
   const [ products, setProducts ] = useState([])
   
   function GoodsListApi() {
     // const url = `https://63849468-1da2-48a0-ab71-cde66c0c193b.mock.pstmn.io/products?category=&location=&sort=&dealState=&page=&`
-    const url = `https://i8d206.p.ssafy.io/api/product?category=&lifestyle=&location=&sort=&dealState=&page=&keword=`
+    const url = `https://i8d206.p.ssafy.io/api/product?category=${props.name}&lifestyle=&location=&sort=&dealState=&page=&keword=`
 
     axios.get(url)
     .then((res) => {

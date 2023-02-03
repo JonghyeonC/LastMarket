@@ -12,6 +12,7 @@ import Login from './Login/Login'
 import Navbar from './Navbar'
 import OnlineMeeting from './Router/OnlineMeeting'
 import Signup from './Router/Signup'
+import CategoryPage from './Pages/Category/CategoryPage'
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 
 function App() {
@@ -58,6 +59,10 @@ function App() {
 
         <Route path="/signup" element={
           <Signup />
+        } />
+
+        <Route path="/category/:name" element={
+          <CategoryPage />
         } />
       </Routes>
     </div>

@@ -9,6 +9,7 @@ function Detail() {
   const { id } = useParams()
   const navigate = useNavigate()
   
+  // 경매 라이브
   function liveroom() {
     const url = `https://i8d206.p.ssafy.io/api/liveroom/${id}`
 

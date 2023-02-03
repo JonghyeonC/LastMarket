@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity() {
                 transaction.replace(R.id.fragmentContainer, MypageFragment()).commit()
             }
             3->{
-                transaction.replace(R.id.fragmentContainer, ChatFragment()).commit()
+                transaction.replace(R.id.fragmentContainer, ChatListFragment()).commit()
             }
             4->{
                 transaction.replace(R.id.fragmentContainer,SearchFragment).commit()
@@ -185,6 +185,9 @@ class MainActivity : AppCompatActivity() {
             }
             7->{
                 transaction.replace(R.id.fragmentContainer,DetailFragment()).commit()
+            }
+            8->{
+                transaction.replace(R.id.fragmentContainer,ChatFragment()).commit()
             }
         }
     }

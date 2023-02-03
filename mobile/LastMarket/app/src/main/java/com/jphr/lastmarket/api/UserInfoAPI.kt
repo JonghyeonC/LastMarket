@@ -6,6 +6,7 @@ import com.jphr.lastmarket.dto.UserInfoDTO
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface UserInfoAPI {
@@ -16,7 +17,8 @@ interface UserInfoAPI {
     fun getLifeStyle():Call<LifeStyleDTO>
 
     @POST("api/user")
-    fun insertUserInfo(@Body userinfo:UserInfoDTO):Call<Unit>
-
+    fun insertUserInfo(
+        @Header("Authentication") token: String,
+        @Body userinfo:UserInfoDTO):Call<Unit>
 
 }

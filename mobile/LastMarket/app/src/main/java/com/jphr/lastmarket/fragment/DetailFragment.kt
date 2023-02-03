@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -100,22 +101,50 @@ class DetailFragment : Fragment() {
             createIndicators(imgSize,0)
             orientation=ViewPager2.ORIENTATION_HORIZONTAL
         }
+        binding.up.setOnClickListener {
+            //pullup api
+        }
+        binding.edit.setOnClickListener {
+            //patch product/productid
+        }
+        binding.delete.setOnClickListener {
+            //delete product/productid
+        }
 
         if(state=="DEFAULT"){// 라이브 O 아직 시작안함
             binding.startPriceLinear.visibility=View.VISIBLE
             binding.startPrice.text=data.startingPrice.toString()
             binding.liveButton.text=data.liveTime
 
+            //버튼 클릭 이벤트
+            binding.liveButton.setOnClickListener {
+                Toast.makeText(requireContext(), "라이브 시작전입니다.", Toast.LENGTH_LONG).show()
+            }
+            binding.purchaseButton.setOnClickListener {
+                mainActivity.changeFragment(8)
+                //TODO: 채팅 상대 연결시키기
+            }
+
         }else if(state=="ONBROADCAST"){ // 라이브 중
             binding.startPriceLinear.visibility=View.VISIBLE
             binding.startPrice.text=data.startingPrice.toString()
             binding.liveButton.text="Live 참여하기"
             binding.purchaseButton.text="경매 진행중"
-        }else if(state=="AFTERROADCAST"){//라이브 후 낙찰 안됨 & 라이브 X인 경우
+
+
+        }else if(state=="AFTERBROADCAST"){//라이브 후 낙찰 안됨 & 라이브 X인 경우 &라이브 하기로했는데 안한거
             binding.startPriceLinear.visibility=View.GONE
             binding.liveButton.text="Live가 없는 상품"
             binding.purchaseButton.text="즉시 구매"
 
+            //버튼 클릭 이벤트
+            binding.liveButton.setOnClickListener {
+                Toast.makeText(requireContext(), "라이브가 존재하지 않는 상품입니다.", Toast.LENGTH_LONG).show()
+            }
+            binding.purchaseButton.setOnClickListener {
+                mainActivity.changeFragment(8)
+                //TODO: 채팅 상대 연결시키기
+            }
 
         }else if(state=="RESERVATION") {//라이브 후 낙찰 시
             binding.startPriceLinear.visibility=View.VISIBLE
@@ -124,9 +153,26 @@ class DetailFragment : Fragment() {
             binding.liveButton.text="Live 종료"
             binding.purchaseButton.text="낙찰 완료"
 
-        }else if(state=="FINISH"){  //완전히 거래가 완료된 상태
+            //버튼 클릭 이벤트
+            binding.liveButton.setOnClickListener {
+                Toast.makeText(requireContext(), "라이브가 끝난 상품입니다.", Toast.LENGTH_LONG).show()
+            }
+            binding.purchaseButton.setOnClickListener {
+                mainActivity.changeFragment(8)
+                Toast.makeText(requireContext(), "낙찰이 완료 되어 예약중인 상품입니다.", Toast.LENGTH_LONG).show()
+            }
 
+        }else if(state=="FINISH"){  //완전히 거래가 완료된 상태
+            binding.startPriceLinear.visibility=View.VISIBLE
+            binding.startPrice.text=data.startingPrice.toString()
+
+            binding.liveButton.text="Live 종료"
+            binding.purchaseButton.text="낙찰 완료"
         }
+
+
+
+
 
         // Inflate the layout for this fragment
 

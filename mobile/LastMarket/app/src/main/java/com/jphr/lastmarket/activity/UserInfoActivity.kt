@@ -110,7 +110,8 @@ class UserInfoActivity : AppCompatActivity() {
             userLifeStyle = binding.lifestyle.text.toString()
 //            userCategory = binding.userCategory.selectedItem as String
             userAddress= binding.address.text as String
-            var userinfo=UserInfoDTO(userAddress,userLifeStyle,userName)
+            var categories= mutableListOf<String>()
+            var userinfo=UserInfoDTO(userAddress,categories,userLifeStyle,userName)
             Log.d(TAG, "onCreate: $userinfo")
 
             var prefs=getSharedPreferences("user_info",MODE_PRIVATE)
@@ -120,8 +121,8 @@ class UserInfoActivity : AppCompatActivity() {
 //            editor?.putString("category",userCategory)
             editor?.putString("lifestyle",userLifeStyle)
             editor?.commit()
-
-            UserInfoService().insertUserInfo(userinfo)
+            var token =prefs.getString("token","")!!
+            UserInfoService().insertUserInfo(token,userinfo)
             var intent=Intent(this@UserInfoActivity, MainActivity::class.java)
             startActivity(intent)
         }

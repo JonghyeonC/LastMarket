@@ -66,8 +66,8 @@ class UserInfoService {
 
         return responseLifeStyle
     }
-    fun insertUserInfo(userInfo:UserInfoDTO) {
-        RetrofitUtil.UserInfoService.insertUserInfo(userInfo).enqueue(object : Callback<Unit> {
+    fun insertUserInfo(token:String,userInfo:UserInfoDTO) {
+        RetrofitUtil.UserInfoService.insertUserInfo(token,userInfo).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
                 Log.d(TAG, "onResponse: ${res}")

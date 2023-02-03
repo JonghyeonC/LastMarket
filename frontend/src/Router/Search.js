@@ -4,11 +4,11 @@ import { useParams } from 'react-router-dom'
 
 function Search() {
   
-  let { result } = useParams()
-  let [results, setResults] = useState('')
+  const { result } = useParams()
+  const [results, setResults] = useState('')
   
   function searchApi() {
-    const url = `https://d090430e-7192-49f0-8612-c0e6dbe175a9.mock.pstmn.io/search?category=""&word="ham"`
+    const url = `https://c1d1e486-0a6a-449a-a1b5-d12ec8679d3b.mock.pstmn.io/search?category=""&word="ham"`
 
     axios.get(url)
     .then((res) => {

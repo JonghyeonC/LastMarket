@@ -1,8 +1,9 @@
 import React, { useRef, useState, useMemo } from "react";
+import { useEffect } from "react";
 import Cropper from 'react-cropper';
 import './UploadPagecss.css'
 
-function UploadPage() {
+function UploadPage({setImageUrls}) {
   
   const cropperRef = useRef(null);
   const fileInput = useRef(null);
@@ -32,11 +33,9 @@ function UploadPage() {
     )
   }
 
-
   const deleteImage = (id) => {
     setImageFile(imageFile.filter((_, index) => index !== id))
   }
-
 
   const showImage = useMemo(() => {
     if (!imageFile && imageFile == null) {
@@ -52,6 +51,14 @@ function UploadPage() {
       })
   }, [imageFile])
 
+  useEffect(() => {
+    const serialize = {
+      imgs: imageFile
+    }
+
+    setImageUrls(serialize)
+
+    }, [imageFile])
 
   return (
     <React.Fragment>

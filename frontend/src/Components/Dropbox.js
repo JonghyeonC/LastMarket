@@ -2,7 +2,7 @@ import './Dropboxcss.css'
 import { FaAngleDown } from "react-icons/fa"
 
 
-function Dropbox() {
+function Dropbox({SetCate}) {
   return (
     <div className='inputWrap'>
     {/* <p className="labelBox">회원님은 어떤 일을 하시나요?</p> */}
@@ -14,9 +14,9 @@ function Dropbox() {
         </label>
         <div className='content'>
           <ul>
-            {/* <li onClick={() => {setJob(1)}}>1</li>
-            <li onClick={() => {setJob(2)}}>2</li>
-            <li onClick={() => {setJob(3)}}>3</li> */}
+            <li onClick={() => {SetCate(1)}}>1</li>
+            <li onClick={() => {SetCate(2)}}>2</li>
+            <li onClick={() => {SetCate(3)}}>3</li>
           </ul>
         </div>
       </div>

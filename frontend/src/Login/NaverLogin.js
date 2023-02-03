@@ -1,113 +1,37 @@
-import { useEffect, useState } from 'react'
+// 로그인 페이지
+
+import React from 'react'
 import axios from 'axios'
+import './Login.css'
 
+const NaverLogin = () => {
 
-const NaverLogin = ({ setGetToken, setUserInfo }) => {
+  // 카카오 로그인 함수를 실행시키면 아래에 설정해 놓은 KAKAO_AUTH_URL 주소로 이동한다.
+  // 이동 된 창에서 kakao 계정 로그인을 시도할 수 있으며 로그인 버튼 클릭 시 Redirect URI로 이동하면서 빈 화면과 함게 인가코드가 발급된다.(인가코드는 파라미터 값에 들어가 있다!)
+  // const REST_API_KEY = '5d6f9b9973706d6389a07d2bcf07e40b';
+  // const REDIRECT_URI = 'https://localhost:3000/oauth';
+  // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-	let [signup_status, setSignup_status]  = useState('http://localhost:3000/signup')
-	let url = 'http://treenovel.tk:8080/oauth2/authorization/naver'
-	// axios.get(url)
-  //       .then((Response) => {
-  //           console.log(Response.data)
-  //           if (Response.data === 200) {
-	// 							setSignup_status('http://localhost:3000/')
-  //           } else {
-	// 							setSignup_status('http://localhost:3000/login')
-  //           }
-  //       })
-  //       .catch((error) => console.log(error))
+  const NAVER_AUTH_URL =  'https://i8d206.p.ssafy.io/oauth2/authorization/naver'
 
-	const responseGoogle = async (response) => {
-		console.log(1, response);
-		let jwtToken = await axios.get(
-			"http://treenovel.tk:8080/oauth2/authorization/naver",
-			// JSON.stringify(response),
-			// config
-		);
-		console.log(jwtToken)
-		if (jwtToken.status === 200) {
-			console.log(2, jwtToken.data);
-			localStorage.setItem("jwtToken", jwtToken.data);
-		}
-		if (jwtToken.status === 201) {
-			console.log(33)
-		}
-	};
+  const naverlogin = () => {
+    // window.location.href = KAKAO_AUTH_URL;
+    axios.get(NAVER_AUTH_URL, { withCredentials: true })
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((res) => {
+      console.log("실패")
+      console.log(res)
+    })
+  }
 
-	const { naver } = window
-	// const NAVER_CLIENT_ID = "npz20uxg7uwa05RpYjnV"
-	const NAVER_CLIENT_ID = "CAgPJNeTleyiPVXM_NzV"
-
-	const NAVER_CALLBACK_URL = signup_status
-
-	const initializeNaverLogin = () => {
-		const naverLogin = new naver.LoginWithNaverId({
-			clientId: NAVER_CLIENT_ID,
-			callbackUrl: NAVER_CALLBACK_URL,
-          // 팝업창으로 로그인을 진행할 것인지?           
-			isPopup: false,
-          // 버튼 타입 ( 색상, 타입, 크기 변경 가능 )
-			loginButton: { color: 'green',  type: 3, height: 25 },
-			callbackHandle: true,
-		})
-		naverLogin.init()
-
-           // 선언된 naverLogin 을 이용하여 유저 (사용자) 정보를 불러오는데  
-           // 함수 내부에서 naverLogin을 선언하였기에 지역변수처리가 되어  
-           // userinfo 정보를 추출하는 것은 지역변수와 같은 함수에서 진행주어야한다.
-		
-           // 아래와 같이 로그인한 유저 ( 사용자 ) 정보를 직접 접근하여 추출가능하다.
-           // 이때, 데이터는 첫 연동시 정보 동의한 데이터만 추출 가능하다.
-    
-           // 백엔드 개발자가 정보를 전달해준다면 아래 요기! 라고 작성된 부분까지는 
-           // 코드 생략이 가능하다.  
-      
-    //   naverLogin.getLoginStatus(async function (status) {
-		// 	if (status) {
-    //           // 아래처럼 선택하여 추출이 가능하고, 
-		// 		const userid = naverLogin.user.getEmail()
-		// 		const username = naverLogin.user.getName()
-    //           // 정보 전체를 아래처럼 state 에 저장하여 추출하여 사용가능하다. 
-    //           // setUserInfo(naverLogin.user)
-		// 	}
-		// })     
-    //         // 요기!
-	}
-    
-    
-    
-            // 네이버 소셜 로그인 (네아로) 는 URL 에 엑세스 토큰이 붙어서 전달된다.
-            // 우선 아래와 같이 토큰을 추출 할 수 있으며,
-            // 3부에 작성 될 Redirect 페이지를 통해 빠르고, 깨끗하게 처리가 가능하다.
-
-	    const userAccessToken = () => {
-		    window.location.href.includes('access_token') && getToken()
-	}
-        
-      	const getToken = () => {
-		const token = window.location.href.split('=')[1].split('&')[0]
-             // console.log, alert 창을 통해 토큰이 잘 추출 되는지 확인하자! 
-        		
-             // 이후 로컬 스토리지 또는 state에 저장하여 사용하자!   
-                // localStorage.setItem('access_token', token)
-		        // setGetToken(token)
-	}
-
-        
-             // 화면 첫 렌더링이후 바로 실행하기 위해 useEffect 를 사용하였다.
-	useEffect(() => {
-		initializeNaverLogin()
-		userAccessToken()
-	}, [])
-
-
-	return (
-		<>
-         {/* // 구현할 위치에 아래와 같이 코드를 입력해주어야 한다.  */}
-         {/* // 태그에 id="naverIdLogin" 를 해주지 않으면 오류가 발생한다! */}
-			<div id="naverIdLogin" />
-		</>
-	)
+  return (
+    <React.Fragment>
+      <a href="https://i8d206.p.ssafy.io/oauth2/authorization/naver"><img src="naver_login.png" className='naverLogin' alt="네이버로그인" /></a>
+      {/* <img src="naver_login.png"  alt="네이버로그인" onClick={naverlogin}/> */}
+    </React.Fragment>
+  )
 }
 
 export default NaverLogin

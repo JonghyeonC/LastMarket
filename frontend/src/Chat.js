@@ -4,7 +4,7 @@ function LiveChat() {
     // let chat_log = document.getElementById("chat-log");
     // let userId = "none";
     
-    // let socket = new WebSocket("ws://limecats.synology.me:8989/ws");
+    // let socket = new WebSocket("wss://i8d206.p.ssafy.io");
     // console.log(socket)
     // let stomp_client = Stomp.over(socket);
     

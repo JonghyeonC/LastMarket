@@ -1,0 +1,11 @@
+.detailBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.priceBox{
+  background-color: grey;
+  font-size: x-large;
+  
+}

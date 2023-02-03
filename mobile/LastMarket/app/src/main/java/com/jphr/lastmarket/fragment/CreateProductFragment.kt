@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -134,7 +135,7 @@ class CreateProductFragment : Fragment() {
                         if (imageUri != null) {
                             val file = File(absolutelyPath(imageUri,requireContext()))  //절대경로로 바꿈
                             val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-                            val body= MultipartBody.Part.createFormData("profile",file.name,requestFile)
+                            val body= MultipartBody.Part.createFormData("imgs",file.name,requestFile)
 
                             imageMultipartList.add(body)
                             imageUriList.add(imageUri)
@@ -159,7 +160,7 @@ class CreateProductFragment : Fragment() {
                                 val imageUri = clipData.getItemAt(i).uri // 선택한 이미지들의 uri를 가져온다.
                                 val file = File(absolutelyPath(imageUri,requireContext()))  //절대경로로 바꿈
                                 val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-                                val body= MultipartBody.Part.createFormData("profile",file.name,requestFile)
+                                val body= MultipartBody.Part.createFormData("imgs",file.name,requestFile)
 
                                 try {
                                     imageUriList.add(imageUri) //uri를 list에 담는다.
@@ -240,14 +241,17 @@ class CreateProductFragment : Fragment() {
         }
 
         binding.save.setOnClickListener{
+            var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
+            var token =prefs.getString("token","")!!
 
-
-                if (binding.radioGroup.checkedRadioButtonId == R.id.live_true) {
+            Log.d(TAG, "token logd : $token")
+            Log.d(TAG, "onCreateView: ${binding.radioGroup.checkedRadioButtonId.toString()}")
+            if (binding.radioGroup.checkedRadioButtonId == R.id.live_true) {
                     //라이브 할 때
-                    var category=binding.category.text.toString()
+                    var category=binding.categoryField.editText?.text.toString()
                     var content=binding.content.text.toString()
                     var instantPrice=binding.instantPrice.text.toString().toLong()
-                    var lifeStyle=binding.lifestyle.toString()
+                    var lifeStyle=binding.lifestyleField.editText?.text.toString()
                     var liveTime=LocalDateTime.of(year,month,day,hour,min,sec).toString()
                     var startingPrice=binding.startPrice.text.toString().toLong()
                     var title=binding.title.text.toString()
@@ -265,17 +269,19 @@ class CreateProductFragment : Fragment() {
                         var mapper:ObjectMapper= ObjectMapper()
                         var jsonString=mapper.writeValueAsString(product)
                         var jsonBody=RequestBody.create("application/json".toMediaTypeOrNull(),jsonString)
-                        ProductService().insertProduct(jsonBody,imageMultipartList)
+                        Log.d(TAG, "onCreateView: $product")
+
+                        ProductService().insertProduct(token,jsonBody,imageMultipartList)
                         mainActivity.changeFragment(1)
                     }catch (e:Exception){
                         Toast.makeText(requireContext(), "입력하지 않은 항목이 있습니다", Toast.LENGTH_LONG).show()
                     }
 
                 } else {//라이브 안할 때
-                    var category=binding.category.text.toString()
+                    var category=binding.categoryField.editText?.text.toString()
                     var content=binding.content.text.toString()
                     var instantPrice=binding.instantPrice.text.toString().toLong()
-                    var lifeStyle=binding.lifestyle.toString()
+                    var lifeStyle=binding.lifestyleField.editText?.text.toString()
                     var title=binding.title.text.toString()
 
 
@@ -292,12 +298,14 @@ class CreateProductFragment : Fragment() {
                         var mapper:ObjectMapper= ObjectMapper()
                         var jsonString=mapper.writeValueAsString(product)
                         var jsonBody=RequestBody.create("application/json".toMediaTypeOrNull(),jsonString)
-                        ProductService().insertProduct(jsonBody,imageMultipartList)
+                        Log.d(TAG, "onCreateView: $product")
+                        ProductService().insertProduct(token,jsonBody,imageMultipartList)
                         mainActivity.changeFragment(1)
                     }catch (e:Exception){
                         Log.d(TAG, "onCreateView: $e")
-                        Toast.makeText(requireContext(), "입력하지 않은 항목이 있습니다", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), "입력하지 않은 항목이 있습니다 라이브 안할 때", Toast.LENGTH_LONG).show()
                     }
+
 
 
                 }

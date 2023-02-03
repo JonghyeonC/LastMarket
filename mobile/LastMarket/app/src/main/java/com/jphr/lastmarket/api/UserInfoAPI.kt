@@ -19,6 +19,6 @@ interface UserInfoAPI {
     @POST("api/user")
     fun insertUserInfo(
         @Header("Authentication") token: String,
-        @Body userinfo:UserInfoDTO):Call<Unit>
+        @Body userinfo:UserInfoDTO ):Call<Unit>
 
 }

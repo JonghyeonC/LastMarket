@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -72,6 +73,9 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
+        var token =prefs.getString("token","")!!
+
 
         var state= data?.dealState
 
@@ -102,13 +106,15 @@ class DetailFragment : Fragment() {
             orientation=ViewPager2.ORIENTATION_HORIZONTAL
         }
         binding.up.setOnClickListener {
-            //pullup api
+            ProductService().pullProduct(token,productId)
         }
         binding.edit.setOnClickListener {
+            //edit 페이지로 슝
             //patch product/productid
         }
         binding.delete.setOnClickListener {
-            //delete product/productid
+            ProductService().pullProduct(token,productId)
+
         }
 
         if(state=="DEFAULT"){// 라이브 O 아직 시작안함

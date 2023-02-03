@@ -107,10 +107,10 @@ class UserInfoActivity : AppCompatActivity() {
 
         binding.save.setOnClickListener {
             userName = binding.userName.text.toString()
-            userLifeStyle = binding.lifestyle.text.toString()
+            userLifeStyle = binding.lifestyleField.editText?.text.toString()
 //            userCategory = binding.userCategory.selectedItem as String
             userAddress= binding.address.text as String
-            var categories= mutableListOf<String>()
+            var categories= mutableListOf<String>("CAMPING","BOOK")
             var userinfo=UserInfoDTO(userAddress,categories,userLifeStyle,userName)
             Log.d(TAG, "onCreate: $userinfo")
 
@@ -123,6 +123,8 @@ class UserInfoActivity : AppCompatActivity() {
             editor?.commit()
             var token =prefs.getString("token","")!!
             UserInfoService().insertUserInfo(token,userinfo)
+            Log.d(TAG, "onCreate: $userinfo")
+
             var intent=Intent(this@UserInfoActivity, MainActivity::class.java)
             startActivity(intent)
         }

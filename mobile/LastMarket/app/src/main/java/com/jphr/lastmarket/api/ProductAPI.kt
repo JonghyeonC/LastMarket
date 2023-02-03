@@ -23,10 +23,22 @@ interface ProductAPI {
 
     @Multipart
     @POST("api/product")
-    fun insertProduct(@Part("product") product: RequestBody,
+    fun insertProduct(  @Header("Authentication") token: String,
+                        @Part("product") product: RequestBody,
                         @Part imgs: MutableList<MultipartBody.Part>):Call<String>
 
     @GET("api/product/{productId}")
     fun getProudctDetail(@Path("productId") productId:Long):Call<ProductDetailDTO>
 
+    @PUT("api/pullup/{productId}")
+    fun pullProduct(@Header("Authentication") token: String,
+        @Path("productId") productId:Long):Call<Unit>
+
+    @PATCH("api/product/{productId}")
+    fun editProduct(@Header("Authentication") token: String,
+        @Body product:ProductRegisterDTO):Call<String>
+
+    @DELETE("api/product/{productId}")
+    fun deleteProduct(@Header("Authentication") token: String,
+        @Path("productId") productId:Long):Call<String>
 }

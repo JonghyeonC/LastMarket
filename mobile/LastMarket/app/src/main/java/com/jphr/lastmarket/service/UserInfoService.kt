@@ -70,20 +70,20 @@ class UserInfoService {
         RetrofitUtil.UserInfoService.insertUserInfo(token,userInfo).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
-                Log.d(TAG, "onResponse: ${res}")
+                Log.d(TAG, "insertData: ${response}")
                 if (response.isSuccessful) {
                     if (res != null) {
-                        Log.d(TAG, "onResponse: true")
+                        Log.d(TAG, "insertdata: true")
                         true
                     }
                 } else {
-                    Log.d(TAG, "onResponse:false ")
+                    Log.d(TAG, "insertdata:false ")
 
                     false
                 }
             }
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                Log.d(TAG, "onResponse:false ")
+                Log.d(TAG, "insertdata:false ")
 
             }
         })

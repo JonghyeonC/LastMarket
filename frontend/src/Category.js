@@ -1,35 +1,44 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 function Category() {
+  
+  const navigate = useNavigate()
+
+  const URL = `https://i8d206.p.ssafy.io/api/categories`
+  const [ categories, setCategories ] = useState([]) 
+
+  const getCategory = (() => {
+    return(
+      axios({
+        method: "get",
+        url: URL,
+      })
+      .then((res) => {
+        setCategories(res.data.categories)
+      })
+      .catch((res) => {
+        console.log("실패")
+      })
+    )
+  })
+
+  console.log(categories)
+
+  useEffect(() => {
+    getCategory()
+  }, [])
+
   return(
     <div>
-      <a href="">카테고리1</a>
-      <br />
-      <br />
-      <a href="">카테고리2</a>
-      <br />
-      <br />
-      <a href="">카테고리3</a>
-      <br />
-      <br />
-      <a href="">카테고리4</a>
-      <br />
-      <br />
-      <a href="">카테고리5</a>
-      <br />
-      <br />
-      <a href="">카테고리6</a>
-      <br />
-      <br />
-      <a href="">카테고리7</a>
-      <br />
-      <br />
-      <a href="">카테고리8</a>
-      <br />
-      <br />
-      <a href="">카테고리9</a>
-      <br />
-      <br />
-      <a href="">카테고리10</a>
+      {
+        categories.map((cate) => {
+          return(
+            <p onClick={() => {navigate(`/category/${cate}`)}}>{cate}</p>
+          )
+        })
+      }
     </div>
   )
 }

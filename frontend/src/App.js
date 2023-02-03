@@ -13,12 +13,16 @@ import Navbar from './Navbar'
 import OnlineMeeting from './OnlineMeeting'
 import KakaoAuthHandler from './Login/KakaoAuthHandler'
 import Signup from './Router/Signup'
+import CategoryPage from './Router/CategoryPage'
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 
 function App() {
   return (
     <div className="App">
       <Navbar />
+      <br />
+      <br />
+      <br />
       <Routes>
 
         <Route path="/" element={
@@ -47,6 +51,10 @@ function App() {
 
         <Route path="/detail/:id" element={
           <Detail />
+        } />
+
+        <Route path="/:category" element={
+          <CategoryPage />
         } />
 
         <Route path="/search/:result" element={

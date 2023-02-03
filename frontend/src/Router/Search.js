@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom'
 
 function Search() {
   
-  let { result } = useParams()
-  let [results, setResults] = useState('')
+  const { result } = useParams()
+  const [results, setResults] = useState('')
   
   function searchApi() {
     const url = `https://d090430e-7192-49f0-8612-c0e6dbe175a9.mock.pstmn.io/search?category=""&word="ham"`

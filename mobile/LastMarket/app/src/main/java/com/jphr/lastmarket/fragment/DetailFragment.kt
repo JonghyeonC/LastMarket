@@ -101,21 +101,30 @@ class DetailFragment : Fragment() {
             orientation=ViewPager2.ORIENTATION_HORIZONTAL
         }
 
-        if(state=="default"){// 라이브 O 아직 시작안함
+        if(state=="DEFAULT"){// 라이브 O 아직 시작안함
             binding.startPriceLinear.visibility=View.VISIBLE
             binding.startPrice.text=data.startingPrice.toString()
             binding.liveButton.text=data.liveTime
 
-        }else if(state=="onbroadcast"){ // 라이브 중
+        }else if(state=="ONBROADCAST"){ // 라이브 중
+            binding.startPriceLinear.visibility=View.VISIBLE
+            binding.startPrice.text=data.startingPrice.toString()
             binding.liveButton.text="Live 참여하기"
             binding.purchaseButton.text="경매 진행중"
-        }else if(state=="afterbroadcast"){//라이브 후 낙찰 안됨 & 라이브 X인 경우
+        }else if(state=="AFTERROADCAST"){//라이브 후 낙찰 안됨 & 라이브 X인 경우
+            binding.startPriceLinear.visibility=View.GONE
+            binding.liveButton.text="Live가 없는 상품"
+            binding.purchaseButton.text="즉시 구매"
 
-        }else if(state=="reservation") {//라이브 후 낙찰 시
-            binding.liveButton.text="Live 참여하기"
-            binding.purchaseButton.text="경매 진행중"
 
-        }else if(state=="finish"){  //완전히 거래가 완료된 상태
+        }else if(state=="RESERVATION") {//라이브 후 낙찰 시
+            binding.startPriceLinear.visibility=View.VISIBLE
+            binding.startPrice.text=data.startingPrice.toString()
+
+            binding.liveButton.text="Live 종료"
+            binding.purchaseButton.text="낙찰 완료"
+
+        }else if(state=="FINISH"){  //완전히 거래가 완료된 상태
 
         }
 

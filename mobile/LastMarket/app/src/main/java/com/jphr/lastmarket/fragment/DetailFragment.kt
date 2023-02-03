@@ -109,7 +109,13 @@ class DetailFragment : Fragment() {
             ProductService().pullProduct(token,productId)
         }
         binding.edit.setOnClickListener {
-            //edit 페이지로 슝
+            var createProduct=CreateProductFragment()
+            createProduct.apply {
+                arguments=Bundle().apply {
+                    putString("is_edit","true")
+                }
+            }
+            mainActivity.changeFragment(6)
             //patch product/productid
         }
         binding.delete.setOnClickListener {

@@ -20,7 +20,7 @@ public class TestUtils {
         Member member = Member.builder()
                 .id(1L)
                 .nickname("nick")
-                .profile(new Image("imageName","imageURL"))
+                .profile(new Image("imageName", "imageURL"))
                 .lifestyle(Lifestyle.MINIMAL)
                 .username("asdf")
                 .location(getLocation())
@@ -99,5 +99,30 @@ public class TestUtils {
 
     }
 
+    public static Trade getTrade() {
+        Member seller = Member.builder()
+                .id(1L)
+                .nickname("seller")
+                .profile(new Image("imageName", "imageURL"))
+                .lifestyle(Lifestyle.MINIMAL)
+                .username("seller")
+                .location(getLocation())
+                .build();
 
+        Member buyer = Member.builder()
+                .id(1L)
+                .nickname("buyer")
+                .profile(new Image("imageName", "imageURL"))
+                .lifestyle(Lifestyle.MINIMAL)
+                .username("buyer")
+                .location(getLocation())
+                .build();
+
+        return Trade.builder()
+                .id(1L)
+                .buyer(buyer)
+                .seller(seller)
+                .product(getProduct())
+                .build();
+    }
 }

@@ -1,6 +1,6 @@
 package edu.ssafy.lastmarket.service;
 
-import edu.ssafy.lastmarket.domain.dto.ReviewDTO;
+import edu.ssafy.lastmarket.domain.dto.ReviewPostDTO;
 import edu.ssafy.lastmarket.domain.entity.BuyerReview;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.domain.entity.Trade;
@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class BuyerReviewServiceImpl implements BuyerReviewService {
 
     @Override
     @Transactional
-    public BuyerReview saveBuyerReview(Member reviewer, ReviewDTO reviewDTO) {
-        Trade trade = tradeRepository.findById(reviewDTO.getTradeId())
+    public BuyerReview saveBuyerReview(Member reviewer, ReviewPostDTO reviewPostDTO) {
+        Trade trade = tradeRepository.findById(reviewPostDTO.getTradeId())
                 .orElseThrow(() -> new IllegalArgumentException("없는 거래입니다."));
 
         boolean exist = buyerReviewRepository.existsByBuyerAndTrade(reviewer, trade);
@@ -32,10 +33,15 @@ public class BuyerReviewServiceImpl implements BuyerReviewService {
         BuyerReview review = BuyerReview.builder()
                 .seller(trade.getSeller())
                 .buyer(reviewer)
-                .reviewTemplate(reviewDTO.getReviewTemplate())
+                .reviewTemplate(reviewPostDTO.getReviewTemplate())
                 .trade(trade)
                 .build();
 
         return buyerReviewRepository.save(review);
+    }
+
+    @Override
+    public List<BuyerReview> getBuyerReviewList(Member buyer) {
+        return buyerReviewRepository.findAllByBuyer(buyer);
     }
 }

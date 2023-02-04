@@ -32,7 +32,6 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
 
 
-
     @Override
     public Page<ProductListDto> getProducts(Optional<Location> locationOptional,
                                             Optional<Category> categoryOptional,
@@ -43,12 +42,12 @@ public class ProductServiceImpl implements ProductService {
 
 
         Page<Product> products = productRepository.getProductList(locationOptional, categoryOptional,
-                dealStates,lifestyle, keyword, pageabl);
-        PageImpl<ProductListDto> result= new PageImpl<>(
+                dealStates, lifestyle, keyword, pageabl);
+        PageImpl<ProductListDto> result = new PageImpl<>(
                 products.getContent().stream()
-                        .map(product -> new ProductListDto(product,false))
+                        .map(product -> new ProductListDto(product, false))
                         .collect(Collectors.toList())
-                ,pageabl,products.getTotalPages());
+                , pageabl, products.getTotalPages());
 
         return result;
     }
@@ -64,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductReadDto getDtoById( Long id, boolean isFavoriteCehcked) {
+    public ProductReadDto getDtoById(Long id, boolean isFavoriteCehcked) {
         Optional<Product> productOptional = productRepository.findProductFetchJoinById(id);
         Product.isProductNull(productOptional);
         Product product = productOptional.get();
@@ -79,16 +78,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(ProductDto productDto, Member member) {
-         Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
+        Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
 
-         if(categoryOptional.isEmpty()){
-             Category category = new Category(productDto.getCategory());
-             categoryRepository.save(category);
-             categoryOptional = Optional.of(category);
-         }
+        if (categoryOptional.isEmpty()) {
+            Category category = new Category(productDto.getCategory());
+            categoryRepository.save(category);
+            categoryOptional = Optional.of(category);
+        }
 
 
         Product product = ProductDto.convert(productDto);
+        LocalDateTime localDateTime = localDateTimeFloor(product.getLiveTime());
+        product.setLiveTime(localDateTime);
         product.setSeller(member);
         product.setLocation(member.getLocation());
         product.setCategory(categoryOptional.get());
@@ -123,24 +124,27 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> productOptional = productRepository.findById(productId);
         Product.isProductNull(productOptional);
         Product product = productOptional.get();
-
-        if(!StringUtil.isNullOrEmpty(productDto.getTitle())){
+        if (productDto.getLiveTime() != null) {
+            LocalDateTime localDateTime = localDateTimeFloor(productDto.getLiveTime());
+            product.setLiveTime(localDateTime);
+        }
+        if (!StringUtil.isNullOrEmpty(productDto.getTitle())) {
             product.setTitle(productDto.getTitle());
         }
-        if(!StringUtil.isNullOrEmpty(productDto.getContent())){
+        if (!StringUtil.isNullOrEmpty(productDto.getContent())) {
             product.setContent(productDto.getContent());
         }
-        if(productDto.getLifestyle()!=null){
+        if (productDto.getLifestyle() != null) {
             product.setLifestyle(productDto.getLifestyle());
         }
-        if(!categoryOptional.isEmpty()){
+        if (!categoryOptional.isEmpty()) {
             product.setCategory(categoryOptional.get());
         }
 
-        if(productDto.getStartingPrice()!=0){
+        if (productDto.getStartingPrice() != 0) {
             product.setStartingPrice(productDto.getStartingPrice());
         }
-        if(productDto.getInstantPrice()!=0){
+        if (productDto.getInstantPrice() != 0) {
             product.setInstantPrice(productDto.getInstantPrice());
         }
 
@@ -178,7 +182,7 @@ public class ProductServiceImpl implements ProductService {
     public void changeDealstateToAfterbroadcast(List<Product> productList) {
 
 
-        for(int i=0;i<productList.size();i++){
+        for (int i = 0; i < productList.size(); i++) {
             Product product = productList.get(i);
             product.setDealState(DealState.AFTERBROADCAST);
             productRepository.save(product);
@@ -190,7 +194,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void checkSeller(Optional<Product> productOptional, Member member) {
-        if(productOptional.isEmpty()){
+        if (productOptional.isEmpty()) {
             throw new NotFoundException("product NotFoundException");
         }
         if (productOptional.get().getSeller().equals(member)) {
@@ -198,7 +202,9 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-
+    private LocalDateTime localDateTimeFloor(LocalDateTime time) {
+        return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute() / 10 * 10);
+    }
 
 
 }

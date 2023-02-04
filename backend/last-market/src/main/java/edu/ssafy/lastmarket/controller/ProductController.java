@@ -87,14 +87,18 @@ public class ProductController {
     @PostMapping("/product")
     public ResponseEntity<?> saveProduct(@Login Member member,
                                          @RequestPart("product") String productDtoString,
-                                         @RequestPart("imgs") MultipartFile[] multipartFiles) throws IOException {
+                                         @RequestPart(name = "imgs", required = false) MultipartFile[] multipartFiles) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         ProductDto productDto = objectMapper.readValue(productDtoString, ProductDto.class);
         Product product = productService.save(productDto, member);
-        List<Image> upload = imageUploadService.upload(multipartFiles);
-        List<ProductImage> productImageList = productImageService.save(product, upload);
-        product.setImages(productImageList);
+
+        if(multipartFiles !=null){
+            List<Image> upload = imageUploadService.upload(multipartFiles);
+            List<ProductImage> productImageList = productImageService.save(product, upload);
+            product.setImages(productImageList);
+        }
+
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

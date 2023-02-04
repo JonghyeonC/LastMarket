@@ -27,9 +27,11 @@ public class ReviewController {
         boolean isSeller = tradeService.isSeller(reviewDTO.getTradeId(), loginMember);
         boolean isBuyer = tradeService.isBuyer(reviewDTO.getTradeId(), loginMember);
 
-        if(isSeller){
-            sellerReviewService.saveSellerReview(loginMember,reviewDTO);
-        } else if(isBuyer){
+        if (isSeller) {
+            log.info("[{}]save review for seller", reviewDTO.getTradeId());
+            sellerReviewService.saveSellerReview(loginMember, reviewDTO);
+        } else if (isBuyer) {
+            log.info("[{}]save review for buyer", reviewDTO.getTradeId());
             //TODO buyer review
         } else {
             throw new IllegalArgumentException("리뷰를 남길 수 없습니다.");

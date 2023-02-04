@@ -140,4 +140,12 @@ public class ControllerExceptionHandler {
         result.put("msg", "illegalArgumentException");
         return new ResponseEntity<>(result, HttpStatus.valueOf(400));
     }
+
+    @ExceptionHandler(ReviewAlreadyExistException.class)
+    public ResponseEntity<?> reviewAlreadyExistException(Exception e) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "reviewAlreadyExistException");
+        return new ResponseEntity<>(result, HttpStatus.valueOf(400));
+    }
 }

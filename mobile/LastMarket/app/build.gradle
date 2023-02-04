@@ -100,4 +100,9 @@ dependencies {
 // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
 
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    implementation 'com.neovisionaries:nv-websocket-client:2.9'
+    implementation 'com.github.webrtc-sdk:android:104.5112.05'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+
 }

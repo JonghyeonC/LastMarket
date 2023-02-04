@@ -9,6 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDTO {
-    private Long tradeId;
+    private Long reviewId;
+    private Long buyerId;
+    private String buyerNickname;
     private ReviewTemplate reviewTemplate;
 }

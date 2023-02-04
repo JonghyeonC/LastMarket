@@ -17,13 +17,10 @@ public class Member extends BaseEntity {
     private Long id;
     private String username;
     private String nickname;
-//    private String password;
     @OneToOne(fetch = FetchType.LAZY)
     private Image profile;
-
     @Enumerated(EnumType.STRING)
     private Lifestyle lifestyle;
-
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
     private Role role;
@@ -45,10 +42,6 @@ public class Member extends BaseEntity {
         this.username =username;
         this.role= Role.USER;
     }
-//    public Member(String username, String password) {
-//        this.username = username;
-//        this.password = password;
-//        this.role = Role.USER;
-//
-//    }
+
+
 }

@@ -14,7 +14,8 @@ import java.util.Arrays;
 public class LogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("[{}] connection ", request.getRequestURI());
+        String method = request.getMethod();
+        log.info("[{}|{}] connection ", method, request.getRequestURI());
         if (request.getCookies() == null) {
             return true;
         }

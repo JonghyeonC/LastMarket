@@ -57,7 +57,6 @@ class ProductService {
                 if(response.code() == 200){
                     if (res != null) {
                         Log.d(TAG, "onResponse: ${response}")
-
                         callback.onSuccess(response.code(), res,issearch,word,category)
 
                     }

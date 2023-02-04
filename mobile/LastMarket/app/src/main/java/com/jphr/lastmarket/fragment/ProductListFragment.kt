@@ -13,8 +13,11 @@ import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentProductListBinding
 import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductX
+import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RecyclerViewDecoration
+import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -43,6 +46,8 @@ class ProductListFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        productDTO=mainViewModel.getProduct()
+        category=mainViewModel.getCategory()
 //        arguments?.let {
 //            productDTO = it.getSerializable("products") as ProductDTO
 //            category = it.getString("category")
@@ -68,6 +73,15 @@ class ProductListFragment : Fragment() {
             addItemDecoration(RecyclerViewDecoration(60,0))
         }
         binding.resultText.text="${category} 카테고리"
+        productListAdapter.setItemClickListener(object : ProductListAdapter.ItemClickListener{
+            override fun onClick(view: View, position: Int) {
+                productListAdapter.list?.get(position)?.productId
+                    ?.let {
+                        ProductService().getProductDetail(it,ProductDetailCallback())
+                    }
+
+            }
+        })
         return binding.root
     }
 
@@ -89,5 +103,29 @@ class ProductListFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+    inner class ProductDetailCallback: RetrofitCallback<ProductDetailDTO> {
+
+        override fun onSuccess(
+            code: Int,
+            responseData: ProductDetailDTO,
+            option: Boolean,
+            word: String?,
+            category: String?
+        ) {
+
+            mainViewModel.setProductDetail(responseData)
+            mainActivity!!.changeFragment(7)
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+
     }
 }

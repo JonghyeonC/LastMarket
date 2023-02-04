@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity() {
             .setOnEditorActionListener { v, actionId, event ->
                 searchBar.text = searchView.text
                 searchView.hide()
-                ProductService().getProductWithSort("",null,cityData,"favoriteCnt","DEFAULT","1",ProductCallback(),false,searchView.text.toString())
+                ProductService().getProductWithSort("",null,cityData,"favoriteCnt","DEFAULT","1",ProductCallback(),true,searchView.text.toString())
                 searchBar.visibility=View.GONE
                 false
             }

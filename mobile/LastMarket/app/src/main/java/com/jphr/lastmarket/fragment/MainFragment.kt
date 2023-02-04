@@ -206,7 +206,6 @@ class MainFragment : Fragment() {
         productListAdapter= ProductListAdapter(mainActivity)
 
 
-        //메인화면에서 최근 목록 클릭시 장바구니로 이동
         productListAdapter.setItemClickListener(object : ProductListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId

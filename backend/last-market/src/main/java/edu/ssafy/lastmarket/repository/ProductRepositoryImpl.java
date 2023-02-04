@@ -35,7 +35,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
     @Override
     public Page<Product> getProductList(Optional<Location> locationOptional,
                                         Optional<Category> categoryOptional,
-                                        DealState dealStateOptional,
+                                        List<DealState> dealStates,
                                         Lifestyle lifestyleOptional,
                                         String keyword,
                                         Pageable pageable) {
@@ -50,7 +50,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                 .where(
                         isLocation(locationOptional),
                         isCategory(categoryOptional),
-                        isDealState(dealStateOptional),
+                        isDealState(dealStates),
                         isLifestyle(lifestyleOptional),
                         isContaionKeyword(keyword)
                 )
@@ -83,13 +83,18 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
         return categoryOptional.isEmpty()?null: product.category.eq(categoryOptional.get());
     }
 
-    private BooleanExpression isDealState(DealState dealState){
-        if(dealState==null){
+    private BooleanExpression isDealState(List<DealState> dealStates){
+        if(dealStates==null|| dealStates.size()==0){
             return null;
         }else{
-            return product.dealState.eq(dealState);
+            for (DealState dealState : dealStates) {
+//                Booleaan
+            }
+//            return product.dealState.eq(dealState);
+            return null;
         }
     }
+
 
     private BooleanExpression isLifestyle(Lifestyle lifestyle){
         if(lifestyle == null){

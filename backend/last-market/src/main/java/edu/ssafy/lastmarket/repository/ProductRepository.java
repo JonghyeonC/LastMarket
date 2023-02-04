@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
-
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long>, ProductRepositoryCustom {
     @Query("select m from Product m join fetch m.location join fetch m.seller where m.id = :id")
@@ -21,4 +20,7 @@ public interface ProductRepository extends JpaRepository<Product,Long>, ProductR
     Optional<Product> findProductMemberById(@Param("id")Long id);
 
     List<Product> findByLiveTimeBetweenAndDealState(LocalDateTime start, LocalDateTime end, DealState dealState);
+
+
+
 }

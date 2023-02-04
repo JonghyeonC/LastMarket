@@ -1,7 +1,7 @@
 package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.TestUtils;
-import edu.ssafy.lastmarket.domain.dto.ReviewDTO;
+import edu.ssafy.lastmarket.domain.dto.ReviewPostDTO;
 import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.exception.ReviewAlreadyExistException;
 import edu.ssafy.lastmarket.repository.SellerReviewRepository;
@@ -41,11 +41,11 @@ class SellerReviewServiceImplTest {
 
         sellerReviewService = new SellerReviewServiceImpl(sellerReviewRepository, tradeRepository);
         //when
-        ReviewDTO reviewDTO = ReviewDTO.builder()
+        ReviewPostDTO reviewPostDTO = ReviewPostDTO.builder()
                 .tradeId(1L)
                 .reviewTemplate(ReviewTemplate.GOOD)
                 .build();
-        SellerReview result = sellerReviewService.saveSellerReview(seller, reviewDTO);
+        SellerReview result = sellerReviewService.saveSellerReview(seller, reviewPostDTO);
 
         //then
         assertThat(result).isEqualTo(sellerReview);
@@ -63,12 +63,12 @@ class SellerReviewServiceImplTest {
 
         sellerReviewService = new SellerReviewServiceImpl(sellerReviewRepository, tradeRepository);
         //when
-        ReviewDTO reviewDTO = ReviewDTO.builder()
+        ReviewPostDTO reviewPostDTO = ReviewPostDTO.builder()
                 .tradeId(1L)
                 .reviewTemplate(ReviewTemplate.GOOD)
                 .build();
 
-        assertThatThrownBy(() -> sellerReviewService.saveSellerReview(seller, reviewDTO))
+        assertThatThrownBy(() -> sellerReviewService.saveSellerReview(seller, reviewPostDTO))
                 .isInstanceOf(ReviewAlreadyExistException.class);
     }
 

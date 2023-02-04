@@ -11,11 +11,14 @@ import edu.ssafy.lastmarket.repository.ProductImageRepository;
 import edu.ssafy.lastmarket.repository.ProductRepository;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,14 +36,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductListDto> getProducts(Optional<Location> locationOptional,
                                             Optional<Category> categoryOptional,
-                                            DealState dealState,
+                                            List<DealState> dealStates,
                                             Lifestyle lifestyle,
                                             String keyword,
                                             Pageable pageabl) {
 
 
         Page<Product> products = productRepository.getProductList(locationOptional, categoryOptional,
-                dealState,lifestyle, keyword, pageabl);
+                dealStates,lifestyle, keyword, pageabl);
         PageImpl<ProductListDto> result= new PageImpl<>(
                 products.getContent().stream()
                         .map(product -> new ProductListDto(product,false))
@@ -162,6 +165,28 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.delete(productOptional.get());
 
+    }
+
+    @Override
+    public List<Product> findProductByLivetime(LocalDateTime localDateTime) {
+        return productRepository.findByLiveTimeBetweenAndDealState(
+                localDateTime, localDateTime.plusMinutes(10), DealState.DEFAULT);
+    }
+
+    @Override
+    @Transactional
+    public void changeDealstateToAfterbroadcast(List<Product> productList) {
+
+
+        for(int i=0;i<productList.size();i++){
+            Product product = productList.get(i);
+            product.setDealState(DealState.AFTERBROADCAST);
+            productRepository.save(product);
+        }
+//        productList.forEach(product -> {
+//            product.setDealState(DealState.AFTERBROADCAST);
+//            System.out.println(product.getId() + " " + product.getDealState());
+//        });
     }
 
     private void checkSeller(Optional<Product> productOptional, Member member) {

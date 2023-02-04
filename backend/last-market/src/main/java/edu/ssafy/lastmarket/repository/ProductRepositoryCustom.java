@@ -11,7 +11,7 @@ public interface ProductRepositoryCustom {
 
     Page<Product> getProductList(Optional<Location> locationOptional,
                                  Optional<Category> categoryOptional,
-                                 DealState dealStateOptional,
+                                 List<DealState> dealStates,
                                  Lifestyle lifestyleOptional,
                                  String keyword,
                                  Pageable pageable);

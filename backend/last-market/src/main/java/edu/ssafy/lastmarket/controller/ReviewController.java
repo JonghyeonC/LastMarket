@@ -3,6 +3,7 @@ package edu.ssafy.lastmarket.controller;
 import edu.ssafy.lastmarket.argumentresolver.Login;
 import edu.ssafy.lastmarket.domain.dto.ReviewDTO;
 import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.service.BuyerReviewService;
 import edu.ssafy.lastmarket.service.SellerReviewService;
 import edu.ssafy.lastmarket.service.TradeService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ReviewController {
     private final SellerReviewService sellerReviewService;
+    private final BuyerReviewService buyerReviewService;
     private final TradeService tradeService;
 
     @PostMapping("/reviews")
@@ -32,7 +34,7 @@ public class ReviewController {
             sellerReviewService.saveSellerReview(loginMember, reviewDTO);
         } else if (isBuyer) {
             log.info("[{}]save review for buyer", reviewDTO.getTradeId());
-            //TODO buyer review
+            buyerReviewService.saveBuyerReview(loginMember, reviewDTO);
         } else {
             throw new IllegalArgumentException("리뷰를 남길 수 없습니다.");
         }

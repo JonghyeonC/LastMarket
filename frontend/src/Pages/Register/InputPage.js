@@ -5,7 +5,7 @@ import { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useEffect } from 'react'
-
+import moment from 'moment/moment'
 
 function InputPage({setInputData}) {
   
@@ -19,17 +19,17 @@ function InputPage({setInputData}) {
   const [life, SetLife] = useState('')
   const [startDate, setStartDate] = useState(null);
 
+  console.log(startDate)
   useEffect(() => {
     const serialize = {
       title: name,
       content: content,
-      instantPrice: price,
-      startingPrice: bid,
+      instantPrice: Number(price),
+      startingPrice: Number(bid),
       category: cate,
       lifestyle: life,
-      livetime: startDate
+      livetime: moment(startDate).format("YYYY-MM-DDTHH:mm:sszz")
     }
-
     setInputData(serialize)
   }, [name, content, price, bid, cate, life, startDate])
 
@@ -56,11 +56,12 @@ function InputPage({setInputData}) {
             <br />
             <DatePicker
               className='TimeInput'
+              placeholderText='경매를 시작할 시간을 정해주세요!'
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               showTimeSelect
               timeFormat="HH:mm"
-              timeIntervals={15}
+              timeIntervals={10}
               timeCaption="time"
               dateFormat="yyyy.MM.dd h:mm aa"
             />

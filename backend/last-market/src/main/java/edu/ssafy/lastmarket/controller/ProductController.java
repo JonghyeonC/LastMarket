@@ -1,5 +1,6 @@
 package edu.ssafy.lastmarket.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -105,10 +107,26 @@ public class ProductController {
 
     @PatchMapping("/product/{id}")
     public ResponseEntity<?> modifyProduct(@Login Member member,
-                                           @RequestBody ProductDto productDto,
-                                           @PathVariable("id") Long id) {
+                                           @RequestPart("product") String productDtoString,
+                                           @RequestPart(name = "imgs", required = false) MultipartFile[] multipartFiles,
+                                           @PathVariable("id") Long id) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        ProductDto productDto = objectMapper.readValue(productDtoString, ProductDto.class);
         Optional<Category> categoryOptional = categoryService.findByCategoryName(productDto.getCategory());
-        productService.updateProduct(member,id,productDto, categoryOptional );
+        Product product = productService.updateProduct(member, id, productDto, categoryOptional);
+
+        if(multipartFiles !=null){
+            if(product.getImages()!=null){
+                List<Image> imageList = productImageService.delete(product.getImages());
+                imageUploadService.delete(imageList);
+                product.setImages(new ArrayList<>());
+            }
+
+            List<Image> upload = imageUploadService.upload(multipartFiles);
+            List<ProductImage> productImageList = productImageService.save(product, upload);
+            product.setImages(productImageList);
+        }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

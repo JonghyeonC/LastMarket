@@ -10,21 +10,31 @@ function Register() {
   const [imageUrls, setImageUrls] = useState([])
   const URL = `https://i8d206.p.ssafy.io/api/product`
 
-  let formData = new FormData()
-  formData = inputData
   // console.log(inputData)
   // console.log(imageUrls)
-
-
+  
+  
   const reg = () => {
     
-    formData.append('imgURIs', imageUrls)
-    console.log(formData)
+    let formData = new FormData();
+    formData = inputData
+    formData.append('imgURIs', Blob, imageUrls)
+    console.log(1)
+
+    // for (let key of formData.keys()) {
+    //   console.log(key);
+    // }
+    
+    // // FormData의 value 확인
+    // for (let value of formData.values()) {
+    //   console.log(value);
+    // }
+
     axios({
       method: "post",
       url: URL,
       data: formData,
-      headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1MjM2MjU5OTczLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJpZCI6NzAwMywidXNlcm5hbWUiOiJuYXZlcl9rd0FqYXMtU0JqMlhlaHdZMG1LVnViWFNxbjNISGZ0WHdoZG5NcGdJRERjIiwiZXhwIjoxNjc1MjM4MDU5fQ.j0Q2aPosXqsX9PmyKSKdVtr9-4eUcq895TDgk6Lyq7E" }
+      headers: { "content-type" : "multipart/form-data" }
     })
     .then((res) => {
       console.log(1)

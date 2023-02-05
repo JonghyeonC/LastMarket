@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -108,12 +109,24 @@ public class ProductController {
     public ResponseEntity<?> modifyProduct(@Login Member member,
                                            @RequestPart("product") String productDtoString,
                                            @RequestPart(name = "imgs", required = false) MultipartFile[] multipartFiles,
-                                           @PathVariable("id") Long id) throws JsonProcessingException {
+                                           @PathVariable("id") Long id) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         ProductDto productDto = objectMapper.readValue(productDtoString, ProductDto.class);
         Optional<Category> categoryOptional = categoryService.findByCategoryName(productDto.getCategory());
-        productService.updateProduct(member,id,productDto, categoryOptional );
+        Product product = productService.updateProduct(member, id, productDto, categoryOptional);
+
+        if(multipartFiles !=null){
+
+            imageUploadService.delete(product.getImages().stream()
+                    .map(productImage -> productImage.getImage())
+                    .collect(Collectors.toList()));
+            product.setImages(new ArrayList<>());
+
+            List<Image> upload = imageUploadService.upload(multipartFiles);
+            List<ProductImage> productImageList = productImageService.save(product, upload);
+            product.setImages(productImageList);
+        }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

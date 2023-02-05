@@ -1,6 +1,7 @@
 package edu.ssafy.lastmarket.service;
 
 import edu.ssafy.lastmarket.domain.entity.Image;
+import edu.ssafy.lastmarket.domain.entity.ProductImage;
 import edu.ssafy.lastmarket.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,10 +71,11 @@ public class ImageUploadServiceImpl implements ImageUploadService{
 
     @Override
     @Transactional
-    public void delete(List<Image> images) {
+    public List<Image> delete(List<Image> images) {
         imageRepository.deleteAll(images);
-
+        return images;
     }
+
 
 
     // 로컬에 저장된 이미지 지우기

@@ -117,11 +117,11 @@ public class ProductController {
         Product product = productService.updateProduct(member, id, productDto, categoryOptional);
 
         if(multipartFiles !=null){
-
-            imageUploadService.delete(product.getImages().stream()
-                    .map(productImage -> productImage.getImage())
-                    .collect(Collectors.toList()));
-            product.setImages(new ArrayList<>());
+            if(product.getImages()!=null){
+                List<Image> imageList = productImageService.delete(product.getImages());
+                imageUploadService.delete(imageList);
+                product.setImages(new ArrayList<>());
+            }
 
             List<Image> upload = imageUploadService.upload(multipartFiles);
             List<ProductImage> productImageList = productImageService.save(product, upload);

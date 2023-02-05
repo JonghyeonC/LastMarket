@@ -10,7 +10,7 @@ public interface ProductImageService {
 
     List<ProductImage> save(Product product, List<Image> images);
     List<ProductImage> getProductImageByProductId(Long id);
-    void delete(ProductImage productImage);
-    void delete(List<ProductImage> productImages);
+    Image delete(ProductImage productImage);
+    List<Image> delete(List<ProductImage> productImages);
 }
 

@@ -42,13 +42,19 @@ public class ProductImageServiceImpl implements ProductImageService{
 
     @Override
     @Transactional
-    public void delete(ProductImage productImage) {
+    public Image delete(ProductImage productImage) {
         productImageRepository.delete(productImage);
+        return productImage.getImage();
     }
 
     @Override
     @Transactional
-    public void delete(List<ProductImage> productImages) {
+    public List<Image> delete(List<ProductImage> productImages) {
         productImageRepository.deleteAll(productImages);
+        List<Image> imageList = new ArrayList<>();
+        for (ProductImage productImage : productImages) {
+            imageList.add(productImage.getImage());
+        }
+        return imageList;
     }
 }

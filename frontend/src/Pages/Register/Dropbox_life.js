@@ -22,7 +22,7 @@ function Dropbox_life({ SetLife }) {
 
   useEffect(() => {
     getLifeStyle()
-  })
+  }, [])
 
   return (
     <div className='lifeWrap'>

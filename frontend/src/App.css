@@ -2,10 +2,10 @@
   text-align: center;
 }
 
-.App-logo {
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
-}
+} */
 
 .input {
   width: 200px;
@@ -34,6 +34,7 @@
   width: 25px;
   height: 25px;
   margin: 5px 7px 0px 5px;
+  cursor: pointer;
 }
 
 .W_logo {
@@ -41,6 +42,7 @@
   padding-left: 0px;
   width: 400px;
   height: 50px;
+  cursor: pointer;
   
 }
 .W_logo_box {
@@ -79,36 +81,42 @@
   width: 70px;
   height: 80px;
   margin: 0px 10px;
+  cursor: pointer;
 }
 
 .myprofile_icon{
   width: 70px;
   height: 80px;
   margin: 0px 10px;
+  cursor: pointer;
 }
 
 .logout_icon{
   width: 70px;
   height: 80px;
   margin: 0px 10px;
+  cursor: pointer;
 }
 
 .login_icon {
   width: 100px;
   height: 50px;
-  margin: 10px; 
+  margin: 10px;
+  cursor: pointer;
 }
 
 .signup_icon{
   width: 50px;
   height: 50px;
   margin: 10px;
+  cursor: pointer;
 }
 
 .category_btn1 {
   width: 50px;
   height: 50px;
   float: left;
+  cursor: pointer;
 }
 /* 
 .me-2 {
@@ -127,11 +135,61 @@
   filter: drop-shadow(5px 5px 4px #818dcc);
 }
 
+.cate_title{
+  margin-top: 20px;
+  margin-left: 30px;
+  font-size: 50px;
+  font-weight: bolder;
+}
+
+.cate_name{
+  font-size: 25px;
+  cursor: pointer;
+  padding-left: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  
+}
+
+.cate_name:hover{
+  font-size: 35px;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-left: 30px;
+  text-shadow: 10px 10px 4px #C9CEE9;
+  font-weight: bolder;
+}
+
 .sell_icon {
   width: 120px;
   height: 40px;
   float: right;
   margin-right: 170px;
+  cursor: pointer;
+}
+
+.sell_icon:hover {
+  background-color: #8fdfd6;
+  border-radius: 5px;
+  height: 45px;
+  box-shadow: 5px 5px 5px #D0EDEF;
+}
+
+.GoodsCard{
+  padding-top: 11px;
+  margin-bottom: 50px;
+  width: 220px;
+  height: 275px;
+  background-color: #D0EDEF;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px #8fdfd6;
+  cursor: pointer;
+}
+
+.GoodsCard:hover {
+  background-color: #8fdfd6;
+  box-shadow: 5px 5px 5px 5px #3FC8BA;
 }
 
 .App-header {

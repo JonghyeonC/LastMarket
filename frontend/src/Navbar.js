@@ -28,7 +28,7 @@ function OffCanvasExample({ name, ...props }) {
       {/* </Button> */}
       <Offcanvas className="cate_zone" show={show} onHide={handleClose} {...props}>
         {/* <Offcanvas.Header closeButton> */}
-          <Offcanvas.Title><h2>지금 뭐해요??</h2></Offcanvas.Title>
+          <Offcanvas.Title><h2 className='cate_title'>지금 뭐해요??</h2></Offcanvas.Title>
         {/* </Offcanvas.Header> */}
         <hr />
         <Category />

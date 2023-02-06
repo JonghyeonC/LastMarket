@@ -107,4 +107,10 @@ public class ControllerExceptionHandler {
     public ErrorMsgDTO notMatchSellerException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "notMatchSellerException");
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UpdateProductCooltimeException.class)
+    public ErrorMsgDTO updateProductCooltimeException(Exception e) {
+        return new ErrorMsgDTO(e.toString(), "updateProductCooltimeException");
+    }
 }

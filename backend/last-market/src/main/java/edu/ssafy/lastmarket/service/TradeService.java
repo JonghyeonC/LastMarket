@@ -7,7 +7,7 @@ import edu.ssafy.lastmarket.domain.entity.Trade;
 import java.util.Optional;
 
 public interface TradeService {
-    Trade saveTrade(Product product, Member seller, Member buyer);
+    Trade saveTrade(Product product, Member buyer);
 
     boolean isSeller(Long tradeId, Member member);
     boolean isBuyer(Long tradeId, Member member);

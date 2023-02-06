@@ -3,14 +3,37 @@
 // import Swiper from "../Components/JjimSwiper"
 import GoodsListSwiper from "../Components/GoodsListSwiper"
 import GoodsList from "../Components/GoodsList"
+import axios from "axios"
+import { useEffect } from "react"
 // import GoodsListCard from "../Components/GoodsListCard"
 
 
 // axios
 
 function Main() {
-
   
+  const URL = `https://i8d206.p.ssafy.io/api/user`
+
+  const getUserInfo = (() => {
+    return(
+      axios({
+        method: "get",
+        url: URL,
+      })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((res) => {
+        console.log("실패")
+      })
+    )
+  })
+
+  console.log(1)
+  useEffect(() => {
+    getUserInfo()
+  },[])
+
   return (
     <div>
       <div className='container'>

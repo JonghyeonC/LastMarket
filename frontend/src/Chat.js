@@ -39,7 +39,7 @@ function LiveChat() {
             stomp_client.send("/send/room.123", {}, JSON.stringify(msg))
         )
     }
-
+    
     function addChatLog(msg) {
         let talks = JSON.parse(msg.body)
         // console.log(talks.message)
@@ -54,7 +54,7 @@ function LiveChat() {
 
     return (
         <div className='chatContainer'>
-            
+
             <div className='chatBox'>
                 <div className='chatContent'>
                     {
@@ -69,7 +69,6 @@ function LiveChat() {
                     <br />
             </div>
         </div>
-
     )
 }
 

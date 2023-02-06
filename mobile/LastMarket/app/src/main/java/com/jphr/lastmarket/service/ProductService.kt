@@ -127,7 +127,9 @@ class ProductService {
             }
         })
     }
-    fun pullProduct(token:String,productId: Long){
+    fun pullProduct(token:String,productId: Long):Boolean{
+        var issucess=false
+
         RetrofitUtil.ProductService.pullProduct(token,productId).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
@@ -135,6 +137,7 @@ class ProductService {
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "Detail_onResponse : ${response.code()}")
+                        issucess=true
                         true
                     }
                 } else {
@@ -149,6 +152,7 @@ class ProductService {
 
             }
         })
+        return issucess
     }
     fun editProudct(token:String,productId:Long,product: RequestBody,images: MutableList<MultipartBody.Part>){
         RetrofitUtil.ProductService.editProduct(token,productId,product,images).enqueue(object : Callback<String> {
@@ -183,7 +187,6 @@ class ProductService {
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "Detail_onResponse : ${response.code()}")
-                        Toast.makeText(MainActivity(), "삭제가 완료되었습니다.", Toast.LENGTH_LONG).show()
                         issucess=true
                         true
                     }

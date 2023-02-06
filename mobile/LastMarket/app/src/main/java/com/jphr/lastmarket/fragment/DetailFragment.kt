@@ -113,7 +113,12 @@ class DetailFragment : Fragment() {
             orientation=ViewPager2.ORIENTATION_HORIZONTAL
         }
         binding.up.setOnClickListener {
-            ProductService().pullProduct(token,productId)
+           if( ProductService().pullProduct(token,productId)){
+               Toast.makeText(MainActivity(), "끌올되었습니다.", Toast.LENGTH_LONG).show()
+
+           }else Toast.makeText(MainActivity(), "30분 뒤에 시도해주세요", Toast.LENGTH_LONG).show()
+            mainActivity.changeFragment(1)
+
         }
         binding.edit.setOnClickListener {
             val bundle = Bundle()
@@ -130,8 +135,14 @@ class DetailFragment : Fragment() {
             //patch product/productid
         }
         binding.delete.setOnClickListener {
-            ProductService().deleteProduct(token,productId)
+            if( ProductService().deleteProduct(token,productId)){
+                Toast.makeText(MainActivity(), "삭제되었습니다.", Toast.LENGTH_LONG).show()
+
+            }else {
+                Toast.makeText(MainActivity(), "삭제에 실패했습니다.", Toast.LENGTH_LONG).show()
+            }
             mainActivity.changeFragment(1)
+
         }
 
         if(state=="DEFAULT"){// 라이브 O 아직 시작안함

@@ -39,7 +39,7 @@ public class SecurityConfig {
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setAllowedMethods(
-                Arrays.asList("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE")
+                Arrays.asList("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE","OPTIONS")
         );
         corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

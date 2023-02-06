@@ -15,7 +15,7 @@ function CategoryPage() {
           <h1>('진평동')의 (미니멀 라이프) ({name}) 상품</h1>
           <br />
           <div>
-            <GoodsListSwiper name={name} />
+            <GoodsListSwiper name={name} sort1="favoriteCnt" sort2="lastModifiedDateTime,DESC" />
           </div>
           <br />
           <br />
@@ -32,7 +32,7 @@ function CategoryPage() {
         </div>
         <div>
           <h1>('진평동')에서 새로운 ({name})!</h1>
-            <GoodsList name={name} />
+            <GoodsList name={name} sort1="lastModifiedDateTime,DESC" sort2="favoriteCnt" />
           {/* <div className='row'>
           {
             products.map((product, i) => {

@@ -3,6 +3,10 @@ package edu.ssafy.lastmarket.controller;
 import edu.ssafy.lastmarket.domain.document.TradeChat;
 import edu.ssafy.lastmarket.domain.dto.ChatMessageDTO;
 import edu.ssafy.lastmarket.domain.dto.ChatType;
+import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.domain.entity.Product;
+import edu.ssafy.lastmarket.exception.NotFoundException;
+import edu.ssafy.lastmarket.exception.NotMatchSellerException;
 import edu.ssafy.lastmarket.service.MemberService;
 import edu.ssafy.lastmarket.service.ProductService;
 import edu.ssafy.lastmarket.service.TradeChatService;
@@ -35,11 +39,13 @@ public class ChatController {
             tradeChatService.makeChatRoom(msg);
             tradeChatService.saveChatLog(msg);
         } else if (msg.getChatType() == ChatType.FINISH) {
-            boolean exist = memberService.memberExist(Long.parseLong(msg.getSender()));
-            if (exist) {
-
+            Product product = productService.findProductMemberById(Long.parseLong(msg.getRoomKey()))
+                    .orElseThrow(() -> new NotFoundException("없는 제품입니다."));
+            if (msg.getSender().equals(msg.getSeller())) {
+                Member buyer = memberService.findMemberById(Long.parseLong(msg.getBuyer()));
+                tradeService.saveTrade(product, buyer);
             } else {
-
+                throw new NotMatchSellerException("판매자가 아닙니다.");
             }
         }
         template.convertAndSend("chat.exchange", "room." + roomKey, msg);

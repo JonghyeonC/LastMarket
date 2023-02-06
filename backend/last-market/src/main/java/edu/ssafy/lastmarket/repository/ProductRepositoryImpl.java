@@ -42,9 +42,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
 
         List<OrderSpecifier> ORDERS = getAllOrderSpecifiers(pageable);
 
-        System.out.println("lcatinoaOptional "+ locationOptional.isEmpty());
-        System.out.println("CategoryOptional "+ categoryOptional.isEmpty());
-
         List<Product> productList = queryFactory
                 .selectFrom(product)
                 .where(
@@ -63,14 +60,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                 .limit(pageable.getPageSize())
                 .fetch();
         PageImpl<Product> result = new PageImpl<>(productList,pageable, productList.size());
-
-        System.out.println(productList);
-//        System.out.println(locationOptional.get());
-//        System.out.println(categoryOptional.get());
-//        System.out.println(dealStateOptional.get());
-//        System.out.println(lifestyleOptional.get());
         return result;
-
     }
 
 

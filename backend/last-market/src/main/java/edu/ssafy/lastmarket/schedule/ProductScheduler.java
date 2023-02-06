@@ -22,7 +22,6 @@ public class ProductScheduler {
     @Scheduled(cron = "* 10 * * * *")
     public void productCheck(){
         log.info("====now() : {}", LocalDateTime.now(ZoneId.of("Asia/Seoul")));
-        System.out.println(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
         List<Product> productByLivetime = productService.findProductByLivetime(LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusMinutes(20));
         for (Product product : productByLivetime) {
 

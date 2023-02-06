@@ -46,7 +46,6 @@ public class FavoriteServiceImplTest {
         favoriteService= new FavoriteServiceImpl(favoriteRepository);
 
         Boolean isFavoriteChecked = favoriteService.isFavoriteChecked(member,1L);
-        System.out.println(isFavoriteChecked);
         assertThat(isFavoriteChecked).isTrue();
 
     }

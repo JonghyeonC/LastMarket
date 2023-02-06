@@ -12,8 +12,6 @@ public class KakaoOAuthUserInfo implements OAuthUserInfo {
 
     public KakaoOAuthUserInfo(Map<String, Object> attributes) {
 
-        System.out.println(attributes);
-
         this.attributes = attributes;
         this.attributesAccount = (Map<String, Object>) attributes.get("kakao_account");
         this.attributesProfile = (Map<String, Object>) attributesAccount.get("profile");

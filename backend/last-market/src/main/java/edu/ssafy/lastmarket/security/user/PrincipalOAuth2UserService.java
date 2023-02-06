@@ -40,22 +40,16 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService impleme
         if (provider.equals("naver")) {
             oAuthUserInfo = new NaverOAuthUserInfo(oAuth2User.getAttribute("response"));
         } else if(provider.equals("kakao")){
-            System.out.println(oAuth2User);
             oAuthUserInfo= new KakaoOAuthUserInfo(oAuth2User.getAttributes());
         }
         String providerId = oAuthUserInfo != null ? oAuthUserInfo.getProviderId() : "";
         String username = provider + "_" + providerId;
-        String email = oAuthUserInfo.getEmail();
-        String name = oAuthUserInfo != null ? oAuthUserInfo.getName() : "";
-
-
 
         Optional<Member> findUser = memberRepository.findByUsername(username);
 
         Member member;
 
         if (findUser.isEmpty()) {
-//            member = new Member(username,"");
             member = new Member(username);
             memberRepository.save(member);
         } else {

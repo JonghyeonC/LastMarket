@@ -70,8 +70,6 @@ public class ProductServiceImpl implements ProductService {
         Product.isProductNull(productOptional);
         Product product = productOptional.get();
 
-//        System.out.println(product.getTitle());
-//        System.out.println(product.getLocation());
         ProductReadDto productReadDto = new ProductReadDto(product, isFavoriteCehcked);
 
         return productReadDto;
@@ -196,10 +194,6 @@ public class ProductServiceImpl implements ProductService {
             product.setDealState(DealState.AFTERBROADCAST);
             productRepository.save(product);
         }
-//        productList.forEach(product -> {
-//            product.setDealState(DealState.AFTERBROADCAST);
-//            System.out.println(product.getId() + " " + product.getDealState());
-//        });
     }
 
     @Override

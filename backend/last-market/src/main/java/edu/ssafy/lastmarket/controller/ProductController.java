@@ -48,18 +48,12 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public ResponseEntity<?> getOneById(@Login Member member, @PathVariable("id") Long id) {
-//        System.out.println("======================");
-//        System.out.println(authentication.getPrincipal());
-//        System.out.println(authentication.isAuthenticated());
         Boolean isFavoriteChecked = false;
         if (!Objects.isNull(member)) {
 
             isFavoriteChecked = favoriteService.isFavoriteChecked(member, id);
         }
-//        System.out.println(isFavoriteChecked);
-
         ProductReadDto productReadDto = productService.getDtoById(id, isFavoriteChecked);
-
 
         return new ResponseEntity<>(productReadDto, HttpStatus.OK);
     }
@@ -72,11 +66,8 @@ public class ProductController {
                                             @RequestParam(name = "lifestyle", required = false) String lifestyleString,
                                             @RequestParam(name = "keyword", required = false) String keyword,
                                             Pageable pageable) {
-        System.out.println("Keywrod: " + keyword);
-
         Optional<Category> categoryOptional = categoryService.findByCategoryNameString(categoryNameString);
         Optional<Location> locationOptional = locationService.findDongCodeByAddress(locationString);
-//        DealState dealState= enumChechService.checkDealStateEnum(dealStateString);
         Lifestyle lifestyle = enumChechService.checkLifestyleEnum(lifestyleString);
 
         Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional,
@@ -154,6 +145,4 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
-
-
 }

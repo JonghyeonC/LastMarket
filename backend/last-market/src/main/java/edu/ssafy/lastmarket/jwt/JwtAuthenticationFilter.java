@@ -34,13 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-//            ObjectMapper omo = new ObjectMapper();
-//            System.out.println(omo.toString());
             String temp =parseJwt(request);
             log.info("==================={}",temp);
-//            if(StringUtil.isNullOrEmpty(temp)){
-//                throw new NotAuthenticated();
-//            }
 
             if(temp!=null&& jwtManager.isVidate(temp)){
                 String username = jwtManager.getUsername(temp);
@@ -54,21 +49,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 OAuth2UserImpl oAuth2User = (OAuth2UserImpl) authentication.getPrincipal();
             }
-
-
-//            System.out.println(authenticationToken.getPrincipal());
-//            System.out.println(authenticationToken.getAuthorities());
-            // PrincipalDetailsService의 loadUserByUsername() 함수 실행됨
-            // DB에 있는 id와 pwd가 일치
-
-
-//            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-
-            // authentication 객체가 session영역에 저장됨-> 로그인됨
-
-            // authentication 객체가 session영역에 저장해햐 하고 그 방법으로 return 하면됨
-            // 리턴의 이유는 권한 관리를 security가 대신 해주기 때문에 편하려고함
-            // jwt토큰을 사용하면 세션을 만들 이유가 없으나 권한 처리때문에 session에 넣어줌
         }catch (BadCredentialsException e){
             loginFailure(request,response);
 
@@ -90,7 +70,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setStatus(401);
             response.addHeader("msg", "id or password missmatch");
         } catch (Exception e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
     }

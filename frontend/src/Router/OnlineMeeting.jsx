@@ -170,7 +170,7 @@ class OnlineMeeting extends Component {
           <StudyTitle>경매 라이브 방송</StudyTitle>
         </Header>
         <Middle>
-          {/* {this.state.session === undefined ? (
+          {this.state.session === undefined ? (
             <div
               style={{
                 position: "absolute",
@@ -200,7 +200,7 @@ class OnlineMeeting extends Component {
                 </form>
               </div>
             </div>
-          ) : null} */}
+          ) : null}
           <Left>
             <VideoContainer>
               {this.state.session !== undefined ? (
@@ -294,7 +294,7 @@ class OnlineMeeting extends Component {
 
   componentDidMount() {
     // this.leaveSession();
-    this.joinSession();
+    // this.joinSession();
     window.addEventListener("beforeunload", this.onbeforeunload);
     // 스터디방에서 화상회의 입장 -> props로 roomId로 받으면 세션id 업뎃 user 정보 전역변수 가져옴 -> 상태값 업뎃
   }

@@ -21,8 +21,8 @@ function UploadPage({setImageUrls}) {
       return [...prev, e.target.files[0]]
     })
 
-    // console.log(e.target.files[0])
-    // console.log(imageFile)
+    console.log(e.target.files)
+    console.log(imageFile)
     // const imageList = e.target.files
     // let imageUrlList = [...imageFile]
     // console.log(fileInput)

@@ -10,43 +10,18 @@ function Register() {
   const [imageUrls, setImageUrls] = useState([])
   const URL = `https://i8d206.p.ssafy.io/api/product`
 
-  // console.log(JSON.stringify(inputData))
-  // console.log(imageUrls.imgs)
+  console.log(inputData)
+  // console.log(imageUrls)
   
-  const aaa = (() => {
-    let formData = new FormData();
-
-    imageUrls.imgs.map((url) => {
-      formData.append('imgs', url)
-    })
-
-  //   imageUrls.forEach(image => {
-  //     formData.append('imgs', imageUrls.imgs[0]);
-  // });
-  //   formData.append('imgs', imageUrls.imgs[0])
-
-    for (let key of formData.keys()) {
-      console.log(key);
-    }
-    
-    // FormData의 value 확인
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-  })
   
   const reg = (() => {
     
     let formData = new FormData();
-
-    imageUrls.imgs.map((url) => {
-      formData.append('imgs', url)
-    })
+    formData.append('imgs', imageUrls)
 
     // formData.append('imgURIs', Blob, imageUrls)
     console.log(1)
     console.log(inputData)
-
     for (let key of formData.keys()) {
       console.log(key);
     }
@@ -63,7 +38,7 @@ function Register() {
         formData,
         inputData
       },
-      headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1NjYzMzU5OTc5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6IuyVhOuLiCIsImlkIjo5MDIzLCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzAxMjIiLCJleHAiOjE2NzU2NjUxNTl9.OU-x__6pHNV4nLJ9ZZbY_BqGtDzqQu9k0uByFWQnMRQ"}
+      headers: { "content-type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1NjYzMzU5OTc5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6IuyVhOuLiCIsImlkIjo5MDIzLCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzAxMjIiLCJleHAiOjE2NzU2NjUxNTl9.OU-x__6pHNV4nLJ9ZZbY_BqGtDzqQu9k0uByFWQnMRQ"}
     })
     .then((res) => {
       console.log(1)
@@ -86,7 +61,6 @@ function Register() {
         </div>
       </div>
       <button onClick={reg}>등록하기</button>
-      <button onClick={aaa}>aaaaa</button>
     </div>
   )
 }

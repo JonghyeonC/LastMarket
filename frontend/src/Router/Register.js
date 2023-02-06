@@ -13,27 +13,6 @@ function Register() {
   console.log(inputData)
   // console.log(imageUrls)
   
-  const aaa = (() => {
-    let formData = new FormData();
-
-    imageUrls.imgs.map((url) => {
-      formData.append('imgs', url)
-    })
-
-  //   imageUrls.forEach(image => {
-  //     formData.append('imgs', imageUrls.imgs[0]);
-  // });
-  //   formData.append('imgs', imageUrls.imgs[0])
-
-    for (let key of formData.keys()) {
-      console.log(key);
-    }
-    
-    // FormData의 value 확인
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-  })
   
   const reg = (() => {
     
@@ -82,7 +61,6 @@ function Register() {
         </div>
       </div>
       <button onClick={reg}>등록하기</button>
-      <button onClick={aaa}>aaaaa</button>
     </div>
   )
 }

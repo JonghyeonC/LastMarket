@@ -11,12 +11,14 @@ import edu.ssafy.lastmarket.service.LocationService;
 import edu.ssafy.lastmarket.service.MemberService;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -55,9 +57,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberInfoDto getMemberInfo(Member member) {
+        log.info("[for debug]{}", member);
         return MemberInfoDto.builder()
                 .nickname(member.getNickname())
-                .profile((member.getProfile()==null)?null: member.getProfile().getImageURL())
+                .profile((member.getProfile() == null) ? null : member.getProfile().getImageURL())
                 .lifestyles(member.getLifestyle())
                 .addr(member.getLocation().toString())
                 .build();
@@ -66,6 +69,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member findMemberById(Long id) {
         return memberRepository.findById(id)
-                .orElseThrow(()->new NotFoundException("없는 유저입니다."));
+                .orElseThrow(() -> new NotFoundException("없는 유저입니다."));
     }
 }

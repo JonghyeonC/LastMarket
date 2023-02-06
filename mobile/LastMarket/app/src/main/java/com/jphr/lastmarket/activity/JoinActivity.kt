@@ -43,7 +43,7 @@ class JoinActivity : AppCompatActivity() {
         kakao.setOnClickListener {
 //                var token=generateState()
 //                kakao_save(token)
-                var str="http://treenovel.tk:8080/oauth2/authorization/kakao"
+                var str="https://i8d206.p.ssafy.io/oauth2/authorization/kakao"
                 var intent=Intent(this@JoinActivity,WebViewActivity::class.java)
                 intent.putExtra("kakao",str)
                 startActivity(intent)
@@ -53,7 +53,7 @@ class JoinActivity : AppCompatActivity() {
         naver.setOnClickListener{
 //                var token=generateState()
 //                naver_save(token)
-                var str="http://treenovel.tk:8080/oauth2/authorization/naver"
+                var str="https://i8d206.p.ssafy.io/oauth2/authorization/naver"
                 var intent=Intent(this@JoinActivity,WebViewActivity::class.java)
                 intent.putExtra("naver",str)
                 startActivity(intent)

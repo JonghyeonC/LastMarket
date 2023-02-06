@@ -1,10 +1,10 @@
 package com.jphr.lastmarket.activity
 
 import android.Manifest
-import android.R.array
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -13,14 +13,14 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.jphr.lastmarket.databinding.ActivityUserInfoBinding
+import com.jphr.lastmarket.dto.LifeStyleDTO
 import com.jphr.lastmarket.dto.UserInfoDTO
 import com.jphr.lastmarket.service.UserInfoService
 import com.jphr.lastmarket.util.RetrofitCallback
@@ -31,15 +31,21 @@ import java.util.*
 private const val TAG = "UserInfoActivity"
 
 class UserInfoActivity : AppCompatActivity() {
+    val PREFERENCES_NAME = "user_info"
+
+
     lateinit var binding: ActivityUserInfoBinding
     lateinit var userName: String
-    lateinit var userJob: String
+    lateinit var userLifeStyle: String
     lateinit var userCategory: String
     lateinit var userAddress: String
 
+    var display_address: String = ""
+    var add: String = ""
+
     val MY_PERMISSION_ACCESS_ALL = 100
     var categoryList = MutableLiveData<MutableList<String>>()
-    var jobList = MutableLiveData<MutableList<String>>()
+    var lifeStyleList = mutableListOf<String>()
 
     private var mFusedLocationProviderClient: FusedLocationProviderClient? =
         null // 현재 위치를 가져오기 위한 변수
@@ -48,32 +54,30 @@ class UserInfoActivity : AppCompatActivity() {
     internal lateinit var mLocationRequest: LocationRequest // 위치 정보 요청의 매개변수를 저장하는
     private val REQUEST_PERMISSION_LOCATION = 10
 
+    private fun getPreferences(context: Context): SharedPreferences? {
+        return context.getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d(TAG, "onCreate: 시작------")
 
-        categoryList = UserInfoService().getCategory()
-        jobList = UserInfoService().getJob()
 
-        categoryList.observe(this, Observer {
-            binding.userCategory.adapter = ArrayAdapter(
-                this@UserInfoActivity,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                it
-            )
-            Log.d(TAG, "onCreate: $it")
+//        categoryList = UserInfoService().getCategory()
+        lifeStyleList = UserInfoService().getLifeStyle(LifeStyleCallback())
 
-        })
-        jobList.observe(this, Observer {
-            binding.userJob.adapter = ArrayAdapter(
-                this@UserInfoActivity,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                it
-            )
-            Log.d(TAG, "onCreate: $it")
-        })
+//        categoryList.observe(this, Observer {
+//            binding.userCategory.adapter = ArrayAdapter(
+//                this@UserInfoActivity,
+//                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+//                it
+//            )
+//            Log.d(TAG, "onCreate: $it")
+//
+//        })
+
+            Log.d(TAG, "onCreate: $lifeStyleList")
 
 
         binding.search.setOnClickListener {
@@ -103,12 +107,24 @@ class UserInfoActivity : AppCompatActivity() {
 
         binding.save.setOnClickListener {
             userName = binding.userName.text.toString()
-            userJob = binding.userJob.selectedItem as String
-            userCategory = binding.userCategory.selectedItem as String
+            userLifeStyle = binding.lifestyleField.editText?.text.toString()
+//            userCategory = binding.userCategory.selectedItem as String
             userAddress= binding.address.text as String
-            var userinfo=UserInfoDTO(userAddress,userCategory,userJob,userName)
+            var categories= mutableListOf<String>("CAMPING","BOOK")
+            var userinfo=UserInfoDTO(userAddress,categories,userLifeStyle,userName)
             Log.d(TAG, "onCreate: $userinfo")
-            UserInfoService().insertUserInfo(userinfo)
+
+            var prefs=getSharedPreferences("user_info",MODE_PRIVATE)
+            var editor =prefs?.edit()
+            editor?.putString("city",display_address)
+            editor?.putString("city_data",add)
+//            editor?.putString("category",userCategory)
+            editor?.putString("lifestyle",userLifeStyle)
+            editor?.commit()
+            var token =prefs.getString("token","")!!
+            UserInfoService().insertUserInfo(token,userinfo)
+            Log.d(TAG, "onCreate: $userinfo")
+
             var intent=Intent(this@UserInfoActivity, MainActivity::class.java)
             startActivity(intent)
         }
@@ -128,11 +144,17 @@ class UserInfoActivity : AppCompatActivity() {
                     nowAddr = address[0].getAddressLine(0).toString()
                     var arr = nowAddr.split(" ")
                     var i = 0
-                    var add: String = ""
                     for (i in 1 until 4) {
-                        add += arr[i];
+                        if(i==3){
+                            add += arr[i]
+                        }else {
+                            add += arr[i]+" ";
+                        }
+
                         Log.d(TAG, "getAddress: ${arr[i]}")
                     }
+                    display_address=arr[3]
+                    Log.d(TAG, "getAddress: $display_address")
                     binding.address.let {
                         it.visibility = View.VISIBLE
                         it.text = add
@@ -156,7 +178,7 @@ class UserInfoActivity : AppCompatActivity() {
         Log.d(TAG, "startLocationUpdates: ")
         mLocationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 5 * 10000
+            interval = 10* 10000
         }
         //FusedLocationProviderClient의 인스턴스를 생성.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -240,26 +262,23 @@ class UserInfoActivity : AppCompatActivity() {
         super.finish()
     }
 
-//    inner class JoinCallback: RetrofitCallback<Boolean> {
-//
-//        override fun onSuccess(code: Int, responseData: Boolean) {
-//            if (responseData) {
-//                Log.d(TAG, "onSuccess: ")
-//                var intent=Intent(this@UserInfoActivity, UserInfoActivity::class.java)
-//                startActivity(intent)
-//
-//            } else {
-//
-//                Toast.makeText(this@UserInfoActivity, "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//
-//        override fun onFailure(code: Int) {
-//            Log.d(TAG, "onResponse: Error Code $code")
-//        }
-//
-//        override fun onError(t: Throwable) {
-//            Log.d(TAG, t.message ?: "유저 정보 불러오는 중 통신오류")
-//        }
-//    }
+    inner class LifeStyleCallback: RetrofitCallback<LifeStyleDTO> {
+        override fun onSuccess(code: Int, responseData: LifeStyleDTO, issearch:Boolean, word:String?, category:String?) {
+            if(responseData!=null) {
+                lifeStyleList=responseData.lifestyles
+                (binding.lifestyleField.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(lifeStyleList.toTypedArray())
+                binding.lifestyle.setText(lifeStyleList[0],false)
+
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+    }
 }

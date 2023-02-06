@@ -18,7 +18,7 @@ function Register() {
     
     let formData = new FormData();
     formData = inputData
-    formData.append('imgURIs', Blob, imageUrls)
+    // formData.append('imgURIs', Blob, imageUrls)
     console.log(1)
 
     // for (let key of formData.keys()) {
@@ -34,7 +34,7 @@ function Register() {
       method: "post",
       url: URL,
       data: formData,
-      headers: { "content-type" : "multipart/form-data" }
+      headers: { "content-type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1MjM2MjU5OTczLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJpZCI6NzAwMywidXNlcm5hbWUiOiJuYXZlcl9rd0FqYXMtU0JqMlhlaHdZMG1LVnViWFNxbjNISGZ0WHdoZG5NcGdJRERjIiwiZXhwIjoxNjc1MjM4MDU5fQ.j0Q2aPosXqsX9PmyKSKdVtr9-4eUcq895TDgk6Lyq7E"}
     })
     .then((res) => {
       console.log(1)

@@ -32,6 +32,7 @@ function Signup() {
           "nickname" : nickName,
           "lifestyle" : lifestyle,
           "addr" : `${location[0]} ${location[1]} ${location[2]}`,
+          "categories" : []
         },
         withCredentials: true,
       })

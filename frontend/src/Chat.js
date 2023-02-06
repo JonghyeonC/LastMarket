@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import './Chat.css'
 
 function LiveChat() {
 
@@ -52,18 +53,23 @@ function LiveChat() {
     console.log(chat_log)
 
     return (
-        <div>
-            {/* <div ref={chat_log}></div> */}
-            {
-                chat_log.map((logs) => {
-                    return <div>{logs}</div>
-                })
-            }
-            <input type="text" ref={inputBox} placeholder="채팅을 입력해주세요!!" onChange={(e) => setTalk(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') {sendMessage()}}} />
-                <br />
-            <button ref={msg_send_btn} onClick={sendMessage} >send</button>
-                <br />
+        <div className='chatContainer'>
+            
+            <div className='chatBox'>
+                <div className='chatContent'>
+                    {
+                        chat_log.map((logs) => {
+                            return <ul>{logs}</ul>
+                        })
+                    }
+                </div>
+                <input type="text" ref={inputBox} placeholder="채팅을 입력해주세요!!" onChange={(e) => setTalk(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') {sendMessage()}}} />
+                    <br />
+                <button ref={msg_send_btn} onClick={sendMessage} >send</button>
+                    <br />
+            </div>
         </div>
+
     )
 }
 

@@ -50,10 +50,10 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         }
 
         if (StringUtil.isNullOrEmpty(token)) {
-            throw new IllegalArgumentException("로그인 해주세요");
+            return null;
         }
         if(!jwtManager.isValidate(token)){
-            throw new IllegalArgumentException("로그인 해주세요");
+            return null;
         }
 
         String username = jwtManager.getUsername(token);

@@ -46,6 +46,9 @@ public class MemberController {
 
     @GetMapping("/user")
     public ResponseEntity<?> getMemberInfo(@Login Member member) {
+        if(member != null){
+            throw new IllegalArgumentException("로그인 해주세요");
+        }
         MemberInfoDto memberInfo = memberService.getMemberInfo(member);
         return new ResponseEntity<>(memberInfo, HttpStatus.OK);
     }

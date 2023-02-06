@@ -87,9 +87,19 @@ function GoodsListSwiper(props) {
     navigation
     pagination={{ clickable: true }}
     breakpoints={{
-      768: {
-        slidesPerView: 6,
+      1200: {
+        slidesPerView: 5,
       },
+      900: {
+        slidesPerView: 4,
+      },
+      768: {
+        slidesPerView: 3,
+      },
+      576: {
+        slidesPerView: 2,
+      },
+
     }}
     >
       <div className='row'>

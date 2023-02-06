@@ -21,8 +21,7 @@ function UploadPage({setImageUrls}) {
       return [...prev, e.target.files[0]]
     })
 
-    console.log(e.target.files)
-    console.log(imageFile)
+    // console.log(imageFile)
     // const imageList = e.target.files
     // let imageUrlList = [...imageFile]
     // console.log(fileInput)
@@ -63,7 +62,6 @@ function UploadPage({setImageUrls}) {
     const serialize = {
       imgs: imageFile
     }
-
     setImageUrls(serialize)
 
     }, [imageFile])
@@ -73,7 +71,7 @@ function UploadPage({setImageUrls}) {
       <div>
         <div>
           <button onClick={handleButtonClick} className="uploadBtn">사진 업로드</button>
-          <input type="file" multiple ref={fileInput} onChange={handleChange} style={{ display : "none" }} />
+          <input type="file" multiple="multiple" ref={fileInput} onChange={handleChange} style={{ display : "none" }} />
         </div>
         <div className="showImage">
           {showImage}

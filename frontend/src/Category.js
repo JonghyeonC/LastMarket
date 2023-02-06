@@ -35,7 +35,7 @@ function Category() {
       {
         categories.map((cate) => {
           return(
-            <p onClick={() => {navigate(`/category/${cate}`)}}>{cate}</p>
+            <p className="cate_name" onClick={() => {navigate(`/category/${cate}`)}}>{cate}</p>
           )
         })
       }

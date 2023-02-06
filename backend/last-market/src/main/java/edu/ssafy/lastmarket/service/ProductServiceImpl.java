@@ -127,7 +127,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> productOptional = productRepository.findById(productId);
         Product.isProductNull(productOptional);
         Product product = productOptional.get();
-        if(checkUpdate30min(product)){
+        if(!checkUpdate30min(product)){
             throw new UpdateProductCooltimeException("need 30 min");
         }
 

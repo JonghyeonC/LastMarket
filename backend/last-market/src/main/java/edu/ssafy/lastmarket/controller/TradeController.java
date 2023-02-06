@@ -29,7 +29,7 @@ public class TradeController {
 
         Optional<Product> productOptional = productService.findProductMemberById(id);
         //save Trade
-        tradeService.saveTrade(productOptional.get(),productOptional.get().getSeller(),member);
+        tradeService.saveTrade(productOptional.get(),member);
         //dealState 변경
         productService.sellProduct(productOptional.get());
 

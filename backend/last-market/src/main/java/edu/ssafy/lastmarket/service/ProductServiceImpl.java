@@ -88,8 +88,11 @@ public class ProductServiceImpl implements ProductService {
 
 
         Product product = ProductDto.convert(productDto);
-        LocalDateTime localDateTime = localDateTimeFloor(product.getLiveTime());
-        product.setLiveTime(localDateTime);
+        if(product.getLiveTime()!=null){
+            LocalDateTime localDateTime = localDateTimeFloor(product.getLiveTime());
+            product.setLiveTime(localDateTime);
+        }
+
         product.setSeller(member);
         product.setLocation(member.getLocation());
         product.setCategory(categoryOptional.get());

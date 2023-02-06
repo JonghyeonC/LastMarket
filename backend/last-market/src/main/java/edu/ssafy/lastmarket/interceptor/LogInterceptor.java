@@ -15,7 +15,8 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String method = request.getMethod();
-        log.info("[{}|{}] connection ", method, request.getRequestURI());
+        String uri = request.getRequestURI();
+        log.info("[{}|{}] connection ", method, uri);
         if (request.getCookies() == null) {
             return true;
         }
@@ -24,7 +25,7 @@ public class LogInterceptor implements HandlerInterceptor {
                 .findFirst()
                 .orElse(null);
         if (authentication != null) {
-            log.info("[{}] cookie={}", request.getRequestURI(), authentication.getValue());
+            log.info("[{}|{}] cookie=EXIST", method, uri);
         }
         return true;
     }

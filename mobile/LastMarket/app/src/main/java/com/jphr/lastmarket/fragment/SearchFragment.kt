@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jphr.lastmarket.R
@@ -16,6 +19,7 @@ import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentProductListBinding
 import com.jphr.lastmarket.databinding.FragmentSearchBinding
+import com.jphr.lastmarket.dto.ListDTO
 import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductX
@@ -45,6 +49,7 @@ class SearchFragment : Fragment() {
     private lateinit var productListAdapter: ProductListAdapter
     private lateinit var mainActivity: MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
+    lateinit var cityData:String
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,6 +63,9 @@ class SearchFragment : Fragment() {
 //        }
         productDTO=mainViewModel.getProduct()
         word=mainViewModel.getWord()
+        var pref=mainActivity.getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
+        cityData= pref?.getString("city_data","null").toString()
+
     }
 
     override fun onCreateView(
@@ -75,6 +83,33 @@ class SearchFragment : Fragment() {
             addItemDecoration(RecyclerViewDecoration(60,0))
         }
         binding.resultText.text="${word}에 대한 검색결과"
+
+        val itemList=resources.getStringArray(R.array.sort)
+        binding.spinner.adapter= ArrayAdapter(requireContext(), com.gun0912.tedpermission.R.layout.support_simple_spinner_dropdown_item,itemList)
+
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                try {
+                    if (binding.spinner.getItemAtPosition(position).toString().substring(0, 3) == "최신순"){
+                        ProductService().getProductWithSort(null,null,cityData,"DESC","DEFAULT","0",ProductCallback(),true,word)
+                        Log.d(TAG, "onItemSelected: 최신순")
+                    }else if(binding.spinner.getItemAtPosition(position).toString().substring(0, 2) == "찜순"){
+                        ProductService().getProductWithSort(null,null,cityData,"FAVORITECNT","DEFAULT","0",ProductCallback(),true,word)
+                        Log.d(TAG, "onItemSelected: 찜순")
+
+                    }else if(binding.spinner.getItemAtPosition(position).toString().substring(0, 4) == "라이브중"){
+                        ProductService().getProductWithSort(null,null,cityData,"FAVORITECNT","ONBROADCAST","0",ProductCallback(),true,word)
+                        Log.d(TAG, "onItemSelected: 라이브중")
+
+                    }
+
+                } catch(e: Exception) {
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) = Unit
+        }
+
 
         productListAdapter.setItemClickListener(object : ProductListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
@@ -130,6 +165,37 @@ class SearchFragment : Fragment() {
             Log.d(TAG, "onResponse: Error Code $code")
         }
 
+
+    }
+    inner class ProductCallback: RetrofitCallback<ListDTO> {
+        override fun onSuccess(code: Int, responseData: ListDTO, issearch:Boolean, word:String?, category:String?) {
+            if(responseData!=null) {
+                if(issearch){
+                    mainViewModel.setProduct(responseData.content)
+                    if (word != null) {
+                        mainViewModel.setWord(word)
+                    }
+                }
+                else {
+                    mainViewModel.setProduct(responseData.content)
+                    if (category != null) {
+                        mainViewModel.setCategory(category)
+                        productListAdapter.list=responseData.content
+                        Log.d(TAG, "onSuccess: 콜백!!!!!!!!!!!")
+
+
+                    }
+                }
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
 
     }
 }

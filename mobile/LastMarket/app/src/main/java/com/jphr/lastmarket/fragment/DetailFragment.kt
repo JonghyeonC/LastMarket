@@ -1,6 +1,8 @@
 package com.jphr.lastmarket.fragment
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -17,6 +20,7 @@ import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ImageViewPagerAdapter
 import com.jphr.lastmarket.databinding.FragmentDetailBinding
+import com.jphr.lastmarket.dto.FavoriteDTO
 import com.jphr.lastmarket.dto.Product
 import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
@@ -43,6 +47,7 @@ class DetailFragment : Fragment() {
     lateinit var binding:FragmentDetailBinding
     private lateinit var mainActivity: MainActivity
     var productId: Long=0
+    var isLikeOn:Boolean=false
     lateinit var data:ProductDetailDTO
 
     fun initAdpater() {
@@ -50,6 +55,7 @@ class DetailFragment : Fragment() {
         data= mainViewModel.getProductDetail()!!
         mainViewModel.setProductId(data.productId)
         productId= mainViewModel.getProductId()
+        isLikeOn=data.isFavorite
 //        ProductService().getProductDetail(productId,ProductDetailCallback())
         Log.d(TAG, "initAdpater: $productId")
     }
@@ -79,11 +85,11 @@ class DetailFragment : Fragment() {
 
         var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         var token =prefs.getString("token","")!!
-        var userId=prefs.getString("user_id","")
+        var userId=prefs.getLong("user_id",0)
 
         var state= data?.dealState
 
-        if(data.sellerId.toString()==userId){
+        if(data.sellerId==userId){
             binding.buttons.visibility=View.VISIBLE
         }
 
@@ -112,6 +118,23 @@ class DetailFragment : Fragment() {
             createIndicators(imgSize,0)
             orientation=ViewPager2.ORIENTATION_HORIZONTAL
         }
+
+        binding.favorite.setOnClickListener {
+            if(isLikeOn){
+                ProductService().deleteFavorite(token,productId)
+                binding.favorite.setImageResource(R.drawable.like)
+                isLikeOn=false
+
+            }else{
+                var ret=ProductService().insertFavorite(token,productId)
+                binding.favorite.setImageResource(R.drawable.like2)
+                isLikeOn=true
+            }
+
+
+        }
+
+
         binding.up.setOnClickListener {
            if( ProductService().pullProduct(token,productId)){
                Toast.makeText(MainActivity(), "끌올되었습니다.", Toast.LENGTH_LONG).show()

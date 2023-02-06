@@ -46,7 +46,11 @@ interface ProductAPI {
     fun deleteProduct(@Header("Authentication") token: String,
         @Path("productId") productId:Long):Call<Unit>
 
-    @POST("api/favorite")
+    @POST("api/favorite/{productId}")
     fun insertFavorite(@Header("Authentication") token: String,
-        @Body favoriteDTO: FavoriteDTO):Call<Unit>
+                       @Path("productId") productId:Long):Call<Unit>
+
+    @DELETE("api/favorite/{productId}")
+    fun deleteFavorite(@Header("Authentication") token: String,
+                       @Path("productId") productId:Long):Call<Unit>
 }

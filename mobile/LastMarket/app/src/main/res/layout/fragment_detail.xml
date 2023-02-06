@@ -201,7 +201,7 @@
 
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"

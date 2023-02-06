@@ -204,18 +204,18 @@ class ProductService {
         })
         return issucess
     }
-    fun insertFavorite(token:String,favoriteDTO: FavoriteDTO) {
+    fun insertFavorite(token:String,productId: Long) :Boolean{
+        var issucess=false
 
-        var responseCategory= mutableListOf<String>()
-        val categoryInterface: Call<Unit> = RetrofitUtil.ProductService.insertFavorite(token,favoriteDTO)
+        val categoryInterface: Call<Unit> = RetrofitUtil.ProductService.insertFavorite(token,productId)
 
         categoryInterface.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
                 Log.d(TAG, "onResponse res 값: $res")
-                if(response.code() == 200){
+                if(response.isSuccessful){
                     if (res != null) {
-
+                        issucess=true
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {
@@ -227,6 +227,31 @@ class ProductService {
                 Log.d(TAG, t.message ?: "오류")
             }
         })
+        return issucess
+    }
+    fun deleteFavorite(token:String,productId: Long) :Boolean{
+        var issucess=false
 
+        val categoryInterface: Call<Unit> = RetrofitUtil.ProductService.deleteFavorite(token,productId)
+
+        categoryInterface.enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                val res = response.body()
+                Log.d(TAG, "onResponse res 값: $res")
+                if(response.isSuccessful){
+                    if (res != null) {
+                        issucess=true
+                    }
+                    Log.d(TAG, "onResponse: $res")
+                } else {
+                    Log.d(TAG, "onResponse: Error Code ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                Log.d(TAG, t.message ?: "오류")
+            }
+        })
+        return issucess
     }
 }

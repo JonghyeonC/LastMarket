@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         val isExpired = jwt.isExpired(10)
 
         Log.d(TAG, "onCreate: $claim $issuer $isExpired")
-        editor?.putString("user_id",claim)
+        editor?.putLong("user_id",claim!!.toLong())
         editor?.commit()
 
 

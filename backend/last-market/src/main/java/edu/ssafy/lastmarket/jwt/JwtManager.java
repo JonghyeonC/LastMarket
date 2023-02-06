@@ -18,8 +18,6 @@ public class JwtManager {
 
     @Value("${JWT.SECRET}")
     private String securityKey; // TODO 민감정보는 따로 분리하는 것이 좋다
-
-
     private final Long shortTokeneExpiredTime = 1000 * 60 * 30L;
     private final Long longTokenExpiredTime = 1000 * 60 * 60 * 24 * 7L;
 
@@ -102,16 +100,16 @@ public class JwtManager {
 
     public Boolean isVidate(String token) {
         try {
-             Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
+            Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
+            log.info("Invalid JWT Token");
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
+            log.info("Expired JWT Token");
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
+            log.info("Unsupported JWT Token");
         } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
+            log.info("JWT claims string is empty.");
         }
         return false;
     }

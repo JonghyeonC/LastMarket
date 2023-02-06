@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String temp =parseJwt(request);
 
-            if(temp!=null&& jwtManager.isVidate(temp)){
+            if(temp!=null&& jwtManager.isValidate(temp)){
                 String username = jwtManager.getUsername(temp);
 
                 UserDetails userDetails = principalOAuth2UserService.loadUserByUsername(username);

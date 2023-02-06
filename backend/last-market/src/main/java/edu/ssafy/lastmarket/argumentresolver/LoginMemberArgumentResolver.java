@@ -3,12 +3,10 @@ package edu.ssafy.lastmarket.argumentresolver;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.jwt.JwtManager;
 import edu.ssafy.lastmarket.repository.MemberRepository;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -56,7 +54,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             return null;
         }
 
-        if(!jwtManager.isVidate(token)){
+        if(!jwtManager.isValidate(token)){
             return null;
         }
 

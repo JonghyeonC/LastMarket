@@ -66,41 +66,14 @@ public class JwtManager {
     }
 
     public Claims getClaims(String token) {
-
         return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
-//        return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
-    }
-
-    public int getIdFromToken(String token) {
-        return (int) getClaims(token).get("id");
-    }
-
-    public int isRefreshToken(String token) {
-
-        if (!getClaims(token).containsKey("RefreshToken")) {
-
-            return -1;
-        }
-        return (int) getClaims(token).get("RefreshToken");
-    }
-
-    public String getUserIdFromToken(String token) {
-        return (String) getClaims(token).get("id");
-    }
-
-    public String getNickFromToken(String token) {
-        return (String) getClaims(token).get("nickname");
-    }
-
-    public String getRoleFromToken(String token) {
-        return (String) getClaims(token).get("role");
     }
 
     public String getUsername(String token) {
         return (String) getClaims(token).get("username");
     }
 
-    public Boolean isVidate(String token) {
+    public Boolean isValidate(String token) {
         try {
             Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
             return true;
@@ -115,16 +88,4 @@ public class JwtManager {
         }
         return false;
     }
-
-    public Boolean isExpired(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(securityKey).build().parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException e) {
-            log.info("ExpiredJwtException", e);
-        }
-        return false;
-    }
-
-
 }

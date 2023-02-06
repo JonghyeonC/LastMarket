@@ -57,7 +57,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberInfoDto getMemberInfo(Member member) {
-        log.info("[for debug]{}", member);
         return MemberInfoDto.builder()
                 .nickname(member.getNickname())
                 .profile((member.getProfile() == null) ? null : member.getProfile().getImageURL())

@@ -49,17 +49,14 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             token = request.getHeader("Authentication");
         }
 
-
         if (StringUtil.isNullOrEmpty(token)) {
-            return null;
+            throw new IllegalArgumentException("로그인 해주세요");
         }
-
         if(!jwtManager.isValidate(token)){
-            return null;
+            throw new IllegalArgumentException("로그인 해주세요");
         }
 
         String username = jwtManager.getUsername(token);
-
         Optional<Member> memberOptional = memberRepository.findByUsername(username);
 
         return memberOptional.orElse(null);

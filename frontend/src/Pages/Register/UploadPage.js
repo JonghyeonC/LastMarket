@@ -9,6 +9,7 @@ function UploadPage({setImageUrls}) {
   const fileInput = useRef(null);
 
   const [imageFile, setImageFile] = useState([])
+
   const [cropperImage, setCroppedImage] = useState([])
   
   const handleButtonClick = e => {
@@ -16,21 +17,28 @@ function UploadPage({setImageUrls}) {
   }
 
   const handleChange = e => {
-    const imageList = e.target.files
-    let imageUrlList = [...imageFile]
-    console.log(imageUrlList)
+    setImageFile((prev) => {
+      return [...prev, e.target.files[0]]
+    })
 
-    for (let i = 0 ; i < imageList.length; i ++ ) {
-      const currentImageUrl = URL.createObjectURL(imageList[i])
-      imageUrlList.push(currentImageUrl)
-    }
-    if (imageUrlList.length > 10) {
-      imageUrlList = imageUrlList.slice(0, 10)
-    }
+    console.log(e.target.files)
+    console.log(imageFile)
+    // const imageList = e.target.files
+    // let imageUrlList = [...imageFile]
+    // console.log(fileInput)
+    // console.log(imageUrlList)
 
-    setImageFile (
-      imageUrlList
-    )
+    // for (let i = 0 ; i < imageList.length; i ++ ) {
+    //   const currentImageUrl = URL.createObjectURL(imageList[i])
+    //   imageUrlList.push(currentImageUrl)
+    // }
+    // if (imageUrlList.length > 10) {
+    //   imageUrlList = imageUrlList.slice(0, 10)
+    // }
+
+    // setImageFile (
+    //   imageUrlList
+    // )
   }
 
   const deleteImage = (id) => {
@@ -44,7 +52,7 @@ function UploadPage({setImageUrls}) {
       return imageFile.map((image, id) => {
         return (
         <div>
-          <img src={image} alt={`${image}-${id}`} width="400px" height="400px" />
+          <img src={URL.createObjectURL(image)} alt={`${image}-${id}`} width="400px" height="400px" />
           <button onClick={() => deleteImage(id)}>X</button>
         </div>
         )

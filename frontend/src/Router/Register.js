@@ -10,31 +10,35 @@ function Register() {
   const [imageUrls, setImageUrls] = useState([])
   const URL = `https://i8d206.p.ssafy.io/api/product`
 
-  // console.log(inputData)
+  console.log(inputData)
   // console.log(imageUrls)
   
   
-  const reg = () => {
+  const reg = (() => {
     
     let formData = new FormData();
-    formData = inputData
+    formData.append('imgs', imageUrls)
+
     // formData.append('imgURIs', Blob, imageUrls)
     console.log(1)
-
-    // for (let key of formData.keys()) {
-    //   console.log(key);
-    // }
+    console.log(inputData)
+    for (let key of formData.keys()) {
+      console.log(key);
+    }
     
-    // // FormData의 value 확인
-    // for (let value of formData.values()) {
-    //   console.log(value);
-    // }
+    // FormData의 value 확인
+    for (let value of formData.values()) {
+      console.log(value);
+    }
 
     axios({
       method: "post",
       url: URL,
-      data: formData,
-      headers: { "content-type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1MjM2MjU5OTczLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJpZCI6NzAwMywidXNlcm5hbWUiOiJuYXZlcl9rd0FqYXMtU0JqMlhlaHdZMG1LVnViWFNxbjNISGZ0WHdoZG5NcGdJRERjIiwiZXhwIjoxNjc1MjM4MDU5fQ.j0Q2aPosXqsX9PmyKSKdVtr9-4eUcq895TDgk6Lyq7E"}
+      data: {
+        formData,
+        inputData
+      },
+      headers: { "content-type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1NjYzMzU5OTc5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6IuyVhOuLiCIsImlkIjo5MDIzLCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzAxMjIiLCJleHAiOjE2NzU2NjUxNTl9.OU-x__6pHNV4nLJ9ZZbY_BqGtDzqQu9k0uByFWQnMRQ"}
     })
     .then((res) => {
       console.log(1)
@@ -42,8 +46,9 @@ function Register() {
     })
     .catch((res) => {
       console.log("실패")
+      console.log(res)
     })
-  }
+  })
 
   return (
     <div>

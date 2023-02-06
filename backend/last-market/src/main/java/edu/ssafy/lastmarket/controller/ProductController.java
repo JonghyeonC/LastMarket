@@ -148,4 +148,12 @@ public class ProductController {
     }
 
 
+    @PutMapping("/pullup/{productid}")
+    public ResponseEntity<?> pullupProduct(@Login Member member, @PathVariable("productid")Long productId){
+        productService.pullup(member,productId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
+    }
+
+
 }

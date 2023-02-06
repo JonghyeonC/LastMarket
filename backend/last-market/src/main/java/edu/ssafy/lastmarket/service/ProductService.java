@@ -68,4 +68,6 @@ public interface ProductService {
 
     void changeDealstateToAfterbroadcast(List<Product> productList);
 
+    Boolean pullup(Member member, Long productId);
+
 }

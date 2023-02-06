@@ -5,6 +5,7 @@ import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
 import edu.ssafy.lastmarket.domain.entity.Image;
 import edu.ssafy.lastmarket.domain.entity.Location;
 import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.exception.NotFoundException;
 import edu.ssafy.lastmarket.repository.MemberRepository;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +62,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean memberExist(Long id) {
-        return memberRepository.existsById(id);
+    public Member findMemberById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(()->new NotFoundException("없는 유저입니다."));
     }
 }

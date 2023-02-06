@@ -273,7 +273,7 @@ class OnlineMeeting extends Component {
     this.userRef = React.createRef();
 
     this.state = {
-      mySessionId: "SessionA",
+      mySessionId: "SessionB",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined,

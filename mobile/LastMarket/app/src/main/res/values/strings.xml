@@ -7,4 +7,19 @@
     <string name="info">경매가 낙찰되지 않는다면 경매 시작가가 즉시 구매가로 등록됩니다.</string>
     <string name="instant_price_info">구매가는 경매전에도 즉시 구매를 할 수있는 가격입니다.</string>
     <string name="start_price_info">시작가는 경매가 시작되면 호가를 시작하는 가격입니다.</string>
+    <!-- WARNING: this application_server_url is not secure and is only meant for a first quick test.
+	     Anyone could access your video sessions. You should modify the application_server_url to a custom private one -->
+    <string name="application_server_url">https://i8d206.p.ssafy.io/</string>
+    <string name="start_button">Join</string>
+    <string name="session_name">Session Name</string>
+    <string name="default_session_name">SessionA</string>
+    <string name="participant_name">Participant Name</string>
+    <string name="default_participant_name">Participant</string>
+    <string name="hang_up">Leave session</string>
+    <string name="no_connection">COULD NOT ESTABLISH THE CONNECTION, TRY AGAIN </string>
+    <string name="no_permissions_granted">We can not give you service without your permission</string>
+    <string name="permissions_dialog_title">We need your help</string>
+    <string name="accept_permissions_dialog">GIVE PERMISSIONS!</string>
+    <string name="cancel_dialog">CANCEL</string>
+    <string name="no_internet_connection">NO INTERNET CONNECTION, PLEASE CHECK YOUR CONNECTION</string>
 </resources>

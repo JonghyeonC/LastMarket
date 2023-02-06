@@ -291,7 +291,7 @@ class CreateProductFragment : Fragment() {
                             RequestBody.create("application/json".toMediaTypeOrNull(), jsonString)
                         Log.d(TAG, "onCreateView: $product")
                         //TODO :EDIT PRODUCCT
-                        ProductService().editProudct(token, jsonBody, imageMultipartList)
+//                        ProductService().editProudct(token, jsonBody, imageMultipartList)
                         mainActivity.changeFragment(1)
                     } catch (e: Exception) {
                         Toast.makeText(requireContext(), "입력하지 않은 항목이 있습니다", Toast.LENGTH_LONG)
@@ -320,7 +320,7 @@ class CreateProductFragment : Fragment() {
                         var jsonBody =
                             RequestBody.create("application/json".toMediaTypeOrNull(), jsonString)
                         Log.d(TAG, "onCreateView: $product")
-                        ProductService().editProudct(token, jsonBody, imageMultipartList)
+//                        ProductService().editProudct(token, jsonBody, imageMultipartList)
                         mainActivity.changeFragment(1)
                     } catch (e: Exception) {
                         Log.d(TAG, "onCreateView: $e")

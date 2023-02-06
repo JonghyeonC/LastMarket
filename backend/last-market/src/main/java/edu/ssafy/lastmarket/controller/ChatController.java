@@ -3,7 +3,10 @@ package edu.ssafy.lastmarket.controller;
 import edu.ssafy.lastmarket.domain.document.TradeChat;
 import edu.ssafy.lastmarket.domain.dto.ChatMessageDTO;
 import edu.ssafy.lastmarket.domain.dto.ChatType;
+import edu.ssafy.lastmarket.service.MemberService;
+import edu.ssafy.lastmarket.service.ProductService;
 import edu.ssafy.lastmarket.service.TradeChatService;
+import edu.ssafy.lastmarket.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -21,6 +24,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class ChatController {
     private final RabbitTemplate template;
     private final TradeChatService tradeChatService;
+    private final TradeService tradeService;
+    private final ProductService productService;
+    private final MemberService memberService;
 
     @MessageMapping("room.{roomKey}")
     public void chatSend(ChatMessageDTO msg, @DestinationVariable String roomKey) {
@@ -28,6 +34,13 @@ public class ChatController {
         if (msg.getChatType() == ChatType.TRADE_CHAT) {
             tradeChatService.makeChatRoom(msg);
             tradeChatService.saveChatLog(msg);
+        } else if (msg.getChatType() == ChatType.FINISH) {
+            boolean exist = memberService.memberExist(Long.parseLong(msg.getSender()));
+            if (exist) {
+
+            } else {
+
+            }
         }
         template.convertAndSend("chat.exchange", "room." + roomKey, msg);
     }

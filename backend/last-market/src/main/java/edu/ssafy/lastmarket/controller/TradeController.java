@@ -28,7 +28,9 @@ public class TradeController {
     public ResponseEntity<?> saveTrade(@Login Member member, @PathVariable("productId")Long id){
 
         Optional<Product> productOptional = productService.findProductMemberById(id);
+        //save Trade
         tradeService.saveTrade(productOptional.get(),productOptional.get().getSeller(),member);
+        //dealState 변경
         productService.sellProduct(productOptional.get());
 
         return new ResponseEntity<>(HttpStatus.CREATED);

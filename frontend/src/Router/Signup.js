@@ -5,15 +5,11 @@ import axios from "axios"
 
 function Signup() {
   
+  const [life, setLife] = useState([])
+  
   let [ nickName, setNickName ] = useState('')
   let [ lifestyle, setlifeStyle ] = useState('')
   let [ location, setLocation ] = useState('')
-
-  const [life, setLife] = useState([])
-
-  console.log(nickName)
-  console.log(lifestyle)
-  console.log(location)
 
   const category = (() => {
     return (
@@ -36,6 +32,7 @@ function Signup() {
           "nickname" : nickName,
           "lifestyle" : lifestyle,
           "addr" : `${location[0]} ${location[1]} ${location[2]}`,
+          "categories" : []
         },
         withCredentials: true,
       })
@@ -50,7 +47,7 @@ function Signup() {
     timeout: 5000,
     maximumAge: 0
   };
-  
+
   function success(position) {
     //좌표를 알아낼 수 있는데, 여기서 알아낸 좌표를 kakaoAPI url에 사용할 것이다.
     // console.log('위도 : ' + position.coords.latitude); 
@@ -79,6 +76,7 @@ function Signup() {
     }
     ).catch(e=>console.log(e))
     }
+
     function onGeoError(){
         alert("위치권한을 확인해주세요");
     }
@@ -89,8 +87,12 @@ function Signup() {
 
 
   useEffect(() => {
-    category()
+    category();
   }, [])
+
+  console.log(nickName)
+  console.log(lifestyle)
+  console.log(location)
 
   return (
     <div className='Signup'>

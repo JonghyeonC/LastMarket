@@ -11,7 +11,7 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import HeadsetOffIcon from "@mui/icons-material/HeadsetOff";
 import CallEndIcon from "@mui/icons-material/CallEnd";
 import ChatIcon from "@mui/icons-material/Chat";
-// import ChatBox from "../Pages/Live/ChatBox"
+import LiveChat from "../Chat"
 
 
 // 로컬 미디어 서버 주소
@@ -21,7 +21,7 @@ const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 const Container = styled.div`
   height: 100vh;
   width: 100%;
-  background-color: #202124; // 바탕화면 색
+  background-color: #5D6DBE; // 바탕화면 색
 `;
 
 const Header = styled.div`
@@ -40,15 +40,16 @@ const StudyTitle = styled.p`
 
 const Middle = styled.div`
   width: 100%;
+  height: 77vh;
   display: flex;
   overflow: hidden;
 `;
 
 const Left = styled.div`
-  flex: 3;
+  flex: 1;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 `;
 
 const Right = styled.div`
@@ -71,29 +72,32 @@ const Chat = styled.div`
 
 const VideoContainer = styled.div`
   margin-top: 30px;
-  width: 50%;
+  // width: 50%;
   height: 77vh;
+  width: 1000px;
+  // height: 500px;
   overflow: hidden;
   display: flex;
   justify-content: left;
 `;
 
 const StreamContainerWrapper = styled.div`
-  // display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction:row;
+  // place-items: center;
   ${(props) =>
     props.primary
       ? `
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     `
       : `
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     `}
-  grid-gap: 20px;
+  grid-gap: 0px;
   height: 100%;
-  padding: 10px;
-  @media screen and (max-width: 800px) {
-    background-color: red;
+  padding: 5px;
+  @media screen and (max-width: 1100px) {
+    background-color: #D0EDEF;
   }
 `;
 
@@ -101,7 +105,9 @@ const StreamContainer = styled.div`
   width: 100%;
   position: relative;
   border-radius: 5px;
-  min-height: 34vh;
+  // min-height: 34vh;
+  height: 700px;
+  width: 1000px;
   overflow: hidden;
   box-sizing: border-box;
 `;
@@ -164,7 +170,7 @@ class OnlineMeeting extends Component {
           <StudyTitle>경매 라이브 방송</StudyTitle>
         </Header>
         <Middle>
-          {this.state.session === undefined ? (
+          {/* {this.state.session === undefined ? (
             <div
               style={{
                 position: "absolute",
@@ -179,7 +185,7 @@ class OnlineMeeting extends Component {
               <div>
                 <h1 style={{ color: "white" }}> Join a video session </h1>
                 <form
-                  style={{ display: "flex", justifyContent: "center" }}
+                  style={{ display: "flex", justifyContent: "left" }}
                   className="form-group"
                   onSubmit={this.joinSession}
                 >
@@ -194,7 +200,7 @@ class OnlineMeeting extends Component {
                 </form>
               </div>
             </div>
-          ) : null}
+          ) : null} */}
           <Left>
             <VideoContainer>
               {this.state.session !== undefined ? (
@@ -218,9 +224,9 @@ class OnlineMeeting extends Component {
               ) : null}
             </VideoContainer>
           </Left>
-          {/* <Right primary={this.state.isChat}>
-            <ChatBox />
-          </Right> */}
+          <Right primary={this.state.isChat}>
+            <LiveChat />
+          </Right>
         </Middle>
         <Bottom>
           <BottomBox>
@@ -288,6 +294,7 @@ class OnlineMeeting extends Component {
 
   componentDidMount() {
     // this.leaveSession();
+    this.joinSession();
     window.addEventListener("beforeunload", this.onbeforeunload);
     // 스터디방에서 화상회의 입장 -> props로 roomId로 받으면 세션id 업뎃 user 정보 전역변수 가져옴 -> 상태값 업뎃
   }

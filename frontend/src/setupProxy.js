@@ -8,4 +8,8 @@ module.exports = function(app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    '/ws',
+    createProxyMiddleware({ target: 'https://i8d206.p.ssafy.io', ws: true})
+  );
 };

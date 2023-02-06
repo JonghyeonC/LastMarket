@@ -1,49 +1,75 @@
+import { useRef, useState } from 'react';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+import './Chat.css'
+
 function LiveChat() {
 
-    // let msg_send_btn = document.getElementById("msg");
-    // let chat_log = document.getElementById("chat-log");
-    // let userId = "none";
+    const msg_send_btn = useRef()
+    const inputBox = useRef()
+    // const chat_log = useRef()
     
-    // let socket = new WebSocket("wss://i8d206.p.ssafy.io");
-    // console.log(socket)
-    // let stomp_client = Stomp.over(socket);
-    
-    // stomp_client.debug = null;
-    
-    // stomp_client.connect({}, () => {
-    //     stomp_client.subscribe("/exchange/chat.exchange/room.chat-test", (message) => {
-    //         addChatLog(JSON.parse(message.body))
-    //     });
-    // })
-    
-    // msg_send_btn.addEventListener("click", () => {
-    //     userId = document.getElementById("id").value;
-    //     let test_message = {
-    //         "type": "test",
-    //         "nickname": userId,
-    //         "msg": "test from js"
-    //     }
-    //     stomp_client.send("/send/room.chat-test", {}, JSON.stringify(test_message));
-    // })
-    
-    // function addChatLog(msg) {
-    //     let chat = document.createElement("div");
-    //     chat.innerText = msg.msg;
-    //     if (msg.nickname === userId) {
-    //         chat.style.color = "red";
-    //     }
-    //     chat_log.append(chat);
-    // }
+    const [talk, setTalk] = useState('')
+    const [chat_log, setChat_log] = useState([''])
+    const [chat, setChat] = useState('')
 
+    const socket = new SockJS("https://i8d206.p.ssafy.io/api/ws");
+    console.log(socket)
+    const stomp_client = Stomp.over(socket);
+    
+    stomp_client.connect({}, () => {
+        console.log("connection successe")
+        stomp_client.subscribe("/exchange/chat.exchange/room.123", (message) => {
+            // addChatLog(JSON.parse(message.body));
+            // console.log(JSON.parse(message.body))
+            addChatLog(message)
+        });
+    })
+    
+    function sendMessage() {
+        const msg = {
+            "chatType": "CHAT ",
+            "seller": "seller",
+            "buyer": "buyer",
+            "sender": "seller",
+            "roomKey": "123",
+            "message": talk
+        }
+        return(
+            stomp_client.send("/send/room.123", {}, JSON.stringify(msg))
+        )
+    }
+
+    function addChatLog(msg) {
+        let talks = JSON.parse(msg.body)
+        // console.log(talks.message)
+        if (talks.sender === "seller") {
+            // chat.style.color = "red";
+        }
+        setChat_log(chat_log.concat(talks.message))
+    }
+
+    console.log(12)
+    console.log(chat_log)
 
     return (
-        <div>
-            <input type="text" id="id" placeholder="채팅을 입력해주세요!!" />
-                <br />
-            <button id="msg">msg send</button>
-                <br />
-            <div id="chat-log"></div>
+        <div className='chatContainer'>
+            
+            <div className='chatBox'>
+                <div className='chatContent'>
+                    {
+                        chat_log.map((logs) => {
+                            return <ul>{logs}</ul>
+                        })
+                    }
+                </div>
+                <input type="text" ref={inputBox} placeholder="채팅을 입력해주세요!!" onChange={(e) => setTalk(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') {sendMessage()}}} />
+                    <br />
+                <button ref={msg_send_btn} onClick={sendMessage} >send</button>
+                    <br />
+            </div>
         </div>
+
     )
 }
 

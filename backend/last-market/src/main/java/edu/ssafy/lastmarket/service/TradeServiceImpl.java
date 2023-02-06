@@ -21,12 +21,12 @@ public class TradeServiceImpl implements TradeService {
 
     @Override
     @Transactional
-    public Trade saveTrade(Product product, Member seller, Member buyer) {
+    public Trade saveTrade(Product product, Member buyer) {
         if (product.getDealState() == DealState.FINISH) {
             throw new ProductSoldException();
         }
 
-        Trade trade = new Trade(product, seller, buyer);
+        Trade trade = new Trade(product, product.getSeller(), buyer);
         return tradeRepository.save(trade);
     }
 

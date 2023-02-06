@@ -148,4 +148,12 @@ public class ControllerExceptionHandler {
         result.put("msg", "reviewAlreadyExistException");
         return new ResponseEntity<>(result, HttpStatus.valueOf(400));
     }
+
+    @ExceptionHandler(NotMatchSellerException.class)
+    public ResponseEntity<?> notMatchSellerException(Exception e) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("error msg", e.toString());
+        result.put("msg", "notMatchSellerException");
+        return new ResponseEntity<>(result, HttpStatus.valueOf(400));
+    }
 }

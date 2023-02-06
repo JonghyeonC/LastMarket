@@ -1,11 +1,29 @@
 import TabContent from "../Components/Tabcontent"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Nav } from "react-bootstrap"
+import axios from "axios"
 
 function Profile() {
 
   let [tab, setTab] = useState(0)
   let [nickName, setNickName] = useState('user')
+
+  const getInfo = (() => {
+    return (
+      axios({
+        method: 'get',
+        url: `https://i8d206.p.ssafy.io/api/user`
+      })
+      .then((res) => {
+        console.log(res)
+      })
+    )
+  })
+
+  useEffect(() => {
+    getInfo()
+  }, [])
+  
   return (
     <div>
       <div>

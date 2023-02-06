@@ -59,4 +59,9 @@ public class MemberServiceImpl implements MemberService {
                 .addr(member.getLocation().toString())
                 .build();
     }
+
+    @Override
+    public boolean memberExist(Long id) {
+        return memberRepository.existsById(id);
+    }
 }

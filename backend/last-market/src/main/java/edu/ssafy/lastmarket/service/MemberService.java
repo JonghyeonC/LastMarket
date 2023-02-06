@@ -14,4 +14,5 @@ public interface MemberService {
     Member updateProfile(Optional<Image> imageOptional, Member member);
 
     MemberInfoDto getMemberInfo(Member member);
+    boolean memberExist(Long id);
 }

@@ -25,7 +25,7 @@ function Main() {
           <h1>('진평동')의 (미니멀 라이프) () 상품</h1>
           <br />
           <div>
-            <GoodsListSwiper />
+            <GoodsListSwiper sort1="favoriteCnt" sort2="lastModifiedDateTime,DESC" />
           </div>
           <br />
           <br />
@@ -42,7 +42,7 @@ function Main() {
         </div>
         <div>
           <h1>('진평동')에서 NEW!</h1>
-            <GoodsList />
+            <GoodsList sort1="lastModifiedDateTime,DESC" sort2="favoriteCnt" />
           {/* <div className='row'>
           {
             products.map((product, i) => {

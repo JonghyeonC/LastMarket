@@ -115,10 +115,13 @@ function Navbar() {
           //   <Cate>
           //   <Category />
           //   </Cate>
-          // </Left> */}
+        // </Left> */}
+          {/* <button className='sellBtn'>판매하기</button> */}
           <hr className="nav_line2"/>
         </span>
+        <img className='sell_icon' src="sell_icon.png" alt="sell_icon" onClick={() => navigate('/register')} />
       </div>
+      <br />
     </div>
   )
 }

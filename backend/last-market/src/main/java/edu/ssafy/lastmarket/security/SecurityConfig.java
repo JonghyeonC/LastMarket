@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -33,17 +34,19 @@ public class SecurityConfig {
     private final JwtManager jwtManager;
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource(){
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
         corsConfiguration.setAllowCredentials(true);
-
+        corsConfiguration.setAllowedMethods(
+                Arrays.asList("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE")
+        );
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",corsConfiguration);
-        return  source;
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
 
     }
-
 
 
     @Bean
@@ -75,8 +78,8 @@ public class SecurityConfig {
                 .and().
                 successHandler(oAuth2AuthenticationSuccessHandler);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        JwtAuthenticationFilter jwtAuthenticationFilter=  new JwtAuthenticationFilter(principalOauth2UserService, jwtManager);
-        http.addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(principalOauth2UserService, jwtManager);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.exceptionHandling()
                 .authenticationEntryPoint(new AuthenticationEntryPoint() {
@@ -90,10 +93,6 @@ public class SecurityConfig {
                 });
 
         return http.build();
-
-
-
-
 
 
     }

@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -88,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
 
 
         Product product = ProductDto.convert(productDto);
-        if(product.getLiveTime()!=null){
+        if (product.getLiveTime() != null) {
             LocalDateTime localDateTime = localDateTimeFloor(product.getLiveTime());
             product.setLiveTime(localDateTime);
         }
@@ -127,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> productOptional = productRepository.findById(productId);
         Product.isProductNull(productOptional);
         Product product = productOptional.get();
-        if(!checkUpdate30min(product)){
+        if (!checkUpdate30min(product)) {
             throw new UpdateProductCooltimeException("need 30 min");
         }
 
@@ -148,10 +149,10 @@ public class ProductServiceImpl implements ProductService {
             product.setCategory(categoryOptional.get());
         }
 
-        if (productDto.getStartingPrice()!=null||productDto.getStartingPrice() != 0) {
+        if (productDto.getStartingPrice() != null ) {
             product.setStartingPrice(productDto.getStartingPrice());
         }
-        if (productDto.getInstantPrice() != 0) {
+        if (productDto.getInstantPrice() != null ) {
             product.setInstantPrice(productDto.getInstantPrice());
         }
 
@@ -200,16 +201,16 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Boolean pullup(Member member, Long productId) {
         Optional<Product> productOptional = productRepository.findProductFetchJoinSellerById(productId);
-        if(productOptional.isEmpty()){
+        if (productOptional.isEmpty()) {
             throw new NotFoundException("product NotFoundException");
         }
         Product product = productOptional.get();
-        if(product.getSeller().getId()!= member.getId()){
+        if (product.getSeller().getId() != member.getId()) {
             throw new NotYourAuthority();
         }
 
         boolean check = checkUpdate30min(product);
-        if(!check){
+        if (!check) {
             throw new UpdateProductCooltimeException("need 30 min");
         }
         product.setLastModifiedDateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
@@ -230,11 +231,10 @@ public class ProductServiceImpl implements ProductService {
         return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(), time.getHour(), time.getMinute() / 10 * 10);
     }
 
-    private Boolean checkUpdate30min(Product product){
-        LocalDateTime nowMinus30min =LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusMinutes(30);
+    private Boolean checkUpdate30min(Product product) {
+        LocalDateTime nowMinus30min = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusMinutes(30);
         return !nowMinus30min.isBefore(product.getLastModifiedDateTime());
     }
-
 
 
 }

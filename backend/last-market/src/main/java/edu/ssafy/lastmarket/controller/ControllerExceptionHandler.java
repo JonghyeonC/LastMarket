@@ -64,51 +64,50 @@ public class ControllerExceptionHandler {
         return new ErrorMsgDTO(e.toString(), "notAuthenticated");
     }
 
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ErrorMsgDTO missingServletRequestParameterException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "missingServletRequestParameterException");
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ErrorMsgDTO missingServletRequestPartException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "missingServletRequestPartException");
     }
 
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ProductSoldException.class)
     public ErrorMsgDTO productSoldException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "productSoldException");
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NoChatRoomException.class)
     public ErrorMsgDTO noChatRoomException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "noChatRoomException");
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public ErrorMsgDTO illegalArgumentException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "illegalArgumentException");
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ReviewAlreadyExistException.class)
     public ErrorMsgDTO reviewAlreadyExistException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "reviewAlreadyExistException");
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NotMatchSellerException.class)
     public ErrorMsgDTO notMatchSellerException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "notMatchSellerException");
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UpdateProductCooltimeException.class)
     public ErrorMsgDTO updateProductCooltimeException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "updateProductCooltimeException");

@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
+import com.auth0.android.jwt.JWT
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -47,6 +48,21 @@ class MainActivity : AppCompatActivity() {
         city= pref?.getString("city","null").toString()
         cityData= pref?.getString("city_data","null").toString()
         lifestyle= pref?.getString("lifestyle","null").toString()
+
+        var prefs = getSharedPreferences("user_info", MODE_PRIVATE)
+        var editor = prefs?.edit()
+        var token=prefs?.getString("token", "")
+        Log.d(TAG, "onCreate: $token")
+        var jwt= token?.let { JWT(it) }
+        val issuer = jwt!!.issuer //get registered claims
+
+        val claim = jwt.getClaim("id").asString() //get custom claims
+
+        val isExpired = jwt.isExpired(10)
+
+        Log.d(TAG, "onCreate: $claim $issuer $isExpired")
+        editor?.putLong("user_id",claim!!.toLong())
+        editor?.commit()
 
 
         drawerLayout=findViewById<DrawerLayout>(R.id.drawer_layout)
@@ -151,7 +167,7 @@ class MainActivity : AppCompatActivity() {
             .setOnEditorActionListener { v, actionId, event ->
                 searchBar.text = searchView.text
                 searchView.hide()
-                ProductService().getProductWithSort("",null,cityData,"favoriteCnt","DEFAULT","1",ProductCallback(),false,searchView.text.toString())
+                ProductService().getProductWithSort("",null,cityData,"favoriteCnt","DEFAULT","1",ProductCallback(),true,searchView.text.toString())
                 searchBar.visibility=View.GONE
                 false
             }

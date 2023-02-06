@@ -1,6 +1,8 @@
 package com.jphr.lastmarket.service
 
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.dto.*
 import com.jphr.lastmarket.fragment.SearchFragment
@@ -57,7 +59,6 @@ class ProductService {
                 if(response.code() == 200){
                     if (res != null) {
                         Log.d(TAG, "onResponse: ${response}")
-
                         callback.onSuccess(response.code(), res,issearch,word,category)
 
                     }
@@ -85,6 +86,7 @@ class ProductService {
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "onResponse insert: ${response.code()}")
+                        Log.d(TAG, "onResponse: $response")
                         true
                     }
                 } else {
@@ -125,7 +127,9 @@ class ProductService {
             }
         })
     }
-    fun pullProduct(token:String,productId: Long){
+    fun pullProduct(token:String,productId: Long):Boolean{
+        var issucess=false
+
         RetrofitUtil.ProductService.pullProduct(token,productId).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
@@ -133,6 +137,7 @@ class ProductService {
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "Detail_onResponse : ${response.code()}")
+                        issucess=true
                         true
                     }
                 } else {
@@ -147,9 +152,10 @@ class ProductService {
 
             }
         })
+        return issucess
     }
-    fun editProudct(token:String,product: ProductRegisterDTO){
-        RetrofitUtil.ProductService.editProduct(token,product).enqueue(object : Callback<String> {
+    fun editProudct(token:String,productId:Long,product: RequestBody,images: MutableList<MultipartBody.Part>){
+        RetrofitUtil.ProductService.editProduct(token,productId,product,images).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
@@ -171,14 +177,17 @@ class ProductService {
             }
         })
     }
-    fun deleteProduct(token:String,productId: Long){
-        RetrofitUtil.ProductService.deleteProduct(token,productId).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+    fun deleteProduct(token:String,productId: Long) :Boolean{
+        var issucess=false
+
+        RetrofitUtil.ProductService.deleteProduct(token,productId).enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "Detail_onResponse : ${response.code()}")
+                        issucess=true
                         true
                     }
                 } else {
@@ -188,10 +197,61 @@ class ProductService {
                     false
                 }
             }
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
                 Log.d(TAG, "onResponse:false ${t.message}")
 
             }
         })
+        return issucess
+    }
+    fun insertFavorite(token:String,productId: Long) :Boolean{
+        var issucess=false
+
+        val categoryInterface: Call<Unit> = RetrofitUtil.ProductService.insertFavorite(token,productId)
+
+        categoryInterface.enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                val res = response.body()
+                Log.d(TAG, "onResponse res 값: $res")
+                if(response.isSuccessful){
+                    if (res != null) {
+                        issucess=true
+                    }
+                    Log.d(TAG, "onResponse: $res")
+                } else {
+                    Log.d(TAG, "onResponse: Error Code ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                Log.d(TAG, t.message ?: "오류")
+            }
+        })
+        return issucess
+    }
+    fun deleteFavorite(token:String,productId: Long) :Boolean{
+        var issucess=false
+
+        val categoryInterface: Call<Unit> = RetrofitUtil.ProductService.deleteFavorite(token,productId)
+
+        categoryInterface.enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                val res = response.body()
+                Log.d(TAG, "onResponse res 값: $res")
+                if(response.isSuccessful){
+                    if (res != null) {
+                        issucess=true
+                    }
+                    Log.d(TAG, "onResponse: $res")
+                } else {
+                    Log.d(TAG, "onResponse: Error Code ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                Log.d(TAG, t.message ?: "오류")
+            }
+        })
+        return issucess
     }
 }

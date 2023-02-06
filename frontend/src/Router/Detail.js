@@ -7,27 +7,10 @@ import axios from "axios"
 function Detail() {
 
   const { id } = useParams()
-  const navigate = useNavigate()
-  
-  // 경매 라이브
-  function liveroom() {
-    const url = `https://i8d206.p.ssafy.io/api/liveroom/${id}`
-
-    axios.get(url)
-    .then((res) => {
-      console.log(1)
-      console.log(res)
-    })
-    .catch((res) => {
-      console.log("실패")
-    })
-  }
 
   return (
     <div>
       <Discription id={id} />
-      <button onClick={liveroom}>라이브 시청</button>
-      <button>구매</button>
     </div>
   )
 }

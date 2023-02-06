@@ -1,11 +1,34 @@
-.detailBox {
+.decriptionBox {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+
+.detailBox{
+  display: flex;
+  flex-direction: column;
+}
+
+.imagesBox {
+  display: flex;
+  flex-direction: column;
 }
 
 .priceBox{
   background-color: grey;
   font-size: x-large;
   
+}
+
+.profileBox {
+  display: flex;
+  flex-direction: row;
+}
+.likeBtn{
+  display: flex;
+  flex-direction: row;
+}
+
+.contentBox {
+  border: 0.2ch solid crimson;
 }

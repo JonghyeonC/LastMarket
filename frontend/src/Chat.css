@@ -1,0 +1,14 @@
+.chatContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.chatBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.chatContent {
+  border: 0.5rem #D0EDEF solid;
+  border-radius: 1.5px;
+}

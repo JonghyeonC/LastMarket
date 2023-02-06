@@ -1,11 +1,33 @@
 import './Drop_catecss.css'
 import { FaAngleDown } from "react-icons/fa"
-import { useState } from 'react'
-
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 function Dropbox_cate({ SetCate }) {
 
   const [value, SetValue] = useState('')
+
+  const URL = `https://i8d206.p.ssafy.io/api/categories`
+  const [ categories, setCategories ] = useState([]) 
+
+  const getCategory = (() => {
+    return(
+      axios({
+        method: "get",
+        url: URL,
+      })
+      .then((res) => {
+        setCategories(res.data.categories)
+      })
+      .catch((res) => {
+        console.log("실패")
+      })
+    )
+  })
+
+  useEffect(() => {
+    getCategory()
+  }, [])
 
   return (
     <div className='inputWrap'>
@@ -21,12 +43,16 @@ function Dropbox_cate({ SetCate }) {
         </label>
         <div className='content'>
           <ul>
-            {/* {arr.function.map((el, idx) => {
-              <li onClick={el}>{arr.label[idx]}</li>
-            })} */}
-            <li onClick={() => {SetCate(1); SetValue(1)}}>1</li>
+            {
+              categories.map((category) => {
+                return(
+                  <li onClick={() => {SetCate(category); SetValue(category)}}>{category}</li>
+                )
+              })
+            }
+            {/* <li onClick={() => {SetCate(1); SetValue(1)}}>1</li>
             <li onClick={() => {SetCate(2); SetValue(2)}}>2</li>
-            <li onClick={(event) => {event.stopPropagation(); SetCate(3); SetValue(3)}}>3</li>
+            <li onClick={(event) => {event.stopPropagation(); SetCate(3); SetValue(3)}}>3</li> */}
           </ul>
         </div>
       </div>

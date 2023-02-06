@@ -62,7 +62,7 @@ public class SecurityConfig {
         http.formLogin().disable();
         http.httpBasic().disable();
         http.csrf().disable();
-        http.cors();
+        http.cors().configurationSource(corsConfigurationSource());
         http.headers()
                 .frameOptions()
                 .sameOrigin();

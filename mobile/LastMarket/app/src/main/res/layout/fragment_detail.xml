@@ -1,14 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_grey"
+    android:orientation="vertical"
     tools:context=".fragment.DetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="329dp" />
+    <me.relex.circleindicator.CircleIndicator3
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        app:ci_drawable="@drawable/circle_indicator"
+        />
+</FrameLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="22dp"
+        android:orientation="vertical">
 
-</FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/gmarket_sans_ttf_bold"
+                android:text="Signiture Ball Cap" />
+
+            <ImageView
+                android:id="@+id/up"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:src="@drawable/up" />
+
+            <ImageView
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:src="@drawable/edit" />
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:src="@drawable/delete" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/instantPriceLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lifestyle"
+                android:layout_weight="1"
+                android:textColor="@color/blue1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="라이프스타일" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/instantPriceText"
+                    style="@style/detail_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="구매가" />
+
+                <TextView
+                    android:id="@+id/instantPrice"
+                    style="@style/detail_price2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/esamanru_light"
+                    android:text="99999999원" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/instantPriceInfoText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_outline_info_24" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    style="@style/info_small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/instant_price_info" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/startPriceLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/startPriceText"
+                    style="@style/detail_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="시작가" />
+
+                <TextView
+                    android:id="@+id/startPrice"
+                    style="@style/detail_price3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/esamanru_light"
+                    android:text="99999999원" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/startPriceInfoText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_outline_info_24" />
+
+                <TextView
+                    style="@style/info_small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/start_price_info" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:src="@drawable/like" />
+
+            <Button
+                android:id="@+id/liveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="?attr/materialButtonOutlinedStyle"
+                android:backgroundTint="@color/green2"
+                android:textColor="@color/white"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:layout_marginHorizontal="13dp"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/purchaseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="?attr/materialButtonOutlinedStyle"
+                android:backgroundTint="@color/blue3"
+                android:textColor="@color/white"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="즉시 구매" />
+        </LinearLayout>
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dividerThickness="2dp"/>
+
+        <TextView
+            style="@style/life"
+            android:fontFamily="@font/gmarket_sans_ttf_bold"
+            android:layout_marginBottom="6dp"
+            android:id="@+id/textView20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="이 상품에 담긴 Life" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/content2"
+            android:lineSpacingExtra="2sp"
+            android:text="이 모자는 올 여름 저의 힙함을 담당해 준 모자입니다. 처음 모자를 사고 너무 이쁘고 기쁜 나머지 방방 뛰다가 바닥이 무너진 에피소드가 담겨있답니다. 라이브에서는 이 힙함을 전해드리기 위해 착샷을 보여드릴 예정이에요 " />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/life"
+            android:fontFamily="@font/gmarket_sans_ttf_bold"
+            android:layout_marginBottom="6dp"
+            android:text="판매자님의 정보" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/sellerProfile"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/search"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/sellerNicname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/detail_price2"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="TextView" />
+                <TextView
+                    android:id="@+id/sellerLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="진평동" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

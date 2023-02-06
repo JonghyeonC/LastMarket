@@ -3,11 +3,186 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
     tools:context=".fragment.MainFragment">
 
+    <LinearLayout
+        android:layout_marginLeft="10dp"
 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/city"
+                style="@style/main_Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/esamanru_light"
+                android:lineSpacingExtra="1sp"
+                android:text="진평동"
+                android:textColor="@color/blue1"
+                android:translationY="0.44sp" />
+
+            <TextView
+                style="@style/main_Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/esamanru_light"
+                android:lineSpacingExtra="1sp"
+                android:text="에서 "
+                android:translationY="0.44sp" />
+
+            <TextView
+                android:id="@+id/lifestyle"
+                style="@style/main_Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/esamanru_light"
+                android:lineSpacingExtra="1sp"
+                android:text="운동"
+                android:textColor="@color/green5"
+                android:translationY="0.44sp" />
+
+            <TextView
+                style="@style/main_Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/esamanru_light"
+                android:lineSpacingExtra="1sp"
+                android:text="관련"
+                android:translationY="0.44sp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/main_Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/esamanru_light"
+            android:lineSpacingExtra="1sp"
+            android:text="인기 상품"
+            android:translationY="0.44sp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/city2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/main_Title"
+                android:lineSpacingExtra="1sp"
+                android:translationY="0.44sp"
+                android:fontFamily="@font/esamanru_light"
+                android:textColor="@color/blue1"
+                android:text="진평동" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/main_Title"
+                android:lineSpacingExtra="1sp"
+                android:translationY="0.44sp"
+                android:fontFamily="@font/esamanru_light"
+                android:text="에서 " />
+
+            <TextView
+                android:id="@+id/lifestyle2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/main_Title"
+                android:lineSpacingExtra="1sp"
+                android:translationY="0.44sp"
+                android:fontFamily="@font/esamanru_light"
+                android:textColor="@color/green5"
+                android:text="운동" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/main_Title"
+                android:lineSpacingExtra="1sp"
+                android:translationY="0.44sp"
+                android:fontFamily="@font/esamanru_light"
+                android:text="관련" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/main_Title"
+            android:lineSpacingExtra="1sp"
+            android:translationY="0.44sp"
+            android:fontFamily="@font/esamanru_light"
+            android:text="라이브 중!" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_live"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/city3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/main_Title"
+                android:lineSpacingExtra="1sp"
+                android:translationY="0.44sp"
+                android:fontFamily="@font/esamanru_light"
+                android:textColor="@color/blue1"
+                android:text="진평동" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/main_Title"
+                android:lineSpacingExtra="1sp"
+                android:translationY="0.44sp"
+                android:fontFamily="@font/esamanru_light"
+                android:text="에서 " />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/main_Title"
+                android:lineSpacingExtra="1sp"
+                android:translationY="0.44sp"
+                android:fontFamily="@font/esamanru_light"
+                android:textColor="@color/green5"
+                android:text="NEW!" />
+        </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"

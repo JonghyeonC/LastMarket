@@ -1,23 +1,24 @@
 package com.jphr.lastmarket.api
 
-import androidx.lifecycle.LiveData
 import com.jphr.lastmarket.dto.CategoryDTO
-import com.jphr.lastmarket.dto.JobDTO
+import com.jphr.lastmarket.dto.LifeStyleDTO
 import com.jphr.lastmarket.dto.UserInfoDTO
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface UserInfoAPI {
-    @GET("/user/category")
+    @GET("api/categories")
     fun getCategory(): Call<CategoryDTO>
 
-    @GET("/user/job")
-    fun getJob():Call<JobDTO>
+    @GET("api/lifestyles")
+    fun getLifeStyle():Call<LifeStyleDTO>
 
-    @POST("/user")
-    fun insertUserInfo(@Body userinfo:UserInfoDTO):Call<Unit>
-
+    @POST("api/user")
+    fun insertUserInfo(
+        @Header("Authentication") token: String,
+        @Body userinfo:UserInfoDTO ):Call<Unit>
 
 }

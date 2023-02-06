@@ -81,7 +81,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
             return null;
         }else{
             for (DealState dealState : dealStates) {
-                builder.and(product.dealState.eq(dealState));
+                builder.or(product.dealState.eq(dealState));
             }
             return builder;
         }

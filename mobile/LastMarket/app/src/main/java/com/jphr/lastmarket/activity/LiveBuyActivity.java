@@ -41,7 +41,7 @@ class LiveBuyActivity : AppCompatActivity() {
 //    @BindView(R.id.start_finish_call)
 //    var start_finish_call: Button? = null
 
-    var application_server_url = R.string.application_server_url
+    private var application_server_url = "https://i8d206.p.ssafy.io/"
 
     @BindView(R.id.local_gl_surface_view)
     var localVideoView: SurfaceViewRenderer? = null

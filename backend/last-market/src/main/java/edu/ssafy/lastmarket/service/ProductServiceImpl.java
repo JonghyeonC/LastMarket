@@ -148,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
             product.setCategory(categoryOptional.get());
         }
 
-        if (productDto.getStartingPrice() != 0) {
+        if (productDto.getStartingPrice()!=null||productDto.getStartingPrice() != 0) {
             product.setStartingPrice(productDto.getStartingPrice());
         }
         if (productDto.getInstantPrice() != 0) {

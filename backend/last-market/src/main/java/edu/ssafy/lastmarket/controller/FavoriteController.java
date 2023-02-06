@@ -26,10 +26,7 @@ public class FavoriteController {
 
     @GetMapping("/favorite")
     public ResponseEntity<?> getFavoriteList(@Login Member member){
-        log.info("favorite ======= {}", member.getId());
         List<ProductListDto> result = favoriteService.getFavorites(member);
-
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @PostMapping("/favorite/{productId}")

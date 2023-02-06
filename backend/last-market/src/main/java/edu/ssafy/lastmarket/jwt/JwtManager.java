@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class JwtManager {
 
     public String generateJwtToken(Member member, Location location, Image image) {
         Date now = new Date();
-        log.info("now ============ {}", now.getTime());
+        log.info("[generate token]time={}", LocalDateTime.now(ZoneId.of("Asia/Seoul")));
         return Jwts.builder().setSubject(member.getUsername()) // 보통 username
                 .setHeader(createHeader()).setClaims(createClaims(member, location, image)) // 클레임, 토큰에 포함될 정보
                 .setExpiration(new Date(now.getTime() + shortTokeneExpiredTime)) // 만료일

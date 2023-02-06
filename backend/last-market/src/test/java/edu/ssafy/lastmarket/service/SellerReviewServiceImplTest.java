@@ -6,6 +6,7 @@ import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.exception.ReviewAlreadyExistException;
 import edu.ssafy.lastmarket.repository.SellerReviewRepository;
 import edu.ssafy.lastmarket.repository.TradeRepository;
+import edu.ssafy.lastmarket.service.impl.SellerReviewServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

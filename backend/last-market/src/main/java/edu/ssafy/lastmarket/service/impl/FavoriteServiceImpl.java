@@ -1,4 +1,4 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.dto.ProductListDto;
 import edu.ssafy.lastmarket.domain.entity.Favorite;
@@ -6,6 +6,7 @@ import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.domain.entity.Product;
 import edu.ssafy.lastmarket.exception.NotFoundException;
 import edu.ssafy.lastmarket.repository.FavoriteRepository;
+import edu.ssafy.lastmarket.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

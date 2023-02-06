@@ -6,13 +6,11 @@ import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.domain.entity.Product;
 import edu.ssafy.lastmarket.repository.FavoriteRepository;
 import edu.ssafy.lastmarket.repository.ProductRepository;
-import edu.ssafy.lastmarket.repository.ProductRepositoryImpl;
-import org.aspectj.util.PartialOrder;
+import edu.ssafy.lastmarket.service.impl.FavoriteServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;

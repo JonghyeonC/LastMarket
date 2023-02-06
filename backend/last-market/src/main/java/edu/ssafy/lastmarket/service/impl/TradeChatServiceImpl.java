@@ -1,10 +1,11 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.document.TradeChat;
 import edu.ssafy.lastmarket.domain.dto.ChatMessageDTO;
 import edu.ssafy.lastmarket.domain.dto.TradeChatDTO;
 import edu.ssafy.lastmarket.exception.NoChatRoomException;
 import edu.ssafy.lastmarket.repository.TradeChatRepository;
+import edu.ssafy.lastmarket.service.TradeChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

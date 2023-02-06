@@ -1,4 +1,4 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.entity.Category;
 import edu.ssafy.lastmarket.domain.entity.CategoryName;
@@ -6,6 +6,7 @@ import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.domain.entity.MemberCategory;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.repository.MemberCategoryRepository;
+import edu.ssafy.lastmarket.service.MemberCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

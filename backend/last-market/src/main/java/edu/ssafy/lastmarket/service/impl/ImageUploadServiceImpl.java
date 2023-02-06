@@ -1,8 +1,10 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.entity.Image;
 import edu.ssafy.lastmarket.domain.entity.ProductImage;
 import edu.ssafy.lastmarket.repository.ImageRepository;
+import edu.ssafy.lastmarket.service.CloudImageUploadService;
+import edu.ssafy.lastmarket.service.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ImageUploadServiceImpl implements ImageUploadService{
+public class ImageUploadServiceImpl implements ImageUploadService {
 
     private final CloudImageUploadService cloudImageUploadService;
     private final ImageRepository imageRepository;

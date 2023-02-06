@@ -4,7 +4,6 @@ import edu.ssafy.lastmarket.domain.entity.DealState;
 import edu.ssafy.lastmarket.domain.entity.Lifestyle;
 import io.netty.util.internal.StringUtil;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @Service
 public class EnumChechService {
@@ -18,7 +17,6 @@ public class EnumChechService {
         }catch (IllegalArgumentException e){
             return null;
         }
-
     }
 
     public Lifestyle checkLifestyleEnum(String lifestyleString){
@@ -31,10 +29,5 @@ public class EnumChechService {
         }catch (IllegalArgumentException e){
             return null;
         }
-
-
     }
-
-
-
 }

@@ -4,6 +4,7 @@ import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.exception.BanExistException;
 import edu.ssafy.lastmarket.repository.BanRepository;
 import edu.ssafy.lastmarket.repository.MemberRepository;
+import edu.ssafy.lastmarket.service.impl.BanServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

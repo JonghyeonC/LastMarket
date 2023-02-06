@@ -1,4 +1,4 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.entity.DealState;
 import edu.ssafy.lastmarket.domain.entity.Member;
@@ -6,6 +6,7 @@ import edu.ssafy.lastmarket.domain.entity.Product;
 import edu.ssafy.lastmarket.domain.entity.Trade;
 import edu.ssafy.lastmarket.exception.ProductSoldException;
 import edu.ssafy.lastmarket.repository.TradeRepository;
+import edu.ssafy.lastmarket.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

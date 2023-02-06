@@ -1,4 +1,4 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.dto.ProductDto;
 import edu.ssafy.lastmarket.domain.dto.ProductListDto;
@@ -10,6 +10,7 @@ import edu.ssafy.lastmarket.exception.UpdateProductCooltimeException;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.repository.ProductImageRepository;
 import edu.ssafy.lastmarket.repository.ProductRepository;
+import edu.ssafy.lastmarket.service.ProductService;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;

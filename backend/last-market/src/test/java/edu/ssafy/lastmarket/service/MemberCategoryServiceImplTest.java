@@ -2,13 +2,13 @@ package edu.ssafy.lastmarket.service;
 
 
 import edu.ssafy.lastmarket.TestUtils;
-import edu.ssafy.lastmarket.domain.entity.Category;
 import edu.ssafy.lastmarket.domain.entity.CategoryName;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.domain.entity.MemberCategory;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
 import edu.ssafy.lastmarket.repository.MemberCategoryRepository;
 import edu.ssafy.lastmarket.repository.MemberRepository;
+import edu.ssafy.lastmarket.service.impl.MemberCategoryServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

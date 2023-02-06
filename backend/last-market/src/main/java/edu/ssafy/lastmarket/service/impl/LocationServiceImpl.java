@@ -1,7 +1,8 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.entity.Location;
 import edu.ssafy.lastmarket.repository.LocationRepository;
+import edu.ssafy.lastmarket.service.LocationService;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

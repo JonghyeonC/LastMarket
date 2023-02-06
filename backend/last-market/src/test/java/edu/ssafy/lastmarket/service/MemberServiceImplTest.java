@@ -6,6 +6,7 @@ import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
 import edu.ssafy.lastmarket.domain.entity.Lifestyle;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.repository.MemberRepository;
+import edu.ssafy.lastmarket.service.impl.MemberServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

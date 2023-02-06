@@ -1,4 +1,4 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.entity.Ban;
 import edu.ssafy.lastmarket.domain.entity.Member;
@@ -6,6 +6,7 @@ import edu.ssafy.lastmarket.exception.BanExistException;
 import edu.ssafy.lastmarket.exception.NotMemberUsernameException;
 import edu.ssafy.lastmarket.repository.BanRepository;
 import edu.ssafy.lastmarket.repository.MemberRepository;
+import edu.ssafy.lastmarket.service.BanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

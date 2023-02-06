@@ -1,10 +1,11 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.entity.Image;
 import edu.ssafy.lastmarket.domain.entity.Product;
 import edu.ssafy.lastmarket.domain.entity.ProductImage;
 import edu.ssafy.lastmarket.repository.ProductImageRepository;
 import edu.ssafy.lastmarket.repository.ProductRepository;
+import edu.ssafy.lastmarket.service.ProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ProductImageServiceImpl implements ProductImageService{
+public class ProductImageServiceImpl implements ProductImageService {
 
     private final ProductImageRepository productImageRepository;
     private final ProductRepository productRepository;

@@ -1,4 +1,4 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import edu.ssafy.lastmarket.domain.dto.ReviewPostDTO;
 import edu.ssafy.lastmarket.domain.entity.BuyerReview;
@@ -7,6 +7,7 @@ import edu.ssafy.lastmarket.domain.entity.Trade;
 import edu.ssafy.lastmarket.exception.ReviewAlreadyExistException;
 import edu.ssafy.lastmarket.repository.BuyerReviewRepository;
 import edu.ssafy.lastmarket.repository.TradeRepository;
+import edu.ssafy.lastmarket.service.BuyerReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

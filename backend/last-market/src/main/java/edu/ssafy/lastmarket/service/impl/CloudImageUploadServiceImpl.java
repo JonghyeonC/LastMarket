@@ -1,4 +1,4 @@
-package edu.ssafy.lastmarket.service;
+package edu.ssafy.lastmarket.service.impl;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.analytics.AnalyticsAndOperator;
+import edu.ssafy.lastmarket.service.CloudImageUploadService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CloudImageUploadServiceImpl implements CloudImageUploadService{
+public class CloudImageUploadServiceImpl implements CloudImageUploadService {
     private static final Tika tika = new Tika();
     private final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")

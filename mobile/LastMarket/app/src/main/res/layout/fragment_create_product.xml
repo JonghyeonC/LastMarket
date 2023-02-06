@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_grey"
+    android:orientation="vertical"
+
+    tools:context=".fragment.CreateProductFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/background_grey"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/image_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/rectangle_3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/camera" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:letterSpacing="0.03"
+                android:text="사진등록"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="6dp"/>
+
+        <TextView
+            style="@style/product_create"
+            android:layout_width="128dp"
+            android:layout_height="31dp"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            android:text="상품명(게시글 제목)" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/product_name"
+            style="?attr/textInputFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textView17"
+            style="@style/product_create"
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            android:text="이 물건에 담긴 라이프를 알려주세요" />
+
+        <EditText
+            android:id="@+id/content"
+            style="?attr/textInputFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="167dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/product_create"
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            android:text="카테고리" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/category_field"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/product_create"
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            android:text="라이프 스타일" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lifestyle_field"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/lifestyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/live_true"
+                    style="@style/product_create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="라이브 진행" />
+
+                <RadioButton
+                    android:id="@+id/live_false"
+                    style="@style/product_create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="미진행" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/startPriceLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/startPriceText"
+                style="@style/product_create"
+                android:layout_width="match_parent"
+                android:layout_height="31dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="경매 시작가" />
+
+            <LinearLayout
+                android:layout_marginTop="6dp"
+                android:id="@+id/startPriceInfoText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_outline_info_24" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    style="@style/info_small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="?attr/textInputFilledStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/startPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textview15"
+            style="@style/product_create"
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            android:text="즉시 판매가" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="?attr/textInputFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/instantPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/liveStartTimeLinear"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView16"
+                style="@style/product_create"
+                android:layout_width="match_parent"
+                android:layout_height="31dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="라이브 시작 날짜/시간" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/date_picker"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#00FFFFFF"
+                    android:text="날짜를 선택하세요"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/time_picker"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#00FFFFFF"
+                    android:text="시간을 선택하세요"
+                    android:textSize="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="         등록하기        " />
+    </LinearLayout>
+</LinearLayout>

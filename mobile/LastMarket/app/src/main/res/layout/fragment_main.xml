@@ -8,6 +8,8 @@
     tools:context=".fragment.MainFragment">
 
     <LinearLayout
+        android:layout_marginLeft="10dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -38,7 +40,7 @@
                 android:translationY="0.44sp" />
 
             <TextView
-                android:id="@+id/category"
+                android:id="@+id/lifestyle"
                 style="@style/main_Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,6 +76,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"/>
     <LinearLayout
+        android:layout_marginLeft="10dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -102,7 +106,7 @@
                 android:text="에서 " />
 
             <TextView
-                android:id="@+id/category2"
+                android:id="@+id/lifestyle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/main_Title"
@@ -138,6 +142,8 @@
         android:layout_marginBottom="20dp"/>
 
         <LinearLayout
+            android:layout_marginLeft="10dp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

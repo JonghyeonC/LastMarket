@@ -4,5 +4,5 @@
     <string name="subtitle"><b>당신</b>의 <b>라이프스타일</b>을\n알려주세요!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="info">경매가 낙찰되지 않는다면 경매 시작가가 즉시 구매가로 등록됩니다.</string>
 </resources>

@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.jphr.lastmarket.dto.CategoryDTO
 import com.jphr.lastmarket.dto.LifeStyleDTO
+import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.UserInfoDTO
+import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.util.RetrofitUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,9 +14,9 @@ import retrofit2.Response
 
 private const val TAG = "UserInfoService"
 class UserInfoService {
-    fun getCategory(): MutableLiveData<MutableList<String>> {
+    fun getCategory(callback: RetrofitCallback<CategoryDTO>): MutableList<String> {
 
-        var responseCategory= MutableLiveData<MutableList<String>>()
+        var responseCategory= mutableListOf<String>()
         val categoryInterface: Call<CategoryDTO> = RetrofitUtil.UserInfoService.getCategory()
 
         categoryInterface.enqueue(object : Callback<CategoryDTO> {
@@ -23,7 +25,7 @@ class UserInfoService {
                 Log.d(TAG, "onResponse res 값: $res")
                 if(response.code() == 200){
                     if (res != null) {
-                        responseCategory.value=res.categories
+                        callback.onSuccess(response.code(),res,true,null,null)
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {
@@ -39,9 +41,9 @@ class UserInfoService {
         return responseCategory
     }
 
-    fun getLifeStyle():MutableLiveData<MutableList<String>>{
+    fun getLifeStyle(callback: RetrofitCallback<LifeStyleDTO>):MutableList<String>{
 
-        var responseLifeStyle=MutableLiveData<MutableList<String>>()
+        var responseLifeStyle= mutableListOf<String>()
         val lifeStyleInterface: Call<LifeStyleDTO> = RetrofitUtil.UserInfoService.getLifeStyle()
 
         lifeStyleInterface.enqueue(object : Callback<LifeStyleDTO> {
@@ -49,8 +51,7 @@ class UserInfoService {
                 val res = response.body()
                 if(response.code() == 200){
                     if (res != null) {
-                        Log.d(TAG, "onResponse: ${res}")
-                        responseLifeStyle.value=res.lifestyle
+                        callback.onSuccess(response.code(),res,true,null,null)
                     }
                     Log.d(TAG, "onResponse: $res")
                 } else {

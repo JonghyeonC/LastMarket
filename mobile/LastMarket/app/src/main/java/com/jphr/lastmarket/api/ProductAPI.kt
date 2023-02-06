@@ -36,7 +36,9 @@ interface ProductAPI {
 
     @PATCH("api/product/{productId}")
     fun editProduct(@Header("Authentication") token: String,
-        @Body product:ProductRegisterDTO):Call<String>
+                    @Part("product") product: RequestBody,
+                    @Part imgs: MutableList<MultipartBody.Part>):Call<String>
+
 
     @DELETE("api/product/{productId}")
     fun deleteProduct(@Header("Authentication") token: String,

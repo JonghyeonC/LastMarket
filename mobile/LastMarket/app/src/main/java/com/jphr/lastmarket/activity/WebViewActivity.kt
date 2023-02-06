@@ -41,17 +41,18 @@ class WebViewActivity : AppCompatActivity() {
                 // Get the tel: url
                 var url = request.url.toString()
                 Log.d(TAG, "shouldOverrideUrlLoading: $url")
-                if (url.startsWith("https://i8d206.p.ssafy.io/api")) {
+                if (url.startsWith("https://i8d206.p.ssafy.io/signup")) {
                     var i = 0
                     var len = url.length
                     var startIdx = 0
                     for (i in i..len) {
                         if (url.get(i) == '=') {
+
                             startIdx = i + 1
                             break
                         }
                     }
-                    var token = url.substring(startIdx, len)
+                    var token = url.substring(39, len)
                     var prefs = getSharedPreferences("user_info", MODE_PRIVATE)
                     var editor = prefs?.edit()
                     editor?.putString("token", token)

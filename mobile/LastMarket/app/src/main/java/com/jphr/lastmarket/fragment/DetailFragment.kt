@@ -75,9 +75,13 @@ class DetailFragment : Fragment() {
     ): View? {
         var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         var token =prefs.getString("token","")!!
-
+        var userId=prefs.getString("user_id","")
 
         var state= data?.dealState
+
+        if(data.sellerId.toString()==userId){
+            binding.buttons.visibility=View.VISIBLE
+        }
 
         Log.d(TAG, "onCreateView: $data")
         //공통기능 img, title, lifestyle, content,sellerinfos

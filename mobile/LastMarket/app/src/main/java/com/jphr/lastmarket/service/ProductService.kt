@@ -84,6 +84,7 @@ class ProductService {
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "onResponse insert: ${response.code()}")
+                        Log.d(TAG, "onResponse: $response")
                         true
                     }
                 } else {
@@ -147,8 +148,8 @@ class ProductService {
             }
         })
     }
-    fun editProudct(token:String,product: ProductRegisterDTO){
-        RetrofitUtil.ProductService.editProduct(token,product).enqueue(object : Callback<String> {
+    fun editProudct(token:String,product: RequestBody,images: MutableList<MultipartBody.Part>){
+        RetrofitUtil.ProductService.editProduct(token,product,images).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")

@@ -1,6 +1,7 @@
 package edu.ssafy.lastmarket.repository;
 
 import com.mongodb.internal.operation.DeleteOperation;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -73,15 +74,16 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
         return categoryOptional.isEmpty()?null: product.category.eq(categoryOptional.get());
     }
 
-    private BooleanExpression isDealState(List<DealState> dealStates){
+    private BooleanBuilder isDealState(List<DealState> dealStates){
+
+        BooleanBuilder builder = new BooleanBuilder();
         if(dealStates==null|| dealStates.size()==0){
             return null;
         }else{
             for (DealState dealState : dealStates) {
-//                Booleaan
+                builder.and(product.dealState.eq(dealState));
             }
-//            return product.dealState.eq(dealState);
-            return null;
+            return builder;
         }
     }
 

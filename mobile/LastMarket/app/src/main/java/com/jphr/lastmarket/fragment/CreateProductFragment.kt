@@ -59,7 +59,7 @@ private const val TAG = "CreateProductFragment"
 class CreateProductFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var isEdit: String? = null
-    private var param2: String? = null
+    private var productId: Long = 0
 
     private val REQUEST_EXTERNAL_STORAGE = 1
     private val PERMISSIONS_STORAGE = arrayOf<String>(
@@ -92,7 +92,7 @@ class CreateProductFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             isEdit = it.getString("is_edit")
-            param2 = it.getString(ARG_PARAM2)
+            productId = it.getLong("productId")
         }
     }
 
@@ -102,7 +102,7 @@ class CreateProductFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCreateProductBinding.inflate(inflater, container, false)
-
+        Log.d(TAG, "onCreateView: $isEdit")
         verifyStoragePermissions(requireActivity())     //권한
 
         UserInfoService().getCategory(CategoryCallback())
@@ -265,6 +265,7 @@ class CreateProductFragment : Fragment() {
                 requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
             var token = prefs.getString("token", "")!!
             if (isEdit == "true") {     //ISEDIT가 TRUE일ㄸ ㅐ
+                Log.d(TAG, "onCreateView: idedit is true")
                 if (binding.radioGroup.checkedRadioButtonId == R.id.live_true) {
                     //라이브 할 때
                     var category = binding.categoryField.editText?.text.toString()
@@ -291,7 +292,7 @@ class CreateProductFragment : Fragment() {
                             RequestBody.create("application/json".toMediaTypeOrNull(), jsonString)
                         Log.d(TAG, "onCreateView: $product")
                         //TODO :EDIT PRODUCCT
-                        ProductService().editProudct(token, jsonBody, imageMultipartList)
+                        ProductService().editProudct(token, productId,jsonBody, imageMultipartList)
                         mainActivity.changeFragment(1)
                     } catch (e: Exception) {
                         Toast.makeText(requireContext(), "입력하지 않은 항목이 있습니다", Toast.LENGTH_LONG)
@@ -320,7 +321,7 @@ class CreateProductFragment : Fragment() {
                         var jsonBody =
                             RequestBody.create("application/json".toMediaTypeOrNull(), jsonString)
                         Log.d(TAG, "onCreateView: $product")
-                        ProductService().editProudct(token, jsonBody, imageMultipartList)
+                        ProductService().editProudct(token, productId,jsonBody, imageMultipartList)
                         mainActivity.changeFragment(1)
                     } catch (e: Exception) {
                         Log.d(TAG, "onCreateView: $e")
@@ -335,6 +336,8 @@ class CreateProductFragment : Fragment() {
 
                 }
             } else {    //ISEDIT가 FALSE 일때
+                Log.d(TAG, "onCreateView: idedit is false")
+
                 Log.d(TAG, "token logd : $token")
                 Log.d(TAG, "onCreateView: ${binding.radioGroup.checkedRadioButtonId.toString()}")
                 if (binding.radioGroup.checkedRadioButtonId == R.id.live_true) {

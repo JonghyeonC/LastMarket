@@ -34,13 +34,19 @@ interface ProductAPI {
     fun pullProduct(@Header("Authentication") token: String,
         @Path("productId") productId:Long):Call<Unit>
 
+    @Multipart
     @PATCH("api/product/{productId}")
     fun editProduct(@Header("Authentication") token: String,
+                    @Path("productId") productId:Long,
                     @Part("product") product: RequestBody,
                     @Part imgs: MutableList<MultipartBody.Part>):Call<String>
 
 
     @DELETE("api/product/{productId}")
     fun deleteProduct(@Header("Authentication") token: String,
-        @Path("productId") productId:Long):Call<String>
+        @Path("productId") productId:Long):Call<Unit>
+
+    @POST("api/favorite")
+    fun insertFavorite(@Header("Authentication") token: String,
+        @Body favoriteDTO: FavoriteDTO):Call<Unit>
 }

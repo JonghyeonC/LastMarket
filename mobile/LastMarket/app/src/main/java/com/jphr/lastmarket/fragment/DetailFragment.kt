@@ -46,8 +46,10 @@ class DetailFragment : Fragment() {
     lateinit var data:ProductDetailDTO
 
     fun initAdpater() {
-        productId= mainViewModel.getProductId()
+
         data= mainViewModel.getProductDetail()!!
+        mainViewModel.setProductId(data.productId)
+        productId= mainViewModel.getProductId()
 //        ProductService().getProductDetail(productId,ProductDetailCallback())
         Log.d(TAG, "initAdpater: $productId")
     }
@@ -73,6 +75,8 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding=FragmentDetailBinding.inflate(inflater,container,false)
+
         var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         var token =prefs.getString("token","")!!
         var userId=prefs.getString("user_id","")
@@ -86,7 +90,6 @@ class DetailFragment : Fragment() {
         Log.d(TAG, "onCreateView: $data")
         //공통기능 img, title, lifestyle, content,sellerinfos
         var viewPagerAdapter=ImageViewPagerAdapter(requireContext(),data.imgURIs)
-        binding=FragmentDetailBinding.inflate(inflater,container,false)
 
         var imgSize=data.imgURIs.size
 
@@ -113,18 +116,22 @@ class DetailFragment : Fragment() {
             ProductService().pullProduct(token,productId)
         }
         binding.edit.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("is_edit", "true")
+            bundle.putLong("productId", data.productId)
+
             var createProduct=CreateProductFragment()
-            createProduct.apply {
-                arguments=Bundle().apply {
-                    putString("is_edit","true")
-                }
-            }
-            mainActivity.changeFragment(6)
+            createProduct.arguments = bundle
+                val transaction= requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, createProduct)
+                .commit()
+
             //patch product/productid
         }
         binding.delete.setOnClickListener {
-            ProductService().pullProduct(token,productId)
-
+            ProductService().deleteProduct(token,productId)
+            mainActivity.changeFragment(1)
         }
 
         if(state=="DEFAULT"){// 라이브 O 아직 시작안함

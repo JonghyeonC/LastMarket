@@ -57,15 +57,18 @@ class UserInfoActivity : AppCompatActivity() {
     private fun getPreferences(context: Context): SharedPreferences? {
         return context.getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d(TAG, "onCreate: 시작------")
+        var pref=getSharedPreferences("user_info",MODE_PRIVATE)
+        var city= pref?.getString("city","null").toString()
 
-
+        if(city==null) {
 //        categoryList = UserInfoService().getCategory()
-        lifeStyleList = UserInfoService().getLifeStyle(LifeStyleCallback())
+            lifeStyleList = UserInfoService().getLifeStyle(LifeStyleCallback())
 
 //        categoryList.observe(this, Observer {
 //            binding.userCategory.adapter = ArrayAdapter(
@@ -80,52 +83,56 @@ class UserInfoActivity : AppCompatActivity() {
             Log.d(TAG, "onCreate: $lifeStyleList")
 
 
-        binding.search.setOnClickListener {
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                Log.d(TAG, "onCreate:if문")
-                var permissions = arrayOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-                ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
+            binding.search.setOnClickListener {
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    Log.d(TAG, "onCreate:if문")
+                    var permissions = arrayOf(
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
+                    ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
 
-            } else {
-                if (checkPermissionForLocation(this)) {
-                    Log.d(TAG, "onCreate: if2  ")
-                    startLocationUpdates()
+                } else {
+                    if (checkPermissionForLocation(this)) {
+                        Log.d(TAG, "onCreate: if2  ")
+                        startLocationUpdates()
+                    }
                 }
             }
-        }
 
-        binding.save.setOnClickListener {
-            userName = binding.userName.text.toString()
-            userLifeStyle = binding.lifestyleField.editText?.text.toString()
+            binding.save.setOnClickListener {
+                userName = binding.userName.text.toString()
+                userLifeStyle = binding.lifestyleField.editText?.text.toString()
 //            userCategory = binding.userCategory.selectedItem as String
-            userAddress= binding.address.text as String
-            var categories= mutableListOf<String>("CAMPING","BOOK")
-            var userinfo=UserInfoDTO(userAddress,categories,userLifeStyle,userName)
-            Log.d(TAG, "onCreate: $userinfo")
+                userAddress = binding.address.text as String
+                var categories = mutableListOf<String>("CAMPING", "BOOK")
+                var userinfo = UserInfoDTO(userAddress, categories, userLifeStyle, userName)
+                Log.d(TAG, "onCreate: $userinfo")
 
-            var prefs=getSharedPreferences("user_info",MODE_PRIVATE)
-            var editor =prefs?.edit()
-            editor?.putString("city",display_address)
-            editor?.putString("city_data",add)
+                var prefs = getSharedPreferences("user_info", MODE_PRIVATE)
+                var editor = prefs?.edit()
+                editor?.putString("city", display_address)
+                editor?.putString("city_data", add)
 //            editor?.putString("category",userCategory)
-            editor?.putString("lifestyle",userLifeStyle)
-            editor?.commit()
-            var token =prefs.getString("token","")!!
-            UserInfoService().insertUserInfo(token,userinfo)
-            Log.d(TAG, "onCreate: $userinfo")
+                editor?.putString("lifestyle", userLifeStyle)
+                editor?.commit()
+                var token = prefs.getString("token", "")!!
+                UserInfoService().insertUserInfo(token, userinfo)
+                Log.d(TAG, "onCreate: $userinfo")
 
-            var intent=Intent(this@UserInfoActivity, MainActivity::class.java)
+                var intent = Intent(this@UserInfoActivity, MainActivity::class.java)
+                startActivity(intent)
+            }
+        }else{
+            var intent = Intent(this@UserInfoActivity, MainActivity::class.java)
             startActivity(intent)
         }
 

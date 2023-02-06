@@ -1,6 +1,8 @@
 package com.jphr.lastmarket.service
 
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.dto.*
 import com.jphr.lastmarket.fragment.SearchFragment
@@ -148,8 +150,8 @@ class ProductService {
             }
         })
     }
-    fun editProudct(token:String,product: RequestBody,images: MutableList<MultipartBody.Part>){
-        RetrofitUtil.ProductService.editProduct(token,product,images).enqueue(object : Callback<String> {
+    fun editProudct(token:String,productId:Long,product: RequestBody,images: MutableList<MultipartBody.Part>){
+        RetrofitUtil.ProductService.editProduct(token,productId,product,images).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
@@ -171,14 +173,18 @@ class ProductService {
             }
         })
     }
-    fun deleteProduct(token:String,productId: Long){
-        RetrofitUtil.ProductService.deleteProduct(token,productId).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+    fun deleteProduct(token:String,productId: Long) :Boolean{
+        var issucess=false
+
+        RetrofitUtil.ProductService.deleteProduct(token,productId).enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "Detail_onResponse : ${response.code()}")
+                        Toast.makeText(MainActivity(), "삭제가 완료되었습니다.", Toast.LENGTH_LONG).show()
+                        issucess=true
                         true
                     }
                 } else {
@@ -188,10 +194,36 @@ class ProductService {
                     false
                 }
             }
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
                 Log.d(TAG, "onResponse:false ${t.message}")
 
             }
         })
+        return issucess
+    }
+    fun insertFavorite(token:String,favoriteDTO: FavoriteDTO) {
+
+        var responseCategory= mutableListOf<String>()
+        val categoryInterface: Call<Unit> = RetrofitUtil.ProductService.insertFavorite(token,favoriteDTO)
+
+        categoryInterface.enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                val res = response.body()
+                Log.d(TAG, "onResponse res 값: $res")
+                if(response.code() == 200){
+                    if (res != null) {
+
+                    }
+                    Log.d(TAG, "onResponse: $res")
+                } else {
+                    Log.d(TAG, "onResponse: Error Code ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                Log.d(TAG, t.message ?: "오류")
+            }
+        })
+
     }
 }

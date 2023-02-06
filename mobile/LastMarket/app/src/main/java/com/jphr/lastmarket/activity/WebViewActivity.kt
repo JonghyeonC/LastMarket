@@ -101,6 +101,17 @@ class WebViewActivity : AppCompatActivity() {
 //                    Log.d(TAG, "shouldOverrideUrlLoading: starwith")
 
                     return false
+                }else if(url.startsWith("https://i8d206.p.ssafy.io/index")){
+                    var len = url.length
+
+                    var token = url.substring(38, len)
+                    var prefs = getSharedPreferences("user_info", MODE_PRIVATE)
+                    var editor = prefs?.edit()
+                    editor?.putString("token", token)
+                    editor?.commit()
+                    Log.d(TAG, "shouldOverrideUrlLoading: $token")
+                    var intent = Intent(this@WebViewActivity, UserInfoActivity::class.java)
+                    startActivity(intent)
                 }
                 return false
             }

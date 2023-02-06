@@ -31,7 +31,7 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
                 .load("${product.imgURI}")
                 .into(image)
             title.text=product.title
-            price.text=product.startingPrice.toString()
+            price.text=product.instantPrice.toString()
             if(product.liveTime!=null){
                 liveImage.visibility=View.VISIBLE
                 liveText.visibility=View.VISIBLE

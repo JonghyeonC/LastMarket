@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberInfoDto getMemberInfo(Member member) {
         return MemberInfoDto.builder()
                 .nickname(member.getNickname())
-                .profile((member.getProfile().getImageURL()==null)?null: member.getProfile().getImageURL())
+                .profile((member.getProfile()==null)?null: member.getProfile().getImageURL())
                 .lifestyles(member.getLifestyle())
                 .addr(member.getLocation().toString())
                 .build();

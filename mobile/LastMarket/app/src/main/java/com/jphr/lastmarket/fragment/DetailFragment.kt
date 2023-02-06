@@ -1,6 +1,8 @@
 package com.jphr.lastmarket.fragment
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -17,6 +20,7 @@ import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ImageViewPagerAdapter
 import com.jphr.lastmarket.databinding.FragmentDetailBinding
+import com.jphr.lastmarket.dto.FavoriteDTO
 import com.jphr.lastmarket.dto.Product
 import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
@@ -43,11 +47,15 @@ class DetailFragment : Fragment() {
     lateinit var binding:FragmentDetailBinding
     private lateinit var mainActivity: MainActivity
     var productId: Long=0
+    var isLikeOn:Boolean=false
     lateinit var data:ProductDetailDTO
 
     fun initAdpater() {
-        productId= mainViewModel.getProductId()
+
         data= mainViewModel.getProductDetail()!!
+        mainViewModel.setProductId(data.productId)
+        productId= mainViewModel.getProductId()
+        isLikeOn=data.isFavorite
 //        ProductService().getProductDetail(productId,ProductDetailCallback())
         Log.d(TAG, "initAdpater: $productId")
     }
@@ -73,16 +81,21 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding=FragmentDetailBinding.inflate(inflater,container,false)
+
         var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         var token =prefs.getString("token","")!!
-
+        var userId=prefs.getLong("user_id",0)
 
         var state= data?.dealState
+
+        if(data.sellerId==userId){
+            binding.buttons.visibility=View.VISIBLE
+        }
 
         Log.d(TAG, "onCreateView: $data")
         //공통기능 img, title, lifestyle, content,sellerinfos
         var viewPagerAdapter=ImageViewPagerAdapter(requireContext(),data.imgURIs)
-        binding=FragmentDetailBinding.inflate(inflater,container,false)
 
         var imgSize=data.imgURIs.size
 
@@ -105,21 +118,53 @@ class DetailFragment : Fragment() {
             createIndicators(imgSize,0)
             orientation=ViewPager2.ORIENTATION_HORIZONTAL
         }
+
+        binding.favorite.setOnClickListener {
+            if(isLikeOn){
+                ProductService().deleteFavorite(token,productId)
+                binding.favorite.setImageResource(R.drawable.like)
+                isLikeOn=false
+
+            }else{
+                var ret=ProductService().insertFavorite(token,productId)
+                binding.favorite.setImageResource(R.drawable.like2)
+                isLikeOn=true
+            }
+
+
+        }
+
+
         binding.up.setOnClickListener {
-            ProductService().pullProduct(token,productId)
+           if( ProductService().pullProduct(token,productId)){
+               Toast.makeText(MainActivity(), "끌올되었습니다.", Toast.LENGTH_LONG).show()
+
+           }else Toast.makeText(MainActivity(), "30분 뒤에 시도해주세요", Toast.LENGTH_LONG).show()
+            mainActivity.changeFragment(1)
+
         }
         binding.edit.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("is_edit", "true")
+            bundle.putLong("productId", data.productId)
+
             var createProduct=CreateProductFragment()
-            createProduct.apply {
-                arguments=Bundle().apply {
-                    putString("is_edit","true")
-                }
-            }
-            mainActivity.changeFragment(6)
+            createProduct.arguments = bundle
+                val transaction= requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, createProduct)
+                .commit()
+
             //patch product/productid
         }
         binding.delete.setOnClickListener {
-            ProductService().pullProduct(token,productId)
+            if( ProductService().deleteProduct(token,productId)){
+                Toast.makeText(MainActivity(), "삭제되었습니다.", Toast.LENGTH_LONG).show()
+
+            }else {
+                Toast.makeText(MainActivity(), "삭제에 실패했습니다.", Toast.LENGTH_LONG).show()
+            }
+            mainActivity.changeFragment(1)
 
         }
 

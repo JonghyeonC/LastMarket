@@ -240,4 +240,15 @@
         </item>
 
     </style>
+    <style name="chat">
+
+        <item name="android:textSize">
+            28sp
+        </item>
+
+        <item name="android:textColor">
+            #818DCC
+        </item>
+
+    </style>
 </resources>

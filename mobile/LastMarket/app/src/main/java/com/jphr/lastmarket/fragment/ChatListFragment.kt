@@ -1,11 +1,18 @@
 package com.jphr.lastmarket.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jphr.lastmarket.R
+import com.jphr.lastmarket.activity.MainActivity
+import com.jphr.lastmarket.adapter.ChatListAdapter
+import com.jphr.lastmarket.databinding.FragmentChatListBinding
+import com.jphr.lastmarket.dto.ProductX
+import com.jphr.lastmarket.util.RecyclerViewDecoration
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,7 +28,9 @@ class ChatListFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private lateinit var binding: FragmentChatListBinding
+    private lateinit var chatListAdapter:ChatListAdapter
+    private lateinit var mainActivity:MainActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -29,13 +38,26 @@ class ChatListFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity=context as MainActivity
+        chatListAdapter=ChatListAdapter(mainActivity)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_list, container, false)
+        binding=FragmentChatListBinding.inflate(inflater,container,false)
+        binding.recyclerview.apply {
+//            chatListAdapter.list=responseData.content as MutableList<ProductX>
+            var linearLayoutManager= LinearLayoutManager(context)
+            linearLayoutManager.orientation= LinearLayoutManager.HORIZONTAL
+            setLayoutManager(linearLayoutManager)
+            adapter=chatListAdapter
+            addItemDecoration(RecyclerViewDecoration(20,20))
+        }
+        return binding.root
     }
 
     companion object {

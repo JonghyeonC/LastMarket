@@ -16,39 +16,31 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "LatestOrderAdapter_싸피"
-class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductListAdapter.ProductListHolder>(){
+class ChatListAdapter(val context: Context) :RecyclerView.Adapter<ChatListAdapter.ChatListHolder>(){
     var list : MutableList<ProductX>? =null
+    //TODO: ProductX를 CHATDTO로 바꾸기
 
-    inner class ProductListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val image = itemView.findViewById<ImageView>(R.id.iv)
-        val title: TextView = itemView.findViewById(R.id.title)
-        val price: TextView = itemView.findViewById(R.id.price)
-        val liveImage = itemView.findViewById<ImageView>(R.id.live_image)
-        val liveText=itemView.findViewById<TextView>(R.id.live_text)
+    inner class ChatListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val image = itemView.findViewById<ImageView>(R.id.profileImage)
+        val nickname: TextView = itemView.findViewById(R.id.Nickname)
+
+
         fun bindInfo(product: ProductX){
             //TODO:image삽입하기
             Glide.with(itemView)
                 .load("${product.imgURI}")
                 .into(image)
-            title.text=product.title
-            price.text=product.instantPrice.toString()
-            if(product.liveTime!=null){
-                liveImage.visibility=View.VISIBLE
-                liveText.visibility=View.VISIBLE
-            }else{
-                liveImage.visibility=View.GONE
-                liveText.visibility=View.GONE
-            }
+            nickname.text=product.sellerNickname
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductListHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_card, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatListHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.chat_list_item, parent, false)
 
-        return ProductListHolder(view)
+        return ChatListHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ProductListHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChatListHolder, position: Int) {
 //        holder.bind()
 
         holder.apply {

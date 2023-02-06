@@ -1,5 +1,9 @@
 package com.jphr.lastmarket.openvidu;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
+
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -14,6 +18,7 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -22,7 +27,8 @@ public class CustomHttpClient {
 
     private OkHttpClient client;
     private String baseUrl;
-
+    private String id="OPENVIDUAPP";
+    private String pass="MY_SECRET";
     public CustomHttpClient(String baseUrl) {
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
 
@@ -76,15 +82,19 @@ public class CustomHttpClient {
         }
     }
 
-    public void httpCall(String url, String method, String contentType, RequestBody body, Callback callback) throws IOException {
+    public void httpCall(String url, String method, String contentType, RequestBody body,String token, Callback callback) throws IOException {
         url = url.startsWith("/") ? url.substring(1) : url;
+        String credential = Credentials.basic(id, pass);
+
+
         Request request = new Request.Builder()
                 .url(this.baseUrl + url)
                 .header("Content-Type", contentType)
-                .header("Authentication","eyJyZWdEYXRlIjoxNjc1MjMxNDc3MTg3LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJpZCI6NzAwMywidXNlcm5hbWUiOiJuYXZlcl9rd0FqYXMtU0JqMlhlaHdZMG1LVnViWFNxbjNISGZ0WHdoZG5NcGdJRERjIiwiZXhwIjoxNjc1MjMzMjc3fQ.rI8R2p3YG9Js4mKF5FFR1N8wytkcE9ibHqxoZrmH_L4"
-                )
+                .header("Authentication",token)
+                .header("Authorization",credential)
                 .method(method, body)
                 .build();
+
         Call call = client.newCall(request);
         call.enqueue(callback);
     }

@@ -78,7 +78,8 @@ class MainFragment : Fragment() {
         binding.city.text=city
         binding.city2.text=city
         binding.city3.text=city
-
+        binding.lifestyle.text=lifestyle
+        binding.lifestyle2.text=lifestyle
 
         binding.button.setOnClickListener{
             Log.d(TAG, "onCreateView: ")

@@ -18,11 +18,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.jphr.lastmarket.databinding.ActivityUserInfoBinding
+import com.jphr.lastmarket.dto.LifeStyleDTO
 import com.jphr.lastmarket.dto.UserInfoDTO
 import com.jphr.lastmarket.service.UserInfoService
+import com.jphr.lastmarket.util.RetrofitCallback
 import java.io.IOException
 import java.util.*
 
@@ -43,7 +45,7 @@ class UserInfoActivity : AppCompatActivity() {
 
     val MY_PERMISSION_ACCESS_ALL = 100
     var categoryList = MutableLiveData<MutableList<String>>()
-    var lifeStyleList = MutableLiveData<MutableList<String>>()
+    var lifeStyleList = mutableListOf<String>()
 
     private var mFusedLocationProviderClient: FusedLocationProviderClient? =
         null // 현재 위치를 가져오기 위한 변수
@@ -63,7 +65,7 @@ class UserInfoActivity : AppCompatActivity() {
 
 
 //        categoryList = UserInfoService().getCategory()
-        lifeStyleList = UserInfoService().getLifeStyle()
+        lifeStyleList = UserInfoService().getLifeStyle(LifeStyleCallback())
 
 //        categoryList.observe(this, Observer {
 //            binding.userCategory.adapter = ArrayAdapter(
@@ -74,14 +76,8 @@ class UserInfoActivity : AppCompatActivity() {
 //            Log.d(TAG, "onCreate: $it")
 //
 //        })
-        lifeStyleList.observe(this, Observer {
-            binding.userLifeStyle.adapter = ArrayAdapter(
-                this@UserInfoActivity,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                it
-            )
-            Log.d(TAG, "onCreate: $it")
-        })
+
+            Log.d(TAG, "onCreate: $lifeStyleList")
 
 
         binding.search.setOnClickListener {
@@ -111,7 +107,7 @@ class UserInfoActivity : AppCompatActivity() {
 
         binding.save.setOnClickListener {
             userName = binding.userName.text.toString()
-            userLifeStyle = binding.userLifeStyle.selectedItem as String
+            userLifeStyle = binding.lifestyle.text.toString()
 //            userCategory = binding.userCategory.selectedItem as String
             userAddress= binding.address.text as String
             var userinfo=UserInfoDTO(userAddress,userLifeStyle,userName)
@@ -257,5 +253,23 @@ class UserInfoActivity : AppCompatActivity() {
         super.finish()
     }
 
+    inner class LifeStyleCallback: RetrofitCallback<LifeStyleDTO> {
+        override fun onSuccess(code: Int, responseData: LifeStyleDTO, issearch:Boolean, word:String?, category:String?) {
+            if(responseData!=null) {
+                lifeStyleList=responseData.lifestyle
+                (binding.lifestyleField.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(lifeStyleList.toTypedArray())
+                binding.lifestyle.setText(lifeStyleList[0],false)
 
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+    }
 }

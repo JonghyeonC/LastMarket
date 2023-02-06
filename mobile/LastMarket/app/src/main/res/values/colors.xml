@@ -2,7 +2,7 @@
 <resources>
     <color name="blue1">#5D6DBE</color>
     <color name="blue2">#818dcc</color>
-    <color name="blue3">#C9CEE9</color>
+    <color name="blue3">#C9CFE9</color>
     <color name="green1">#3FC8BA</color>
     <color name="green2">#8fdfd6</color>
     <color name="green3">#D0EDEF</color>
@@ -13,4 +13,5 @@
     <color name="grey3">#434343</color>
     <color name="black1">#454545</color>
     <color name="white">#FFFFFF</color>
+
 </resources>

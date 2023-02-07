@@ -82,7 +82,7 @@ function Register() {
       formData.append('imgs', url)
     })
 
-    formData.append('product', JSON.stringify(inputData), {type: "application/json"})
+    formData.append('product', new Blob([JSON.stringify(inputData)]), {type: "application/json"})
 
     // formData.append(
     //   "product", JSON.stringify(inputData)

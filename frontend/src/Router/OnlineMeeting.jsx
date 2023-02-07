@@ -534,7 +534,7 @@ class OnlineMeeting extends Component {
         .then((res) => {
           console.log("res")
           console.log(res)
-          resolve(res.data.get(token));
+          resolve(res.data);
         })
         .catch((error) => reject(error));
     });

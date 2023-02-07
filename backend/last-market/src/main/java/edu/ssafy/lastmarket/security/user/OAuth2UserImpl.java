@@ -2,9 +2,6 @@ package edu.ssafy.lastmarket.security.user;
 
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.security.provider.OAuthUserInfo;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,18 +14,17 @@ import java.util.Map;
 
 
 public class OAuth2UserImpl implements OAuth2User, UserDetails {
+    private Member member;
+    private OAuthUserInfo oAuthUserInfo;
 
-    public OAuth2UserImpl(Member member){
-       this.member = member;
+    public OAuth2UserImpl(Member member) {
+        this.member = member;
     }
 
-    public OAuth2UserImpl(Member member, OAuthUserInfo oAuthUserInfo){
+    public OAuth2UserImpl(Member member, OAuthUserInfo oAuthUserInfo) {
         this.member = member;
         this.oAuthUserInfo = oAuthUserInfo;
     }
-
-    private Member member;
-    private OAuthUserInfo oAuthUserInfo;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -49,7 +45,7 @@ public class OAuth2UserImpl implements OAuth2User, UserDetails {
 
     @Override
     public String getName() {
-        return oAuthUserInfo.getProvider()+"_"+ oAuthUserInfo.getProviderId();
+        return oAuthUserInfo.getProvider() + "_" + oAuthUserInfo.getProviderId();
     }
 
     public String getUsername() {

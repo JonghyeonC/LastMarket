@@ -17,6 +17,10 @@ function Register() {
     let formData = new FormData();
     let jsonData = new FormData()
 
+    imageUrls.map((url) => {
+      formData.append('imgs', url)
+    })
+
     console.log(inputData)
 
     // imageUrls.imgs.map((url) => {
@@ -75,7 +79,7 @@ function Register() {
     let formData = new FormData();
     let jsonData = new FormData();
     
-    imageUrls.imgs.map((url) => {
+    imageUrls.map((url) => {
       formData.append('imgs', url)
     })
 

@@ -18,7 +18,7 @@ function UploadPage({setImageUrls}) {
 
   const handleChange = e => {
     setImageFile((prev) => {
-      return [...prev, e.target.files[0]]
+      return e.target.files[0]
     })
 
     // console.log(imageFile)

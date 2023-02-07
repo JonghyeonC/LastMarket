@@ -511,13 +511,13 @@ class OnlineMeeting extends Component {
     });
   }
 
-  createToken(sessionId) {
+  createToken(Id) {
     return new Promise((resolve, reject) => {
       let data = {};
 
       axios
         .post(
-          `${OPENVIDU_SERVER_URL}/api/sessions/${props.sessionId}/connections`,
+          `${OPENVIDU_SERVER_URL}/api/sessions/${Id}/connections`,
           data,
           {
             headers: {

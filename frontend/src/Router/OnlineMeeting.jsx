@@ -273,7 +273,7 @@ class OnlineMeeting extends Component {
     this.userRef = React.createRef();
 
     this.state = {
-      mySessionId: "channelA",
+      mySessionId: "SessionA",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined,
@@ -452,7 +452,7 @@ class OnlineMeeting extends Component {
                 resolution: "640x480",
                 frameRate: 30,
                 insertMode: "APPEND",
-                mirror: "false",
+                mirror: "true",
               });
 
               mySession.publish(publisher);
@@ -492,7 +492,7 @@ class OnlineMeeting extends Component {
         })
         .catch((res) => {
           let error = Object.assign({}, res);
-
+          console.log(res.data.id)
           if (error?.response?.status === 409) {
             resolve(sessionId);
           } else if (
@@ -518,7 +518,7 @@ class OnlineMeeting extends Component {
 
       axios
         .post(
-          `${OPENVIDU_SERVER_URL}/api/sessions/${sessionId}/connection`,
+          `${OPENVIDU_SERVER_URL}/api/sessions/${sessionId}/connections`,
           data,
           {
             headers: {

@@ -74,12 +74,12 @@ function Register() {
     
     let formData = new FormData();
     let jsonData = new FormData();
-
-    formData.append('imgs', imageUrls[0])
     
-    // imageUrls.imgs.map((url) => {
-    //   formData.append('imgs', url)
-    // })
+    imageUrls.imgs.map((url) => {
+      formData.append('imgs', url)
+    })
+
+    formData.append('product', JSON.stringify(inputData))
 
     // formData.append(
     //   "product", JSON.stringify(inputData)
@@ -128,10 +128,9 @@ function Register() {
     axios({
       method: "post",
       url: URL,
-      data: {
+      body: {
         formData,
         // jsonData
-        "product": JSON.stringify(inputData)
       },
       headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1NjYzMzU5OTc5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6IuyVhOuLiCIsImlkIjo5MDIzLCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzAxMjIiLCJleHAiOjE2NzU2NjUxNTl9.OU-x__6pHNV4nLJ9ZZbY_BqGtDzqQu9k0uByFWQnMRQ"}
     })

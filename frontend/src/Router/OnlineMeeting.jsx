@@ -475,7 +475,7 @@ class OnlineMeeting extends Component {
 
   createSession(sessionId) {
     return new Promise((resolve, reject) => {
-      let data = JSON.stringify({ customSessionId: sessionId });
+      let data = JSON.stringify({ sessionId: sessionId });
 
       axios
         .post(OPENVIDU_SERVER_URL + "/api/sessions", data, {

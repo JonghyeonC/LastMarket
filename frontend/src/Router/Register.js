@@ -15,32 +15,32 @@ function Register() {
   
   const test = (() => {
     let formData = new FormData();
-    
+    let jsonData = new FormData()
     console.log(inputData)
 
     imageUrls.imgs.map((url) => {
       formData.append('imgs', url)
     })
 
-    formData.append(
+    jsonData.append(
       "category", JSON.stringify(inputData.category)
     )
-    formData.append(
+    jsonData.append(
       "title", JSON.stringify(inputData.title)
     )
-    formData.append(
+    jsonData.append(
       "content", JSON.stringify(inputData.content)
     )
-    formData.append(
+    jsonData.append(
       "instantPrice", JSON.stringify(inputData.instantPrice)
     )
-    formData.append(
+    jsonData.append(
       "lifestyle", JSON.stringify(inputData.lifestyle)
     )
-    formData.append(
+    jsonData.append(
       "livetime", JSON.stringify(inputData.livetime)
     )
-    formData.append(
+    jsonData.append(
       "startingPrice", JSON.stringify(inputData.startingPrice)
     )
 
@@ -72,25 +72,25 @@ function Register() {
       formData.append('imgs', url)
     })
 
-    formData.append(
+    jsonData.append(
       "category", JSON.stringify(inputData.category)
     )
-    formData.append(
+    jsonData.append(
       "title", JSON.stringify(inputData.title)
     )
-    formData.append(
+    jsonData.append(
       "content", JSON.stringify(inputData.content)
     )
-    formData.append(
+    jsonData.append(
       "instantPrice", JSON.stringify(inputData.instantPrice)
     )
-    formData.append(
+    jsonData.append(
       "lifestyle", JSON.stringify(inputData.lifestyle)
     )
-    formData.append(
+    jsonData.append(
       "livetime", JSON.stringify(inputData.livetime)
     )
-    formData.append(
+    jsonData.append(
       "startingPrice", JSON.stringify(inputData.startingPrice)
     )
     
@@ -103,11 +103,21 @@ function Register() {
       console.log(value);
     }
 
+    for (let key of jsonData.keys()) {
+      console.log(key);
+    }
+    
+    // FormData의 value 확인
+    for (let value of jsonData.values()) {
+      console.log(value);
+    }
+
     axios({
       method: "post",
       url: URL,
       data: {
         formData,
+        jsonData
       },
       headers: { "content-type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1NjYzMzU5OTc5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6IuyVhOuLiCIsImlkIjo5MDIzLCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzAxMjIiLCJleHAiOjE2NzU2NjUxNTl9.OU-x__6pHNV4nLJ9ZZbY_BqGtDzqQu9k0uByFWQnMRQ"}
     })

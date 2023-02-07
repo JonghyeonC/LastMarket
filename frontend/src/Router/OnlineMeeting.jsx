@@ -488,7 +488,7 @@ class OnlineMeeting extends Component {
           },
         })
         .then((res) => {
-          resolve(res.data.id);
+          resolve(res.data);
           console.log(res)
         })
         .catch((res) => {
@@ -519,7 +519,7 @@ class OnlineMeeting extends Component {
 
       axios
         .post(
-          `${OPENVIDU_SERVER_URL}/api/sessions/0/connections`,
+          `${OPENVIDU_SERVER_URL}/api/sessions/${sessionId}/connections`,
           data,
           {
             headers: {

@@ -62,7 +62,7 @@ public class ProductController {
     public ResponseEntity<?> getProductList(@Login Member member,
                                             @RequestParam(name = "location", required = false) String locationString,
                                             @RequestParam(name = "category", required = false) String categoryNameString,
-                                            @RequestParam(name = "dealstate", required = false) List<DealState> dealStates,
+                                            @RequestParam(name = "dealState", required = false) List<DealState> dealStates,
                                             @RequestParam(name = "lifestyle", required = false) String lifestyleString,
                                             @RequestParam(name = "keyword", required = false) String keyword,
                                             Pageable pageable) {

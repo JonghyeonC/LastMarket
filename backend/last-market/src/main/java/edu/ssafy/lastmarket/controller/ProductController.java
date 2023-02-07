@@ -71,7 +71,7 @@ public class ProductController {
         Lifestyle lifestyle = enumChechService.checkLifestyleEnum(lifestyleString);
 
         Page<ProductListDto> products = productService.getProducts(locationOptional, categoryOptional,
-                dealStates,lifestyle, keyword, pageable);
+                dealStates, lifestyle, keyword, pageable);
 
 
         return new ResponseEntity<>(products, HttpStatus.OK);
@@ -86,7 +86,7 @@ public class ProductController {
         ProductDto productDto = objectMapper.readValue(productDtoString, ProductDto.class);
         Product product = productService.save(productDto, member);
 
-        if(multipartFiles !=null){
+        if (multipartFiles != null) {
             List<Image> upload = imageUploadService.upload(multipartFiles);
             List<ProductImage> productImageList = productImageService.save(product, upload);
             product.setImages(productImageList);
@@ -107,8 +107,8 @@ public class ProductController {
         Optional<Category> categoryOptional = categoryService.findByCategoryName(productDto.getCategory());
         Product product = productService.updateProduct(member, id, productDto, categoryOptional);
 
-        if(multipartFiles !=null){
-            if(product.getImages()!=null){
+        if (multipartFiles != null) {
+            if (product.getImages() != null) {
                 List<Image> imageList = productImageService.delete(product.getImages());
                 imageUploadService.delete(imageList);
                 product.setImages(new ArrayList<>());
@@ -140,9 +140,15 @@ public class ProductController {
 
 
     @PutMapping("/pullup/{productid}")
-    public ResponseEntity<?> pullupProduct(@Login Member member, @PathVariable("productid")Long productId){
-        productService.pullup(member,productId);
+    public ResponseEntity<?> pullupProduct(@Login Member member, @PathVariable("productid") Long productId) {
+        productService.pullup(member, productId);
         return new ResponseEntity<>(HttpStatus.CREATED);
 
+    }
+
+    @GetMapping("/product/{productId}/broadcast")
+    public ResponseEntity<?> broadcast(@Login Member login, @PathVariable Long productId) {
+        productService.broadcast(login,productId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

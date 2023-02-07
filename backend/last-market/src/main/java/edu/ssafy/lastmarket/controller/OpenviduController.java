@@ -1,5 +1,6 @@
 package edu.ssafy.lastmarket.controller;
 
+import edu.ssafy.lastmarket.service.ProductService;
 import io.openvidu.java.client.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

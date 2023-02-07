@@ -5,6 +5,7 @@ import edu.ssafy.lastmarket.domain.dto.ProductListDto;
 import edu.ssafy.lastmarket.domain.dto.ProductReadDto;
 import edu.ssafy.lastmarket.domain.entity.*;
 import edu.ssafy.lastmarket.exception.NotFoundException;
+import edu.ssafy.lastmarket.exception.NotMatchSellerException;
 import edu.ssafy.lastmarket.exception.NotYourAuthority;
 import edu.ssafy.lastmarket.exception.UpdateProductCooltimeException;
 import edu.ssafy.lastmarket.repository.CategoryRepository;
@@ -13,11 +14,9 @@ import edu.ssafy.lastmarket.repository.ProductRepository;
 import edu.ssafy.lastmarket.service.ProductService;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -73,7 +72,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = productOptional.get();
 
         ProductReadDto productReadDto = new ProductReadDto(product, isFavoriteCehcked);
-
         return productReadDto;
     }
 
@@ -81,36 +79,29 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Product save(ProductDto productDto, Member member) {
         Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
-
         if (categoryOptional.isEmpty()) {
             Category category = new Category(productDto.getCategory());
             categoryRepository.save(category);
             categoryOptional = Optional.of(category);
         }
-
-
         Product product = ProductDto.convert(productDto);
-        System.out.println("productdto livetine: "+ product.getLiveTime());
+        System.out.println("productdto livetine: " + product.getLiveTime());
         product.setDealState(DealState.AFTERBROADCAST);
         product.setSeller(member);
         product.setLocation(member.getLocation());
         product.setCategory(categoryOptional.get());
         product.setFavoriteCnt(0);
-
         if (product.getLiveTime() != null) {
             LocalDateTime localDateTime = localDateTimeFloor(product.getLiveTime());
             product.setLiveTime(localDateTime);
             product.setDealState(DealState.DEFAULT);
         }
-
         return productRepository.save(product);
-
     }
 
     @Override
     @Transactional
     public Product saveImgs(Product product, List<Image> images, Member member) {
-
         checkSeller(Optional.ofNullable(product), member);
 
         List<ProductImage> productImages = product.getImages();
@@ -118,9 +109,7 @@ public class ProductServiceImpl implements ProductService {
             ProductImage productImage = new ProductImage(product, image);
             ProductImage save = productImageRepository.save(productImage);
             productImages.add(save);
-
         }
-
         return product;
     }
 
@@ -133,7 +122,6 @@ public class ProductServiceImpl implements ProductService {
         if (!checkUpdate30min(product)) {
             throw new UpdateProductCooltimeException("need 30 min");
         }
-
         if (productDto.getLiveTime() != null) {
             LocalDateTime localDateTime = localDateTimeFloor(productDto.getLiveTime());
             product.setLiveTime(localDateTime);
@@ -151,13 +139,12 @@ public class ProductServiceImpl implements ProductService {
             product.setCategory(categoryOptional.get());
         }
 
-        if (productDto.getStartingPrice() != null ) {
+        if (productDto.getStartingPrice() != null) {
             product.setStartingPrice(productDto.getStartingPrice());
         }
-        if (productDto.getInstantPrice() != null ) {
+        if (productDto.getInstantPrice() != null) {
             product.setInstantPrice(productDto.getInstantPrice());
         }
-
         return product;
     }
 
@@ -168,17 +155,13 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
-
     @Override
     @Transactional
     public void delete(Member member, Long id) {
-
         Optional<Product> productOptional = productRepository.findById(id);
         Product.isProductNull(productOptional);
 
-
         productRepository.delete(productOptional.get());
-
     }
 
     @Override
@@ -190,8 +173,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void changeDealstateToAfterbroadcast(List<Product> productList) {
-
-
         for (int i = 0; i < productList.size(); i++) {
             Product product = productList.get(i);
             product.setDealState(DealState.AFTERBROADCAST);
@@ -217,7 +198,16 @@ public class ProductServiceImpl implements ProductService {
         }
         product.setLastModifiedDateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
         return check;
+    }
 
+    @Override
+    public void broadcast(Member member, Long productId) {
+        Product find = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("없는 상품입니다."));
+        if (!find.getSeller().getId().equals(member.getId())) {
+            throw new NotMatchSellerException("판매자가 아닙니다.");
+        }
+        find.setDealState(DealState.ONBROADCAST);
     }
 
     private void checkSeller(Optional<Product> productOptional, Member member) {
@@ -237,6 +227,4 @@ public class ProductServiceImpl implements ProductService {
         LocalDateTime nowMinus30min = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusMinutes(30);
         return !nowMinus30min.isBefore(product.getLastModifiedDateTime());
     }
-
-
 }

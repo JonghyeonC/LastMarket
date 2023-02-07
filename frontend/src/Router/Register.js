@@ -87,7 +87,7 @@ function Register() {
       formData.append('imgs', url)
     })
 
-    imageUrls.append(
+    formData.append(
       "product", JSON.stringify(inputData)
     )
 

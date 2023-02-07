@@ -18,7 +18,7 @@ function UploadPage({setImageUrls}) {
 
   const handleChange = e => {
     setImageFile((prev) => {
-      return e.target.files[0]
+      return [...prev, e.target.files[0]]
     })
 
     // console.log(imageFile)
@@ -59,10 +59,10 @@ function UploadPage({setImageUrls}) {
   }, [imageFile])
 
   useEffect(() => {
-    const serialize = {
-      imgs: imageFile
-    }
-    setImageUrls(serialize)
+    // const serialize = {
+    //   imgs: imageFile
+    // }
+    setImageUrls(imageFile)
 
     }, [imageFile])
 

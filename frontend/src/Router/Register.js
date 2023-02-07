@@ -82,10 +82,11 @@ function Register() {
     
     let formData = new FormData();
     let jsonData = new FormData();
-
-    imageUrls.imgs.map((url) => {
-      formData.append('imgs', url)
-    })
+    formData.append('imgs', imageUrls[0])
+    
+    // imageUrls.imgs.map((url) => {
+    //   formData.append('imgs', url)
+    // })
 
     // formData.append(
     //   "product", JSON.stringify(inputData)

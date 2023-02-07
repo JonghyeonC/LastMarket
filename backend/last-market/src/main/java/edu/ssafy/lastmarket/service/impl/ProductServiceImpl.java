@@ -208,6 +208,7 @@ public class ProductServiceImpl implements ProductService {
             throw new NotMatchSellerException("판매자가 아닙니다.");
         }
         find.setDealState(DealState.ONBROADCAST);
+        productRepository.save(find);
     }
 
     private void checkSeller(Optional<Product> productOptional, Member member) {

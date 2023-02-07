@@ -19,6 +19,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.LiveBuyActivity
+import com.jphr.lastmarket.activity.LiveSellActivity
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.activity.WebViewActivity
 import com.jphr.lastmarket.adapter.ImageViewPagerAdapter
@@ -30,6 +31,10 @@ import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.chrono.ChronoLocalDate
+import java.time.format.DateTimeFormatter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,6 +99,14 @@ class DetailFragment : Fragment() {
 
         if(data.sellerId==userId){
             binding.buttons.visibility=View.VISIBLE
+        }
+
+        var date =data.liveTime
+        Log.d(TAG, "onCreateView: ${data.liveTime}")
+        var typedDate=LocalDateTime.now()
+        if(data.liveTime!=null){
+            var formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+           typedDate=LocalDateTime.parse(date,formatter)
         }
 
         Log.d(TAG, "onCreateView: $data")
@@ -181,7 +194,15 @@ class DetailFragment : Fragment() {
 
             //버튼 클릭 이벤트
             binding.liveButton.setOnClickListener {
-                Toast.makeText(requireContext(), "라이브 시작전입니다.", Toast.LENGTH_LONG).show()
+                    var now=LocalDateTime.now()
+                    var startTimeBefore5=typedDate.minusMinutes(5)
+
+                if(startTimeBefore5.isBefore(now)){    //시작시간 5분전이 지났으면 (5분전 부터 시작가능)
+                    //시작 가능
+                    ProductService().changeOnBoradCast(token,productId)
+                }else {//시작 불가능
+                    Toast.makeText(requireContext(), "라이브 시작전입니다.", Toast.LENGTH_LONG).show()
+                }
             }
             binding.purchaseButton.setOnClickListener {
                 mainActivity.changeFragment(8)
@@ -191,15 +212,22 @@ class DetailFragment : Fragment() {
         }else if(state=="ONBROADCAST"){ // 라이브 중
             binding.startPriceLinear.visibility=View.VISIBLE
             binding.startPrice.text=data.startingPrice.toString()
-            binding.liveButton.text="Live 참여하기"
             binding.purchaseButton.text="경매 진행중"
+            if(data.sellerId==userId){  //내 상품이면
+                binding.liveButton.text="Live 시작하기"
+            }else {//남의 상품이면
+                binding.liveButton.text="Live 참여하기"
+            }
+
             binding.liveButton.setOnClickListener {
                 if(data.sellerId==userId){  //내 상품이면
-                    var intent= Intent(mainActivity, LiveBuyActivity::class.java)
+
+                    var intent= Intent(mainActivity, LiveSellActivity::class.java)
                     intent.putExtra("productId",productId)
                     startActivity(intent)
 
                 }else {//남의 상품이면
+
                     var intent= Intent(mainActivity, LiveBuyActivity::class.java)
                     intent.putExtra("productId",productId)
                     startActivity(intent)

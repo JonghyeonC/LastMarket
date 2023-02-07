@@ -273,7 +273,7 @@ class OnlineMeeting extends Component {
     this.userRef = React.createRef();
 
     this.state = {
-      sessionId: 0,
+      mySessionId: "channelA",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined,
@@ -319,7 +319,7 @@ class OnlineMeeting extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      sessionId: undefined,
+      mySessionId: undefined,
       myUserName: undefined,
       mainStreamManager: undefined,
       publisher: undefined,
@@ -468,7 +468,7 @@ class OnlineMeeting extends Component {
   }
 
   getToken() {
-    return this.createSession(this.state.sessionId).then((sessionId) =>
+    return this.createSession(this.state.mySessionId).then((sessionId) =>
       this.createToken(sessionId)
     );
   }
@@ -488,6 +488,7 @@ class OnlineMeeting extends Component {
         })
         .then((res) => {
           resolve(res.data.id);
+          console.log(res.data.id)
         })
         .catch((res) => {
           let error = Object.assign({}, res);
@@ -511,13 +512,13 @@ class OnlineMeeting extends Component {
     });
   }
 
-  createToken(Id) {
+  createToken(sessionId) {
     return new Promise((resolve, reject) => {
       let data = {};
 
       axios
         .post(
-          `${OPENVIDU_SERVER_URL}/api/sessions/${Id}/connections`,
+          `${OPENVIDU_SERVER_URL}/api/sessions/${sessionId}/connections`,
           data,
           {
             headers: {

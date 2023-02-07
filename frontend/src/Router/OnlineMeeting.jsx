@@ -517,7 +517,7 @@ class OnlineMeeting extends Component {
 
       axios
         .post(
-          `${OPENVIDU_SERVER_URL}/api/sessions/${sessionId}/connections`,
+          `${OPENVIDU_SERVER_URL}/api/sessions/${props.sessionId}/connections`,
           data,
           {
             headers: {

@@ -45,27 +45,29 @@ function Main() {
           </div> */}
           {/* <hr /> */}
           <br />
-          <h1>('진평동')의 (미니멀 라이프) () 상품</h1>
-          <br />
           <div>
-            <GoodsListSwiper sort1="favoriteCnt" sort2="lastModifiedDateTime,DESC" />
+            <h1 >('진평동')의 (미니멀 라이프) () 상품</h1>
+            <br />
+            <div>
+              <GoodsListSwiper sort1="favoriteCnt" sort2="lastModifiedDateTime,DESC" />
+            </div>
           </div>
           <br />
           <br />
-          <h1>('진평동')에서 (미니멀 라이프)로 () 라이브 중</h1>
-          <br />
           <div>
-            <GoodsListSwiper />
+            <h1>('진평동')에서 (미니멀 라이프)로 () 라이브 중</h1>
+            <br />
+            <div>
+              <GoodsListSwiper dealState1="default" dealState2="onbroadcast" />
+            </div>
           </div>
           <hr />
           <br />
         </div>
         <div>
-          {/* <GoodsListCard /> */}
-        </div>
-        <div>
           <h1>('진평동')에서 NEW!</h1>
-            <GoodsList sort1="lastModifiedDateTime,DESC" sort2="favoriteCnt" />
+          <br />
+          <GoodsList sort1="lastModifiedDateTime,DESC" sort2="favoriteCnt" />
           {/* <div className='row'>
           {
             products.map((product, i) => {

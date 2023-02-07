@@ -194,11 +194,15 @@ class DetailFragment : Fragment() {
             binding.liveButton.text="Live 참여하기"
             binding.purchaseButton.text="경매 진행중"
             binding.liveButton.setOnClickListener {
-                if(data.sellerId==userId){
+                if(data.sellerId==userId){  //내 상품이면
                     var intent= Intent(mainActivity, LiveBuyActivity::class.java)
                     intent.putExtra("productId",productId)
                     startActivity(intent)
 
+                }else {//남의 상품이면
+                    var intent= Intent(mainActivity, LiveBuyActivity::class.java)
+                    intent.putExtra("productId",productId)
+                    startActivity(intent)
                 }
                 //라이브로 연결
                 //1. 내 상품이면 라이브화면으로

@@ -64,7 +64,7 @@ class UserInfoActivity : AppCompatActivity() {
         setContentView(binding.root)
         Log.d(TAG, "onCreate: 시작------")
         var pref=getSharedPreferences("user_info",MODE_PRIVATE)
-        var city= pref?.getString("city","null").toString()
+        var city= pref?.getString("city",null)
 
         if(city==null) {
 //        categoryList = UserInfoService().getCategory()

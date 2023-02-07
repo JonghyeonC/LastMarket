@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jphr.lastmarket.activity.LiveSellActivity">
+
+
+    <LinearLayout
+        android:id="@+id/views_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/peer_container"
+            android:layout_width="match_parent"
+            android:layout_height="212dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/main_participant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/blue2" />
+
+            <org.webrtc.SurfaceViewRenderer
+                android:id="@+id/local_gl_surface_view"
+                android:layout_width="match_parent"
+                android:layout_height="212dp"
+                android:visibility="visible" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="394dp"
+        android:layout_height="459dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/views_container">
+
+        <TextView
+            android:id="@+id/Title"
+            style="@style/result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gmarket_sans_ttf_bold"
+            android:text="Signiture Ball Cap" />
+
+        <TextView
+            android:id="@+id/subTitle"
+            style="@style/live_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            android:text="권주현님이 방송중입니다" />
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/live_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="263dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/rectangle_1"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            android:text="채팅 들어갈곳"
+
+            android:textAlignment="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="13dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.9"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    style="@style/now_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="현재 최고가" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    style="@style/result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gmarket_sans_ttf_bold"
+                    android:text="21,000원" />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    style="@style/start_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="경매 시작가" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    style="@style/result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gmarket_sans_ttf_bold"
+                    android:text="10,000원" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/hand" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="가격제시"
+                    android:textSize="17dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

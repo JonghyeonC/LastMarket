@@ -1,7 +1,6 @@
 package com.jphr.lastmarket.activity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -9,10 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +22,7 @@ import androidx.fragment.app.DialogFragment;
 import com.jphr.lastmarket.R;
 import com.jphr.lastmarket.openvidu.CustomHttpClient;
 import com.jphr.lastmarket.openvidu.CustomWebSocket;
+import com.jphr.lastmarket.openvidu.CustomWebSocket2;
 import com.jphr.lastmarket.openvidu.LocalParticipant;
 import com.jphr.lastmarket.openvidu.PermissionsDialogFragment;
 import com.jphr.lastmarket.openvidu.RemoteParticipant;
@@ -39,11 +36,9 @@ import org.webrtc.SurfaceViewRenderer;
 import org.webrtc.VideoTrack;
 
 import java.io.IOException;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -51,7 +46,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class LiveBuyActivity extends AppCompatActivity {
+public class LiveSellActivity extends AppCompatActivity {
 
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
@@ -81,7 +76,7 @@ public class LiveBuyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.activity_live_buy);
+        setContentView(R.layout.activity_live_sell);
         ButterKnife.bind(this);
 
         productId=getIntent().getLongExtra("productId",0);
@@ -184,8 +179,8 @@ public class LiveBuyActivity extends AppCompatActivity {
 
         // Initialize our local participant and start local camera
         String participantName = participant_name.toString();
-//        LocalParticipant localParticipant = new LocalParticipant(participantName, session, this.getApplicationContext(), localVideoView);
-//        localParticipant.startCamera();
+        LocalParticipant localParticipant = new LocalParticipant(participantName, session, this.getApplicationContext(), localVideoView);
+        localParticipant.startCamera();
         runOnUiThread(() -> {
             // Update local participant view
             main_participant.setText(participant_name);
@@ -229,31 +224,31 @@ public class LiveBuyActivity extends AppCompatActivity {
     }
 
     //---------------다른 사용자 비디오 레이아웃-----------------
-    public void createRemoteParticipantVideo(final RemoteParticipant remoteParticipant) {
-        Handler mainHandler = new Handler(this.getMainLooper());
-        Runnable myRunnable = () -> {
-            View rowView = this.getLayoutInflater().inflate(R.layout.peer_video, null);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(0, 0, 0, 20);
-            rowView.setLayoutParams(lp);
-            int rowId = View.generateViewId();
-            rowView.setId(rowId);
-            views_container.addView(rowView);
-            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
-            remoteParticipant.setVideoView(videoView);
-            videoView.setMirror(false);
-            EglBase rootEglBase = EglBase.create();
-            videoView.init(rootEglBase.getEglBaseContext(), null);
-            videoView.setZOrderMediaOverlay(true);
-            View textView = ((ViewGroup) rowView).getChildAt(1);
-            remoteParticipant.setParticipantNameText((TextView) textView);
-            remoteParticipant.setView(rowView);
-
-            remoteParticipant.getParticipantNameText().setText(remoteParticipant.getParticipantName());
-            remoteParticipant.getParticipantNameText().setPadding(20, 3, 20, 3);
-        };
-        mainHandler.post(myRunnable);
-    }
+//    public void createRemoteParticipantVideo(final RemoteParticipant remoteParticipant) {
+//        Handler mainHandler = new Handler(this.getMainLooper());
+//        Runnable myRunnable = () -> {
+//            View rowView = this.getLayoutInflater().inflate(R.layout.peer_video, null);
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            lp.setMargins(0, 0, 0, 20);
+//            rowView.setLayoutParams(lp);
+//            int rowId = View.generateViewId();
+//            rowView.setId(rowId);
+//            views_container.addView(rowView);
+//            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
+//            remoteParticipant.setVideoView(videoView);
+//            videoView.setMirror(false);
+//            EglBase rootEglBase = EglBase.create();
+//            videoView.init(rootEglBase.getEglBaseContext(), null);
+//            videoView.setZOrderMediaOverlay(true);
+//            View textView = ((ViewGroup) rowView).getChildAt(1);
+//            remoteParticipant.setParticipantNameText((TextView) textView);
+//            remoteParticipant.setView(rowView);
+//
+//            remoteParticipant.getParticipantNameText().setText(remoteParticipant.getParticipantName());
+//            remoteParticipant.getParticipantNameText().setPadding(20, 3, 20, 3);
+//        };
+//        mainHandler.post(myRunnable);
+//    }
 
     public void setRemoteMediaStream(MediaStream stream, final RemoteParticipant remoteParticipant) {
         final VideoTrack videoTrack = stream.videoTracks.get(0);

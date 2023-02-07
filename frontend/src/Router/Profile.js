@@ -24,11 +24,9 @@ function Profile() {
     getInfo()
   }, [])
   
-  // let aa = 'wss://i8d206.p.ssafy.io?sessionId=SessionA&token=tok_Qf3f2h2AZ79IgO4M'
   return (
     <div>
       <div>
-        {/* <p>{(aa.substring(aa.lastIndexOf('&') + 1)).substring(6)}</p> */}
         <img src="profile_icon.png" width="150px" height="150px" alt="" />
         <span>닉네임 : {nickName}</span>
         <span><button>닉네임 수정</button></span>

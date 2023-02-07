@@ -4,6 +4,7 @@ import edu.ssafy.lastmarket.argumentresolver.Login;
 import edu.ssafy.lastmarket.domain.dto.MemberInfoDto;
 import edu.ssafy.lastmarket.domain.dto.MemberRegistDto;
 import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.exception.NotAuthenticated;
 import edu.ssafy.lastmarket.service.ImageUploadService;
 import edu.ssafy.lastmarket.service.MemberCategoryService;
 import edu.ssafy.lastmarket.service.MemberService;
@@ -47,7 +48,7 @@ public class MemberController {
     @GetMapping("/user")
     public ResponseEntity<?> getMemberInfo(@Login Member member) {
         if(member == null){
-            throw new IllegalArgumentException("로그인 해주세요");
+            throw new NotAuthenticated("로그인해주세요");
         }
         MemberInfoDto memberInfo = memberService.getMemberInfo(member);
         return new ResponseEntity<>(memberInfo, HttpStatus.OK);

@@ -211,6 +211,17 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(find);
     }
 
+    @Override
+    public void finishBroadcast(Member member, Long productId) {
+        Product find = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("없는 상품입니다."));
+        if (!find.getSeller().getId().equals(member.getId())) {
+            throw new NotMatchSellerException("판매자가 아닙니다.");
+        }
+        find.setDealState(DealState.AFTERBROADCAST);
+        productRepository.save(find);
+    }
+
     private void checkSeller(Optional<Product> productOptional, Member member) {
         if (productOptional.isEmpty()) {
             throw new NotFoundException("product NotFoundException");

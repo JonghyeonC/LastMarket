@@ -71,4 +71,5 @@ public interface ProductService {
     Boolean pullup(Member member, Long productId);
 
     void broadcast(Member member,Long productId);
+    void finishBroadcast(Member member, Long productId);
 }

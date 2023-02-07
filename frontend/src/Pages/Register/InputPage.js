@@ -11,12 +11,12 @@ function InputPage({setInputData}) {
   
   const [checkbox, setCheckbox] = useState(false)
   
-  const [name, setName] = useState('')
-  const [content, setContent] = useState('')
-  const [price, setPrice] = useState('')
-  const [bid, setBid] = useState('')
-  const [cate, SetCate] = useState('')
-  const [life, SetLife] = useState('')
+  const [name, setName] = useState(null)
+  const [content, setContent] = useState(null)
+  const [price, setPrice] = useState(null)
+  const [bid, setBid] = useState(null)
+  const [cate, SetCate] = useState(null)
+  const [life, SetLife] = useState(null)
   const [startDate, setStartDate] = useState(null);
 
   console.log(startDate)

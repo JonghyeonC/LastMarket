@@ -22,7 +22,7 @@ function CategoryPage() {
           <h1>('진평동')에서 (미니멀 라이프)로 ({name}) 라이브 중</h1>
           <br />
           <div>
-            <GoodsListSwiper name={name} />
+            <GoodsListSwiper name={name} dealState1="default" dealState2="onbroadcast" />
           </div>
           <hr />
           <br />

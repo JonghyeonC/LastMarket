@@ -273,7 +273,7 @@ class OnlineMeeting extends Component {
     this.userRef = React.createRef();
 
     this.state = {
-      mySessionId: 0,
+      sessionId: 0,
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined,
@@ -319,7 +319,7 @@ class OnlineMeeting extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: undefined,
+      sessionId: undefined,
       myUserName: undefined,
       mainStreamManager: undefined,
       publisher: undefined,
@@ -468,7 +468,7 @@ class OnlineMeeting extends Component {
   }
 
   getToken() {
-    return this.createSession(this.state.mySessionId).then((sessionId) =>
+    return this.createSession(this.state.sessionId).then((sessionId) =>
       this.createToken(sessionId)
     );
   }

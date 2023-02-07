@@ -488,7 +488,7 @@ class OnlineMeeting extends Component {
         })
         .then((res) => {
           resolve(res.data.id);
-          console.log(res.data.id)
+          console.log(res)
         })
         .catch((res) => {
           let error = Object.assign({}, res);

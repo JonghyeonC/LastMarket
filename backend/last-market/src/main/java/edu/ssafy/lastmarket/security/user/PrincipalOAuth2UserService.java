@@ -5,7 +5,6 @@ import edu.ssafy.lastmarket.repository.MemberRepository;
 import edu.ssafy.lastmarket.security.provider.KakaoOAuthUserInfo;
 import edu.ssafy.lastmarket.security.provider.NaverOAuthUserInfo;
 import edu.ssafy.lastmarket.security.provider.OAuthUserInfo;
-import edu.ssafy.lastmarket.security.user.OAuth2UserImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,10 +19,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-@Slf4j
 public class PrincipalOAuth2UserService extends DefaultOAuth2UserService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
@@ -39,8 +38,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService impleme
 
         if (provider.equals("naver")) {
             oAuthUserInfo = new NaverOAuthUserInfo(oAuth2User.getAttribute("response"));
-        } else if(provider.equals("kakao")){
-            oAuthUserInfo= new KakaoOAuthUserInfo(oAuth2User.getAttributes());
+        } else if (provider.equals("kakao")) {
+            oAuthUserInfo = new KakaoOAuthUserInfo(oAuth2User.getAttributes());
         }
         String providerId = oAuthUserInfo != null ? oAuthUserInfo.getProviderId() : "";
         String username = provider + "_" + providerId;
@@ -57,7 +56,6 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService impleme
         }
 
         return new OAuth2UserImpl(member, oAuthUserInfo);
-
     }
 
     public OAuth2User getOAuth2User(OAuth2UserRequest userRequest) {
@@ -69,11 +67,9 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService impleme
         Optional<Member> memberOptional = memberRepository.findByUsername(username);
         if (memberOptional.isEmpty()) {
             throw new UsernameNotFoundException("this token's owner username not found");
-
         }
         Member member = memberOptional.orElse(null);
         return new OAuth2UserImpl(member);
-
     }
 }
 

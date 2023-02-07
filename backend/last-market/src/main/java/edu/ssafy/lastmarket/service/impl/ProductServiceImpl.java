@@ -90,17 +90,18 @@ public class ProductServiceImpl implements ProductService {
 
 
         Product product = ProductDto.convert(productDto);
-        if (product.getLiveTime() != null) {
-            LocalDateTime localDateTime = localDateTimeFloor(product.getLiveTime());
-            product.setLiveTime(localDateTime);
-        }
-
+        System.out.println("productdto livetine: "+ product.getLiveTime());
+        product.setDealState(DealState.AFTERBROADCAST);
         product.setSeller(member);
         product.setLocation(member.getLocation());
         product.setCategory(categoryOptional.get());
-        product.setDealState(DealState.DEFAULT);
         product.setFavoriteCnt(0);
 
+        if (product.getLiveTime() != null) {
+            LocalDateTime localDateTime = localDateTimeFloor(product.getLiveTime());
+            product.setLiveTime(localDateTime);
+            product.setDealState(DealState.DEFAULT);
+        }
 
         return productRepository.save(product);
 

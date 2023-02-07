@@ -22,7 +22,7 @@ function Register() {
       formData.append('imgs', url)
     })
 
-    jsonData.append(
+    formData.append(
       "product", JSON.stringify(inputData)
     )
 
@@ -66,14 +66,14 @@ function Register() {
       console.log(value);
     }
 
-    for (let key of jsonData.keys()) {
-      console.log(key);
-    }
+    // for (let key of jsonData.keys()) {
+    //   console.log(key);
+    // }
     
-    // FormData의 value 확인
-    for (let value of jsonData.values()) {
-      console.log(value);
-    }
+    // // FormData의 value 확인
+    // for (let value of jsonData.values()) {
+    //   console.log(value);
+    // }
 
   })
 
@@ -87,7 +87,7 @@ function Register() {
       formData.append('imgs', url)
     })
 
-    jsonData.append(
+    imageUrls.append(
       "product", JSON.stringify(inputData)
     )
 
@@ -122,21 +122,21 @@ function Register() {
       console.log(value);
     }
 
-    for (let key of jsonData.keys()) {
-      console.log(key);
-    }
+    // for (let key of jsonData.keys()) {
+    //   console.log(key);
+    // }
     
-    // FormData의 value 확인
-    for (let value of jsonData.values()) {
-      console.log(value);
-    }
+    // // FormData의 value 확인
+    // for (let value of jsonData.values()) {
+    //   console.log(value);
+    // }
 
     axios({
       method: "post",
       url: URL,
       data: {
         formData,
-        jsonData
+        // jsonData
       },
       headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1NjYzMzU5OTc5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6IuyVhOuLiCIsImlkIjo5MDIzLCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzAxMjIiLCJleHAiOjE2NzU2NjUxNTl9.OU-x__6pHNV4nLJ9ZZbY_BqGtDzqQu9k0uByFWQnMRQ"}
     })

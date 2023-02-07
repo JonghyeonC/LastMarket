@@ -534,7 +534,7 @@ class OnlineMeeting extends Component {
         .then((res) => {
           console.log("res")
           console.log((res.data.substring(res.data.lastIndexOf('&') + 1)).substring(6))
-          resolve((res.data.substring(res.data.lastIndexOf('&') + 1)).substring(6));
+          resolve(res.data);
         })
         .catch((error) => reject(error));
     });

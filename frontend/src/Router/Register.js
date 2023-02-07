@@ -16,13 +16,35 @@ function Register() {
   const test = (() => {
     let formData = new FormData();
     
+    console.log(inputData)
+
     imageUrls.imgs.map((url) => {
       formData.append('imgs', url)
     })
 
     formData.append(
-      "data", JSON.stringify(inputData)
+      "category", JSON.stringify(inputData.category)
     )
+    formData.append(
+      "title", JSON.stringify(inputData.title)
+    )
+    formData.append(
+      "content", JSON.stringify(inputData.content)
+    )
+    formData.append(
+      "instantPrice", JSON.stringify(inputData.instantPrice)
+    )
+    formData.append(
+      "lifestyle", JSON.stringify(inputData.lifestyle)
+    )
+    formData.append(
+      "livetime", JSON.stringify(inputData.livetime)
+    )
+    formData.append(
+      "startingPrice", JSON.stringify(inputData.startingPrice)
+    )
+
+
     // imageUrls.imgs.map((url) => {
     //   formData.append('imgs', url)
     // })
@@ -51,7 +73,25 @@ function Register() {
     })
 
     formData.append(
-      "data", JSON.stringify(inputData)
+      "category", JSON.stringify(inputData.category)
+    )
+    formData.append(
+      "title", JSON.stringify(inputData.title)
+    )
+    formData.append(
+      "content", JSON.stringify(inputData.content)
+    )
+    formData.append(
+      "instantPrice", JSON.stringify(inputData.instantPrice)
+    )
+    formData.append(
+      "lifestyle", JSON.stringify(inputData.lifestyle)
+    )
+    formData.append(
+      "livetime", JSON.stringify(inputData.livetime)
+    )
+    formData.append(
+      "startingPrice", JSON.stringify(inputData.startingPrice)
     )
     
     for (let key of formData.keys()) {
@@ -68,7 +108,6 @@ function Register() {
       url: URL,
       data: {
         formData,
-        inputData
       },
       headers: { "content-type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1NjYzMzU5OTc5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6IuyVhOuLiCIsImlkIjo5MDIzLCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzAxMjIiLCJleHAiOjE2NzU2NjUxNTl9.OU-x__6pHNV4nLJ9ZZbY_BqGtDzqQu9k0uByFWQnMRQ"}
     })

@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -20,7 +21,12 @@ public class LogInterceptor implements HandlerInterceptor {
         request.setAttribute("uuid", uuid);
         String method = request.getMethod();
         String uri = request.getRequestURI();
-        log.info("[{}][{}|{}] connection ", uuid, method, uri);
+        Principal user = request.getUserPrincipal();
+        if (user != null) {
+            log.info("[{}][{}|{}][{}] connection ", uuid, method, uri, user.getName());
+        } else {
+            log.info("[{}][{}|{}] connection ", uuid, method, uri);
+        }
         if (request.getCookies() == null) {
             return true;
         }
@@ -37,6 +43,11 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         String uuid = (String) request.getAttribute("uuid");
-        log.info("[{}][{}|{}] end", uuid, request.getMethod(), request.getRequestURI());
+        Principal user = request.getUserPrincipal();
+        if (user != null) {
+            log.info("[{}][{}|{}][{}] end", uuid, request.getMethod(), request.getRequestURI(), user.getName());
+        } else {
+            log.info("[{}][{}|{}] end", uuid, request.getMethod(), request.getRequestURI());
+        }
     }
 }

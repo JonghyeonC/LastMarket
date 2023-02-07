@@ -67,7 +67,8 @@ function Register() {
   const reg = (() => {
     
     let formData = new FormData();
-
+    let jsonData = new FormData();
+    
     imageUrls.imgs.map((url) => {
       formData.append('imgs', url)
     })

@@ -1,6 +1,7 @@
 package com.jphr.lastmarket.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -17,7 +18,9 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.jphr.lastmarket.R
+import com.jphr.lastmarket.activity.LiveBuyActivity
 import com.jphr.lastmarket.activity.MainActivity
+import com.jphr.lastmarket.activity.WebViewActivity
 import com.jphr.lastmarket.adapter.ImageViewPagerAdapter
 import com.jphr.lastmarket.databinding.FragmentDetailBinding
 import com.jphr.lastmarket.dto.FavoriteDTO
@@ -104,9 +107,10 @@ class DetailFragment : Fragment() {
         binding.content.text=data?.content
         binding.sellerNicname.text=data.sellerNickname
         binding.sellerLocation.text=data.location
-        Glide.with(requireContext())
-            .load(data.profile)
-            .into(binding.sellerProfile)
+        //TODO: 사용자 프로필 이미지 담기
+//        Glide.with(requireContext())
+//            .load(data.profile)
+//            .into(binding.sellerProfile)
         binding.instantPrice.text=data?.instantPrice.toString()
         binding.startPrice.text=data?.startingPrice.toString()
 
@@ -118,7 +122,9 @@ class DetailFragment : Fragment() {
             createIndicators(imgSize,0)
             orientation=ViewPager2.ORIENTATION_HORIZONTAL
         }
-
+        if(isLikeOn){
+            binding.favorite.setImageResource(R.drawable.like2)
+        }
         binding.favorite.setOnClickListener {
             if(isLikeOn){
                 ProductService().deleteFavorite(token,productId)
@@ -159,10 +165,10 @@ class DetailFragment : Fragment() {
         }
         binding.delete.setOnClickListener {
             if( ProductService().deleteProduct(token,productId)){
-                Toast.makeText(MainActivity(), "삭제되었습니다.", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "삭제되었습니다.", Toast.LENGTH_LONG).show()
 
             }else {
-                Toast.makeText(MainActivity(), "삭제에 실패했습니다.", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "삭제에 실패했습니다.", Toast.LENGTH_LONG).show()
             }
             mainActivity.changeFragment(1)
 
@@ -187,6 +193,17 @@ class DetailFragment : Fragment() {
             binding.startPrice.text=data.startingPrice.toString()
             binding.liveButton.text="Live 참여하기"
             binding.purchaseButton.text="경매 진행중"
+            binding.liveButton.setOnClickListener {
+                if(data.sellerId==userId){
+                    var intent= Intent(mainActivity, LiveBuyActivity::class.java)
+                    intent.putExtra("productId",productId)
+                    startActivity(intent)
+
+                }
+                //라이브로 연결
+                //1. 내 상품이면 라이브화면으로
+                //2. 남의 상품이면
+            }
 
 
         }else if(state=="AFTERBROADCAST"){//라이브 후 낙찰 안됨 & 라이브 X인 경우 &라이브 하기로했는데 안한거

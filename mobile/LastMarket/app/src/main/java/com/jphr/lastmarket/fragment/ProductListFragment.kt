@@ -74,6 +74,8 @@ class ProductListFragment : Fragment() {
         // Inflate the layout for this fragment
         binding=FragmentProductListBinding.inflate(inflater,container,false)
         productListAdapter= ProductListAdapter(mainActivity)
+
+        Log.d(TAG, "onCreateView: -----------")
         binding.recyclerview.apply {
             productListAdapter.list=productDTO
             layoutManager=GridLayoutManager(context,3)
@@ -87,20 +89,22 @@ class ProductListFragment : Fragment() {
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 try {
-                    if (binding.spinner.getItemAtPosition(position).toString().substring(0, 3) == "최신순"){
-                        ProductService().getProductWithSort(category,null,cityData,"DESC","DEFAULT","0",ProductCallback(),false,null)
+                    if (binding.spinner.getItemAtPosition(position).toString() == "최신순"){
+                        ProductService().getProductWithSort(category,null,cityData,"createdDateTime,DESC","DEFAULT","0",ProductCallback(),false,null)
                         Log.d(TAG, "onItemSelected: 최신순")
-                    }else if(binding.spinner.getItemAtPosition(position).toString().substring(0, 2) == "찜순"){
-                        ProductService().getProductWithSort(category,null,cityData,"FAVORITECNT","DEFAULT","0",ProductCallback(),false,null)
+                    }else if(binding.spinner.getItemAtPosition(position).toString() =="찜순"){
                         Log.d(TAG, "onItemSelected: 찜순")
 
+                        ProductService().getProductWithSort(category,null,cityData,"favoriteCnt,DESC","DEFAULT","0",ProductCallback(),false,null)
+
                     }else if(binding.spinner.getItemAtPosition(position).toString().substring(0, 4) == "라이브중"){
-                        ProductService().getProductWithSort(category,null,cityData,"FAVORITECNT","ONBROADCAST","0",ProductCallback(),false,null)
+                        ProductService().getProductWithSort(category,null,cityData,"favoriteCnt,DESC","ONBROADCAST","0",ProductCallback(),false,null)
                         Log.d(TAG, "onItemSelected: 라이브중")
 
                     }
 
                 } catch(e: Exception) {
+                    Log.d(TAG, "onItemSelected: $e")
                 }
             }
 
@@ -178,9 +182,8 @@ class ProductListFragment : Fragment() {
                     if (category != null) {
                         mainViewModel.setCategory(category)
                         productListAdapter.list=responseData.content
+                        productListAdapter.notifyDataSetChanged()
                         Log.d(TAG, "onSuccess: 콜백!!!!!!!!!!!")
-
-
                     }
                 }
             }

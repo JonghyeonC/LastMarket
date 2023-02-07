@@ -91,14 +91,14 @@ class SearchFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 try {
                     if (binding.spinner.getItemAtPosition(position).toString().substring(0, 3) == "최신순"){
-                        ProductService().getProductWithSort(null,null,cityData,"DESC","DEFAULT","0",ProductCallback(),true,word)
+                        ProductService().getProductWithSort(null,null,cityData,"createdDateTime,DESC","DEFAULT","0",ProductCallback(),true,word)
                         Log.d(TAG, "onItemSelected: 최신순")
-                    }else if(binding.spinner.getItemAtPosition(position).toString().substring(0, 2) == "찜순"){
-                        ProductService().getProductWithSort(null,null,cityData,"FAVORITECNT","DEFAULT","0",ProductCallback(),true,word)
+                    }else if(binding.spinner.getItemAtPosition(position).toString() =="찜순"){
+                        ProductService().getProductWithSort(null,null,cityData,"favoriteCnt,DESC","DEFAULT","0",ProductCallback(),true,word)
                         Log.d(TAG, "onItemSelected: 찜순")
 
                     }else if(binding.spinner.getItemAtPosition(position).toString().substring(0, 4) == "라이브중"){
-                        ProductService().getProductWithSort(null,null,cityData,"FAVORITECNT","ONBROADCAST","0",ProductCallback(),true,word)
+                        ProductService().getProductWithSort(null,null,cityData,"favoriteCnt,DESC","ONBROADCAST","0",ProductCallback(),true,word)
                         Log.d(TAG, "onItemSelected: 라이브중")
 
                     }
@@ -174,6 +174,9 @@ class SearchFragment : Fragment() {
                     mainViewModel.setProduct(responseData.content)
                     if (word != null) {
                         mainViewModel.setWord(word)
+                        productListAdapter.list=responseData.content
+                        productListAdapter.notifyDataSetChanged()
+
                     }
                 }
                 else {
@@ -181,6 +184,7 @@ class SearchFragment : Fragment() {
                     if (category != null) {
                         mainViewModel.setCategory(category)
                         productListAdapter.list=responseData.content
+                        productListAdapter.notifyDataSetChanged()
                         Log.d(TAG, "onSuccess: 콜백!!!!!!!!!!!")
 
 

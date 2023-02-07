@@ -26,18 +26,24 @@ public class JwtManager {
     public String generateJwtToken(Member member, Location location, Image image) {
         Date now = new Date();
         log.info("[generate token]time={}", LocalDateTime.now(ZoneId.of("Asia/Seoul")));
-        return Jwts.builder().setSubject(member.getUsername()) // 보통 username
-                .setHeader(createHeader()).setClaims(createClaims(member, location, image)) // 클레임, 토큰에 포함될 정보
+        return Jwts.builder()
+                .setSubject(member.getUsername()) // 보통 username
+                .setHeader(createHeader())
+                .setClaims(createClaims(member, location, image)) // 클레임, 토큰에 포함될 정보
                 .setExpiration(new Date(now.getTime() + shortTokeneExpiredTime)) // 만료일
-                .signWith(SignatureAlgorithm.HS256, securityKey).compact();
+                .signWith(SignatureAlgorithm.HS256, securityKey)
+                .compact();
     }
 
     public String generateRefreshJwtToken(Member member) {
         Date now = new Date();
-        return Jwts.builder().setSubject(member.getUsername()) // 보통 username
-                .setHeader(createHeader()).setClaims(createLongClaims()) // 클레임, 토큰에 포함될 정보
+        return Jwts.builder()
+                .setSubject(member.getUsername()) // 보통 username
+                .setHeader(createHeader())
+                .setClaims(createLongClaims()) // 클레임, 토큰에 포함될 정보
                 .setExpiration(new Date(now.getTime() + longTokenExpiredTime)) // 만료일
-                .signWith(SignatureAlgorithm.HS256, securityKey).compact();
+                .signWith(SignatureAlgorithm.HS256, securityKey)
+                .compact();
     }
 
     private Map<String, Object> createHeader() {

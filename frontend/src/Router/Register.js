@@ -16,15 +16,15 @@ function Register() {
   const test = (() => {
     let formData = new FormData();
     let jsonData = new FormData()
-    // console.log(inputData)
+    console.log(inputData)
 
-    imageUrls.imgs.map((url) => {
-      formData.append('imgs', url)
-    })
+    // imageUrls.imgs.map((url) => {
+    //   formData.append('imgs', url)
+    // })
 
-    formData.append(
-      "product", JSON.stringify(inputData)
-    )
+    // formData.append(
+    //   "product", JSON.stringify(inputData)
+    // )
 
     // jsonData.append(
     //   "category", JSON.stringify(inputData.category)

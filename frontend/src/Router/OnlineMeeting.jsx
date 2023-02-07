@@ -478,7 +478,7 @@ class OnlineMeeting extends Component {
       let data = JSON.stringify({ customSessionId: sessionId });
 
       axios
-        .post(OPENVIDU_SERVER_URL + "/openvidu/api/sessions", data, {
+        .post(OPENVIDU_SERVER_URL + "/api/sessions", data, {
           headers: {
             Authorization: `Basic ${btoa(
               `OPENVIDUAPP:${OPENVIDU_SERVER_SECRET}`

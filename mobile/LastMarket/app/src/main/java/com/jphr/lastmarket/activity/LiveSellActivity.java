@@ -139,16 +139,20 @@ public class LiveSellActivity extends AppCompatActivity {
             String str = topicMessage.getPayload();
             JSONObject jsonObject = new JSONObject(str);
             String price = jsonObject.getString("message");
+            String type = jsonObject.getString("chatType");
 
-            Log.d(TAG, "onCreate: " + price);
-            Double tmp = Double.valueOf(price);
-            Long tmp2 = Long.valueOf(Math.round(tmp));
-            try {
-                viewModel.setNowPrice(tmp2);
+            if(type.equals("BID")){
+                Log.d(TAG, "onCreate: " + price);
+                Double tmp = Double.valueOf(price);
+                Long tmp2 = Long.valueOf(Math.round(tmp));
+                try {
+                    viewModel.setNowPrice(tmp2);
 
-            } catch (Exception e) {
-                Log.e(TAG, "error " + e);
+                } catch (Exception e) {
+                    Log.e(TAG, "error " + e);
+                }
             }
+
         });
 
 

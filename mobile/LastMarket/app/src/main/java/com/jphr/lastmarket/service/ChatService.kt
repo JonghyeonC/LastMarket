@@ -2,6 +2,7 @@ package com.jphr.lastmarket.service
 
 import android.util.Log
 import com.jphr.lastmarket.dto.ChatDTO
+import com.jphr.lastmarket.dto.ChatListDTO
 import com.jphr.lastmarket.dto.ListDTO
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.util.RetrofitUtil
@@ -11,10 +12,10 @@ import retrofit2.Response
 
 private const val TAG = "ChatService"
 class ChatService {
-    fun getChatDetail(roomId:String,callback: RetrofitCallback<ChatDTO>) {
-        val productInterface: Call<ChatDTO> = RetrofitUtil.chatService.getChatDetail(roomId)
-        productInterface.enqueue(object : Callback<ChatDTO> {
-            override fun onResponse(call: Call<ChatDTO>, response: Response<ChatDTO>) {
+    fun getChatDetail(roomId:String,callback: RetrofitCallback<ChatListDTO>) {
+        val productInterface: Call<ChatListDTO> = RetrofitUtil.chatService.getChatDetail(roomId)
+        productInterface.enqueue(object : Callback<ChatListDTO> {
+            override fun onResponse(call: Call<ChatListDTO>, response: Response<ChatListDTO>) {
                 val res = response.body()
                 if(response.code() == 200){
                     if (res != null) {
@@ -32,7 +33,7 @@ class ChatService {
                 }
             }
 
-            override fun onFailure(call: Call<ChatDTO>, t: Throwable) {
+            override fun onFailure(call: Call<ChatListDTO>, t: Throwable) {
                 callback.onError(t)
             }
         })

@@ -274,4 +274,27 @@ class ProductService {
             }
         })
     }
+    fun changeFinish(token:String,productId: Long){
+        RetrofitUtil.productService.changeFinish(token,productId).enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                val res = response.body()
+                Log.d(TAG, "Change_onResponse: ${res}")
+                if (response.isSuccessful) {
+                    if (res != null) {
+                        Log.d(TAG, "Change_onResponse : ${response.code()}")
+                        true
+                    }
+                } else {
+                    Log.d(TAG, "Change_onResponse:false :${response.code()} ")
+                    Log.d(TAG, "onResponse: ${response.code()}")
+
+                    false
+                }
+            }
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                Log.d(TAG, "onResponse:false ${t.message}")
+
+            }
+        })
+    }
 }

@@ -151,7 +151,7 @@ class UserInfoActivity : AppCompatActivity() {
                     nowAddr = address[0].getAddressLine(0).toString()
                     var arr = nowAddr.split(" ")
                     var i = 0
-                    for (i in 1 until 4) {
+                    for (i in 0 until 4) {
                         if(i==3){
                             add += arr[i]
                         }else {
@@ -185,7 +185,7 @@ class UserInfoActivity : AppCompatActivity() {
         Log.d(TAG, "startLocationUpdates: ")
         mLocationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 10* 10000
+            interval = 10* 1000
         }
         //FusedLocationProviderClient의 인스턴스를 생성.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)

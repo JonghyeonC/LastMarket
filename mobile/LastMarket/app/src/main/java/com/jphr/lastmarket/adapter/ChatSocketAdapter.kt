@@ -4,32 +4,27 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.jphr.lastmarket.R
 import com.jphr.lastmarket.databinding.ItemChatMessageBinding
 import com.jphr.lastmarket.dto.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 private const val TAG = "LatestOrderAdapter_싸피"
-class ChatAdapter(val context: Context) :RecyclerView.Adapter<ChatAdapter.ChatListHolder>(){
-    var list : ChatListDTO? =null
+class ChatSocketAdapter(val context: Context) :RecyclerView.Adapter<ChatSocketAdapter.ChatListHolder>(){
+    var list = mutableListOf<ChatDTO>()
     var myId:Long=0
 
     inner class ChatListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        fun bindInfo(chat: ChatLog){
+        fun bindInfo(chat: ChatDTO){
             if(chat.sender==myId.toString()){//내가 보낸 채팅
                 binding.my.visibility=View.VISIBLE
-                binding.my.text=chat.msg
+                binding.my.text=chat.message
                 binding.other.visibility=View.GONE
 
             }else{
                 binding.my.visibility=View.GONE
                 binding.other.visibility=View.VISIBLE
-                binding.other.text=chat.msg
+                binding.other.text=chat.message
+
             }
 
         }
@@ -46,7 +41,7 @@ class ChatAdapter(val context: Context) :RecyclerView.Adapter<ChatAdapter.ChatLi
 //        holder.bind()
 
         holder.apply {
-            list?.chatLogs?.get(position)?.let { bindInfo(it) }
+            list?.get(position)?.let { bindInfo(it) }
             //클릭연결
             itemView.setOnClickListener{
                 itemClickListner.onClick(it, position)
@@ -55,7 +50,7 @@ class ChatAdapter(val context: Context) :RecyclerView.Adapter<ChatAdapter.ChatLi
     }
 
     override fun getItemCount(): Int {
-        return 10.coerceAtMost(list!!.chatLogs.size)
+        return 10.coerceAtMost(list!!.size)
     }
 
     //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.

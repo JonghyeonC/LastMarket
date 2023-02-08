@@ -36,6 +36,7 @@ import com.jphr.lastmarket.openvidu.CustomWebSocket;
 import com.jphr.lastmarket.openvidu.PermissionsDialogFragment;
 import com.jphr.lastmarket.openvidu.RemoteParticipant;
 import com.jphr.lastmarket.openvidu.Session;
+import com.jphr.lastmarket.service.ProductService;
 import com.jphr.lastmarket.viewmodel.LiveViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -144,17 +145,21 @@ public class LiveBuyActivity extends AppCompatActivity {
             if(type.equals("FINSH")){
                 Double tmp= Double.valueOf(price);
                 Long tmp2= Long.valueOf(Math.round(tmp));
+                ProductService productService=new ProductService();
+
                 if(tmp2==myTopPrice){//내가격이 최고가일때 (낙찰)
                     //TODO : 낙찰되었을 때 EVENT 화려하게
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("isFromLive","true");
                     intent.putExtra("chatDTO",str);
+                    productService.changeFinish(token,productId);
                     startActivity(intent);
                 }else {//내가격이 최고가가 아닐때(미낙찰)
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                    productService.changeFinish(token,productId);
                     startActivity(intent);
                 }
-            }else{
+            }else if(type.equals("BID")){
                 Log.d(TAG, "onCreate: "+price);
                 Double tmp= Double.valueOf(price);
                 Long tmp2= Long.valueOf(Math.round(tmp));

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react"
 
 function Main() {
   
+  // 이 부분부터 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
   const URL = `https://i8d206.p.ssafy.io/api/user`
 
   const [ lifestyles, setLifestyles ] = useState('')
@@ -41,6 +42,9 @@ function Main() {
     getUserInfo()
   },[])
 
+  // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
+
+
   return (
     <div>
       <div className='container'>
@@ -53,7 +57,7 @@ function Main() {
           {/* <hr /> */}
           <br />
           <div>
-            <h1 >{addrs}의 {lifestyles} 상품</h1>
+            <h1 >{addrs}의 Hot한 {lifestyles}라이프 상품</h1>
             <br />
             <div>
               <GoodsListSwiper lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
@@ -62,7 +66,7 @@ function Main() {
           <br />
           <br />
           <div>
-            <h1>{addrs}에서 {lifestyles}로 라이브 중</h1>
+            <h1>{addrs}에서 {lifestyles}라이프 Live 중</h1>
             <br />
             <div>
               <GoodsListSwiper lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST" />
@@ -72,9 +76,9 @@ function Main() {
           <br />
         </div>
         <div>
-          <h1>{addrs}에서 NEW!</h1>
+          <h1>{addrs}의 NEW {lifestyles}라이프!</h1>
           <br />
-          <GoodsList addrs={addrs} sort="lastModifiedDateTime,DESC&sort=favoriteCnt" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
+          <GoodsList lifestyles={lifestyles} addrs={addrs} sort="lastModifiedDateTime,DESC&sort=favoriteCnt" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
           {/* <div className='row'>
           {
             products.map((product, i) => {

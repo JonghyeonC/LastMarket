@@ -145,25 +145,21 @@ function Search() {
     );
   }
 
-  // useEffect(() => {
-  //   DropDirectioExample()
-  // }, [result])
+  useEffect(() => {
+    DropDirectioExample()
+  }, [result])
 
 
   return (
     <div>
       {
         <div>
-          {/* {tabs} */}
-          {/* {result} */}
+          {tabs}
+          {result}
           <div className='SearchDropDownBox'>
             <DropDirectioExample />
           </div>
-          <div className='SearchGoodsListName'>
-            <h2>'{result}'에 대한 {tabsname} 검색 결과입니다</h2>
-          </div>
-          <br />
-          <div className='SearchGoodsList'>
+          <div>
             <SearchGoodsList tabs={tabs} result={result} />
           </div>
         </div>

@@ -142,7 +142,7 @@ public class LiveBuyActivity extends AppCompatActivity {
             JSONObject jsonObject=new JSONObject(str);
             String price=jsonObject.getString("message");
             String type=jsonObject.getString("chatType");
-            if(type.equals("FINSH")){
+            if(type.equals("FINISH")){
                 Double tmp= Double.valueOf(price);
                 Long tmp2= Long.valueOf(Math.round(tmp));
                 ProductService productService=new ProductService();

@@ -41,9 +41,9 @@ function ModalBasic({ setModalOpen, id, title, content, writer }) {
                 X
             </button>
             <div className="loginBox">
-              <KakaoLogin />
-              <br />
-              <NaverLogin />
+                <KakaoLogin />
+                <br />
+                <NaverLogin />
             </div>
         </div>
     );

@@ -224,12 +224,21 @@ class DetailFragment : Fragment() {
 
                     var intent= Intent(mainActivity, LiveSellActivity::class.java)
                     intent.putExtra("productId",productId)
+                    intent.putExtra("data",data)
+                    intent.putExtra("sellerId",data.sellerId)
+                    intent.putExtra("startPrice",data.startingPrice)
                     startActivity(intent)
 
                 }else {//남의 상품이면
 
                     var intent= Intent(mainActivity, LiveBuyActivity::class.java)
-                    intent.putExtra("productId",productId)
+                    intent.putExtra("productId",data.productId)
+                    Log.d(TAG, "onCreateView productId: ${data.productId}")
+                    intent.putExtra("sellerId",data.sellerId)
+                    intent.putExtra("startPrice",data.startingPrice)
+
+                    Log.d(TAG, "onCreateView data: ${data.sellerId} ${data.startingPrice}")
+
                     startActivity(intent)
                 }
                 //라이브로 연결

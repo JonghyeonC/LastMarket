@@ -1,11 +1,19 @@
 package com.jphr.lastmarket.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class ChatDTO(
-    val buyer: String,
+    @JsonProperty("chatType")
     val chatType: String,
-    val message: String,
-    val roomKey: String,
+    @JsonProperty("buyer")
+    val buyer: String,
+    @JsonProperty("seller")
     val seller: String,
+    @JsonProperty("message")
+    val message: String,
+    @JsonProperty("roomKey")
+    val roomKey: String,
+    @JsonProperty("sender")
     val sender: String
 )
 //CHATTYPE

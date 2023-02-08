@@ -1,7 +1,7 @@
 package com.jphr.lastmarket.activity;
 
 import android.Manifest;
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -11,9 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,24 +21,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jphr.lastmarket.R;
+import com.jphr.lastmarket.dto.ChatDTO;
+import com.jphr.lastmarket.dto.ProductDetailDTO;
 import com.jphr.lastmarket.openvidu.CustomHttpClient;
 import com.jphr.lastmarket.openvidu.CustomWebSocket;
-import com.jphr.lastmarket.openvidu.LocalParticipant;
 import com.jphr.lastmarket.openvidu.PermissionsDialogFragment;
 import com.jphr.lastmarket.openvidu.RemoteParticipant;
 import com.jphr.lastmarket.openvidu.Session;
+import com.jphr.lastmarket.viewmodel.LiveViewModel;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
 import org.webrtc.EglBase;
 import org.webrtc.MediaStream;
 import org.webrtc.SurfaceViewRenderer;
 import org.webrtc.VideoTrack;
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +58,9 @@ import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import ua.naiksoftware.stomp.Stomp;
+import ua.naiksoftware.stomp.StompClient;
+import ua.naiksoftware.stomp.dto.StompHeader;
 
 
 public class LiveBuyActivity extends AppCompatActivity {
@@ -58,6 +70,7 @@ public class LiveBuyActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 101;
     private static final int MY_PERMISSIONS_REQUEST = 102;
     private final String TAG = "SessionActivity";
+    private LiveViewModel viewModel ;
     @Nullable
     @BindView(R.id.views_container)
     LinearLayout views_container;
@@ -67,15 +80,36 @@ public class LiveBuyActivity extends AppCompatActivity {
     TextView main_participant;
     @BindView(R.id.peer_container)
     FrameLayout peer_container;
-    private String application_server_url = "https://i8d206.p.ssafy.io/";
 
+
+    private String application_server_url = "https://i8d206.p.ssafy.io/";
+    private String wsServerUrl="ws://i8d206.p.ssafy.io/api/ws/websocket";
     private String APPLICATION_SERVER_URL;
     private Session session;
     private CustomHttpClient httpClient;
     private String token;
     private Long productId;
+    private Long sellerId;
+    private Long startPrice;
+    private TextView topPriceTv;
+    private TextView startPriceTv;
+    private Long userId;
+    private ProductDetailDTO detailDTO;
+    private Double tick;
     String session_name = "SessionA";
     String participant_name = "participant_tmp";
+    private StompClient stompClient;
+    private List<StompHeader> headerList;
+//    private static JSONObject jsonToObjectParser(String jsonStr) {
+//        JSONParser parser = new JSONParser();
+//        JSONObject obj = null;
+//        try {
+//            obj = (JSONObject) parser.parse(jsonStr);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return obj;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,14 +118,48 @@ public class LiveBuyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_live_buy);
         ButterKnife.bind(this);
 
+        ImageView postPrice=findViewById(R.id.postPrice);
+        startPriceTv=findViewById(R.id.startPriceTv);
+        topPriceTv=findViewById(R.id.topPriceTv);
+
         productId=getIntent().getLongExtra("productId",0);
+        Log.d(TAG, "onCreate: "+productId);
+        sellerId=getIntent().getLongExtra("sellerId",0);
+        startPrice=getIntent().getLongExtra("startPrice",0);
+        tick=startPrice*0.1;
+        startPriceTv.setText(startPrice.toString());
+
+        detailDTO = (ProductDetailDTO) getIntent().getSerializableExtra("data");
+        Log.d(TAG, "detailDTO: "+detailDTO);
         session_name=productId.toString();
 
+        viewModel= new ViewModelProvider(this).get(LiveViewModel.class);
+        viewModel.setNowPrice(startPrice);
+
         SharedPreferences pref= getSharedPreferences("user_info",MODE_PRIVATE);
+        userId=pref.getLong("user_id",0);
         token= pref.getString("token","null");
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         askForPermissions();
+        initStomp();
+        stompClient.topic("/exchange/chat.exchange/room."+productId).subscribe(topicMessage -> {
+            String str=topicMessage.getPayload();
+            JSONObject jsonObject=new JSONObject(str);
+            String price=jsonObject.getString("message");
+
+            Log.d(TAG, "onCreate: "+price);
+            Double tmp= Double.valueOf(price);
+            Long tmp2= Long.valueOf(Math.round(tmp));
+            try {
+                viewModel.setNowPrice(tmp2);
+
+            }catch (Exception e){
+                Log.e(TAG, "error "+e );
+            }
+        });
+
+
 
         if (arePermissionGranted()) {
             initViews();
@@ -105,7 +173,71 @@ public class LiveBuyActivity extends AppCompatActivity {
             permissionsFragment.show(getSupportFragmentManager(), "Permissions Fragment");
         }
 
+        //view
+        postPrice.setOnClickListener(new ImageView.OnClickListener(){
+            @SuppressLint("CheckResult")
+            @Override
+            public void onClick(View v) {
+                double price=viewModel.getNowPrice()+tick;
+                String priceToString = Double.toString(price);
+                ChatDTO dto= new ChatDTO("BID",userId.toString(),sellerId.toString(),priceToString,productId.toString(),userId.toString());
+
+                ObjectMapper mapper=new ObjectMapper();
+                try {
+                    String jsonString=mapper.writeValueAsString(dto);
+                    stompClient.send("/send/room."+productId, jsonString).subscribe();
+                    Log.d(TAG, "onClick: send OK"+jsonString);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        viewModel.nowPrice.observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(Long aLong) {
+                topPriceTv.setText(aLong.toString());
+            }
+        });
     }
+    @SuppressLint("CheckResult")
+    public void initStomp(){
+        AtomicBoolean isUnexpectedClosed = new AtomicBoolean(false);
+
+        //stomp client 생성
+        stompClient= Stomp.over(Stomp.ConnectionProvider.OKHTTP, wsServerUrl);
+
+        stompClient.lifecycle().subscribe(lifecycleEvent -> {
+            switch (lifecycleEvent.getType()) {
+                case OPENED:
+                    Log.d(TAG, "Stomp connection opened");
+                    break;
+                case ERROR:
+                    Log.e(TAG, "initStomp:" );
+                    Log.e(TAG, "Error", lifecycleEvent.getException());
+                    if(lifecycleEvent.getException().getMessage().contains("EOF")){
+                        isUnexpectedClosed.set(true);
+                    }
+                    break;
+                case CLOSED:
+                    Log.d(TAG, "Stomp connection closed");
+                    if(isUnexpectedClosed.get()){
+                        /**
+                         * EOF Error
+                         */
+                        initStomp();
+                        isUnexpectedClosed.set(false);
+                    }
+                    break;
+            }
+        });
+
+        // add Header
+        headerList=new ArrayList<>();
+        headerList.add(new StompHeader("Authorization", token));
+        stompClient.connect(headerList);
+    }
+
 
     public void askForPermissions() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)

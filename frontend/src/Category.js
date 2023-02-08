@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"
 
 function Category() {
   
+  // 이 부분부터 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
+
   const navigate = useNavigate()
 
   const URL = `https://i8d206.p.ssafy.io/api/categories`
@@ -30,6 +32,9 @@ function Category() {
     getCategory()
   }, [])
 
+  // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
+
+  
   return(
     <div>
       {

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import SearchGoodsList from '../Components/SearchGoodsList'
 
+import axios from "axios"
+
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 // import SplitButton from 'react-bootstrap/SplitButton';
@@ -57,6 +59,41 @@ function Search() {
   
   const { result } = useParams()
   // const [results, setResults] = useState('')
+
+  
+
+  // 이 부분부터 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
+  const URL = `https://i8d206.p.ssafy.io/api/user`
+
+  // const [ lifestyles, setLifestyles ] = useState('')
+  const [ addrs, setAddrs ] = useState('')
+
+  const getUserInfo = (() => {
+    return(
+      axios({
+        method: "get",
+        url: URL,
+      })
+      .then((res) => {
+        console.log(res)
+        console.log('유저정보 들어옴')
+        // console.log(res.data)
+        // setLifestyles(res.data.lifestyles)
+        setAddrs(res.data.addr)
+      })
+      .catch((res) => {
+        console.log("실패")
+      })
+    )
+  })
+
+  // console.log(1)
+  useEffect(() => {
+    getUserInfo()
+  },[])
+
+  // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
+
 
 
   // useEffect(() => {
@@ -163,7 +200,7 @@ function Search() {
             <h2>{result}에 대한 {tabsname} 검색 결과입니다</h2>
             <br />
             <br />
-            <SearchGoodsList tabs={tabs} result={result} />
+            <SearchGoodsList addrs={addrs} tabs={tabs} result={result} />
           </div>
         </div>
       }

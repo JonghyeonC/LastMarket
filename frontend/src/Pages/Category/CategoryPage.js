@@ -43,14 +43,14 @@ function CategoryPage() {
       <div className='container'>
         <div>
           <br />
-          <h1>{addrs}의 {lifestyles} {name} 상품</h1>
+          <h1>{addrs}의 Hot한 {lifestyles}라이프 {name} 상품</h1>
           <br />
           <div>
             <GoodsListSwiper name={name} lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
           </div>
           <br />
           <br />
-          <h1>{addrs}에서 {lifestyles}로 {name}관련 라이브 중</h1>
+          <h1>{addrs}에서 {lifestyles}라이프 {name} 라이브 중</h1>
           <br />
           <div>
             <GoodsListSwiper name={name} lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST" />
@@ -62,8 +62,9 @@ function CategoryPage() {
           {/* <GoodsListCard /> */}
         </div>
         <div>
-          <h1>{addrs}에서 새로운 {name}!</h1>
-            <GoodsList name={name} addrs={addrs} sort="lastModifiedDateTime,DESC&sort=favoriteCnt,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
+          <h1>{addrs}의 NEW {lifestyles}라이프 {name}!</h1>
+          <br />
+          <GoodsList name={name} lifestyles={lifestyles} addrs={addrs} sort="lastModifiedDateTime,DESC&sort=favoriteCnt,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
           {/* <div className='row'>
           {
             products.map((product, i) => {

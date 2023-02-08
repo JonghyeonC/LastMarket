@@ -151,7 +151,7 @@ class UserInfoActivity : AppCompatActivity() {
                     nowAddr = address[0].getAddressLine(0).toString()
                     var arr = nowAddr.split(" ")
                     var i = 0
-                    for (i in 0 until 4) {
+                    for (i in 1 until 4) {
                         if(i==3){
                             add += arr[i]
                         }else {
@@ -177,7 +177,7 @@ class UserInfoActivity : AppCompatActivity() {
             Toast.makeText(mContext, "주소를 가져 올 수 없습니다.", Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
-
+        removeLocationUpdate()
     }
 
     @SuppressLint("MissingPermission")
@@ -267,6 +267,11 @@ class UserInfoActivity : AppCompatActivity() {
         removeLocationUpdate()
         Log.d(TAG, "finish: ")
         super.finish()
+    }
+
+    override fun onPause() {
+
+        super.onPause()
     }
 
     inner class LifeStyleCallback: RetrofitCallback<LifeStyleDTO> {

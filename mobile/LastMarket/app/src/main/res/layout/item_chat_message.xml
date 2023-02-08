@@ -3,24 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:id="@+id/main_container"
+
+    >
 
     <Button
+        android:id="@+id/other"
         style="?attr/materialButtonOutlinedStyle"
-        app:strokeColor="@color/green5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="300dp"
+        android:text="Button"
         android:textColor="@color/green5"
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+
+        android:visibility="gone"
+        app:strokeColor="@color/green5" />
 
     <Button
+        android:id="@+id/my"
         style="?attr/materialButtonOutlinedStyle"
-        app:strokeColor="@color/blue1"
-        android:textColor="@color/blue1"
-
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_gravity="right"
+        android:text="Button"
+        android:textColor="@color/blue1"
+        android:visibility="gone"
+        app:strokeColor="@color/blue1" />
 </LinearLayout>

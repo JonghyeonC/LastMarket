@@ -48,7 +48,7 @@ function GoodsListSwiper(props) {
       setProducts(res.data.content)
       // console.log(res)
       console.log(url)
-      console.log(`${props.name} products 받는건 성공`)
+      console.log(`products 받는건 성공`)
     })
     .catch((res) => {
       console.log("실패")
@@ -58,7 +58,7 @@ function GoodsListSwiper(props) {
 
   useEffect(() => {
     GoodsListApi()
-  }, [props.name])
+  }, [props])
 
   console.log(products)
 

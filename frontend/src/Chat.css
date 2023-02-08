@@ -1,5 +1,7 @@
 .chatContainer {
   display: flex;
+  width:450px;
+  height: 1000px;
   flex-direction: row;
 }
 
@@ -11,4 +13,8 @@
 .chatContent {
   border: 0.5rem #D0EDEF solid;
   border-radius: 1.5px;
+}
+
+.chatInput {
+  
 }

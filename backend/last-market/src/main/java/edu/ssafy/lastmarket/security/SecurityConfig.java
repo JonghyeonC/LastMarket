@@ -2,6 +2,7 @@ package edu.ssafy.lastmarket.security;
 
 import edu.ssafy.lastmarket.jwt.JwtAuthenticationFilter;
 import edu.ssafy.lastmarket.jwt.JwtManager;
+import edu.ssafy.lastmarket.jwt.JwtRefreshFilter;
 import edu.ssafy.lastmarket.security.user.PrincipalOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -72,6 +73,7 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(principalOauth2UserService, jwtManager);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtRefreshFilter(jwtManager), UsernamePasswordAuthenticationFilter.class);
 
         http.exceptionHandling()
                 .authenticationEntryPoint(new AuthenticationEntryPoint() {

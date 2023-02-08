@@ -46,8 +46,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         var isFromLive=intent.getStringExtra("isFromLive")
         if(isFromLive.equals("true")) {
-         var chatDTO=intent.getSerializableExtra("chatDTO")
-            mainViewModel.setChatDTO(chatDTO as ChatDTO)   //데이터 set
+         var chatDTO=intent.getSerializableExtra("chatDTO") as ChatDTO
+            mainViewModel.setChatDTO(chatDTO)   //데이터 set
             changeFragment(8)
         }else{
             val transaction = supportFragmentManager.beginTransaction()

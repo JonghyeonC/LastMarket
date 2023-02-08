@@ -97,7 +97,7 @@ class ChatFragment : Fragment() {
         stompClient?.topic("/exchange/chat.exchange/room.${chatDTO?.roomKey}")
             ?.subscribe(Consumer { topicMessage: StompMessage ->
                 val str = topicMessage.payload
-                val jsonObject = JSONObject(str) as ChatDTO
+                val jsonObject = JSONObject(str) 
 
                 var chatDTO=ChatDTO(jsonObject.chatType,jsonObject.buyer
                         ,jsonObject.seller,jsonObject.message,jsonObject.roomKey,jsonObject.sender)

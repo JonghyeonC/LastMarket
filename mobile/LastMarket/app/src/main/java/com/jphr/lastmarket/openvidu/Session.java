@@ -277,7 +277,7 @@ public class Session {
                 websocket.leaveRoom();
                 websocket.disconnect();
             }
-            this.localParticipant.dispose();
+//            this.localParticipant.dispose();
         });
 //        this.activity.runOnUiThread(() -> {
 //            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
@@ -287,14 +287,14 @@ public class Session {
 //                views_container.removeView(remoteParticipant.getView());
 //            }
 //        });
-        this.activity2.runOnUiThread(() -> {
-            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
-                if (remoteParticipant.getPeerConnection() != null) {
-                    remoteParticipant.getPeerConnection().close();
-                }
-                views_container.removeView(remoteParticipant.getView());
-            }
-        });
+//        this.activity2.runOnUiThread(() -> {
+//            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
+//                if (remoteParticipant.getPeerConnection() != null) {
+//                    remoteParticipant.getPeerConnection().close();
+//                }
+//                views_container.removeView(remoteParticipant.getView());
+//            }
+//        });
         AsyncTask.execute(() -> {
             if (peerConnectionFactory != null) {
                 peerConnectionFactory.dispose();

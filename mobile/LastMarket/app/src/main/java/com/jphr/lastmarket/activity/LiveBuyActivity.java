@@ -143,15 +143,16 @@ public class LiveBuyActivity extends AppCompatActivity {
             String price=jsonObject.getString("message");
             String type=jsonObject.getString("chatType");
             if(type.equals("FINISH")){
-                Double tmp= Double.valueOf(price);
-                Long tmp2= Long.valueOf(Math.round(tmp));
-                ProductService productService=new ProductService();
 
+                Long tmp2=Long.parseLong(price);
+                ProductService productService=new ProductService();
+                Log.d(TAG, "mytopprice"+myTopPrice+"tmp2"+tmp2);
                 if(tmp2==myTopPrice){//내가격이 최고가일때 (낙찰)
                     //TODO : 낙찰되었을 때 EVENT 화려하게
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("isFromLive","true");
-                    intent.putExtra("chatDTO",str);
+                    ChatDTO chatDTO=new ChatDTO(jsonObject.getString("chatType"),jsonObject.getString("buyer"),jsonObject.getString("seller"),jsonObject.getString("message"),jsonObject.getString("roomKey"),jsonObject.getString("sender"));
+                    intent.putExtra("chatDTO",chatDTO);
                     productService.changeFinish(token,productId);
                     startActivity(intent);
                 }else {//내가격이 최고가가 아닐때(미낙찰)

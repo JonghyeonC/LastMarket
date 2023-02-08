@@ -258,11 +258,11 @@ class OnlineMeeting extends Component {
               <CallEndIcon />
             </Icon>
           </BottomBox>
-          <ChatIconBox
+          {/* <ChatIconBox
             onClick={() => this.setState({ isChat: !this.state.isChat })}
           >
             <ChatIcon />
-          </ChatIconBox>
+          </ChatIconBox> */}
         </Bottom>
       </Container>
     );
@@ -282,7 +282,7 @@ class OnlineMeeting extends Component {
       isMike: true,
       isCamera: true,
       isSpeaker: true,
-      isChat: false,
+      isChat: true,
     };
 
     this.joinSession = this.joinSession.bind(this);

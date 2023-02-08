@@ -32,7 +32,7 @@ import "swiper/css/pagination";
 
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 import GoodsListCard from './GoodsListCard'
 
 function GoodsListSwiper(props) {
@@ -42,7 +42,7 @@ function GoodsListSwiper(props) {
   
   function GoodsListApi() {
     // const url = `https://63849468-1da2-48a0-ab71-cde66c0c193b.mock.pstmn.io/products?category=&location=&sort=&dealState=&page=&`
-    const url = `https://i8d206.p.ssafy.io/api/product?category=${props.name}&lifestyle=&location=&sort=${props.sort1}&sort=${props.sort2}&dealState=${props.dealState1}&dealState=${props.dealState2}&page=&keword=`
+    const url = `https://i8d206.p.ssafy.io/api/product?category=${props.name}&lifestyle=&location=&sort=${props.sort}&${props.dealState}&page=&keword=`
 
     axios.get(url)
     .then((res) => {

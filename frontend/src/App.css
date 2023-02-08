@@ -245,6 +245,12 @@
   box-shadow: 5px 5px 5px 5px #3FC8BA;
 }
 
+.SearchDropDownBox {
+  float: right;
+  margin-right: 170px;
+}
+
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

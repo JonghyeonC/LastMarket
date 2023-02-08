@@ -49,7 +49,7 @@ function Main() {
           {/* <hr /> */}
           <br />
           <div>
-            <h1 >{addrs}의 {lifestyles} () 상품</h1>
+            <h1 >{addrs}의 {lifestyles} 상품</h1>
             <br />
             <div>
               <GoodsListSwiper lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
@@ -58,7 +58,7 @@ function Main() {
           <br />
           <br />
           <div>
-            <h1>{addrs}에서 {lifestyles}로 () 라이브 중</h1>
+            <h1>{addrs}에서 {lifestyles}로 라이브 중</h1>
             <br />
             <div>
               <GoodsListSwiper lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST" />

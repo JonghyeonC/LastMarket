@@ -154,12 +154,15 @@ function Search() {
     <div>
       {
         <div>
-          {tabs}
-          {result}
+          {/* {tabs} */}
+          {/* {result} */}
           <div className='SearchDropDownBox'>
             <DropDirectioExample />
           </div>
-          <div>
+          <div className='SearchResult'>
+            <h2>{result}에 대한 {tabsname} 검색 결과입니다</h2>
+            <br />
+            <br />
             <SearchGoodsList tabs={tabs} result={result} />
           </div>
         </div>

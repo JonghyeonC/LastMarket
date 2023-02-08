@@ -233,23 +233,27 @@
   margin-bottom: 50px;
   width: 220px;
   height: 275px;
-  background-color: #D0EDEF;
-  border-radius: 15px;
-  box-shadow: 5px 5px 5px #8fdfd6;
+  background-color: #E8E8E8;
+  border-radius: 5px;
+  box-shadow: 6px 6px 1px #C9CEE9;
   cursor: pointer;
   font-family: 'GmarketSansMedium';
 }
 
 .GoodsCard:hover {
-  background-color: #8fdfd6;
-  box-shadow: 5px 5px 5px 5px #3FC8BA;
+  background-color: #D0EDEF;
+  box-shadow: 5px 5px 3px 2px #8fdfd6;
 }
 
 .SearchDropDownBox {
   float: right;
   margin-right: 170px;
+  margin-top: 5px;
 }
 
+.SearchResult {
+  margin-left: 170px;
+}
 
 .App-header {
   background-color: #282c34;

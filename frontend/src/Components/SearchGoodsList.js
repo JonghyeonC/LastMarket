@@ -29,7 +29,7 @@ function SearchGoodsList(props) {
 
   useEffect(() => {
     SearchGoodsListApi()
-  }, [props.name])
+  }, [props.result])
 
   console.log(products)
 

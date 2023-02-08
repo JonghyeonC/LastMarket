@@ -36,7 +36,6 @@ import axios from 'axios'
 import GoodsListCard from './GoodsListCard'
 
 function GoodsListSwiper(props) {
-  
   // const { filter } = useParams()
   const [ products, setProducts ] = useState([])
   
@@ -48,6 +47,7 @@ function GoodsListSwiper(props) {
     .then((res) => {
       setProducts(res.data.content)
       // console.log(res)
+      console.log(url)
       console.log(`${props.name} products 받는건 성공`)
     })
     .catch((res) => {

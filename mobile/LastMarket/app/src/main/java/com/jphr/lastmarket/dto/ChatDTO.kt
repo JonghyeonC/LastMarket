@@ -15,7 +15,7 @@ data class ChatDTO(
     val roomKey: String,
     @JsonProperty("sender")
     val sender: String
-)
+):java.io.Serializable
 //CHATTYPE
 //TRADE_CHAT -> 1:1 채팅
 //CHAT -> 라이브 채팅

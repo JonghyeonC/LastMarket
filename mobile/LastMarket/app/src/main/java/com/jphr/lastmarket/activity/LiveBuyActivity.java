@@ -103,6 +103,7 @@ public class LiveBuyActivity extends AppCompatActivity {
     private List<StompHeader> headerList;
     private Long myTopPrice;
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,8 +145,10 @@ public class LiveBuyActivity extends AppCompatActivity {
                 Double tmp= Double.valueOf(price);
                 Long tmp2= Long.valueOf(Math.round(tmp));
                 if(tmp2==myTopPrice){//내가격이 최고가일때 (낙찰)
+                    //TODO : 낙찰되었을 때 EVENT 화려하게
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("isFromLive","true");
+                    intent.putExtra("chatDTO",str);
                     startActivity(intent);
                 }else {//내가격이 최고가가 아닐때(미낙찰)
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
@@ -180,6 +183,7 @@ public class LiveBuyActivity extends AppCompatActivity {
 
         //view
         postPrice.setOnClickListener(new ImageView.OnClickListener(){
+            //TODO: 가격 제시했을 때 EVENT 화려하게
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {

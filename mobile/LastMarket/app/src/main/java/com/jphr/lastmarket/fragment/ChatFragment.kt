@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ChatListAdapter
 import com.jphr.lastmarket.databinding.FragmentChatBinding
 import com.jphr.lastmarket.databinding.FragmentChatListBinding
+import com.jphr.lastmarket.viewmodel.MainViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +31,7 @@ class ChatFragment : Fragment() {
     private var param2: String? = null
     private lateinit var binding: FragmentChatBinding
     private lateinit var mainActivity: MainActivity
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,16 @@ class ChatFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment'
         binding=FragmentChatBinding.inflate(inflater,container,false)
+        var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
+        var token =prefs.getString("token","")!!
+        var userId=prefs.getLong("user_id",0)
+
+        var chatDTO=mainViewModel.getChatDTO()
+        if(chatDTO?.seller==userId.toString()){//내가 seller 일 때
+            binding.nickname.text=chatDTO.buyer
+        }else{
+            binding.nickname.text=chatDTO?.seller
+        }
 
 
 

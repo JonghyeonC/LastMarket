@@ -185,6 +185,7 @@ public class LiveSellActivity extends AppCompatActivity {
 
                 Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("isFromLive","true");
+                intent.putExtra("chatDTO",dto);
                 startActivity(intent);
 
             }

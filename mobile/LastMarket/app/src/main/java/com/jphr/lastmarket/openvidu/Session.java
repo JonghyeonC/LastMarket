@@ -279,14 +279,14 @@ public class Session {
             }
             this.localParticipant.dispose();
         });
-        this.activity.runOnUiThread(() -> {
-            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
-                if (remoteParticipant.getPeerConnection() != null) {
-                    remoteParticipant.getPeerConnection().close();
-                }
-                views_container.removeView(remoteParticipant.getView());
-            }
-        });
+//        this.activity.runOnUiThread(() -> {
+//            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
+//                if (remoteParticipant.getPeerConnection() != null) {
+//                    remoteParticipant.getPeerConnection().close();
+//                }
+//                views_container.removeView(remoteParticipant.getView());
+//            }
+//        });
         this.activity2.runOnUiThread(() -> {
             for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
                 if (remoteParticipant.getPeerConnection() != null) {

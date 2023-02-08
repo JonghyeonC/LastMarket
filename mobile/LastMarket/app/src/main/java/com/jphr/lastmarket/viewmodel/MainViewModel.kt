@@ -1,6 +1,7 @@
 package com.jphr.lastmarket.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.jphr.lastmarket.dto.ChatDTO
 import com.jphr.lastmarket.dto.Product
 import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductX
@@ -14,6 +15,7 @@ class MainViewModel: ViewModel() {
     private var productList:MutableList<ProductX>?=null
     private var category=""
     private var word=""
+    private var chatDTO:ChatDTO?=null
 
     fun setProductId(id:Long){
         productId=id
@@ -44,5 +46,11 @@ class MainViewModel: ViewModel() {
     }
     fun getWord(): String {
         return word
+    }
+    fun setChatDTO(chatDTO:ChatDTO){
+       this.chatDTO=chatDTO
+    }
+    fun getChatDTO() :ChatDTO?{
+        return chatDTO
     }
 }

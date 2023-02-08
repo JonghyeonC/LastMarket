@@ -44,6 +44,7 @@ public class ChatController {
             if (msg.getSender().equals(msg.getSeller())) {
                 Member buyer = memberService.findMemberById(Long.parseLong(msg.getBuyer()));
                 tradeService.saveTrade(product, buyer);
+                productService.successBid(product,msg.getMessage());
             } else {
                 throw new NotMatchSellerException("판매자가 아닙니다.");
             }

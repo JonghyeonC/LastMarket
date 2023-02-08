@@ -222,6 +222,18 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(find);
     }
 
+    @Override
+    public void successBid(Product product, String price) {
+        Long longPrice = null;
+        try {
+            longPrice = Long.parseLong(price);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("맞지 않는 가격입니다.");
+        }
+        product.setStartingPrice(longPrice);
+        productRepository.save(product);
+    }
+
     private void checkSeller(Optional<Product> productOptional, Member member) {
         if (productOptional.isEmpty()) {
             throw new NotFoundException("product NotFoundException");

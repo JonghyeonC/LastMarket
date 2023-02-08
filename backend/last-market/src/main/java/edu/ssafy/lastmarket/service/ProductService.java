@@ -72,4 +72,5 @@ public interface ProductService {
 
     void broadcast(Member member,Long productId);
     void finishBroadcast(Member member, Long productId);
+    void successBid(Product product,String price);
 }

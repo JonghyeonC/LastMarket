@@ -22,8 +22,6 @@ function Main() {
       })
       .then((res) => {
         console.log(res)
-        console.log('유저정보 들어옴')
-        console.log(res.data)
       })
       .catch((res) => {
         console.log("실패")

@@ -38,7 +38,7 @@ function App() {
           <Chat />
         } />
 
-        <Route path="/live" element={
+        <Route path="/live/:productId" element={
           <OnlineMeeting />
         } />
 

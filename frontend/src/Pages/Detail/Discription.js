@@ -8,6 +8,7 @@ function Discription(props) {
   
   const [ productDetail, setProductDetail ] = useState([])
   const [ detailURIS, setDetailURIS ] = useState([])
+
   function DiscriptionApi() {
     
     const url = `https://i8d206.p.ssafy.io/api/product/${props.id}`
@@ -26,26 +27,14 @@ function Discription(props) {
   }
 
   const navigate = useNavigate()
-  
-    // 경매 라이브
-    const liveroom = (() => {
-      const url = `https://i8d206.p.ssafy.io/api/liveroom/${props.id}`
-  
-      axios.get(url)
-      .then((res) => {
-        console.log(1)
-        console.log(res)
-      })
-      .catch((res) => {
-        console.log("실패")
-      })
-    })
 
   useEffect(() => {
     DiscriptionApi()
   }, [])
 
   console.log(productDetail)
+
+  const productId = productDetail.productId
 
   return (
     <div>
@@ -89,7 +78,7 @@ function Discription(props) {
             <span><button>채팅</button></span>
           </div>
           <div>
-            <button onClick={liveroom}>라이브참가</button>
+            <button onClick={() => (navigate(`/live/${productDetail.productId}`, { state : {productId : `${productDetail.productId}`}}))}>라이브참가</button>
             <button>즉시구매</button>
           </div>
         </div>

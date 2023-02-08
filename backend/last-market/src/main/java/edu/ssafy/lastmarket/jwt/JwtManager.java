@@ -3,11 +3,15 @@ package edu.ssafy.lastmarket.jwt;
 import edu.ssafy.lastmarket.domain.entity.Image;
 import edu.ssafy.lastmarket.domain.entity.Location;
 import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.domain.entity.Role;
 import io.jsonwebtoken.*;
+import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -33,6 +37,18 @@ public class JwtManager {
                 .setExpiration(new Date(now.getTime() + shortTokeneExpiredTime)) // 만료일
                 .signWith(SignatureAlgorithm.HS256, securityKey)
                 .compact();
+    }
+
+    public String generateJwtFromToken(String token){
+        Date now = new Date();
+        return Jwts.builder()
+                .setSubject(getUsername(token)) // 보통 username
+                .setHeader(createHeader())
+                .setClaims(createClaims(token)) // 클레임, 토큰에 포함될 정보
+                .setExpiration(new Date(now.getTime() + shortTokeneExpiredTime)) // 만료일
+                .signWith(SignatureAlgorithm.HS256, securityKey)
+                .compact();
+
     }
 
     public String generateRefreshJwtToken(Member member) {
@@ -66,6 +82,18 @@ public class JwtManager {
         return claims;
     }
 
+    private Map<String, Object> createClaims(String token){
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", getId(token));
+        claims.put("nickname", getNickname(token));
+        claims.put("username", getUsername(token));
+        claims.put("profile", (getProfile(token) == null) ? "" : getProfile(token));
+        claims.put("localtion", (getLocaltion(token)== null) ? "" : getLocaltion(token));
+        claims.put("role", getRole(token));
+        return claims;
+
+    }
+
     private Map<String, Object> createLongClaims() {
         Map<String, Object> claims = new HashMap<>();
         return claims;
@@ -74,9 +102,27 @@ public class JwtManager {
     public Claims getClaims(String token) {
         return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
     }
+    public Object getId(String token){
+        return getClaims(token).get("Id");
+    }
+    public Object getNickname(String token) {
+        return getClaims(token).get("nickname");
+    }
 
-    public String getUsername(String token) {
+    public String getUsername(String token){
         return (String) getClaims(token).get("username");
+    }
+    public Object getProfile(String token){
+        return getClaims(token).get("profile");
+    }
+
+    public Object getLocaltion(String token){
+        return getClaims(token).get("localtion");
+    }
+
+    public String getRole(String token){
+        return (String)getClaims(token).get("role");
+
     }
 
     public Boolean isValidate(String token) {
@@ -93,5 +139,23 @@ public class JwtManager {
             log.info("JWT claims string is empty.");
         }
         return false;
+    }
+
+    public String parseJwt(HttpServletRequest request){
+        String headerAuth=null;
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null){
+            for(int i=0;i<cookies.length;i++){
+                if(cookies[i].getName().equals("Authentication")){
+                    headerAuth = cookies[i].getValue();
+                }
+            }
+            return headerAuth;
+        }
+        if(StringUtil.isNullOrEmpty(headerAuth)){
+            headerAuth= request.getHeader("Authentication");
+            return headerAuth;
+        }
+        return null;
     }
 }

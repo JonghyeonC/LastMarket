@@ -44,6 +44,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         if (StringUtil.isNullOrEmpty(member.getNickname())) {
             Cookie cookie = new Cookie("Authentication", shortToken);
             cookie.setPath("/");
+            cookie.setMaxAge(3600);
             response.addCookie(cookie);
             response.setStatus(302);
             response.setHeader("Location", "/signup?token=" + shortToken);
@@ -51,6 +52,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
             Cookie cookie = new Cookie("Authentication", shortToken);
             cookie.setPath("/");
             response.addCookie(cookie);
+            cookie.setMaxAge(3600);
             response.setStatus(302);
             response.setHeader("Location", "/index?token=" + shortToken);
         }

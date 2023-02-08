@@ -4,7 +4,7 @@
 import GoodsListSwiper from "../Components/GoodsListSwiper"
 import GoodsList from "../Components/GoodsList"
 import axios from "axios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 // import GoodsListCard from "../Components/GoodsListCard"
 
 
@@ -14,6 +14,9 @@ function Main() {
   
   const URL = `https://i8d206.p.ssafy.io/api/user`
 
+  const [ lifestyles, setLifestyles ] = useState('')
+  const [ addrs, setAddrs ] = useState('')
+
   const getUserInfo = (() => {
     return(
       axios({
@@ -22,6 +25,10 @@ function Main() {
       })
       .then((res) => {
         console.log(res)
+        console.log('유저정보 들어옴')
+        // console.log(res.data)
+        setLifestyles(res.data.lifestyles)
+        setAddrs(res.data.addr)
       })
       .catch((res) => {
         console.log("실패")
@@ -29,7 +36,7 @@ function Main() {
     )
   })
 
-  console.log(1)
+  // console.log(1)
   useEffect(() => {
     getUserInfo()
   },[])
@@ -46,28 +53,28 @@ function Main() {
           {/* <hr /> */}
           <br />
           <div>
-            <h1 >('진평동')의 (미니멀 라이프) () 상품</h1>
+            <h1 >{addrs}의 {lifestyles} () 상품</h1>
             <br />
             <div>
-              <GoodsListSwiper sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
+              <GoodsListSwiper lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
             </div>
           </div>
           <br />
           <br />
           <div>
-            <h1>('진평동')에서 (미니멀 라이프)로 () 라이브 중</h1>
+            <h1>{addrs}에서 {lifestyles}로 () 라이브 중</h1>
             <br />
             <div>
-              <GoodsListSwiper sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST" />
+              <GoodsListSwiper lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST" />
             </div>
           </div>
           <hr />
           <br />
         </div>
         <div>
-          <h1>('진평동')에서 NEW!</h1>
+          <h1>{addrs}에서 NEW!</h1>
           <br />
-          <GoodsList sort="lastModifiedDateTime,DESC&sort=favoriteCnt" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
+          <GoodsList addrs={addrs} sort="lastModifiedDateTime,DESC&sort=favoriteCnt" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
           {/* <div className='row'>
           {
             products.map((product, i) => {

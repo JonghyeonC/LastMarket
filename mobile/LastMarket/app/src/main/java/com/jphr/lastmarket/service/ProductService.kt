@@ -1,9 +1,6 @@
 package com.jphr.lastmarket.service
 
 import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.dto.*
 import com.jphr.lastmarket.fragment.SearchFragment
 import com.jphr.lastmarket.util.RetrofitCallback
@@ -50,7 +47,7 @@ class ProductService {
     issearch:Boolean,
     word: String?){
        
-        val productInterface: Call<ListDTO> = RetrofitUtil.ProductService.getProductListWithSort(category, lifestyle,location,sort,dealState,page,word)
+        val productInterface: Call<ListDTO> = RetrofitUtil.productService.getProductListWithSort(category, lifestyle,location,sort,dealState,page,word)
         productInterface.enqueue(object : Callback<ListDTO> {
             override fun onResponse(call: Call<ListDTO>, response: Response<ListDTO>) {
                 val res = response.body()
@@ -79,7 +76,7 @@ class ProductService {
     }
 //멀티파트(참고) : https://velog.io/@dldmswo1209/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C%EC%97%90%EC%84%9C-%EC%84%9C%EB%B2%84%EB%A1%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%A0%84%EC%86%A1%ED%95%98%EA%B8%B0
     fun insertProduct(token:String,product: RequestBody,images: MutableList<MultipartBody.Part>) {
-        RetrofitUtil.ProductService.insertProduct(token,product,images).enqueue(object : Callback<String> {
+        RetrofitUtil.productService.insertProduct(token,product,images).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 val res = response.body()
                 Log.d(TAG, "onResponse: ${res}")
@@ -104,7 +101,7 @@ class ProductService {
         })
     }
     fun getProductDetail(productId:Long,callback:RetrofitCallback<ProductDetailDTO>){
-        RetrofitUtil.ProductService.getProudctDetail(productId).enqueue(object : Callback<ProductDetailDTO> {
+        RetrofitUtil.productService.getProudctDetail(productId).enqueue(object : Callback<ProductDetailDTO> {
             override fun onResponse(call: Call<ProductDetailDTO>, response: Response<ProductDetailDTO>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
@@ -130,7 +127,7 @@ class ProductService {
     fun pullProduct(token:String,productId: Long):Boolean{
         var issucess=false
 
-        RetrofitUtil.ProductService.pullProduct(token,productId).enqueue(object : Callback<Unit> {
+        RetrofitUtil.productService.pullProduct(token,productId).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
@@ -155,7 +152,7 @@ class ProductService {
         return issucess
     }
     fun editProudct(token:String,productId:Long,product: RequestBody,images: MutableList<MultipartBody.Part>){
-        RetrofitUtil.ProductService.editProduct(token,productId,product,images).enqueue(object : Callback<String> {
+        RetrofitUtil.productService.editProduct(token,productId,product,images).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
@@ -180,7 +177,7 @@ class ProductService {
     fun deleteProduct(token:String,productId: Long) :Boolean{
         var issucess=false
 
-        RetrofitUtil.ProductService.deleteProduct(token,productId).enqueue(object : Callback<Unit> {
+        RetrofitUtil.productService.deleteProduct(token,productId).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
@@ -207,7 +204,7 @@ class ProductService {
     fun insertFavorite(token:String,productId: Long) :Boolean{
         var issucess=false
 
-        val categoryInterface: Call<Unit> = RetrofitUtil.ProductService.insertFavorite(token,productId)
+        val categoryInterface: Call<Unit> = RetrofitUtil.productService.insertFavorite(token,productId)
 
         categoryInterface.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
@@ -232,7 +229,7 @@ class ProductService {
     fun deleteFavorite(token:String,productId: Long) :Boolean{
         var issucess=false
 
-        val categoryInterface: Call<Unit> = RetrofitUtil.ProductService.deleteFavorite(token,productId)
+        val categoryInterface: Call<Unit> = RetrofitUtil.productService.deleteFavorite(token,productId)
 
         categoryInterface.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
@@ -255,7 +252,7 @@ class ProductService {
         return issucess
     }
     fun changeOnBoradCast(token:String,productId: Long){
-        RetrofitUtil.ProductService.changeOnBoradCast(token,productId).enqueue(object : Callback<Unit> {
+        RetrofitUtil.productService.changeOnBoradCast(token,productId).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
                 Log.d(TAG, "Change_onResponse: ${res}")

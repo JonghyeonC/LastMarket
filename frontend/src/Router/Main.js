@@ -6,7 +6,8 @@ import GoodsList from "../Components/GoodsList"
 import axios from "axios"
 import { useEffect, useState } from "react"
 // import GoodsListCard from "../Components/GoodsListCard"
-
+import { useSelector, useDispatch } from 'react-redux'
+import { addUserInfo } from '../redux/store'
 
 // axios
 
@@ -18,6 +19,8 @@ function Main() {
   const [ lifestyles, setLifestyles ] = useState('')
   const [ addrs, setAddrs ] = useState('')
 
+  const dispatch = useDispatch()
+
   const getUserInfo = (() => {
     return(
       axios({
@@ -25,11 +28,12 @@ function Main() {
         url: URL,
       })
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         console.log('유저정보 들어옴')
         // console.log(res.data)
         setLifestyles(res.data.lifestyles)
         setAddrs(res.data.addr)
+        dispatch(addUserInfo(res))
       })
       .catch((res) => {
         console.log("실패")
@@ -42,6 +46,10 @@ function Main() {
     getUserInfo()
   },[])
 
+  let a = useSelector((state) => {return state})
+  console.log('리덕스')
+  console.log(a)
+  
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
 
 

@@ -2,6 +2,7 @@ package com.jphr.lastmarket.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -100,16 +101,7 @@ public class LiveBuyActivity extends AppCompatActivity {
     String participant_name = "participant_tmp";
     private StompClient stompClient;
     private List<StompHeader> headerList;
-//    private static JSONObject jsonToObjectParser(String jsonStr) {
-//        JSONParser parser = new JSONParser();
-//        JSONObject obj = null;
-//        try {
-//            obj = (JSONObject) parser.parse(jsonStr);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return obj;
-//    }
+    private Long myTopPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,16 +139,29 @@ public class LiveBuyActivity extends AppCompatActivity {
             String str=topicMessage.getPayload();
             JSONObject jsonObject=new JSONObject(str);
             String price=jsonObject.getString("message");
-
-            Log.d(TAG, "onCreate: "+price);
-            Double tmp= Double.valueOf(price);
-            Long tmp2= Long.valueOf(Math.round(tmp));
-            try {
-                viewModel.setNowPrice(tmp2);
-
-            }catch (Exception e){
-                Log.e(TAG, "error "+e );
+            String type=jsonObject.getString("chatType");
+            if(type.equals("FINSH")){
+                Double tmp= Double.valueOf(price);
+                Long tmp2= Long.valueOf(Math.round(tmp));
+                if(tmp2==myTopPrice){//내가격이 최고가일때 (낙찰)
+                    Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("isFromLive","true");
+                    startActivity(intent);
+                }else {//내가격이 최고가가 아닐때(미낙찰)
+                    Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+            }else{
+                Log.d(TAG, "onCreate: "+price);
+                Double tmp= Double.valueOf(price);
+                Long tmp2= Long.valueOf(Math.round(tmp));
+                try {
+                    viewModel.setNowPrice(tmp2);
+                }catch (Exception e){
+                    Log.e(TAG, "error "+e );
+                }
             }
+
         });
 
 
@@ -187,6 +192,7 @@ public class LiveBuyActivity extends AppCompatActivity {
                     String jsonString=mapper.writeValueAsString(dto);
                     stompClient.send("/send/room."+productId, jsonString).subscribe();
                     Log.d(TAG, "onClick: send OK"+jsonString);
+                    myTopPrice=Math.round(price);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }

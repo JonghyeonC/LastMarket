@@ -1,6 +1,8 @@
 package edu.ssafy.lastmarket.controller;
 
+import edu.ssafy.lastmarket.argumentresolver.Login;
 import edu.ssafy.lastmarket.domain.document.TradeChat;
+import edu.ssafy.lastmarket.domain.dto.ChatListDTO;
 import edu.ssafy.lastmarket.domain.dto.ChatMessageDTO;
 import edu.ssafy.lastmarket.domain.dto.ChatType;
 import edu.ssafy.lastmarket.domain.entity.Member;
@@ -21,6 +23,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -44,7 +48,7 @@ public class ChatController {
             if (msg.getSender().equals(msg.getSeller())) {
                 Member buyer = memberService.findMemberById(Long.parseLong(msg.getBuyer()));
                 tradeService.saveTrade(product, buyer);
-                productService.successBid(product,msg.getMessage());
+                productService.successBid(product, msg.getMessage());
             } else {
                 throw new NotMatchSellerException("판매자가 아닙니다.");
             }
@@ -58,5 +62,11 @@ public class ChatController {
         TradeChat chatLog = tradeChatService.findChatLog(chatRoomId);
         log.info("[chat logs]{}", chatLog);
         return new ResponseEntity<>(chatLog, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/chats")
+    public ResponseEntity<?> getChatList(@Login Member member) {
+        List<ChatListDTO> chatList = tradeChatService.sendChatList(member);
+        return new ResponseEntity<>(chatList, HttpStatus.OK);
     }
 }

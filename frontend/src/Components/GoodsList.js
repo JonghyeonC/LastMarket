@@ -12,7 +12,7 @@ function GoodsList(props) {
   
   function GoodsListApi() {
     // const url = `https://63849468-1da2-48a0-ab71-cde66c0c193b.mock.pstmn.io/products?category=&location=&sort=&dealState=&page=&`
-    const url = `https://i8d206.p.ssafy.io/api/product?category=${props.name}&lifestyle=${props.lifestyles}&location=${props.addrs}&sort=${props.sort}&${props.dealState}&page=&keword=`
+    const url = `https://i8d206.p.ssafy.io/api/product?${props.lifestyles}${props.addrs}${props.sort}${props.dealState}`
 
     axios.get(url)
     .then((res) => {
@@ -22,6 +22,7 @@ function GoodsList(props) {
     })
     .catch((res) => {
       console.log("실패")
+      console.log(url)
     })
   }
 

@@ -12,7 +12,7 @@ function SearchGoodsList(props) {
   
   function SearchGoodsListApi() {
     // const url = `https://63849468-1da2-48a0-ab71-cde66c0c193b.mock.pstmn.io/products?category=&location=&sort=&dealState=&page=&`
-    const url = `https://i8d206.p.ssafy.io/api/product?category=&lifestyle=&location=${props.addrs}&sort=${props.tabs}&page=&keyword=${props.result}`
+    const url = `https://i8d206.p.ssafy.io/api/product?${props.addrs}${props.tabs}${props.result}`
 
     axios.get(url)
     .then((res) => {

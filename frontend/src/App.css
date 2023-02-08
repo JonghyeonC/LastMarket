@@ -233,31 +233,21 @@
   margin-bottom: 50px;
   width: 220px;
   height: 275px;
-  background-color: #E8E8E8;
-  border-radius: 5px;
-  box-shadow: 6px 6px 2px #C9CEE9;
+  background-color: #D0EDEF;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px #8fdfd6;
   cursor: pointer;
   font-family: 'GmarketSansMedium';
 }
 
 .GoodsCard:hover {
-  background-color: #C9CEE9;
-  box-shadow: 5px 5px 5px 2px #818dcc;
+  background-color: #8fdfd6;
+  box-shadow: 5px 5px 5px 5px #3FC8BA;
 }
 
 .SearchDropDownBox {
   float: right;
   margin-right: 170px;
-}
-
-.SearchGoodsList {
-  margin-left: 170px;
-  /* margin-top: 10px; */
-}
-
-.SearchGoodsListName {
-  margin-left: 170px;
-  margin-top: 5px;
 }
 
 

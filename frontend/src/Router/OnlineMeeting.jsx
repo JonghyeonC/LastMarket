@@ -13,7 +13,6 @@ import CallEndIcon from "@mui/icons-material/CallEnd";
 import ChatIcon from "@mui/icons-material/Chat";
 import LiveChat from "../Chat"
 
-
 // 로컬 미디어 서버 주소
 const OPENVIDU_SERVER_URL = "https://i8d206.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -164,6 +163,9 @@ const ChatIconBox = styled.div`
 
 class OnlineMeeting extends Component {
   render() {
+    const productId = ((window.location.href).split('/').slice(-1))[0]
+    this.state.mySessionId = productId
+    console.log(productId)
     return (
       <Container>
         <Header>
@@ -273,7 +275,7 @@ class OnlineMeeting extends Component {
     this.userRef = React.createRef();
 
     this.state = {
-      mySessionId: "SessionA",
+      mySessionId: undefined,
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined,

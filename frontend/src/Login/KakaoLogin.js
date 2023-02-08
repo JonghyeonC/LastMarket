@@ -1,7 +1,6 @@
 // 로그인 페이지
 
 import React from 'react'
-import axios from 'axios'
 
 const KakaoLogIn = () => {
 
@@ -10,15 +9,10 @@ const KakaoLogIn = () => {
   // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const KAKAO_AUTH_URL =  `https://i8d206.p.ssafy.io/oauth2/authorization/kakao`
-  const kakaoLogin = (() => {
-    // <a href="https://i8d206.p.ssafy.io/oauth2/authorization/kakao"></a>
-    window.location.replace("https://i8d206.p.ssafy.io/oauth2/authorization/kakao")
-    history.push(`/`)
-    location.reload()
-  })
+  
   return (
     <React.Fragment>
-      <img src="kakao_login_medium_wide.png"  alt="카카오로그인" onClick={kakaoLogin} />
+      <a href="https://i8d206.p.ssafy.io/oauth2/authorization/kakao"><img src="kakao_login_medium_wide.png"  alt="카카오로그인" /></a>
       {/* <img src="kakao_login_medium_wide.png"  alt="카카오로그인" onClick={kakaoLogin}/> */}
     </React.Fragment>
   )

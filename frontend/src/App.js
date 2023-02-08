@@ -65,6 +65,10 @@ function App() {
         <Route path="/category/:name" element={
           <CategoryPage />
         } />
+        
+        <Route path='*' element={
+          <Main />
+        } />
       </Routes>
     </div>
   );

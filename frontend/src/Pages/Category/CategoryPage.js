@@ -46,14 +46,14 @@ function CategoryPage() {
           <h1>{addrs}의 Hot한 {lifestyles}라이프 {name} 상품</h1>
           <br />
           <div>
-            <GoodsListSwiper name={name} lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
+            <GoodsListSwiper lifestyles={'category='+name+'&lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="&dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
           </div>
           <br />
           <br />
           <h1>{addrs}에서 {lifestyles}라이프 {name} 라이브 중</h1>
           <br />
           <div>
-            <GoodsListSwiper name={name} lifestyles={lifestyles} addrs={addrs} sort="favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST" />
+            <GoodsListSwiper lifestyles={'category='+name+'&lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="&dealState=DEFAULT&dealState=ONBROADCAST" />
           </div>
           <hr />
           <br />
@@ -64,7 +64,7 @@ function CategoryPage() {
         <div>
           <h1>{addrs}의 NEW {lifestyles}라이프 {name}!</h1>
           <br />
-          <GoodsList name={name} lifestyles={lifestyles} addrs={addrs} sort="lastModifiedDateTime,DESC&sort=favoriteCnt,DESC" dealState="dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
+          <GoodsList lifestyles={'category='+name+'&lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=lastModifiedDateTime,DESC&sort=favoriteCnt,DESC" dealState="&dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
           {/* <div className='row'>
           {
             products.map((product, i) => {

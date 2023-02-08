@@ -200,7 +200,7 @@ function Search() {
             <h2>{result}에 대한 {tabsname} 검색 결과입니다</h2>
             <br />
             <br />
-            <SearchGoodsList addrs={addrs} tabs={tabs} result={result} />
+            <SearchGoodsList addrs={'location='+addrs} tabs={'&sort='+tabs} result={'&keyword='+result} />
           </div>
         </div>
       }

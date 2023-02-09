@@ -77,7 +77,7 @@ public class SecurityConfig {
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(principalOauth2UserService, jwtManager);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.addFilterAfter(new JwtRefreshFilter(jwtManager),JwtAuthenticationFilter.class);
+//        http.addFilterAfter(new JwtRefreshFilter(jwtManager),JwtAuthenticationFilter.class);
 
         http.exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())

@@ -50,4 +50,12 @@ public class LogInterceptor implements HandlerInterceptor {
             log.info("[{}][{}|{}] end", uuid, request.getMethod(), request.getRequestURI());
         }
     }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        String uuid = (String) request.getAttribute("uuid");
+        if (ex != null) {
+            log.error("[{}][{}|{}] {}", uuid, request.getMethod(), request.getRequestURI(), ex.toString());
+        }
+    }
 }

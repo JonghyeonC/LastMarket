@@ -2,9 +2,10 @@ import "./Signup.css"
 import { FaAngleDown } from "react-icons/fa"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 function Signup() {
-  
+  const navigate = useNavigate()
   const [life, setLife] = useState([])
   
   let [ nickName, setNickName ] = useState('')
@@ -20,37 +21,45 @@ function Signup() {
       .then((res) => {
         setLife(res.data.lifestyles)
       })
-    )
-  })
-
-  const sendInfor = (() => {
-    return (
-      axios({
-        method : 'post',
-        url : `https://i8d206.p.ssafy.io/api/user`,
-        data : {
-          "nickname" : nickName,
-          "lifestyle" : lifestyle,
-          "addr" : `${location[0]} ${location[1]} ${location[2]}`,
-          "categories" : []
-        },
-        withCredentials: true,
+      )
+    })
+    console.log(`${location.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`)
+    const sendInfor = (() => {
+      return (
+        axios({
+          method : 'post',
+          url : `https://i8d206.p.ssafy.io/api/user`,
+          data : {
+            "nickname" : nickName,
+            "lifestyle" : lifestyle,
+            "categories" : [],
+            "addr" : String(`${location.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`),
+          },
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res)
+          navigate('/')
+        })
+        .catch((res) => {
+        navigate('/signup')
       })
-      .then((res) => {
-        console.log(res)
-      })
-    )
-  })
-  
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
-  };
+      )
+    })
+    
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
 
-  function success(position) {
-    //좌표를 알아낼 수 있는데, 여기서 알아낸 좌표를 kakaoAPI url에 사용할 것이다.
-    // console.log('위도 : ' + position.coords.latitude); 
+    console.log(typeof(location.split(' ')[0]))
+    console.log(location.split(' ')[1])
+    console.log(location.split(' ')[2])
+    
+    function success(position) {
+      //좌표를 알아낼 수 있는데, 여기서 알아낸 좌표를 kakaoAPI url에 사용할 것이다.
+      // console.log('위도 : ' + position.coords.latitude); 
     // console.log('경도: ' + position.coords.longitude);
   };
   
@@ -81,7 +90,6 @@ function Signup() {
         alert("위치권한을 확인해주세요");
     }
 
-    location = location.split(' ')
     //navigator.geolocation.getCurrentPosition(위치받는함수, 에러났을때 함수)
     navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError)
 
@@ -92,7 +100,7 @@ function Signup() {
 
   console.log(nickName)
   console.log(lifestyle)
-  console.log(location)
+  // console.log(location)
 
   return (
     <div className='Signup'>
@@ -106,9 +114,9 @@ function Signup() {
       <div className='nameWrap'>
         <p className="labelBox">회원님은 어디에 있나요?</p>
         <div className='signupbox'>
-          <span>{location[0]} </span>
-          <span>{location[1]} </span>
-          <span>{location[2]}</span>
+          <span>{location.split(' ')[0]} </span>
+          <span>{location.split(' ')[1]} </span>
+          <span>{location.split(' ')[2]}</span>
         </div>
       </div>
       <br />

@@ -2,9 +2,10 @@ import "./Signup.css"
 import { FaAngleDown } from "react-icons/fa"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 function Signup() {
-  
+  const navigate = useNavigate()
   const [life, setLife] = useState([])
   
   let [ nickName, setNickName ] = useState('')
@@ -38,6 +39,10 @@ function Signup() {
       })
       .then((res) => {
         console.log(res)
+        navigate('/')
+      })
+      .catch((res) => {
+        navigate('/signup')
       })
     )
   })

@@ -30,8 +30,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Member updateMember(MemberRegistDto memberRegistDto, Member member) {
-
-        memberRepository.save(member);
+        log.info("[post debug]{}", memberRegistDto);
         if (!StringUtil.isNullOrEmpty(memberRegistDto.getNickname())) {
             member.setNickname(memberRegistDto.getNickname());
         }
@@ -42,9 +41,8 @@ public class MemberServiceImpl implements MemberService {
             Optional<Location> location = locationService.findDongCodeByAddress(memberRegistDto.getAddr());
             member.setLocation(location.orElseGet(() -> null));
         }
-
+        memberRepository.save(member);
         return member;
-
     }
 
     @Override

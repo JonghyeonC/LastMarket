@@ -21,10 +21,11 @@ function Signup() {
       .then((res) => {
         setLife(res.data.lifestyles)
       })
-    )
-  })
-
-  const sendInfor = (() => {
+      )
+    })
+    
+    const sendInfor = (() => {
+    location = location.split(' ')
     return (
       axios({
         method : 'post',
@@ -86,7 +87,6 @@ function Signup() {
         alert("위치권한을 확인해주세요");
     }
 
-    location = location.split(' ')
     //navigator.geolocation.getCurrentPosition(위치받는함수, 에러났을때 함수)
     navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError)
 

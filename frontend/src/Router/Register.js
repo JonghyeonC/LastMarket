@@ -120,16 +120,16 @@ function Register() {
     axios({
       method: "post",
       url: URL,
-      data: {formData},
+      data: formData,
       headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1OTE2MTQ5MDM5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6Iu2MkOunpOq4gCDsnpHshLEg7YWM7Iqk7Yq4IOqzhOyglSIsImlkIjoxNTA3MiwidXNlcm5hbWUiOiJrYWthb18yNjI4MDMwNDY1IiwiZXhwIjoxNjc1OTE3OTQ5fQ.CH95W-Q-k9ZtR5sWeTu2qSNSmX-9axyEUW1_DQkztu4"}
     })
     .then((res) => {
-      console.log(1)
+      console.log("axios 성공")
       console.log(res)
       console.log(formData)
     })
     .catch((res) => {
-      console.log("axios실패")
+      console.log("axios 실패")
       console.log(res)
       console.log(formData)
     })

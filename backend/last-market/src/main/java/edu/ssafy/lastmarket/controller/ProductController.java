@@ -81,6 +81,7 @@ public class ProductController {
     public ResponseEntity<?> saveProduct(@Login Member member,
                                          @RequestPart("product") String productDtoString,
                                          @RequestPart(name = "imgs", required = false) MultipartFile[] multipartFiles) throws IOException {
+        log.info("[product-post]{}", productDtoString);
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         ProductDto productDto = objectMapper.readValue(productDtoString, ProductDto.class);
@@ -148,13 +149,13 @@ public class ProductController {
 
     @GetMapping("/product/{productId}/broadcast")
     public ResponseEntity<?> broadcast(@Login Member login, @PathVariable Long productId) {
-        productService.broadcast(login,productId);
+        productService.broadcast(login, productId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/product/{productId}/finish")
     public ResponseEntity<?> finishBroadcast(@Login Member login, @PathVariable Long productId) {
-        productService.finishBroadcast(login,productId);
+        productService.finishBroadcast(login, productId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

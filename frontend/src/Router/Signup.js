@@ -32,8 +32,8 @@ function Signup() {
           data : {
             "nickname" : nickName,
             "lifestyle" : lifestyle,
-            "addr" : String(`${location.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`),
-            "categories" : []
+            "categories" : [],
+            "addr" : String(`"${location.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}"`),
           },
           withCredentials: true,
         })

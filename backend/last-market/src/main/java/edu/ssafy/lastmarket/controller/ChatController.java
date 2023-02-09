@@ -58,9 +58,7 @@ public class ChatController {
 
     @GetMapping("/api/chatLog/{chatRoomId}")
     public ResponseEntity<?> getChatLog(@PathVariable String chatRoomId) {
-        log.info("chatlog find");
         TradeChat chatLog = tradeChatService.findChatLog(chatRoomId);
-        log.info("[chat logs]{}", chatLog);
         return new ResponseEntity<>(chatLog, HttpStatus.OK);
     }
 

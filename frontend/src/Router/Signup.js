@@ -32,7 +32,7 @@ function Signup() {
           data : {
             "nickname" : nickName,
             "lifestyle" : lifestyle,
-            "addr" : `${location.split(' ')[0]}${location.split(' ')[1]}${location.split(' ')[2]}`,
+            "addr" : String(`${location.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`),
             "categories" : []
           },
           withCredentials: true,

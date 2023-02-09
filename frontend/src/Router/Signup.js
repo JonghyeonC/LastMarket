@@ -23,7 +23,7 @@ function Signup() {
       })
       )
     })
-    
+    console.log(`${location.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`)
     const sendInfor = (() => {
       return (
         axios({
@@ -33,7 +33,7 @@ function Signup() {
             "nickname" : nickName,
             "lifestyle" : lifestyle,
             "categories" : [],
-            "addr" : String(`"${location.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}"`),
+            "addr" : String(`${location.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`),
           },
           withCredentials: true,
         })

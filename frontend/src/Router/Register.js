@@ -121,7 +121,7 @@ function Register() {
       method: "post",
       url: URL,
       data: {formData},
-      headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1NjYzMzU5OTc5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6IuyVhOuLiCIsImlkIjo5MDIzLCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzAxMjIiLCJleHAiOjE2NzU2NjUxNTl9.OU-x__6pHNV4nLJ9ZZbY_BqGtDzqQu9k0uByFWQnMRQ"}
+      headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1OTE2MTQ5MDM5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6Iu2MkOunpOq4gCDsnpHshLEg7YWM7Iqk7Yq4IOqzhOyglSIsImlkIjoxNTA3MiwidXNlcm5hbWUiOiJrYWthb18yNjI4MDMwNDY1IiwiZXhwIjoxNjc1OTE3OTQ5fQ.CH95W-Q-k9ZtR5sWeTu2qSNSmX-9axyEUW1_DQkztu4"}
     })
     .then((res) => {
       console.log(1)

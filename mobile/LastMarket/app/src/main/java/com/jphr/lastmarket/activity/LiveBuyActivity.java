@@ -147,8 +147,9 @@ public class LiveBuyActivity extends AppCompatActivity {
                 Long tmp2=Long.parseLong(price);
                 ProductService productService=new ProductService();
                 Log.d(TAG, "mytopprice"+myTopPrice+"tmp2"+tmp2);
-                if(tmp2==myTopPrice){//내가격이 최고가일때 (낙찰)
+                if(tmp2.equals(myTopPrice)){//내가격이 최고가일때 (낙찰)
                     //TODO : 낙찰되었을 때 EVENT 화려하게
+                    Log.d(TAG, "onCreate: 낙찰");
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("isFromLive","true");
                     ChatDTO chatDTO=new ChatDTO(jsonObject.getString("chatType"),jsonObject.getString("buyer"),jsonObject.getString("seller"),jsonObject.getString("message"),jsonObject.getString("roomKey"),jsonObject.getString("sender"));
@@ -156,10 +157,13 @@ public class LiveBuyActivity extends AppCompatActivity {
                     productService.changeFinish(token,productId);
                     startActivity(intent);
                 }else {//내가격이 최고가가 아닐때(미낙찰)
+                    Log.d(TAG, "onCreate: 미낙찰");
+
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                     productService.changeFinish(token,productId);
                     startActivity(intent);
                 }
+
             }else if(type.equals("BID")){
                 Log.d(TAG, "onCreate: "+price);
                 Double tmp= Double.valueOf(price);
@@ -426,6 +430,11 @@ public class LiveBuyActivity extends AppCompatActivity {
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_DENIED);
     }
 
+    @Override
+    protected void onPause() {
+        leaveSession();
+        super.onPause();
+    }
     @Override
     protected void onDestroy() {
         leaveSession();

@@ -31,10 +31,10 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Session {
+public class Session2 {
 
-    private LocalParticipant localParticipant;
-    private Map<String, RemoteParticipant> remoteParticipants = new HashMap<>();
+    private LocalParticipant2 localParticipant;
+    private Map<String, RemoteParticipant2> remoteParticipants = new HashMap<>();
     private String id;
     private String token;
 
@@ -44,14 +44,16 @@ public class Session {
 
     private LinearLayout views_container;
     private PeerConnectionFactory peerConnectionFactory;
-    private CustomWebSocket websocket;
-    private LiveBuyActivity activity;
+    private CustomWebSocket2 websocket;
 
-    public Session(String id, String token, LinearLayout views_container, LiveBuyActivity activity) {
+    private LiveSellActivity activity2;
+
+
+    public Session2(String id, String token, LinearLayout views_container, LiveSellActivity activity) {
         this.id = id;
         this.token = token;
         this.views_container = views_container;
-        this.activity = activity;
+        this.activity2 = activity;
 
         // Creating a new PeerConnectionFactory instance
         PeerConnectionFactory.InitializationOptions.Builder optionsBuilder = PeerConnectionFactory.InitializationOptions.builder(activity.getApplicationContext());
@@ -73,7 +75,7 @@ public class Session {
                 .createPeerConnectionFactory();
     }
 
-    public void setWebSocket(CustomWebSocket websocket) {
+    public void setWebSocket(CustomWebSocket2 websocket) {
         this.websocket = websocket;
     }
 
@@ -146,7 +148,7 @@ public class Session {
             @Override
             public void onAddTrack(RtpReceiver rtpReceiver, MediaStream[] mediaStreams) {
                 super.onAddTrack(rtpReceiver, mediaStreams);
-                activity.setRemoteMediaStream(mediaStreams[0], remoteParticipants.get(connectionId));
+                activity2.setRemoteMediaStream(mediaStreams[0], remoteParticipants.get(connectionId));
 
             }
 
@@ -154,7 +156,7 @@ public class Session {
             public void onSignalingChange(PeerConnection.SignalingState signalingState) {
                 if (PeerConnection.SignalingState.STABLE.equals(signalingState)) {
                     // SDP Offer/Answer finished. Add stored remote candidates.
-                    final RemoteParticipant remoteParticipant = remoteParticipants.get(connectionId);
+                    final RemoteParticipant2 remoteParticipant = remoteParticipants.get(connectionId);
                     Iterator<IceCandidate> it = remoteParticipant.getIceCandidateList().iterator();
                     while (it.hasNext()) {
                         IceCandidate candidate = it.next();
@@ -190,7 +192,7 @@ public class Session {
         }, constraints);
     }
 
-    public void createAnswerForSubscribing(RemoteParticipant remoteParticipant, String streamId, MediaConstraints constraints) {
+    public void createAnswerForSubscribing(RemoteParticipant2 remoteParticipant, String streamId, MediaConstraints constraints) {
         remoteParticipant.getPeerConnection().createAnswer(new CustomSdpObserver("createAnswerSubscribing") {
             @Override
             public void onCreateSuccess(SessionDescription sdp) {
@@ -219,15 +221,15 @@ public class Session {
         this.iceServers = iceServers;
     }
 
-    public LocalParticipant getLocalParticipant() {
+    public LocalParticipant2 getLocalParticipant() {
         return this.localParticipant;
     }
 
-    public void setLocalParticipant(LocalParticipant localParticipant) {
+    public void setLocalParticipant(LocalParticipant2 localParticipant) {
         this.localParticipant = localParticipant;
     }
 
-    public RemoteParticipant getRemoteParticipant(String id) {
+    public RemoteParticipant2 getRemoteParticipant(String id) {
         return this.remoteParticipants.get(id);
     }
 
@@ -235,11 +237,11 @@ public class Session {
         return this.peerConnectionFactory;
     }
 
-    public void addRemoteParticipant(RemoteParticipant remoteParticipant) {
+    public void addRemoteParticipant(RemoteParticipant2 remoteParticipant) {
         this.remoteParticipants.put(remoteParticipant.getConnectionId(), remoteParticipant);
     }
 
-    public RemoteParticipant removeRemoteParticipant(String id) {
+    public RemoteParticipant2 removeRemoteParticipant(String id) {
         return this.remoteParticipants.remove(id);
     }
 
@@ -250,16 +252,16 @@ public class Session {
                 websocket.leaveRoom();
                 websocket.disconnect();
             }
-//            this.localParticipant.dispose();
+            this.localParticipant.dispose();
         });
-        this.activity.runOnUiThread(() -> {
-            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
-                if (remoteParticipant.getPeerConnection() != null) {
-                    remoteParticipant.getPeerConnection().close();
-                }
-                views_container.removeView(remoteParticipant.getView());
-            }
-        });
+//        this.activity.runOnUiThread(() -> {
+//            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
+//                if (remoteParticipant.getPeerConnection() != null) {
+//                    remoteParticipant.getPeerConnection().close();
+//                }
+//                views_container.removeView(remoteParticipant.getView());
+//            }
+//        });
 //        this.activity2.runOnUiThread(() -> {
 //            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
 //                if (remoteParticipant.getPeerConnection() != null) {

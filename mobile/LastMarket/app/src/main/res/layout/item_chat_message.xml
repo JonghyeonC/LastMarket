@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
     android:id="@+id/main_container"
 
     >
@@ -17,8 +16,8 @@
         android:maxWidth="300dp"
         android:text="Button"
         android:textColor="@color/green5"
+        android:layout_gravity="left"
 
-        android:visibility="gone"
         app:strokeColor="@color/green5" />
 
     <Button
@@ -27,8 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
+        android:maxWidth="300dp"
         android:text="Button"
         android:textColor="@color/blue1"
-        android:visibility="gone"
         app:strokeColor="@color/blue1" />
 </LinearLayout>

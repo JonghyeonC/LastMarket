@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_weight="8"
-        android:text="궁금한 내용을 물어보세요" />
+        android:hint="궁금한 내용을 물어보세요" />
     <ImageView
         android:id="@+id/send"
         android:layout_gravity="center_vertical"

@@ -31,6 +31,7 @@ import ua.naiksoftware.stomp.dto.StompHeader
 import ua.naiksoftware.stomp.dto.StompMessage
 import java.util.concurrent.atomic.AtomicBoolean
 
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -53,7 +54,7 @@ class ChatFragment : Fragment() {
     private val wsServerUrl = "ws://i8d206.p.ssafy.io/api/ws/websocket"
     private var token=""
     private var userId =0L
-
+    var chatDTO:ChatDTO?=null
     private var stompClient: StompClient? = null
     private var headerList= ArrayList<StompHeader>()
 
@@ -68,8 +69,14 @@ class ChatFragment : Fragment() {
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        Log.d(TAG, "onAttach: ChatFragment")
+        chatDTO=mainViewModel.getChatDTO()
+
         mainActivity=context as MainActivity
+
+
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,38 +85,84 @@ class ChatFragment : Fragment() {
         // Inflate the layout for this fragment'
 
         binding=FragmentChatBinding.inflate(inflater,container,false)
-        var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
 
-        token =prefs.getString("token","")!!
-        userId=prefs.getLong("user_id",0)
-
-        initAdapter(userId)
-
-        var chatDTO=mainViewModel.getChatDTO()
         if(chatDTO?.seller==userId.toString()){//내가 seller 일 때
-            binding.nickname.text=chatDTO.buyer
+            binding.nickname.text=chatDTO?.buyer
         }else{
             binding.nickname.text=chatDTO?.seller
         }
         var roomId=chatDTO?.seller+"-"+chatDTO?.buyer+"-"+chatDTO?.roomKey
+
+        Log.d(TAG, "onAttach: ${chatDTO}")
+        var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
+
+        token =prefs.getString("token","")!!
+        userId=prefs.getLong("user_id",0)
+        initAdapter(userId)
+        ChatService().getChatDetail(roomId,chatCallback())
+
+
+        binding.recyclerview.apply {
+            var linearLayoutManager= LinearLayoutManager(context)
+            linearLayoutManager.orientation= LinearLayoutManager.VERTICAL
+            setLayoutManager(linearLayoutManager)
+            adapter=chatSocketAdapter
+            addItemDecoration(RecyclerViewDecoration(20,20))
+        }
 
         initStomp()
         stompClient?.topic("/exchange/chat.exchange/room.${chatDTO?.roomKey}")
             ?.subscribe(Consumer { topicMessage: StompMessage ->
                 val str = topicMessage.payload
                 val jsonObject = JSONObject(str)
+                val type = jsonObject.getString("chatType")
 
-                var chatDTO=ChatDTO(jsonObject.getString("chatType"),jsonObject.getString("buyer")
+                if(type.equals("TRADE_CHAT")){
+                    var chatDTO=ChatDTO(jsonObject.getString("chatType"),jsonObject.getString("buyer")
                         ,jsonObject.getString("seller"),jsonObject.getString("message"),jsonObject.getString("roomKey"),jsonObject.getString("sender"))
 
-                chatSocketAdapter.list.add(chatDTO)
-                chatSocketAdapter.notifyDataSetChanged()
+
+                    Log.d(TAG, "Chat receive 했을 때 chatDTO:  $chatDTO")
+                   mainActivity.runOnUiThread{
+                       binding.recyclerview.apply {
+                           chatSocketAdapter.list.add(chatDTO)
+                           var linearLayoutManager= LinearLayoutManager(context)
+                           linearLayoutManager.orientation= LinearLayoutManager.VERTICAL
+                           setLayoutManager(linearLayoutManager)
+                           adapter=chatSocketAdapter
+                           addItemDecoration(RecyclerViewDecoration(20,20))
+                       }
+                   }
+
+                }
 
             })
 
 
+        val dto = ChatDTO(
+            "TRADE_CHAT",
+            chatDTO?.buyer.toString(),
+            chatDTO?.seller.toString(),
+            "거래가 시작되었습니다",
+            chatDTO?.roomKey.toString(),
+            userId.toString()
+        )
+        val mapper = ObjectMapper()
+        try {
+            val jsonString = mapper.writeValueAsString(dto)
+            stompClient!!.send("/send/room.${chatDTO?.roomKey}", jsonString).subscribe()
+            Log.d(TAG, "onClick: send OK$jsonString")
+        } catch (e: JsonProcessingException) {
+            e.printStackTrace()
+        }
 
-        ChatService().getChatDetail(roomId,chatCallback())
+
+
+        Log.d(TAG, "onCreateView: $chatDTO")
+
+
+
+
 
         binding.send.setOnClickListener {//클릭하면 send
             val dto = ChatDTO(
@@ -129,8 +182,11 @@ class ChatFragment : Fragment() {
             } catch (e: JsonProcessingException) {
                 e.printStackTrace()
             }
-
+//            chatSocketAdapter.list.add(dto)
+//            chatSocketAdapter.notifyDataSetChanged()
+            binding.chatText.text=null
         }
+
 
 
 
@@ -193,7 +249,7 @@ class ChatFragment : Fragment() {
                 binding.recyclerview.apply {
                     chatAdapter.list=responseData
                     var linearLayoutManager= LinearLayoutManager(context)
-                    linearLayoutManager.orientation= LinearLayoutManager.HORIZONTAL
+                    linearLayoutManager.orientation= LinearLayoutManager.VERTICAL
                     setLayoutManager(linearLayoutManager)
                     adapter=chatAdapter
                     addItemDecoration(RecyclerViewDecoration(20,20))

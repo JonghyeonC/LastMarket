@@ -80,7 +80,6 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
     private Session session;
     private String mediaServer;
     private LiveBuyActivity activity;
-    private LiveSellActivity activity2;
 
     private WebSocket websocket;
     private boolean websocketCancelled = false;
@@ -88,10 +87,6 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
     public CustomWebSocket(Session session, LiveBuyActivity activity) {
         this.session = session;
         this.activity = activity;
-    }
-    public CustomWebSocket(Session session, LiveSellActivity activity) {
-        this.session = session;
-        this.activity2 = activity;
     }
 
     @Override
@@ -299,9 +294,11 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
                 iceCandidateEvent(params);
                 break;
             case JsonConstants.PARTICIPANT_JOINED:
+                Log.d(TAG, "---------handleServerEvent: participantjoined");
                 participantJoinedEvent(params);
                 break;
             case JsonConstants.PARTICIPANT_PUBLISHED:
+                Log.d(TAG, "---------handleServerEvent: participantpublished");
                 participantPublishedEvent(params);
                 break;
             case JsonConstants.PARTICIPANT_LEFT:
@@ -339,6 +336,7 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
 
     private void addRemoteParticipantsAlreadyInRoom(JSONObject result) throws
             JSONException {
+        Log.d(TAG, "---------addRemoteParticipantsAlreadyInRoom: ");
         for (int i = 0; i < result.getJSONArray(JsonConstants.VALUE).length(); i++) {
             JSONObject participantJson = result.getJSONArray(JsonConstants.VALUE).getJSONObject(i);
             RemoteParticipant remoteParticipant = this.newRemoteParticipantAux(participantJson);
@@ -397,11 +395,9 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
         final RemoteParticipant remoteParticipant = this.session.removeRemoteParticipant(params.getString("connectionId"));
         remoteParticipant.dispose();
         Handler mainHandler = new Handler(activity.getMainLooper());
-        Handler mainHandler2 = new Handler(activity2.getMainLooper());
 
         Runnable myRunnable = () -> session.removeView(remoteParticipant.getView());
         mainHandler.post(myRunnable);
-        mainHandler2.post(myRunnable);
 
     }
 
@@ -440,6 +436,7 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("offerToReceiveAudio", "true"));
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("offerToReceiveVideo", "true"));
 
+        Log.d(TAG, "---------subscriptionInitiatedFromClient: ");
         remoteParticipant.getPeerConnection().createOffer(new CustomSdpObserver("remote offer sdp") {
             @Override
             public void onCreateSuccess(SessionDescription sdp) {
@@ -677,15 +674,12 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
         } catch (KeyManagementException | NoSuchAlgorithmException | IOException | WebSocketException e) {
             Log.e("WebSocket error", e.getMessage());
             Handler mainHandler = new Handler(activity.getMainLooper());
-            Handler mainHandler2 = new Handler(activity2.getMainLooper());
             Runnable myRunnable = () -> {
                 Toast toast = Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG);
                 toast.show();
                 activity.leaveSession();
-                activity2.leaveSession();
             };
             mainHandler.post(myRunnable);
-            mainHandler2.post(myRunnable);
 
             websocketCancelled = true;
         }

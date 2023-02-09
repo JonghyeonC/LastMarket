@@ -215,7 +215,6 @@ class MainFragment : Fragment() {
 
     fun initAdapter() {
         productListAdapter= ProductListAdapter(mainActivity)
-
         productListAdapter2= ProductListAdapter2(mainActivity)
         productListAdapter3= ProductListAdapter3(mainActivity)
 

@@ -33,9 +33,13 @@ import com.jphr.lastmarket.openvidu.CustomHttpClient;
 import com.jphr.lastmarket.openvidu.CustomWebSocket;
 import com.jphr.lastmarket.openvidu.CustomWebSocket2;
 import com.jphr.lastmarket.openvidu.LocalParticipant;
+import com.jphr.lastmarket.openvidu.LocalParticipant2;
 import com.jphr.lastmarket.openvidu.PermissionsDialogFragment;
+import com.jphr.lastmarket.openvidu.PermissionsDialogFragment2;
 import com.jphr.lastmarket.openvidu.RemoteParticipant;
+import com.jphr.lastmarket.openvidu.RemoteParticipant2;
 import com.jphr.lastmarket.openvidu.Session;
+import com.jphr.lastmarket.openvidu.Session2;
 import com.jphr.lastmarket.viewmodel.LiveViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -84,7 +88,7 @@ public class LiveSellActivity extends AppCompatActivity {
     private String application_server_url = "https://i8d206.p.ssafy.io/";
 
     private String APPLICATION_SERVER_URL;
-    private Session session;
+    private Session2 session;
     private CustomHttpClient httpClient;
     private String token;
     private Long productId;
@@ -95,7 +99,7 @@ public class LiveSellActivity extends AppCompatActivity {
     private LinearLayout exitLive;
     private LinearLayout takePrice;
     private Long userId;
-
+    private String nowBuyer;
     String session_name = "SessionA";
     String participant_name = "participant_tmp";
     private StompClient stompClient;
@@ -140,14 +144,14 @@ public class LiveSellActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(str);
             String price = jsonObject.getString("message");
             String type = jsonObject.getString("chatType");
-
+            String buyer = jsonObject.getString("buyer");
             if(type.equals("BID")){
                 Log.d(TAG, "onCreate: " + price);
                 Double tmp = Double.valueOf(price);
                 Long tmp2 = Long.valueOf(Math.round(tmp));
                 try {
                     viewModel.setNowPrice(tmp2);
-
+                    nowBuyer=buyer;
                 } catch (Exception e) {
                     Log.e(TAG, "error " + e);
                 }
@@ -164,7 +168,7 @@ public class LiveSellActivity extends AppCompatActivity {
             String sessionId = session_name;
             getToken(sessionId);
         } else {
-            DialogFragment permissionsFragment = new PermissionsDialogFragment();
+            DialogFragment permissionsFragment = new PermissionsDialogFragment2();
             permissionsFragment.show(getSupportFragmentManager(), "Permissions Fragment");
         }
 
@@ -176,7 +180,7 @@ public class LiveSellActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Long price = viewModel.getNowPrice();
                 String priceToString = Long.toString(price);
-                ChatDTO dto = new ChatDTO("FINISH", userId.toString(), sellerId.toString(), priceToString, productId.toString(), userId.toString());
+                ChatDTO dto = new ChatDTO("FINISH", nowBuyer, userId.toString(), priceToString, productId.toString(), userId.toString());
 
                 ObjectMapper mapper = new ObjectMapper();
                 try {
@@ -191,7 +195,7 @@ public class LiveSellActivity extends AppCompatActivity {
                 intent.putExtra("isFromLive","true");
                 intent.putExtra("chatDTO",dto);
                 startActivity(intent);
-
+                onDestroy();
             }
         });
         exitLive.setOnClickListener(new View.OnClickListener() {
@@ -323,11 +327,11 @@ public class LiveSellActivity extends AppCompatActivity {
 
     private void getTokenSuccess(String token, String sessionId) {
 //        // Initialize our session
-        session = new Session(sessionId, token, views_container, this);
+        session = new Session2(sessionId, token, views_container, this);
 
         // Initialize our local participant and start local camera
         String participantName = participant_name.toString();
-        LocalParticipant localParticipant = new LocalParticipant(participantName, session, this.getApplicationContext(), localVideoView);
+        LocalParticipant2 localParticipant = new LocalParticipant2(participantName, session, this.getApplicationContext(), localVideoView);
         localParticipant.startCamera();
         runOnUiThread(() -> {
             // Update local participant view
@@ -340,7 +344,7 @@ public class LiveSellActivity extends AppCompatActivity {
     }
 
     private void startWebSocket() {
-        CustomWebSocket webSocket = new CustomWebSocket(session, this);
+        CustomWebSocket2 webSocket = new CustomWebSocket2(session, this);
         webSocket.execute();
         session.setWebSocket(webSocket);
     }
@@ -398,15 +402,16 @@ public class LiveSellActivity extends AppCompatActivity {
 //        mainHandler.post(myRunnable);
 //    }
 
-    public void setRemoteMediaStream(MediaStream stream, final RemoteParticipant remoteParticipant) {
-        final VideoTrack videoTrack = stream.videoTracks.get(0);
-        videoTrack.addSink(remoteParticipant.getVideoView());
-        runOnUiThread(() -> {
-            remoteParticipant.getVideoView().setVisibility(View.VISIBLE);
-        });
+    public void setRemoteMediaStream(MediaStream stream, final RemoteParticipant2 remoteParticipant) {
+//        final VideoTrack videoTrack = stream.videoTracks.get(0);
+//        videoTrack.addSink(remoteParticipant.getVideoView());
+//        runOnUiThread(() -> {
+//            remoteParticipant.getVideoView().setVisibility(View.VISIBLE);
+//        });
     }
 
     public void leaveSession() {
+        Log.e(TAG, "leaveSession: ");
         if (this.session != null) {
             this.session.leaveSession();
         }
@@ -420,6 +425,8 @@ public class LiveSellActivity extends AppCompatActivity {
         return (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_DENIED) &&
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_DENIED);
     }
+
+
 
     @Override
     protected void onDestroy() {

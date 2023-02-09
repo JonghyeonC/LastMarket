@@ -1,6 +1,7 @@
 package edu.ssafy.lastmarket.jwt;
 
 import edu.ssafy.lastmarket.domain.entity.Member;
+import edu.ssafy.lastmarket.exception.NeedNicknameAndLocation;
 import edu.ssafy.lastmarket.security.user.OAuth2UserImpl;
 import edu.ssafy.lastmarket.security.user.PrincipalOAuth2UserService;
 import io.netty.util.internal.StringUtil;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 @RequiredArgsConstructor
@@ -32,37 +34,40 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        Member member = new Member();
+        String token = "";
         try {
-            String token = jwtManager.parseJwt(request);
+            token = jwtManager.parseJwt(request);
 
             if (token != null && jwtManager.isValidate(token)) {
+
                 String username = jwtManager.getUsername(token);
 
                 UserDetails userDetails = principalOAuth2UserService.loadUserByUsername(username);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
+
+                OAuth2UserImpl oAuth2User = (OAuth2UserImpl) userDetails;
+                member = oAuth2User.getMember();
+                if (StringUtil.isNullOrEmpty(member.getNickname())|| Objects.isNull(member.getLocation())) {
+                    throw new NeedNicknameAndLocation("needNicknameAndLocation");
+                }
+
                 SecurityContext context = SecurityContextHolder.getContext();
                 context.setAuthentication(authentication);
                 SecurityContextHolder.setContext(context);
-
-                OAuth2UserImpl oAuth2User = (OAuth2UserImpl) userDetails;
-                Member member = oAuth2User.getMember();
-                if (StringUtil.isNullOrEmpty(member.getNickname())) {
-                    Cookie cookie = new Cookie("Authentication", token);
-                    cookie.setPath("/");
-                    cookie.setMaxAge(3600);
-                    response.addCookie(cookie);
-                    response.addHeader("Authentication", token);
-                    response.setStatus(302);
-                    response.setHeader("Location", "/signup");
-                }
 
             }
         } catch (BadCredentialsException e) {
             loginFailure(request, response);
 
-        } catch (Exception e) {
+        }catch(NeedNicknameAndLocation e){
 
+            request.setAttribute("exception","NeedNicknameAndLocation");
+            request.setAttribute("token" , token);
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -81,6 +86,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             e1.printStackTrace();
         }
     }
+
+
+
 
 }
 

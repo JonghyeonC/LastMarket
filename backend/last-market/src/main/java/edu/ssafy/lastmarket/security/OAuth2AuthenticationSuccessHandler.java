@@ -47,14 +47,14 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
             cookie.setMaxAge(3600);
             response.addCookie(cookie);
             response.setStatus(302);
-            response.setHeader("Location", "/signup?token=" + shortToken);
+            response.setHeader("Location", "/signup");
         } else {
             Cookie cookie = new Cookie("Authentication", shortToken);
             cookie.setPath("/");
             response.addCookie(cookie);
             cookie.setMaxAge(3600);
             response.setStatus(302);
-            response.setHeader("Location", "/index?token=" + shortToken);
+            response.setHeader("Location", "/index");
         }
     }
 }

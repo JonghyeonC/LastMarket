@@ -24,7 +24,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             response.addCookie(cookie);
             response.addHeader("Authentication", token);
             response.setStatus(302);
-            response.setHeader("Location", "/signup"+ token);
+            response.setHeader("Location", "/signup?token="+ token);
             return;
         }
 

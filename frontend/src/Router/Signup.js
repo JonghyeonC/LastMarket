@@ -11,6 +11,7 @@ function Signup() {
   let [ nickName, setNickName ] = useState('')
   let [ lifestyle, setlifeStyle ] = useState('')
   let [ location, setLocation ] = useState('')
+  let [ loca, setLoca ] = useState('')
 
   const category = (() => {
     return (
@@ -23,7 +24,7 @@ function Signup() {
       })
       )
     })
-    console.log(`${location.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`)
+    console.log(`${loca.address_name?.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`)
     const sendInfor = (() => {
       return (
         axios({
@@ -33,7 +34,7 @@ function Signup() {
             "nickname" : nickName,
             "lifestyle" : lifestyle,
             "categories" : [],
-            "addr" : "경상북도 구미시 임수동",
+            "addr" : `${loca.address_name?.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`
           },
           withCredentials: true,
         })
@@ -80,12 +81,13 @@ function Signup() {
     )
     .then(res=>{
         setLocation(res.data.documents[0].address.address_name)
+        setLoca(res.data.documents[0].road_address)
         // dispatch(changeRegion(res.data.documents[0].address.region_1depth_name))
         // dispatch(changeCity(res.data.documents[0].address.region_2depth_name)) 
     }
     ).catch(e=>console.log(e))
     }
-
+    console.log(loca.address_name?.split(' ')[0])
     function onGeoError(){
         alert("위치권한을 확인해주세요");
     }
@@ -114,7 +116,7 @@ function Signup() {
       <div className='nameWrap'>
         <p className="labelBox">회원님은 어디에 있나요?</p>
         <div className='signupbox'>
-          <span>{location.split(' ')[0]} </span>
+          <span>{loca.address_name?.split(' ')[0]} </span>
           <span>{location.split(' ')[1]} </span>
           <span>{location.split(' ')[2]}</span>
         </div>

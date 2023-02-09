@@ -126,10 +126,12 @@ function Register() {
     .then((res) => {
       console.log(1)
       console.log(res)
+      console.log(formData)
     })
     .catch((res) => {
-      console.log("실패")
+      console.log("axios실패")
       console.log(res)
+      console.log(formData)
     })
   })
 

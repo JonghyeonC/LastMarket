@@ -5,6 +5,7 @@ import edu.ssafy.lastmarket.jwt.JwtManager;
 import edu.ssafy.lastmarket.jwt.JwtRefreshFilter;
 import edu.ssafy.lastmarket.security.user.PrincipalOAuth2UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,6 +30,7 @@ import java.util.SortedMap;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
 
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
@@ -73,15 +76,11 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(principalOauth2UserService, jwtManager);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new JwtRefreshFilter(jwtManager), UsernamePasswordAuthenticationFilter.class);
+
+        http.addFilterAfter(new JwtRefreshFilter(jwtManager),JwtAuthenticationFilter.class);
 
         http.exceptionHandling()
-                .authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    @Override
-                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    }
-                })
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 });

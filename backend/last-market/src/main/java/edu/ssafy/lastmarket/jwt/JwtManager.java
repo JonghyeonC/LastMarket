@@ -103,7 +103,7 @@ public class JwtManager {
         return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody();
     }
     public Object getId(String token){
-        return getClaims(token).get("Id");
+        return getClaims(token).get("id");
     }
     public Object getNickname(String token) {
         return getClaims(token).get("nickname");

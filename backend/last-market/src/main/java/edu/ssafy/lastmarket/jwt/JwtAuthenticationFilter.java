@@ -50,7 +50,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 OAuth2UserImpl oAuth2User = (OAuth2UserImpl) userDetails;
                 member = oAuth2User.getMember();
+                log.info("member: {}", member.getUsername());
                 if (StringUtil.isNullOrEmpty(member.getNickname())|| Objects.isNull(member.getLocation())) {
+                    log.info("====================================");
                     throw new NeedNicknameAndLocation("needNicknameAndLocation");
                 }
 

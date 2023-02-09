@@ -57,7 +57,6 @@ public class TradeChatServiceImpl implements TradeChatService {
         tradeChatRepository.findAndPushFindById(chatId, tradeChatDTO);
     }
 
-    //TODO : 메소드 리펙토링 할것
     @Override
     public List<ChatListDTO> sendChatList(Member member) {
         if (member == null) {
@@ -69,83 +68,45 @@ public class TradeChatServiceImpl implements TradeChatService {
         String findBuyer = "-" + member.getId() + "-";
         List<TradeChat> byJoinSeller = tradeChatRepository.findByJoinSeller(findSeller);
         List<TradeChat> byJoinBuyer = tradeChatRepository.findByJoinBuyer(findBuyer);
-        log.info("byJoinSeller={}",byJoinSeller);
-        log.info("byJoinBuyer={}",byJoinBuyer);
 
         List<ChatListDTO> result = byJoinBuyer.stream()
-                .map(tradeChat -> {
-                    String[] info = tradeChat.getId().split("-");
-                    Long sellerId = Long.parseLong(info[0]);
-                    Long buyerId = Long.parseLong(info[1]);
-                    Long productId = Long.parseLong(info[2]);
-
-                    ChatListDTO chatListDTO = new ChatListDTO();
-
-                    if (!sellerId.equals(loginMemberId)) {
-                        chatListDTO.setOtherId(sellerId);
-                        Member seller = memberRepository.findById(sellerId)
-                                .orElseThrow(() -> new NotFoundException("없는 유저입니다."));
-                        chatListDTO.setOtherName(seller.getNickname());
-                        chatListDTO.setOtherImageUrl(seller.getProfile().getImageURL());
-                    }
-                    if (!buyerId.equals(loginMemberId)) {
-                        chatListDTO.setOtherId(buyerId);
-                        Member buyer = memberRepository.findById(buyerId)
-                                .orElseThrow(() -> new NotFoundException("없는 유저입니다."));
-                        chatListDTO.setOtherName(buyer.getNickname());
-                        if(buyer.getProfile() != null) {
-                            chatListDTO.setOtherImageUrl(buyer.getProfile().getImageURL());
-                        } else {
-                            chatListDTO.setOtherImageUrl("");
-                        }
-                    }
-                    chatListDTO.setProductId(productId);
-                    int index = tradeChat.getChatLogs().size() - 1;
-                    chatListDTO.setLastChat(tradeChat.getChatLogs().get(index));
-
-                    return chatListDTO;
-                })
+                .map(tradeChat -> ChatListDTOMapper(loginMemberId, tradeChat))
                 .collect(Collectors.toList());
-
         byJoinSeller.stream()
-                .map(tradeChat -> {
-                    String[] info = tradeChat.getId().split("-");
-                    Long sellerId = Long.parseLong(info[0]);
-                    Long buyerId = Long.parseLong(info[1]);
-                    Long productId = Long.parseLong(info[2]);
-
-                    ChatListDTO chatListDTO = new ChatListDTO();
-
-                    if (!sellerId.equals(loginMemberId)) {
-                        chatListDTO.setOtherId(sellerId);
-                        Member seller = memberRepository.findById(sellerId)
-                                .orElseThrow(() -> new NotFoundException("없는 유저입니다."));
-                        chatListDTO.setOtherName(seller.getNickname());
-                        if(seller.getProfile() != null) {
-                            chatListDTO.setOtherImageUrl(seller.getProfile().getImageURL());
-                        } else {
-                            chatListDTO.setOtherImageUrl("");
-                        }
-                    }
-                    if (!buyerId.equals(loginMemberId)) {
-                        chatListDTO.setOtherId(buyerId);
-                        Member buyer = memberRepository.findById(buyerId)
-                                .orElseThrow(() -> new NotFoundException("없는 유저입니다."));
-                        chatListDTO.setOtherName(buyer.getNickname());
-                        if(buyer.getProfile() !=null) {
-                            chatListDTO.setOtherImageUrl(buyer.getProfile().getImageURL());
-                        } else {
-                            chatListDTO.setOtherImageUrl("");
-                        }
-                    }
-                    chatListDTO.setProductId(productId);
-                    int index = tradeChat.getChatLogs().size() - 1;
-                    chatListDTO.setLastChat(tradeChat.getChatLogs().get(index));
-
-                    return chatListDTO;
-                })
+                .map(tradeChat -> ChatListDTOMapper(loginMemberId, tradeChat))
                 .forEach(result::add);
 
         return result;
+    }
+
+    private ChatListDTO ChatListDTOMapper(Long loginMemberId, TradeChat tradeChat) {
+        String[] info = tradeChat.getId().split("-");
+        Long sellerId = Long.parseLong(info[0]);
+        Long buyerId = Long.parseLong(info[1]);
+        Long productId = Long.parseLong(info[2]);
+
+        ChatListDTO chatListDTO = new ChatListDTO();
+
+        compareIdAndMapping(loginMemberId, sellerId, chatListDTO);
+        compareIdAndMapping(loginMemberId, buyerId, chatListDTO);
+        chatListDTO.setProductId(productId);
+        int index = tradeChat.getChatLogs().size() - 1;
+        chatListDTO.setLastChat(tradeChat.getChatLogs().get(index));
+
+        return chatListDTO;
+    }
+
+    private void compareIdAndMapping(Long loginMemberId, Long compareId, ChatListDTO chatListDTO) {
+        if (!compareId.equals(loginMemberId)) {
+            chatListDTO.setOtherId(compareId);
+            Member member = memberRepository.findById(compareId)
+                    .orElseThrow(() -> new NotFoundException("없는 유저입니다."));
+            chatListDTO.setOtherName(member.getNickname());
+            if (member.getProfile() != null) {
+                chatListDTO.setOtherImageUrl(member.getProfile().getImageURL());
+            } else {
+                chatListDTO.setOtherImageUrl("");
+            }
+        }
     }
 }

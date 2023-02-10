@@ -43,7 +43,7 @@ function CategoryPage() {
       <div className='container'>
         <div>
           <br />
-          <h1>{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_HOT.png" alt="HOT" /> 한 {lifestyles}라이프 {name} 상품</h1>
+          <h1>{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_HOT" alt="HOT" /> 한 {lifestyles}라이프 {name} 상품</h1>
           <br />
           <div>
             <GoodsListSwiper lifestyles={'category='+name+'&lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="&dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />

@@ -11,7 +11,7 @@ function Register() {
   const URL = `https://i8d206.p.ssafy.io/api/product`
 
   // console.log(inputData)
-  console.log(imageUrls)
+  console.log('imageUrls 콘솔', imageUrls)
   
   const test = (() => {
     let formData = new FormData();
@@ -21,7 +21,7 @@ function Register() {
       formData.append('imgs', url)
     })
 
-    console.log(inputData)
+    console.log('inputData 콘솔', inputData)
 
     // imageUrls.imgs.map((url) => {
     //   formData.append('imgs', url)
@@ -100,12 +100,12 @@ function Register() {
     // )
     
     for (let key of formData.keys()) {
-      console.log(key);
+      console.log('key for 콘솔', key);
     }
     
     // FormData의 value 확인
     for (let value of formData.values()) {
-      console.log(value);
+      console.log('value for 콘솔', value);
     }
 
     // for (let key of jsonData.keys()) {

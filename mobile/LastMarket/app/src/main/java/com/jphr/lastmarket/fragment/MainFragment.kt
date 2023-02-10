@@ -19,7 +19,6 @@ import com.jphr.lastmarket.adapter.ProductListAdapter2
 import com.jphr.lastmarket.adapter.ProductListAdapter3
 import com.jphr.lastmarket.databinding.FragmentMainBinding
 import com.jphr.lastmarket.dto.ListDTO
-import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductX
 import com.jphr.lastmarket.service.ProductService

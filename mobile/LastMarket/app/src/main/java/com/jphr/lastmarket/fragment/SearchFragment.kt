@@ -1,9 +1,7 @@
 package com.jphr.lastmarket.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,18 +15,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
-import com.jphr.lastmarket.databinding.FragmentProductListBinding
 import com.jphr.lastmarket.databinding.FragmentSearchBinding
 import com.jphr.lastmarket.dto.ListDTO
-import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductX
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
-import java.time.Clock
-import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

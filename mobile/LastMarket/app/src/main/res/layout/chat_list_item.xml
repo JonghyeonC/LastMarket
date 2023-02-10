@@ -11,20 +11,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:srcCompat="@tools:sample/avatars" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/Nickname"
+            style="@style/chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            android:text="권주현" />
+
+        <TextView
+            style="@style/chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            android:text="님과의 대화" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/Nickname"
+        android:id="@+id/last_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:fontFamily="@font/gmarket_sans_ttf_medium"
-        style="@style/chat"
-        android:text="권주현" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:fontFamily="@font/gmarket_sans_ttf_medium"
-        style="@style/chat"
-        android:text="님과의 대화" />
+        android:textSize="14dp"
+        android:layout_weight="1"
+        android:text="TextView" />
+</LinearLayout>
 </LinearLayout>

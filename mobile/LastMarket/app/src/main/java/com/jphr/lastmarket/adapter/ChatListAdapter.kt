@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jphr.lastmarket.R
+import com.jphr.lastmarket.dto.ChatListDTO
 import com.jphr.lastmarket.dto.Product
 import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.ProductX
@@ -17,20 +18,28 @@ import java.util.*
 
 private const val TAG = "LatestOrderAdapter_싸피"
 class ChatListAdapter(val context: Context) :RecyclerView.Adapter<ChatListAdapter.ChatListHolder>(){
-    var list : MutableList<ProductX>? =null
-    //TODO: ProductX를 CHATDTO로 바꾸기
+    var list : MutableList<ChatListDTO>? =null
 
     inner class ChatListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val image = itemView.findViewById<ImageView>(R.id.profileImage)
         val nickname: TextView = itemView.findViewById(R.id.Nickname)
+        val lastChat: TextView = itemView.findViewById(R.id.last_chat)
 
 
-        fun bindInfo(product: ProductX){
-            //TODO:image삽입하기
+        fun bindInfo(chat: ChatListDTO){
+            if(image==null){
+                if (image != null) {
+                    Glide.with(itemView)
+                        .load(R.drawable.default_user_image)
+                        .into(image)
+                }
+            }
             Glide.with(itemView)
-                .load("${product.imgURI}")
+                .load("${chat.otherImageUrl}")
                 .into(image)
-            nickname.text=product.sellerNickname
+            nickname.text=chat.otherName
+            lastChat.text=chat.lastChat.msg
+
         }
     }
 
@@ -47,7 +56,7 @@ class ChatListAdapter(val context: Context) :RecyclerView.Adapter<ChatListAdapte
             list?.get(position)?.let { bindInfo(it) }
             //클릭연결
             itemView.setOnClickListener{
-                itemClickListner.onClick(it, position)
+                list?.get(position)?.let { it1 -> itemClickListner.onClick(it, position, it1) }
             }
         }
     }
@@ -58,7 +67,7 @@ class ChatListAdapter(val context: Context) :RecyclerView.Adapter<ChatListAdapte
 
     //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
     interface ItemClickListener {
-        fun onClick(view: View,  position: Int)
+        fun onClick(view: View,  position: Int, item: ChatListDTO)
     }
     //클릭리스너 선언
     private lateinit var itemClickListner: ItemClickListener

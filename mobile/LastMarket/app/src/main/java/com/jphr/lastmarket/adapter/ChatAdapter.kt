@@ -5,19 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.jphr.lastmarket.R
 import com.jphr.lastmarket.databinding.ItemChatMessageBinding
 import com.jphr.lastmarket.dto.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 private const val TAG = "LatestOrderAdapter_싸피"
 class ChatAdapter(val context: Context) :RecyclerView.Adapter<ChatAdapter.ChatListHolder>(){
-    var list : ChatListDTO? =null
+    var list : ChatLogListDTO? =null
     var myId:Long=0
 
     inner class ChatListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){

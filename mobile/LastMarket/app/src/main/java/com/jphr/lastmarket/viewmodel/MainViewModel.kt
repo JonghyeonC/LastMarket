@@ -16,6 +16,7 @@ class MainViewModel: ViewModel() {
     private var category=""
     private var word=""
     private var chatDTO:ChatDTO?=null
+    var isReservation:String?=""
 
     fun setProductId(id:Long){
         productId=id

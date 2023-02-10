@@ -134,6 +134,7 @@ class ProductService {
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "Detail_onResponse : ${response.code()}")
+
                         issucess=true
                         true
                     }
@@ -286,7 +287,7 @@ class ProductService {
                     }
                 } else {
                     Log.d(TAG, "Change_onResponse:false :${response.code()} ")
-                    Log.d(TAG, "onResponse: ${response.code()}")
+                    Log.d(TAG, "onResponse: ${response.message()}")
 
                     false
                 }

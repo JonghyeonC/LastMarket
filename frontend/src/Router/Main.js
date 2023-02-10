@@ -48,7 +48,7 @@ function Main() {
   
   useEffect(() => {
     getUserInfo()
-    dispatch(addToken(location.search.substring(7)))
+    dispatch(addToken(location?.search.substring(7)))
     dispatch(addInfo(jwt_decode(jwt_token)))
   },[])
   

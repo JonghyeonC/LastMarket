@@ -288,6 +288,11 @@
   box-shadow: 5px 5px 3px 2px #8fdfd6;
 }
 
+.SignupFormBox {
+  margin-top: 50px;
+  font-size: 19px;
+}
+
 /* 검색결과 필터링 버튼 */
 .SearchDropDownBox {
   float: right;

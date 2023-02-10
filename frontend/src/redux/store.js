@@ -24,9 +24,22 @@ let token = createSlice({
 
 export const { addToken } = token.actions
 
+let userInfo = createSlice({
+  name : 'userInfo',
+  initialState : null,
+  reducers : {
+    addInfo(state, c) {
+      return c.payload
+    }
+  }
+})
+
+export const { addInfo } = userInfo.actions
+
 export default configureStore({
   reducer: { 
     user : user.reducer,
-    token : token.reducer
+    token : token.reducer,
+    userInfo : userInfo.reducer
   }
 })

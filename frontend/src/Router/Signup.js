@@ -106,48 +106,54 @@ function Signup() {
 
   return (
     <div className='Signup'>
-      <h1>회원가입</h1>
-      <p>당신의 라이프스타일을 알려주세요!</p>
-      <div className='nameWrap'>
-        <p className="labelBox">회원님의 닉네임을 알려주세요!</p>
-        <input type="text" className="nickNameInput" onChange={(e) => setNickName(e.target.value)}/>
-      </div>
       <br />
-      <div className='nameWrap'>
-        <p className="labelBox">회원님은 어디에 있나요?</p>
-        <div className='signupbox'>
-          <span>{loca.address_name?.split(' ')[0]} </span>
-          <span>{location.split(' ')[1]} </span>
-          <span>{location.split(' ')[2]}</span>
+      <br />
+      <br />
+      <h1>당신의 라이프스타일을 알려주세요!</h1>
+      {/* <p>당신의 라이프스타일을 알려주세요!</p> */}
+      <br />
+      <div className="SignupFormBox">
+        <div className='nameWrap'>
+          <p className="labelBox">회원님의 닉네임을 알려주세요!</p>
+          <input type="text" className="nickNameInput" onChange={(e) => setNickName(e.target.value)}/>
         </div>
-      </div>
-      <br />
-      <div className='nameWrap'>
-        <p className="labelBox">회원님의 라이프스타일은?</p>
-        <div className='signupbox'>
-          <input id="dropdown2" type="checkbox" />
-          <label className='dropdownLabel1' for="dropdown2">
-            {
-              life ?
-              lifestyle :
-              <div>어떤 것에 관심이 있는지 선택해주세요</div>
-            }
-            <FaAngleDown className='caretIcon' />
-          </label>
-          <div className='content'>
-            <ul>
-              {
-                life.map((style) => {
-                  return (
-                    <li onClick={() => {setlifeStyle(style)}}>{style}</li>
-                  )
-                })
-              }
-            </ul>
+        <br />
+        <div className='nameWrap'>
+          <p className="labelBox">회원님은 어디에 있나요?</p>
+          <div className='signupbox'>
+            <span>{loca.address_name?.split(' ')[0]} </span>
+            <span>{location.split(' ')[1]} </span>
+            <span>{location.split(' ')[2]}</span>
           </div>
         </div>
+        <br />
+        <div className='nameWrap'>
+          <p className="labelBox">회원님의 라이프스타일은?</p>
+          <div className='signupbox'>
+            <input id="dropdown2" type="checkbox" />
+            <label className='dropdownLabel1' for="dropdown2">
+              {
+                life ?
+                lifestyle :
+                <div>어떤 것에 관심이 있는지 선택해주세요</div>
+              }
+              <FaAngleDown className='caretIcon' />
+            </label>
+            <div className='content'>
+              <ul>
+                {
+                  life.map((style) => {
+                    return (
+                      <li onClick={() => {setlifeStyle(style)}}>{style}</li>
+                    )
+                  })
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+        <br />
       </div>
-      <br />
       <div className="sendBtn">
         <button onClick={sendInfor} >제출</button>
       </div>

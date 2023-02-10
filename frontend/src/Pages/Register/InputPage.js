@@ -33,11 +33,12 @@ function InputPage({setInputData}) {
     setInputData(serialize)
   }, [name, content, price, bid, cate, life, startDate])
 
+
   return (
     <div className='FormInput'>
-      <input type="text" className='BoxInput' placeholder=' 상품명 입력' onChange={(e) => setName(e.target.value)}/>
+      <input type="text" className='BoxInput' placeholder=' 상품명을 입력해주세요' onChange={(e) => setName(e.target.value)}/>
       <br />
-      <textarea name="" id="" cols="30" rows="10" placeholder='상품과의 이야기를 알려주세요' height="180px" onChange={(e) => setContent(e.target.value)}></textarea>
+      <textarea name="" id="" cols="30" rows="10" placeholder=' 상품과의 이야기를 들려주세요' height="180px" onChange={(e) => setContent(e.target.value)}></textarea>
       <br />
       <Dropbox_cate SetCate={SetCate} />
       <br />

@@ -10,5 +10,6 @@ public class ChatListDTO {
     private String otherName;
     private String otherImageUrl;
     private Long productId;
+    private String roomId;
     private TradeChatDTO lastChat;
 }

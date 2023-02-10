@@ -92,6 +92,7 @@ public class TradeChatServiceImpl implements TradeChatService {
         chatListDTO.setProductId(productId);
         int index = tradeChat.getChatLogs().size() - 1;
         chatListDTO.setLastChat(tradeChat.getChatLogs().get(index));
+        chatListDTO.setRoomId(tradeChat.getId());
 
         return chatListDTO;
     }

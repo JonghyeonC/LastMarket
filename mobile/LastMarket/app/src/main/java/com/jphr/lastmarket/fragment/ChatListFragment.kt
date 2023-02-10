@@ -62,11 +62,12 @@ class ChatListFragment : Fragment() {
 
         chatListAdapter.setItemClickListener(object : ChatListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int,item:ChatListDTO) {
+                Log.d(TAG, "onClick: $item")
                 chatListAdapter.list?.get(position)?.productId
                     ?.let {
                         val chatDTO = ChatDTO(
                             "FINISH",
-                            item.otherid,
+                            item.otherId,
                             userId.toString(),
                             "",
                             item.productId,

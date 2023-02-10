@@ -241,10 +241,6 @@ class ChatFragment : Fragment() {
             binding.chatText.text=null
         }
 
-
-
-
-
         return binding.root
     }
     fun initStomp() {
@@ -289,7 +285,6 @@ class ChatFragment : Fragment() {
     fun initAdapter(userId:Long){
         chatAdapter=ChatAdapter(mainActivity)
         chatSocketAdapter= ChatSocketAdapter(mainActivity)
-
         chatSocketAdapter.myId=userId
         chatAdapter.myId=userId
 
@@ -300,7 +295,7 @@ class ChatFragment : Fragment() {
                 //취미별
                 chatList=responseData
 
-                binding.recyclerview.apply {
+                binding.recyclerviewOld.apply {
                     chatAdapter.list=responseData
                     var linearLayoutManager= LinearLayoutManager(context)
                     linearLayoutManager.orientation= LinearLayoutManager.VERTICAL

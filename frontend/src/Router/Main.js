@@ -8,14 +8,15 @@ import { useEffect, useState } from "react"
 // import GoodsListCard from "../Components/GoodsListCard"
 import { useSelector, useDispatch } from 'react-redux'
 import { addUserInfo } from '../redux/store'
+import { useLocation } from 'react-router-dom';
 import { getCookie } from "../Hooks/Cookies"
 // axios
 
 function Main() {
+  const location = useLocation();
   
   // 이 부분부터 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
   const URL = `https://i8d206.p.ssafy.io/api/user`
-
   const [ lifestyles, setLifestyles ] = useState('')
   const [ addrs, setAddrs ] = useState('')
 
@@ -44,6 +45,7 @@ function Main() {
   // console.log(1)
   useEffect(() => {
     getUserInfo()
+    console.log(location)
   },[])
 
   let a = useSelector((state) => {return state})

@@ -59,7 +59,7 @@ function InputPage({setInputData}) {
               className='TimeInput'
               placeholderText='경매를 시작할 시간을 정해주세요!'
               selected={startDate}
-              onChange={(date) => setStartDate(moment(date)).format("YYYY-MM-DDTHH:mm:sszz")}
+              onChange={(date) => setStartDate(moment((date)).format("YYYY-MM-DDTHH:mm:sszz"))}
               showTimeSelect
               timeFormat="HH:mm"
               timeIntervals={10}

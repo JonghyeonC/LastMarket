@@ -20,18 +20,21 @@ function InputPage({setInputData}) {
   const [startDate, setStartDate] = useState(null);
 
   console.log(startDate)
+  
   useEffect(() => {
-    const serialize = {
-      title: name,
-      content: content,
-      instantPrice: Number(price),
-      startingPrice: Number(bid),
-      category: cate,
-      lifestyle: life,
-      livetime: moment(startDate).format("YYYY-MM-DDTHH:mm:sszz")
-    }
-    setInputData(serialize)
-  }, [name, content, price, bid, cate, life, startDate])
+    setInputData()
+  },[])
+  //   const serialize = {
+  //     title: name,
+  //     content: content,
+  //     instantPrice: Number(price),
+  //     startingPrice: Number(bid),
+  //     category: cate,
+  //     lifestyle: life,
+  //     livetime: moment(startDate).format("YYYY-MM-DDTHH:mm:sszz")
+  //   }
+  //   setInputData(serialize)
+  // }, [name, content, price, bid, cate, life, startDate])
 
 
   return (

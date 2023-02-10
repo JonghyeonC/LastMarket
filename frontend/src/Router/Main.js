@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { addUserInfo, addToken, addInfo } from '../redux/store'
 import { useLocation } from 'react-router-dom';
-import jwt_decode from "jwt-decode"
+// import jwt_decode from "jwt-decode"
 
 // axios
 
@@ -44,17 +44,17 @@ function Main() {
     )
   })
 
-  let jwt_token = location.search.substring(7)
+  // let jwt_token = location.search.substring(7)
   
   useEffect(() => {
     getUserInfo()
-    dispatch(addToken(location?.search.substring(7)))
-    dispatch(addInfo(jwt_decode(jwt_token)))
+    // dispatch(addToken(location?.search.substring(7)))
+    // dispatch(addInfo(jwt_decode(jwt_token)))
   },[])
   
-  console.log('리덕스')
-  let reduxData = useSelector((state) => {return state})
-  console.log(reduxData.userInfo)
+  // console.log('리덕스')
+  // let reduxData = useSelector((state) => {return state})
+  // console.log(reduxData.userInfo)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
 

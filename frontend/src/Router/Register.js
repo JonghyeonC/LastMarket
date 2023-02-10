@@ -10,6 +10,11 @@ function Register() {
   let navigate = useNavigate()
   let [inputValue, setInputValue] = useState('')
 
+  function gomain() {
+    navigate('/');
+    location.reload();
+  }
+
   const [inputData, setInputData] = useState([])
   const [imageUrls, setImageUrls] = useState([])
   const URL = `https://i8d206.p.ssafy.io/api/product`
@@ -149,7 +154,7 @@ function Register() {
           <InputPage setInputData={setInputData} />
         </div>
       </div>
-      <button onClick={() => {reg(); navigate('/');}}>등록하기</button>
+      <button onClick={() => {reg(); gomain();}}>등록하기</button>
       <button onClick={test}>테스트</button>
     </div>
   )

@@ -38,14 +38,18 @@ function Main() {
     )
   })
 
-  // let reduxData = useSelector((state) => {return state})
+  let reduxData = (() => {
+    return (
+      useSelector((state) => {return state})
+    )
+  })
 
 
-  // console.log(1)
   useEffect(() => {
     getUserInfo()
     dispatch(addToken(location.search.substring(7)))
-    dispatch(addInfo(jwt_decode(useSelector((state) => {return state}).token)))
+    reduxData()
+    dispatch(addInfo(jwt_decode(reduxData.token)))
   },[])
   
   console.log('리덕스')

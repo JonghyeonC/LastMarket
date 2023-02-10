@@ -1,5 +1,6 @@
 package edu.ssafy.lastmarket.controller;
 
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import edu.ssafy.lastmarket.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -113,5 +114,12 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(UpdateProductCooltimeException.class)
     public ErrorMsgDTO updateProductCooltimeException(Exception e) {
         return new ErrorMsgDTO(e.toString(), "updateProductCooltimeException");
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UnrecognizedPropertyException.class)
+    public ErrorMsgDTO unrecognizedPropertyException(Exception e) {
+        return new ErrorMsgDTO(e.toString(), "unrecognizedPropertyException");
     }
 }

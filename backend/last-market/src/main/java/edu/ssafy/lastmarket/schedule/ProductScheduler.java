@@ -23,7 +23,6 @@ public class ProductScheduler {
         log.info("[scheduler]time={}", LocalDateTime.now(ZoneId.of("Asia/Seoul")));
         List<Product> productByLivetime = productService.findProductByLivetime(LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusMinutes(20));
         for (Product product : productByLivetime) {
-
             log.info("[scheduler]productId={}", product.getId());
         }
         productService.changeDealstateToAfterbroadcast(productByLivetime);

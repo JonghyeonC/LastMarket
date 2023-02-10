@@ -78,21 +78,14 @@ public class ImageUploadServiceImpl implements ImageUploadService {
         return images;
     }
 
-
-
     // 로컬에 저장된 이미지 지우기
+    //TODO : 수정하기
     private void removeNewFile(File targetFile) {
-
-        if (targetFile.delete()) {
-            log.info("File delete success");
-            return;
-        }
-        log.info("File delete fail");
+        targetFile.delete();
     }
 
     // 로컬에 파일 업로드 하기
     private File convert(MultipartFile file) throws IOException {
-
         File convFile = new File(file.getOriginalFilename());
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);

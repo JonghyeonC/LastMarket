@@ -85,7 +85,6 @@ public class ProductServiceImpl implements ProductService {
             categoryOptional = Optional.of(category);
         }
         Product product = ProductDto.convert(productDto);
-        System.out.println("productdto livetine: " + product.getLiveTime());
         product.setDealState(DealState.AFTERBROADCAST);
         product.setSeller(member);
         product.setLocation(member.getLocation());

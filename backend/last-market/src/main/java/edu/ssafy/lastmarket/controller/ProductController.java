@@ -58,6 +58,7 @@ public class ProductController {
         return new ResponseEntity<>(productReadDto, HttpStatus.OK);
     }
 
+    //TODO : 찜 여부 담아오기
     @GetMapping("/product")
     public ResponseEntity<?> getProductList(@Login Member member,
                                             @RequestParam(name = "location", required = false) String locationString,
@@ -81,7 +82,6 @@ public class ProductController {
     public ResponseEntity<?> saveProduct(@Login Member member,
                                          @RequestPart("product") String productDtoString,
                                          @RequestPart(name = "imgs", required = false) MultipartFile[] multipartFiles) throws IOException {
-        log.info("[product-post]{}", productDtoString);
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         ProductDto productDto = objectMapper.readValue(productDtoString, ProductDto.class);

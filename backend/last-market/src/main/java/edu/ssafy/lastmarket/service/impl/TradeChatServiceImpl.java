@@ -99,9 +99,9 @@ public class TradeChatServiceImpl implements TradeChatService {
 
     private void compareIdAndMapping(Long loginMemberId, Long compareId, ChatListDTO chatListDTO) {
         if (!compareId.equals(loginMemberId)) {
-            chatListDTO.setOtherId(compareId);
             Member member = memberRepository.findById(compareId)
                     .orElseThrow(() -> new NotFoundException("없는 유저입니다."));
+            chatListDTO.setOtherId(member.getId());
             chatListDTO.setOtherName(member.getNickname());
             if (member.getProfile() != null) {
                 chatListDTO.setOtherImageUrl(member.getProfile().getImageURL());

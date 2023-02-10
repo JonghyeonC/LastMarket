@@ -25,10 +25,10 @@ function InputPage({setInputData}) {
       title: name,
       content: content,
       instantPrice: Number(price),
-      startingPrice: Number(bid),
+      startingPrice: bid,
       category: cate,
       lifestyle: life,
-      liveTime: moment(startDate).format("YYYY-MM-DDTHH:mm:sszz")
+      liveTime: startDate
     }
     setInputData(serialize)
   }, [name, content, price, bid, cate, life, startDate])
@@ -52,14 +52,14 @@ function InputPage({setInputData}) {
           checkbox ?
           <div>
             <div>
-              <input type="text" className='bidInput' placeholder=' 경매 시작가 입력' onChange={(e) => setBid(e.target.value)}/> 
+              <input type="text" className='bidInput' placeholder=' 경매 시작가 입력' onChange={(e) => setBid(Number(e.target.value))}/> 
             </div>
             <br />
             <DatePicker
               className='TimeInput'
               placeholderText='경매를 시작할 시간을 정해주세요!'
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              onChange={(date) => setStartDate(moment(date)).format("YYYY-MM-DDTHH:mm:sszz")}
               showTimeSelect
               timeFormat="HH:mm"
               timeIntervals={10}

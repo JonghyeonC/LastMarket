@@ -45,12 +45,12 @@ function Main() {
   // console.log(1)
   useEffect(() => {
     getUserInfo()
-    dispatch(addToken(location.search))
+    dispatch(addToken(location.search.substring(7)))
   },[])
 
   let a = useSelector((state) => {return state})
   console.log('리덕스')
-  console.log(a.state)
+  console.log(a.user)
   console.log(a.token)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다

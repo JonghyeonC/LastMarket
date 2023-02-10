@@ -38,21 +38,16 @@ function Main() {
     )
   })
 
-  let reduxData = (() => {
-    return (
-      useSelector((state) => {return state})
-    )
-  })
-
-
+  let jwt_token = location.search.substring(7)
+  
   useEffect(() => {
     getUserInfo()
     dispatch(addToken(location.search.substring(7)))
-    reduxData()
-    dispatch(addInfo(jwt_decode(reduxData.token)))
+    dispatch(addInfo(jwt_decode(jwt_token)))
   },[])
   
   console.log('리덕스')
+  let reduxData = useSelector((state) => {return state})
   console.log(reduxData.userInfo)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다

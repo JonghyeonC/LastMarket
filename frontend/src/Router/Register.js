@@ -10,10 +10,10 @@ function Register() {
   let navigate = useNavigate()
   let [inputValue, setInputValue] = useState('')
 
-  function gomain() {
-    navigate('/');
-    location.reload();
-  }
+  // function gomain() {
+  //   navigate('/');
+  //   location.reload();
+  // }
 
   const [inputData, setInputData] = useState([])
   const [imageUrls, setImageUrls] = useState([])
@@ -154,7 +154,7 @@ function Register() {
           <InputPage setInputData={setInputData} />
         </div>
       </div>
-      <button onClick={() => {reg; gomain;}}>등록하기</button>
+      <button onClick={() => {reg(); navigate();}}>등록하기</button>
       <button onClick={test}>테스트</button>
     </div>
   )

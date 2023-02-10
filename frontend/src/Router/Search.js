@@ -197,7 +197,7 @@ function Search() {
             <DropDirectioExample />
           </div>
           <div className='SearchResult'>
-            <h2>{result}에 대한 {tabsname} 검색 결과입니다</h2>
+            <h2>{addrs.split(' ')[2]}의 {result}에 대한 {tabsname} 검색 결과입니다</h2>
             <br />
             <br />
             <SearchGoodsList addrs={'location='+addrs} tabs={'&sort='+tabs} result={'&keyword='+result} />

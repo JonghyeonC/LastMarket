@@ -65,7 +65,7 @@ function Main() {
           {/* <hr /> */}
           <br />
           <div>
-            <h1 >{addrs}의 Hot한 {lifestyles}라이프 상품</h1>
+            <h1 >{addrs.split(' ')[2]}의 Hot한 {lifestyles}라이프 상품</h1>
             <br />
             <div>
               <GoodsListSwiper lifestyles={'lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="&dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
@@ -74,7 +74,7 @@ function Main() {
           <br />
           <br />
           <div>
-            <h1>{addrs}에서 {lifestyles}라이프 Live 중</h1>
+            <h1>{addrs.split(' ')[2]}에서 {lifestyles}라이프 Live 중</h1>
             <br />
             <div>
               <GoodsListSwiper lifestyles={'lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="&dealState=DEFAULT&dealState=ONBROADCAST" />
@@ -84,7 +84,7 @@ function Main() {
           <br />
         </div>
         <div>
-          <h1>{addrs}의 NEW {lifestyles}라이프!</h1>
+          <h1>{addrs.split(' ')[2]}의 NEW {lifestyles}라이프!</h1>
           <br />
           <GoodsList lifestyles={'lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=lastModifiedDateTime,DESC&sort=favoriteCnt" dealState="&dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
           {/* <div className='row'>

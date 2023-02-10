@@ -7,7 +7,7 @@ import axios from 'axios'
 
 function Register() {
 
-  let navigate = useNavigate()
+  let navigate = useNavigate('/')
   let [inputValue, setInputValue] = useState('')
 
   // function gomain() {

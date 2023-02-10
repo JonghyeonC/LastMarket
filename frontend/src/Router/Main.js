@@ -40,7 +40,7 @@ function Main() {
   // console.log(1)
   useEffect(() => {
     getUserInfo()
-    console.log(location)
+    console.log(location.search.getitem("token"))
   },[])
 
   let a = useSelector((state) => {return state})

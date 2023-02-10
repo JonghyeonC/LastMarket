@@ -28,7 +28,7 @@ function InputPage({setInputData}) {
       startingPrice: bid,
       category: cate,
       lifestyle: life,
-      liveTime: moment(startDate).format("YYYY-MM-DDTHH:mm:sszz")
+      liveTime: moment(startDate)?.format("YYYY-MM-DDTHH:mm:sszz")
     }
     setInputData(serialize)
   }, [name, content, price, bid, cate, life, startDate])

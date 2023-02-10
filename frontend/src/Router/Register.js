@@ -15,7 +15,7 @@ function Register() {
   
   const test = (() => {
     let formData = new FormData();
-    let jsonData = new FormData()
+    // let jsonData = new FormData()
 
     imageUrls.map((url) => {
       formData.append('imgs', url)
@@ -126,12 +126,12 @@ function Register() {
     .then((res) => {
       console.log("axios 성공")
       console.log(res)
-      console.log({formData})
+      console.log(formData)
     })
     .catch((res) => {
       console.log("axios 실패")
       console.log(res)
-      console.log({formData})
+      console.log(formData)
     })
   })
 

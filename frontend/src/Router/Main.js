@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 // import GoodsListCard from "../Components/GoodsListCard"
 import { useSelector, useDispatch } from 'react-redux'
 import { addUserInfo } from '../redux/store'
-
+import { getCookie } from "../Hooks/Cookies"
 // axios
 
 function Main() {
@@ -46,7 +46,7 @@ function Main() {
   console.log(a)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
-
+  console.log(getCookie("Authentication"))
 
   return (
     <div>

@@ -78,14 +78,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(ProductDto productDto, Member member) {
-        Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
-        if (categoryOptional.isEmpty()) {
-            Category category = new Category(productDto.getCategory());
-            categoryRepository.save(category);
-            categoryOptional = Optional.of(category);
-        }
+        checkProductDtoisInvalide(productDto);
+
+        Optional<Category> categoryOptional = saveCategory(productDto);
+
         Product product = ProductDto.convert(productDto);
-        System.out.println("productdto livetine: " + product.getLiveTime());
         product.setDealState(DealState.AFTERBROADCAST);
         product.setSeller(member);
         product.setLocation(member.getLocation());
@@ -251,4 +248,44 @@ public class ProductServiceImpl implements ProductService {
         LocalDateTime nowMinus30min = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusMinutes(30);
         return !nowMinus30min.isBefore(product.getLastModifiedDateTime());
     }
+
+    private Optional<Category> saveCategory(ProductDto productDto){
+        Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
+        if(productDto.getCategory() ==null){
+            throw new IllegalArgumentException("category name is invalide");
+        }
+
+        if (categoryOptional.isEmpty()) {
+
+            Category category = new Category(productDto.getCategory());
+            categoryRepository.save(category);
+            categoryOptional = Optional.of(category);
+        }
+        return categoryOptional;
+    }
+
+    private void checkProductDtoisInvalide(ProductDto productDto){
+        if(StringUtil.isNullOrEmpty(productDto.getTitle())){
+            throw new IllegalArgumentException("title is empty");
+        }
+
+        if(StringUtil.isNullOrEmpty(productDto.getContent())){
+            throw new IllegalArgumentException("content is empty");
+        }
+
+        if(productDto.getLifestyle()==null){
+            throw new IllegalArgumentException("lifestyle is empty");
+        }
+
+        if(productDto.getCategory()==null){
+            throw new IllegalArgumentException("category is empty");
+        }
+
+        if(productDto.getInstantPrice()==null){
+            throw new IllegalArgumentException("instantPrice is empty");
+        }
+
+    }
+
+
 }

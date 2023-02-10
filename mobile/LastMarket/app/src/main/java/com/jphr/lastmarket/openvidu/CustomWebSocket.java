@@ -121,6 +121,8 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
             this.mediaServer = result.getString(JsonConstants.MEDIA_SERVER);
 
             if (result.has(JsonConstants.ICE_SERVERS)) {
+
+                Log.d(TAG, "handleServerResponse: for문 있는 곳");
                 final JSONArray jsonIceServers = result.getJSONArray(JsonConstants.ICE_SERVERS);
                 List<IceServer> iceServers = new ArrayList();
 
@@ -402,6 +404,9 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
     }
 
     private RemoteParticipant newRemoteParticipantAux(JSONObject participantJson) throws JSONException {
+
+        Log.d(TAG, "newRemoteParticipantAux: 여기들어와야됨제발제발");
+
         final String connectionId = participantJson.getString(JsonConstants.ID);
         String participantName = "";
         if (participantJson.getString(JsonConstants.METADATA) != null) {

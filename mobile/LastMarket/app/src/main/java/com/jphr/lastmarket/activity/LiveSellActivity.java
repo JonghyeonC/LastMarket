@@ -73,7 +73,7 @@ public class LiveSellActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 101;
     private static final int MY_PERMISSIONS_REQUEST = 102;
-    private final String TAG = "SessionActivity";
+    private final String TAG = "LiveSellActivity";
     private LiveViewModel viewModel;
 
     @Nullable
@@ -178,6 +178,7 @@ public class LiveSellActivity extends AppCompatActivity {
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {
+
                 Long price = viewModel.getNowPrice();
                 String priceToString = Long.toString(price);
                 ChatDTO dto = new ChatDTO("FINISH", nowBuyer, userId.toString(), priceToString, productId.toString(), userId.toString());
@@ -190,11 +191,12 @@ public class LiveSellActivity extends AppCompatActivity {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-
+                leaveSession();
                 Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("isFromLive","true");
                 intent.putExtra("chatDTO",dto);
                 startActivity(intent);
+
                 onDestroy();
             }
         });
@@ -430,7 +432,6 @@ public class LiveSellActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        leaveSession();
         super.onDestroy();
     }
 

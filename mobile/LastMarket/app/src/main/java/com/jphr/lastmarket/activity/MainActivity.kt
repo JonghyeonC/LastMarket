@@ -48,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         actionButton=findViewById(R.id.floating_action_button)
         var isFromLive=intent.getStringExtra("isFromLive")
         Log.d(TAG, "onCreate: $isFromLive")
+        actionButton.visibility=View.VISIBLE
+
         if(isFromLive.equals("true")) {
             Log.d(TAG, "onCreate: isLivetrue")
             actionButton.visibility=View.GONE
@@ -187,7 +189,7 @@ class MainActivity : AppCompatActivity() {
                 searchBar.text = searchView.text
                 searchView.hide()
                 ProductService().getProductWithSort("",null,cityData,"favoriteCnt","DEFAULT","1",ProductCallback(),true,searchView.text.toString())
-                searchBar.visibility=View.GONE
+                searchView.editText.text=null
                 false
             }
     }

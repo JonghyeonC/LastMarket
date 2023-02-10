@@ -91,10 +91,10 @@ class SearchFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 try {
                     if (binding.spinner.getItemAtPosition(position).toString().substring(0, 3) == "최신순"){
-                        ProductService().getProductWithSort(null,null,cityData,"createdDateTime,DESC","DEFAULT","0",ProductCallback(),true,word)
+                        ProductService().getProductWithSort(null,null,cityData,"createdDateTime,DESC","","0",ProductCallback(),true,word)
                         Log.d(TAG, "onItemSelected: 최신순")
                     }else if(binding.spinner.getItemAtPosition(position).toString() =="찜순"){
-                        ProductService().getProductWithSort(null,null,cityData,"favoriteCnt,DESC","DEFAULT","0",ProductCallback(),true,word)
+                        ProductService().getProductWithSort(null,null,cityData,"favoriteCnt,DESC","","0",ProductCallback(),true,word)
                         Log.d(TAG, "onItemSelected: 찜순")
 
                     }else if(binding.spinner.getItemAtPosition(position).toString().substring(0, 4) == "라이브중"){

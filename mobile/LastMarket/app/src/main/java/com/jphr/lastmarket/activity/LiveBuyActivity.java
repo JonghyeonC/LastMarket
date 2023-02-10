@@ -33,6 +33,7 @@ import com.jphr.lastmarket.dto.ChatDTO;
 import com.jphr.lastmarket.dto.ProductDetailDTO;
 import com.jphr.lastmarket.openvidu.CustomHttpClient;
 import com.jphr.lastmarket.openvidu.CustomWebSocket;
+import com.jphr.lastmarket.openvidu.LocalParticipant;
 import com.jphr.lastmarket.openvidu.PermissionsDialogFragment;
 import com.jphr.lastmarket.openvidu.RemoteParticipant;
 import com.jphr.lastmarket.openvidu.Session;
@@ -71,7 +72,7 @@ public class LiveBuyActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 101;
     private static final int MY_PERMISSIONS_REQUEST = 102;
-    private final String TAG = "SessionActivity";
+    private final String TAG = "LiveBuyActivity";
     private LiveViewModel viewModel ;
     @Nullable
     @BindView(R.id.views_container)
@@ -149,6 +150,8 @@ public class LiveBuyActivity extends AppCompatActivity {
                 Log.d(TAG, "mytopprice"+myTopPrice+"tmp2"+tmp2);
                 if(tmp2.equals(myTopPrice)){//내가격이 최고가일때 (낙찰)
                     //TODO : 낙찰되었을 때 EVENT 화려하게
+//                    Toast toast = Toast.makeText(LiveBuyActivity.this,"낙찰되었습니다 ", Toast.LENGTH_LONG);
+//                    toast.show();
                     Log.d(TAG, "onCreate: 낙찰");
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("isFromLive","true");
@@ -197,6 +200,9 @@ public class LiveBuyActivity extends AppCompatActivity {
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {
+//                Toast toast = Toast.makeText(LiveBuyActivity.this,"가격을 제시했습니다", Toast.LENGTH_SHORT);
+//                toast.show();
+
                 double price=viewModel.getNowPrice()+tick;
                 String priceToString = Double.toString(price);
                 ChatDTO dto= new ChatDTO("BID",userId.toString(),sellerId.toString(),priceToString,productId.toString(),userId.toString());
@@ -336,7 +342,7 @@ public class LiveBuyActivity extends AppCompatActivity {
 
         // Initialize our local participant and start local camera
         String participantName = participant_name.toString();
-//        LocalParticipant localParticipant = new LocalParticipant(participantName, session, this.getApplicationContext(), localVideoView);
+        LocalParticipant localParticipant = new LocalParticipant(participantName, session, this.getApplicationContext(), localVideoView);
 //        localParticipant.startCamera();
         runOnUiThread(() -> {
             // Update local participant view
@@ -389,15 +395,16 @@ public class LiveBuyActivity extends AppCompatActivity {
             lp.setMargins(0, 0, 0, 20);
             rowView.setLayoutParams(lp);
             int rowId = View.generateViewId();
+            Log.d(TAG, "createRemoteParticipantVideo: "+rowId);
             rowView.setId(rowId);
-            views_container.addView(rowView);
-            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
-            remoteParticipant.setVideoView(videoView);
-            videoView.setMirror(false);
-            EglBase rootEglBase = EglBase.create();
-            videoView.init(rootEglBase.getEglBaseContext(), null);
-            videoView.setZOrderMediaOverlay(true);
-            View textView = ((ViewGroup) rowView).getChildAt(1);
+//            views_container.addView(rowView);
+//            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
+            remoteParticipant.setVideoView(localVideoView);
+//            videoView.setMirror(false);
+//            EglBase rootEglBase = EglBase.create();
+//            videoView.init(rootEglBase.getEglBaseContext(), null);
+//            videoView.setZOrderMediaOverlay(true);
+            View textView = main_participant;
             remoteParticipant.setParticipantNameText((TextView) textView);
             remoteParticipant.setView(rowView);
 

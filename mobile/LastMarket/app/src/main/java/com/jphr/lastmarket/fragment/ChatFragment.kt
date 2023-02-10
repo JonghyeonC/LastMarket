@@ -86,7 +86,8 @@ class ChatFragment : Fragment() {
 
         binding=FragmentChatBinding.inflate(inflater,container,false)
 
-        if(chatDTO?.seller==userId.toString()){//내가 seller 일 때
+        Log.d(TAG, "onCreateView: USER ID $userId  SELLERID ${chatDTO?.seller}")
+        if(chatDTO?.seller.equals(userId.toString())){//내가 seller 일 때
             binding.nickname.text=chatDTO?.buyer
         }else{
             binding.nickname.text=chatDTO?.seller
@@ -128,6 +129,7 @@ class ChatFragment : Fragment() {
                            chatSocketAdapter.list.add(chatDTO)
                            var linearLayoutManager= LinearLayoutManager(context)
                            linearLayoutManager.orientation= LinearLayoutManager.VERTICAL
+                           linearLayoutManager.setStackFromEnd(true)
                            setLayoutManager(linearLayoutManager)
                            adapter=chatSocketAdapter
                            addItemDecoration(RecyclerViewDecoration(20,20))
@@ -250,6 +252,7 @@ class ChatFragment : Fragment() {
                     chatAdapter.list=responseData
                     var linearLayoutManager= LinearLayoutManager(context)
                     linearLayoutManager.orientation= LinearLayoutManager.VERTICAL
+                    linearLayoutManager.setStackFromEnd(true)
                     setLayoutManager(linearLayoutManager)
                     adapter=chatAdapter
                     addItemDecoration(RecyclerViewDecoration(20,20))

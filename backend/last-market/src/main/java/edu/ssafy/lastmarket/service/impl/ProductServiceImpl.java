@@ -250,10 +250,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Optional<Category> saveCategory(ProductDto productDto){
-        Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
+
         if(productDto.getCategory() ==null){
             throw new IllegalArgumentException("category name is invalide");
         }
+
+        Optional<Category> categoryOptional = categoryRepository.findByCategoryName(productDto.getCategory());
 
         if (categoryOptional.isEmpty()) {
 

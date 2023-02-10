@@ -121,7 +121,7 @@ function Register() {
       method: "post",
       url: URL,
       data: formData,
-      headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc2MDA0ODkzODQ4LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiLqsr3sg4HrtoHrj4Qg6rWs66-47IucIOyehOyImOuPmSIsIm5pY2tuYW1lIjoi7J20IOycoOyggOuKlCDrtojrn4kg7Jyg7KCA7J6F64uI64ukIiwiaWQiOjE1MTE3LCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzA0NjUiLCJleHAiOjE2NzYwMDY2OTN9.Js_9zu1eYTXMvOw2FCNg6RGcf9C5aGmV4udOrBZb9v0"}
+      headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc2MDA2NzQ0MDYwLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiLqsr3sg4HrtoHrj4Qg6rWs66-47IucIOyehOyImOuPmSIsIm5pY2tuYW1lIjoi7J20IOycoOyggOuKlCDrtojrn4kg7Jyg7KCA7J6F64uI64ukIiwiaWQiOjE1MTE3LCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzA0NjUiLCJleHAiOjE2NzYwMDg1NDR9.YeCKVhbJZv81f5ZzODpRMmriTpPNY9nLG9v2Q0vvmCs"}
     })
     .then((res) => {
       console.log("axios 성공")

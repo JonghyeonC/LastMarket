@@ -6,6 +6,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Category from "./Category";
 import ModalBasic from './Login/ModalBasic';
 import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie'
 
 const options = [
   {
@@ -49,6 +50,21 @@ function Example() {
   );
 }
 
+function delCookie() {
+
+  let date = new Date();
+
+  date.setDate(date.getDate() - 1); // 이전 날짜로 설정.
+
+  let setCookie = '';
+
+  setCookie += 'CookieName = Hz;';
+
+  setCookie += 'expires = ' + date.toUTCString();
+
+  document.cookie = setCookie;
+
+}
 
 
 function Navbar() {
@@ -87,8 +103,8 @@ function Navbar() {
               <img className="chat_icon" src="chat_icon.png" alt="chat_icon" onClick={() => navigate('/chat')}/>
               <img className="myprofile_icon" src="myprofile_icon.png" alt="myprofile_icon" onClick={() => navigate('/profile')}/>
               <span>
-                <img className="logout_icon" src="logout_icon.png" alt="logout_icon" onClick={showModal} />
-                {modalOpen && <ModalBasic setModalOpen={setModalOpen} />}
+                <img className="logout_icon" src="logout_icon.png" alt="logout_icon" onclick={delCookie}/>
+                {/* {modalOpen && <ModalBasic setModalOpen={setModalOpen} />} */}
               </span>
             </div>
           </span>
@@ -96,7 +112,6 @@ function Navbar() {
           <span>
             <div className="nav_btn_box">
               <img className="login_icon" src="login_icon.png" alt="login_icon" onClick={showModal} />
-              {modalOpen && <ModalBasic setModalOpen={setModalOpen} />}
               <img className="signup_icon" src="signup_icon.png" alt="signup_icon" onClick={showModal} />
               {modalOpen && <ModalBasic setModalOpen={setModalOpen} />}
             </div>

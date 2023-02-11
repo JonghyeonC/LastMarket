@@ -59,10 +59,21 @@ function Main() {
   let reduxData = useSelector((state) => {return state})
   // console.log(reduxData.token)
 
-  useEffect(() => {
-    dispatch(addInfo(jwt_decode(reduxData.token)))
-  }, [reduxData])
+  // useEffect(() => {
+  //   dispatch(addInfo(jwt_decode(reduxData.token)))
+  // }, [reduxData])
+
+  // if (reduxData.token) {
+  //   useEffect(() => {
+  //     dispatch(addInfo(jwt_decode(reduxData.token)))
+  //   }, [reduxData])
+  // }
   
+  if (reduxData.token) {
+      dispatch(addInfo(jwt_decode(reduxData.token)))
+  }
+
+
   console.log('리덕스')
   console.log(reduxData.userInfo)
   

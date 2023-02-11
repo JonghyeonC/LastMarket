@@ -12,7 +12,7 @@ function Discription(props) {
 
   const [ productDetail, setProductDetail ] = useState([])
   const [ detailURIS, setDetailURIS ] = useState([])
-  
+
   const userDetail = jwt_decode(reduxData.token)
   console.log(userDetail)
 
@@ -59,7 +59,7 @@ function Discription(props) {
         <div className='detailBox'>
           <h1>{productDetail.title}</h1>
           {
-            productDetail.sellerId === reduxData.userDetail.id ?
+            productDetail.sellerId === userDetail.id ?
             null
             :
             <div className='likeBtn'>
@@ -85,13 +85,13 @@ function Discription(props) {
               <p>{productDetail.location}</p>
             </div>
             {
-              productDetail.sellerId === reduxData.userDetail.id ?
+              productDetail.sellerId === userDetail.id ?
               null :
               <span><button>채팅</button></span>
             }
           </div>
           {
-            productDetail.sellerId === reduxData.userDetail.id ?
+            productDetail.sellerId === userDetail.id ?
             <div>
               <button onClick={() => (navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}`}}))}>라이브 시작</button>
             </div>

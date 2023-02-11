@@ -26,9 +26,14 @@ function Main() {
 
   const [ lifestyles, setLifestyles ] = useState('')
   const [ addrs, setAddrs ] = useState('')
+  const [ flag, SetFlag ] = useState(false)
   const dispatch = useDispatch()
 
   const cookieValue =  Cookies.get('Authentication');
+
+  if (cookieValue) {
+    SetFlag(true)
+  }
 
   const getUserInfo = (() => {
     return(
@@ -51,10 +56,12 @@ function Main() {
 
   // useEffect(() => {
   // }, [cookieValue])
-  if (cookieValue) {
+  if (cookieValue && flag === true) {
     dispatch(addToken(cookieValue))
     dispatch(addInfo(jwt_decode(cookieValue)))
+    SetFlag(false)
   }
+  
   let reduxData = useSelector((state) => {return state})
   // console.log(reduxData.token)
 

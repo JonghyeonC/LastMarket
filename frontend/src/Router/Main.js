@@ -58,8 +58,11 @@ function Main() {
   //   if (!cookie) return undefined;
   //   return cookie.split('=')[1];
   // };
+
+  // const cookieValue = getCookie('cookieName');
+  // console.log(cookieValue);
   
-  const cookieValue =  Cookies.get('cookieName');
+  const cookieValue =  Cookies.get('Authentication');
   console.log(cookieValue);
 
   return (

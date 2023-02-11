@@ -28,6 +28,7 @@ function Main() {
   const cookieValue =  Cookies.get('Authentication');
 
   if (cookieValue) {
+    dispatch(addToken(cookieValue))
     SetFlag(true)
   }
 
@@ -58,11 +59,10 @@ function Main() {
   // useEffect(() => {
   // }, [cookieValue])
   if (cookieValue && flag === true) {
-    dispatch(addToken(cookieValue))
     dispatch(addInfo(jwt_decode(cookieValue)))
     SetFlag(false)
   }
-  
+
   let reduxData = useSelector((state) => {return state})
   // console.log(reduxData.token)
 

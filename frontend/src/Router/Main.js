@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addUserInfo, addToken, addInfo } from '../redux/store'
 import { useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie'
-// import jwt_decode from "jwt-decode"
+import jwt_decode from "jwt-decode"
 
 // axios
 

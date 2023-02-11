@@ -3,11 +3,18 @@ import products from "../../Data"
 import './Discription.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import jwt_decode from "jwt-decode"
+
 
 function Discription(props) {
-  
+  let reduxData = useSelector((state) => {return state})
+
   const [ productDetail, setProductDetail ] = useState([])
   const [ detailURIS, setDetailURIS ] = useState([])
+  
+  const userDetail = jwt_decode(reduxData.token)
+  console.log(userDetail)
 
   function DiscriptionApi() {
     
@@ -34,11 +41,8 @@ function Discription(props) {
 
   console.log(productDetail)
 
-  const productId = productDetail.productId
-
   return (
     <div>
-
       <div className="decriptionBox">
         <div>
           {/* <img src={productDetail.imgURIs} width="500px" height="400px" alt="DetailImg" /> */}
@@ -54,10 +58,15 @@ function Discription(props) {
         </div>
         <div className='detailBox'>
           <h1>{productDetail.title}</h1>
-          <div className='likeBtn'>
-            <div>{productDetail.favoriteCnt}</div>
-            <button>하트</button>
-          </div>
+          {
+            productDetail.sellerId === reduxData.userDetail.id ?
+            null
+            :
+            <div className='likeBtn'>
+              <div>{productDetail.favoriteCnt}</div>
+              <button>하트</button>
+            </div>
+          }
           <div className="priceBox">
             <div>{ 
               <p>{productDetail.startingPrice}</p> ? 
@@ -75,12 +84,23 @@ function Discription(props) {
               <p>{productDetail.sellerNickname}</p>
               <p>{productDetail.location}</p>
             </div>
-            <span><button>채팅</button></span>
+            {
+              productDetail.sellerId === reduxData.userDetail.id ?
+              null :
+              <span><button>채팅</button></span>
+            }
           </div>
-          <div>
-            <button onClick={() => (navigate(`/live/${productDetail.productId}`, { state : {productId : `${productDetail.productId}`}}))}>라이브참가</button>
-            <button>즉시구매</button>
-          </div>
+          {
+            productDetail.sellerId === reduxData.userDetail.id ?
+            <div>
+              <button onClick={() => (navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}`}}))}>라이브 시작</button>
+            </div>
+            :
+            <div>
+              <button onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}`}}))}>라이브 참여</button>
+              <button>즉시구매</button>
+            </div>
+          }
         </div>
         {/* <div>
           <img src={"https://codingapple1.github.io/shop/shoes" + (Number(props.id) + 1)+ ".jpg"} width="500px" height="400px" alt="" />

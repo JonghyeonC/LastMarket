@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { addUserInfo, addToken, addInfo } from '../redux/store'
 import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie'
 // import jwt_decode from "jwt-decode"
 
 // axios
@@ -57,6 +58,9 @@ function Main() {
   // console.log(reduxData.userInfo)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
+
+  const cookieValue = Cookies.get('https://i8d206.p.ssafy.io')
+  console.log(cookieValue)
 
   return (
     <div>

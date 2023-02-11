@@ -56,9 +56,7 @@ function Main() {
   // }
 
   const decoded_value = jwt_decode(cookieValue)
-  useEffect(() => {
-    dispatch(addInfo(decoded_value))
-  }, [decoded_value])
+  dispatch(addInfo(decoded_value))
 
   let reduxData = useSelector((state) => {return state})
   // console.log(reduxData.token)

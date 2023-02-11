@@ -10,7 +10,8 @@ import Search from './Router/Search'
 import Chat from './Router/Chat'
 import Login from './Login/Login'
 import Navbar from './Navbar'
-import OnlineMeeting from './Router/OnlineMeeting'
+import OnlineMeeting_sell from './Router/OnlineMeeting_sell'
+import OnlineMeeting_buy from './Router/OnlineMeeting_buy'
 import Signup from './Router/Signup'
 import CategoryPage from './Pages/Category/CategoryPage'
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
@@ -38,8 +39,12 @@ function App() {
           <Chat />
         } />
 
-        <Route path="/live/:productId" element={
-          <OnlineMeeting />
+        <Route path="/live_sell/:productId" element={
+          <OnlineMeeting_sell />
+        } />
+      
+        <Route path="/live_buy/:productId" element={
+          <OnlineMeeting_buy />
         } />
 
         <Route path="/profile" element={

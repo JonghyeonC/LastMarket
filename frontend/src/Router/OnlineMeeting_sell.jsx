@@ -161,7 +161,7 @@ const ChatIconBox = styled.div`
   cursor: pointer;
 `;
 
-class OnlineMeeting extends Component {
+class OnlineMeeting_sell extends Component {
   render() {
     const productId = ((window.location.href).split('/').slice(-1))[0]
     this.state.mySessionId = productId
@@ -543,4 +543,4 @@ class OnlineMeeting extends Component {
   }
 }
 
-export default OnlineMeeting;
+export default OnlineMeeting_sell;

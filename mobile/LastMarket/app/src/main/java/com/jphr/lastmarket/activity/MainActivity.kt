@@ -226,6 +226,18 @@ class MainActivity : AppCompatActivity() {
             8->{
                 transaction.replace(R.id.fragmentContainer,ChatFragment()).commit()
             }
+            9->{
+                transaction.replace(R.id.fragmentContainer,LikeListFragment()).commit()
+            }
+            10->{
+                transaction.replace(R.id.fragmentContainer,EditUserInfoFragment()).commit()
+            }
+            11->{
+                transaction.replace(R.id.fragmentContainer,ReviewListFragment()).commit()
+            }
+            12->{
+                transaction.replace(R.id.fragmentContainer,SellListFragment()).commit()
+            }
         }
     }
 

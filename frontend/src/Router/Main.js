@@ -53,19 +53,12 @@ function Main() {
 
   useEffect(() => {
     dispatch(addToken(cookieValue))
+    dispatch(addInfo(jwt_decode(cookieValue)))
   }, [cookieValue])
-  
+
   let reduxData = useSelector((state) => {return state})
   // console.log(reduxData.token)
 
-  if (reduxData.token) {
-    setCondi(true)
-  }
-
-  if (reduxData.token && condi) {
-      dispatch(addInfo(jwt_decode(reduxData.token)))
-      setCondi(false)
-  }
 
   console.log('리덕스')
   console.log(reduxData.userInfo)

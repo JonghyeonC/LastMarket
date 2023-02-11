@@ -1,11 +1,13 @@
 package com.jphr.lastmarket.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jphr.lastmarket.R
+import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.databinding.FragmentCreateProductBinding
 import com.jphr.lastmarket.databinding.FragmentReviewListBinding
 
@@ -24,7 +26,12 @@ class ReviewListFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding:FragmentReviewListBinding
+    private lateinit var mainActivity: MainActivity
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity=context as MainActivity
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

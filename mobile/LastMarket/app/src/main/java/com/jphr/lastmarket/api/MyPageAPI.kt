@@ -16,7 +16,7 @@ interface MyPageAPI {
     fun getFavoriteList(@Header("Authentication") token: String): Call<MutableList<LikeListProductDTO>>
 
     @PATCH("api/user/profile")
-    fun insertUserProfile(@Header("Authentication") token: String,@Part imgs: MutableList<MultipartBody.Part>): Call<Unit>
+    fun insertUserProfile(@Header("Authentication") token: String,@Part imgs: MultipartBody.Part): Call<Unit>
 
     @GET("api/trades/sell")
     fun getSellList():Call<MutableList<SellListDTO>>

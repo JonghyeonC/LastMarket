@@ -16,10 +16,14 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.jphr.lastmarket.R
+import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.MultiImageAdapter
 import com.jphr.lastmarket.databinding.FragmentEditUserInfoBinding
+import com.jphr.lastmarket.service.MyPageService
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -40,8 +44,14 @@ class EditUserInfoFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding:FragmentEditUserInfoBinding
-    var imageUriList = mutableListOf<Uri>()
-    var imageMultipartList = mutableListOf<MultipartBody.Part>()
+    var imageUriList : Uri?=null
+    var imageMultipartList :MultipartBody.Part?=null
+    private lateinit var mainActivity: MainActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,8 +84,13 @@ class EditUserInfoFragment : Fragment() {
                             val body =
                                 MultipartBody.Part.createFormData("imgs", file.name, requestFile)
 
-                            imageMultipartList.add(body)
-                            imageUriList.add(imageUri)
+                            imageMultipartList=body
+                            imageUriList=imageUri
+
+                            binding.imageView.visibility=View.VISIBLE
+                            binding.imageView.setImageURI(imageUri)
+                            Glide.with(mainActivity).load(imageUri).into(binding.imageView)
+
 
                         }
                     } else {
@@ -94,14 +109,23 @@ class EditUserInfoFragment : Fragment() {
 
 
         binding.imageUpload.setOnClickListener {
-
-
             var intent = Intent(Intent.ACTION_PICK)
             intent.type = MediaStore.Images.Media.CONTENT_TYPE
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             launcher.launch(intent)
+            binding.imageView.visibility=View.VISIBLE
+            binding.imageView.setImageURI(imageUriList)
+            Glide.with(mainActivity).load(imageUriList).into(binding.imageView)
 
+        }
+
+        binding.save.setOnClickListener {
+            var prefs =
+                requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
+            var token = prefs.getString("token", "")!!
+            Log.d("TAG", "onCreateView: $imageMultipartList")
+            MyPageService().insertUserProfile(token,imageMultipartList!!)
         }
         return binding.root
     }

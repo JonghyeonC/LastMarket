@@ -72,12 +72,7 @@ class LikeListFragment : Fragment() {
 
         productListAdapter= LikeListAdapter(mainActivity)
 
-        binding.recyclerview.apply {
-            productListAdapter.list=productDTO
-            layoutManager= GridLayoutManager(context,3)
-            adapter=productListAdapter
-            addItemDecoration(RecyclerViewDecoration(60,0))
-        }
+
         productListAdapter.setItemClickListener(object : LikeListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId

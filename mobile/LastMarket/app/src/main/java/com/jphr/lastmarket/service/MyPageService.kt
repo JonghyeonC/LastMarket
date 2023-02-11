@@ -42,7 +42,7 @@ class MyPageService {
             }
         })
     }
-    fun insertUserProfile(token:String, images: MutableList<MultipartBody.Part>){
+    fun insertUserProfile(token:String, images: MultipartBody.Part){
         RetrofitUtil.myPageService.insertUserProfile(token,images).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()

@@ -19,4 +19,4 @@ data class ProductDetailDTO(
     val sellerNickname: String,
     val startingPrice: Long?,
     val title: String
-)
+):java.io.Serializable

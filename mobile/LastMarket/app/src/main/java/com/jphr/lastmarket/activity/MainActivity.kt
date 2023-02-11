@@ -18,6 +18,7 @@ import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.dto.CategoryDTO
+import com.jphr.lastmarket.dto.ChatDTO
 import com.jphr.lastmarket.dto.ListDTO
 import com.jphr.lastmarket.fragment.*
 import com.jphr.lastmarket.service.ProductService
@@ -43,6 +44,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var isFromLive=intent.getStringExtra("isFromLive")
+        if(isFromLive.equals("true")) {
+         var chatDTO=intent.getSerializableExtra("chatDTO")
+            mainViewModel.setChatDTO(chatDTO as ChatDTO)   //데이터 set
+            changeFragment(8)
+        }else{
+            val transaction = supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, MainFragment())
+            transaction.commit()
+        }
+
+        //sharedPreference 작업 viewmodel로 옮기기
 
         var pref=getSharedPreferences("user_info",MODE_PRIVATE)
         city= pref?.getString("city","null").toString()
@@ -76,9 +89,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        val transaction = supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, MainFragment())
-        transaction.commit()
+
 
         floatingActionButton.setOnClickListener {
             changeFragment(6)

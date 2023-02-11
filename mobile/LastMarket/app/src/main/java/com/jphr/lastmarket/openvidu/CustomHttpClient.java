@@ -3,6 +3,7 @@ package com.jphr.lastmarket.openvidu;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -22,6 +23,7 @@ import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+
 
 public class CustomHttpClient {
 
@@ -95,6 +97,7 @@ public class CustomHttpClient {
                 .method(method, body)
                 .build();
 
+        Log.d(TAG, "httpCall:"+request.url());
         Call call = client.newCall(request);
         call.enqueue(callback);
     }
@@ -103,4 +106,5 @@ public class CustomHttpClient {
         this.client.dispatcher().executorService().shutdown();
     }
 
+    private static final String TAG = "CustomHttpClient";
 }

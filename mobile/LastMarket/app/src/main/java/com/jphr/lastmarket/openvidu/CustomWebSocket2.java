@@ -49,7 +49,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 
-public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> implements WebSocketListener {
+public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> implements WebSocketListener {
 
     private final String TAG = "CustomWebSocketListener";
     private final int PING_MESSAGE_INTERVAL = 5;
@@ -79,19 +79,13 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
     private Set<Integer> IDS_ONICECANDIDATE = Collections.newSetFromMap(new ConcurrentHashMap<>());
     private Session session;
     private String mediaServer;
-    private LiveBuyActivity activity;
-    private LiveSellActivity activity2;
-
+    private LiveSellActivity activity;
     private WebSocket websocket;
     private boolean websocketCancelled = false;
 
-    public CustomWebSocket(Session session, LiveBuyActivity activity) {
+    public CustomWebSocket2(Session session, LiveSellActivity activity) {
         this.session = session;
         this.activity = activity;
-    }
-    public CustomWebSocket(Session session, LiveSellActivity activity) {
-        this.session = session;
-        this.activity2 = activity;
     }
 
     @Override
@@ -397,12 +391,8 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
         final RemoteParticipant remoteParticipant = this.session.removeRemoteParticipant(params.getString("connectionId"));
         remoteParticipant.dispose();
         Handler mainHandler = new Handler(activity.getMainLooper());
-        Handler mainHandler2 = new Handler(activity2.getMainLooper());
-
         Runnable myRunnable = () -> session.removeView(remoteParticipant.getView());
         mainHandler.post(myRunnable);
-        mainHandler2.post(myRunnable);
-
     }
 
     private RemoteParticipant newRemoteParticipantAux(JSONObject participantJson) throws JSONException {
@@ -421,8 +411,7 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
             }
         }
         final RemoteParticipant remoteParticipant = new RemoteParticipant(connectionId, participantName, this.session);
-        this.activity.createRemoteParticipantVideo(remoteParticipant);
-
+//        this.activity.createRemoteParticipantVideo(remoteParticipant);
         this.session.createRemotePeerConnection(remoteParticipant.getConnectionId());
         return remoteParticipant;
     }
@@ -677,16 +666,12 @@ public class CustomWebSocket extends AsyncTask<LiveBuyActivity, Void, Void> impl
         } catch (KeyManagementException | NoSuchAlgorithmException | IOException | WebSocketException e) {
             Log.e("WebSocket error", e.getMessage());
             Handler mainHandler = new Handler(activity.getMainLooper());
-            Handler mainHandler2 = new Handler(activity2.getMainLooper());
             Runnable myRunnable = () -> {
                 Toast toast = Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG);
                 toast.show();
                 activity.leaveSession();
-                activity2.leaveSession();
             };
             mainHandler.post(myRunnable);
-            mainHandler2.post(myRunnable);
-
             websocketCancelled = true;
         }
         return null;

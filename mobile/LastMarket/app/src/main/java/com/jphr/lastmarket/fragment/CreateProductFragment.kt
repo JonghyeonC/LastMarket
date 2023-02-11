@@ -258,6 +258,8 @@ class CreateProductFragment : Fragment() {
                 min = picker.minute
             }
             picker.show(mainActivity.supportFragmentManager, picker.toString())
+
+            //TODO :이전 시간 선택했을 때 예외처리
         }
 
         binding.save.setOnClickListener {

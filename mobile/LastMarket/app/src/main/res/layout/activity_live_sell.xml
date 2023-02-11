@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jphr.lastmarket.activity.LiveBuyActivity">
+    tools:context="com.jphr.lastmarket.activity.LiveSellActivity">
 
 
     <LinearLayout
@@ -127,26 +127,47 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/exitLive"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/postPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/hand" />
+                    android:src="@drawable/exit" />
 
                 <TextView
-                    android:id="@+id/postPriceText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/gmarket_sans_ttf_medium"
-                    android:text="가격제시"
+                    android:text="라이브 종료"
+                    android:textSize="17dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/takePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/handshake" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="최고가에 낙찰"
                     android:textSize="17dp" />
             </LinearLayout>
         </LinearLayout>

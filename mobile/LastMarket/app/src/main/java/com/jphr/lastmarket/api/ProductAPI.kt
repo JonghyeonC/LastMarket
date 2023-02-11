@@ -53,4 +53,8 @@ interface ProductAPI {
     @DELETE("api/favorite/{productId}")
     fun deleteFavorite(@Header("Authentication") token: String,
                        @Path("productId") productId:Long):Call<Unit>
+
+    @GET("api/product/{productId}/broadcast")
+    fun changeOnBoradCast(@Header("Authentication") token: String,
+                          @Path("productId") productId:Long):Call<Unit>
 }

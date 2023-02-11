@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -33,6 +31,8 @@ import com.jphr.lastmarket.dto.ChatDTO;
 import com.jphr.lastmarket.dto.ProductDetailDTO;
 import com.jphr.lastmarket.openvidu.CustomHttpClient;
 import com.jphr.lastmarket.openvidu.CustomWebSocket;
+import com.jphr.lastmarket.openvidu.CustomWebSocket2;
+import com.jphr.lastmarket.openvidu.LocalParticipant;
 import com.jphr.lastmarket.openvidu.PermissionsDialogFragment;
 import com.jphr.lastmarket.openvidu.RemoteParticipant;
 import com.jphr.lastmarket.openvidu.Session;
@@ -53,7 +53,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -64,14 +63,15 @@ import ua.naiksoftware.stomp.StompClient;
 import ua.naiksoftware.stomp.dto.StompHeader;
 
 
-public class LiveBuyActivity extends AppCompatActivity {
+public class LiveSellActivity extends AppCompatActivity {
 
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 101;
     private static final int MY_PERMISSIONS_REQUEST = 102;
     private final String TAG = "SessionActivity";
-    private LiveViewModel viewModel ;
+    private LiveViewModel viewModel;
+
     @Nullable
     @BindView(R.id.views_container)
     LinearLayout views_container;
@@ -81,10 +81,8 @@ public class LiveBuyActivity extends AppCompatActivity {
     TextView main_participant;
     @BindView(R.id.peer_container)
     FrameLayout peer_container;
-
-
     private String application_server_url = "https://i8d206.p.ssafy.io/";
-    private String wsServerUrl="ws://i8d206.p.ssafy.io/api/ws/websocket";
+
     private String APPLICATION_SERVER_URL;
     private Session session;
     private CustomHttpClient httpClient;
@@ -94,79 +92,64 @@ public class LiveBuyActivity extends AppCompatActivity {
     private Long startPrice;
     private TextView topPriceTv;
     private TextView startPriceTv;
+    private LinearLayout exitLive;
+    private LinearLayout takePrice;
     private Long userId;
-    private ProductDetailDTO detailDTO;
-    private Double tick;
+
     String session_name = "SessionA";
     String participant_name = "participant_tmp";
     private StompClient stompClient;
     private List<StompHeader> headerList;
-    private Long myTopPrice;
+    private String wsServerUrl = "ws://i8d206.p.ssafy.io/api/ws/websocket";
 
-    @SuppressLint("CheckResult")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.activity_live_buy);
+        setContentView(R.layout.activity_live_sell);
         ButterKnife.bind(this);
 
-        ImageView postPrice=findViewById(R.id.postPrice);
-        startPriceTv=findViewById(R.id.startPriceTv);
-        topPriceTv=findViewById(R.id.topPriceTv);
+        startPriceTv = findViewById(R.id.startPriceTv);
+        topPriceTv = findViewById(R.id.topPriceTv);
+        exitLive = findViewById(R.id.exitLive);
+        takePrice = findViewById(R.id.takePrice);
 
-        productId=getIntent().getLongExtra("productId",0);
-        Log.d(TAG, "onCreate: "+productId);
-        sellerId=getIntent().getLongExtra("sellerId",0);
-        startPrice=getIntent().getLongExtra("startPrice",0);
-        tick=startPrice*0.1;
+
+        productId = getIntent().getLongExtra("productId", 0);
+        session_name = productId.toString();
+        sellerId = getIntent().getLongExtra("sellerId", 0);
+        startPrice = getIntent().getLongExtra("startPrice", 0);
         startPriceTv.setText(startPrice.toString());
 
-        detailDTO = (ProductDetailDTO) getIntent().getSerializableExtra("data");
-        Log.d(TAG, "detailDTO: "+detailDTO);
-        session_name=productId.toString();
+        session_name = productId.toString();
 
-        viewModel= new ViewModelProvider(this).get(LiveViewModel.class);
+        viewModel = new ViewModelProvider(this).get(LiveViewModel.class);
         viewModel.setNowPrice(startPrice);
 
-        SharedPreferences pref= getSharedPreferences("user_info",MODE_PRIVATE);
-        userId=pref.getLong("user_id",0);
-        token= pref.getString("token","null");
+        SharedPreferences pref = getSharedPreferences("user_info", MODE_PRIVATE);
+        token = pref.getString("token", "null");
+        userId = pref.getLong("user_id", 0);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         askForPermissions();
+
         initStomp();
-        stompClient.topic("/exchange/chat.exchange/room."+productId).subscribe(topicMessage -> {
-            String str=topicMessage.getPayload();
-            JSONObject jsonObject=new JSONObject(str);
-            String price=jsonObject.getString("message");
-            String type=jsonObject.getString("chatType");
-            if(type.equals("FINSH")){
-                Double tmp= Double.valueOf(price);
-                Long tmp2= Long.valueOf(Math.round(tmp));
-                if(tmp2==myTopPrice){//내가격이 최고가일때 (낙찰)
-                    //TODO : 낙찰되었을 때 EVENT 화려하게
-                    Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("isFromLive","true");
-                    intent.putExtra("chatDTO",str);
-                    startActivity(intent);
-                }else {//내가격이 최고가가 아닐때(미낙찰)
-                    Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                }
-            }else{
-                Log.d(TAG, "onCreate: "+price);
-                Double tmp= Double.valueOf(price);
-                Long tmp2= Long.valueOf(Math.round(tmp));
-                try {
-                    viewModel.setNowPrice(tmp2);
-                }catch (Exception e){
-                    Log.e(TAG, "error "+e );
-                }
+        stompClient.topic("/exchange/chat.exchange/room." + productId).subscribe(topicMessage -> {
+            String str = topicMessage.getPayload();
+            JSONObject jsonObject = new JSONObject(str);
+            String price = jsonObject.getString("message");
+
+            Log.d(TAG, "onCreate: " + price);
+            Double tmp = Double.valueOf(price);
+            Long tmp2 = Long.valueOf(Math.round(tmp));
+            try {
+                viewModel.setNowPrice(tmp2);
+
+            } catch (Exception e) {
+                Log.e(TAG, "error " + e);
             }
-
         });
-
 
 
         if (arePermissionGranted()) {
@@ -181,26 +164,38 @@ public class LiveBuyActivity extends AppCompatActivity {
             permissionsFragment.show(getSupportFragmentManager(), "Permissions Fragment");
         }
 
+
         //view
-        postPrice.setOnClickListener(new ImageView.OnClickListener(){
-            //TODO: 가격 제시했을 때 EVENT 화려하게
+        takePrice.setOnClickListener(new ImageView.OnClickListener() {
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {
-                double price=viewModel.getNowPrice()+tick;
-                String priceToString = Double.toString(price);
-                ChatDTO dto= new ChatDTO("BID",userId.toString(),sellerId.toString(),priceToString,productId.toString(),userId.toString());
+                Long price = viewModel.getNowPrice();
+                String priceToString = Long.toString(price);
+                ChatDTO dto = new ChatDTO("FINISH", userId.toString(), sellerId.toString(), priceToString, productId.toString(), userId.toString());
 
-                ObjectMapper mapper=new ObjectMapper();
+                ObjectMapper mapper = new ObjectMapper();
                 try {
-                    String jsonString=mapper.writeValueAsString(dto);
-                    stompClient.send("/send/room."+productId, jsonString).subscribe();
-                    Log.d(TAG, "onClick: send OK"+jsonString);
-                    myTopPrice=Math.round(price);
+                    String jsonString = mapper.writeValueAsString(dto);
+                    stompClient.send("/send/room." + productId, jsonString).subscribe();
+                    Log.d(TAG, "onClick: send OK" + jsonString);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
 
+                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("isFromLive","true");
+                intent.putExtra("chatDTO",dto);
+                startActivity(intent);
+
+            }
+        });
+        exitLive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: 정말 나가시겠습니까 다이얼로그 띄우기
+                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
         viewModel.nowPrice.observe(this, new Observer<Long>() {
@@ -209,13 +204,16 @@ public class LiveBuyActivity extends AppCompatActivity {
                 topPriceTv.setText(aLong.toString());
             }
         });
+
+
     }
+
     @SuppressLint("CheckResult")
-    public void initStomp(){
+    public void initStomp() {
         AtomicBoolean isUnexpectedClosed = new AtomicBoolean(false);
 
         //stomp client 생성
-        stompClient= Stomp.over(Stomp.ConnectionProvider.OKHTTP, wsServerUrl);
+        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, wsServerUrl);
 
         stompClient.lifecycle().subscribe(lifecycleEvent -> {
             switch (lifecycleEvent.getType()) {
@@ -223,15 +221,15 @@ public class LiveBuyActivity extends AppCompatActivity {
                     Log.d(TAG, "Stomp connection opened");
                     break;
                 case ERROR:
-                    Log.e(TAG, "initStomp:" );
+                    Log.e(TAG, "initStomp:");
                     Log.e(TAG, "Error", lifecycleEvent.getException());
-                    if(lifecycleEvent.getException().getMessage().contains("EOF")){
+                    if (lifecycleEvent.getException().getMessage().contains("EOF")) {
                         isUnexpectedClosed.set(true);
                     }
                     break;
                 case CLOSED:
                     Log.d(TAG, "Stomp connection closed");
-                    if(isUnexpectedClosed.get()){
+                    if (isUnexpectedClosed.get()) {
                         /**
                          * EOF Error
                          */
@@ -243,11 +241,10 @@ public class LiveBuyActivity extends AppCompatActivity {
         });
 
         // add Header
-        headerList=new ArrayList<>();
+        headerList = new ArrayList<>();
         headerList.add(new StompHeader("Authorization", token));
         stompClient.connect(headerList);
     }
-
 
     public void askForPermissions() {
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -277,7 +274,7 @@ public class LiveBuyActivity extends AppCompatActivity {
             // Session Request
             RequestBody sessionBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "{\"customSessionId\": \"" + sessionId + "\"}");
             Log.d(TAG, "getToken[sessionBody]: " + sessionBody);
-            this.httpClient.httpCall("api/sessions", "POST", "application/json", sessionBody,token, new Callback() {
+            this.httpClient.httpCall("api/sessions", "POST", "application/json", sessionBody, token, new Callback() {
 
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -285,7 +282,7 @@ public class LiveBuyActivity extends AppCompatActivity {
 
                     // Token Request
                     RequestBody tokenBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "{}");
-                    httpClient.httpCall("/api/sessions/" + sessionId + "/connections", "POST", "application/json", tokenBody,token, new Callback() {
+                    httpClient.httpCall("/api/sessions/" + sessionId + "/connections", "POST", "application/json", tokenBody, token, new Callback() {
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) {
@@ -326,8 +323,8 @@ public class LiveBuyActivity extends AppCompatActivity {
 
         // Initialize our local participant and start local camera
         String participantName = participant_name.toString();
-//        LocalParticipant localParticipant = new LocalParticipant(participantName, session, this.getApplicationContext(), localVideoView);
-//        localParticipant.startCamera();
+        LocalParticipant localParticipant = new LocalParticipant(participantName, session, this.getApplicationContext(), localVideoView);
+        localParticipant.startCamera();
         runOnUiThread(() -> {
             // Update local participant view
             main_participant.setText(participant_name);
@@ -371,31 +368,31 @@ public class LiveBuyActivity extends AppCompatActivity {
     }
 
     //---------------다른 사용자 비디오 레이아웃-----------------
-    public void createRemoteParticipantVideo(final RemoteParticipant remoteParticipant) {
-        Handler mainHandler = new Handler(this.getMainLooper());
-        Runnable myRunnable = () -> {
-            View rowView = this.getLayoutInflater().inflate(R.layout.peer_video, null);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(0, 0, 0, 20);
-            rowView.setLayoutParams(lp);
-            int rowId = View.generateViewId();
-            rowView.setId(rowId);
-            views_container.addView(rowView);
-            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
-            remoteParticipant.setVideoView(videoView);
-            videoView.setMirror(false);
-            EglBase rootEglBase = EglBase.create();
-            videoView.init(rootEglBase.getEglBaseContext(), null);
-            videoView.setZOrderMediaOverlay(true);
-            View textView = ((ViewGroup) rowView).getChildAt(1);
-            remoteParticipant.setParticipantNameText((TextView) textView);
-            remoteParticipant.setView(rowView);
-
-            remoteParticipant.getParticipantNameText().setText(remoteParticipant.getParticipantName());
-            remoteParticipant.getParticipantNameText().setPadding(20, 3, 20, 3);
-        };
-        mainHandler.post(myRunnable);
-    }
+//    public void createRemoteParticipantVideo(final RemoteParticipant remoteParticipant) {
+//        Handler mainHandler = new Handler(this.getMainLooper());
+//        Runnable myRunnable = () -> {
+//            View rowView = this.getLayoutInflater().inflate(R.layout.peer_video, null);
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            lp.setMargins(0, 0, 0, 20);
+//            rowView.setLayoutParams(lp);
+//            int rowId = View.generateViewId();
+//            rowView.setId(rowId);
+//            views_container.addView(rowView);
+//            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
+//            remoteParticipant.setVideoView(videoView);
+//            videoView.setMirror(false);
+//            EglBase rootEglBase = EglBase.create();
+//            videoView.init(rootEglBase.getEglBaseContext(), null);
+//            videoView.setZOrderMediaOverlay(true);
+//            View textView = ((ViewGroup) rowView).getChildAt(1);
+//            remoteParticipant.setParticipantNameText((TextView) textView);
+//            remoteParticipant.setView(rowView);
+//
+//            remoteParticipant.getParticipantNameText().setText(remoteParticipant.getParticipantName());
+//            remoteParticipant.getParticipantNameText().setPadding(20, 3, 20, 3);
+//        };
+//        mainHandler.post(myRunnable);
+//    }
 
     public void setRemoteMediaStream(MediaStream stream, final RemoteParticipant remoteParticipant) {
         final VideoTrack videoTrack = stream.videoTracks.get(0);

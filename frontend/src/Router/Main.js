@@ -49,11 +49,12 @@ function Main() {
     getUserInfo()
   },[])
 
-  useEffect(() => {
+  // useEffect(() => {
+  // }, [cookieValue])
+  if (cookieValue) {
     dispatch(addToken(cookieValue))
-  }, [cookieValue])
-  
-  dispatch(addInfo(jwt_decode(cookieValue)))
+    dispatch(addInfo(jwt_decode(cookieValue)))
+  }
   let reduxData = useSelector((state) => {return state})
   // console.log(reduxData.token)
 

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Category from "./Category";
 import ModalBasic from './Login/ModalBasic';
+import { useSelector } from 'react-redux';
 
 const options = [
   {
@@ -54,6 +55,7 @@ function Navbar() {
   
   let navigate = useNavigate()
   let [inputValue, setInputValue] = useState('')
+  let reduxData = useSelector((state) => {return state})
   console.log(inputValue)
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -79,6 +81,7 @@ function Navbar() {
         <img className="W_logo" src="logos/W_logo3.png" alt="W_logo" onClick={() => navigate('/')}/>
         <span><input className="nav_input" type="text" placeholder="검색해보세요" defaultValue="" onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') { navigate("/search/" + inputValue) }}} /></span>
         <span>
+          { reduxData.token ? 
           <span>
             <div className="nav_btn_box"> 
               <img className="chat_icon" src="chat_icon.png" alt="chat_icon" onClick={() => navigate('/chat')}/>
@@ -89,13 +92,17 @@ function Navbar() {
               </span>
             </div>
           </span>
-          {/* <br /> */}
-          {/* <span>
+          :
+          <span>
             <div className="nav_btn_box">
-              <img className="login_icon" src="login_icon.png" alt="login_icon" onClick={() => navigate('/login')} />
-              <img className="signup_icon" src="signup_icon.png" alt="signup_icon" onClick={() => navigate('/signup')} />
+              <img className="login_icon" src="login_icon.png" alt="login_icon" onClick={showModal} />
+              {modalOpen && <ModalBasic setModalOpen={setModalOpen} />}
+              <img className="signup_icon" src="signup_icon.png" alt="signup_icon" onClick={showModal} />
+              {modalOpen && <ModalBasic setModalOpen={setModalOpen} />}
             </div>
-          </span> */}
+          </span>
+          }
+          {/* <br /> */}
           {/* <br />
           <span>
             <div class="nav_btn_box">

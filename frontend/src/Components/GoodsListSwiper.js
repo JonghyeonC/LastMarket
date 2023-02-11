@@ -25,10 +25,12 @@
 
 
 import { Swiper, SwiperSlide } from "swiper/react"; // basic
-import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
+import SwiperCore, { Navigation, Pagination, Scrollbar, Autoplay } from "swiper";
 import "swiper/css"; //basic
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import 'swiper/css/scrollbar';
+
 
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -82,12 +84,13 @@ function GoodsListSwiper(props) {
     //   }
     // </div>
     <Swiper
+    modules={[Navigation, Pagination, Scrollbar, Autoplay]}
     spaceBetween={150}
     slidesPerView={5}
-    scrollbar={{ draggable: true }}
+    // scrollbar={{ draggable: true }}
     navigation
     pagination={{ clickable: true }}
-    autoplay={{ delay: 5000 }}
+    autoplay={{ delay: 3000 }}
     breakpoints={{
       1200: {
         slidesPerView: 5,

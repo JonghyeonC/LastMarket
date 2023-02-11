@@ -52,7 +52,7 @@ function Main() {
 
   useEffect(() => {
     dispatch(addToken(cookieValue))
-  }, [value])
+  }, [cookieValue])
   
   dispatch(addInfo(jwt_decode(cookieValue)))
   let reduxData = useSelector((state) => {return state})

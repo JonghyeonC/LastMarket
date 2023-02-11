@@ -25,6 +25,9 @@ function Main() {
 
   const dispatch = useDispatch()
 
+  const cookieValue =  Cookies.get('cookieName');
+  console.log(cookieValue);
+
   const getUserInfo = (() => {
     return(
       axios({
@@ -44,33 +47,23 @@ function Main() {
       })
     )
   })
-
-  // let jwt_token = location.search.substring(7)
   
   useEffect(() => {
     getUserInfo()
-    // dispatch(addToken(location?.search.substring(7)))
-    // dispatch(addInfo(jwt_decode(jwt_token)))
+    dispatch(addToken(cookieValue))
   },[])
   
-  // console.log('리덕스')
-  // let reduxData = useSelector((state) => {return state})
-  // console.log(reduxData.userInfo)
+  let reduxData = useSelector((state) => {return state})
+
+  useEffect(() => {
+    dispatch(addInfo(jwt_decode(reduxData.token)))
+  }, [reduxData])
+  console.log('리덕스')
+  console.log(reduxData.userInfo)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
-
-  // const getCookie = (name) => {
-  //   const cookies = document.cookie.split(';');
-  //   const cookie = cookies.find((c) => c.trim().startsWith(`${name}=`));
-  //   if (!cookie) return undefined;
-  //   return cookie.split('=')[1];
-  // };
-
-  // const cookieValue = getCookie('cookieName');
-  // console.log(cookieValue);
   
-  const cookieValue =  Cookies.get('Authentication');
-  console.log(cookieValue);
+
 
   return (
     <div>

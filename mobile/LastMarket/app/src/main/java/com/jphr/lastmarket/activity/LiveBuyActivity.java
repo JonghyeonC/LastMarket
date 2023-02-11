@@ -1,6 +1,7 @@
 package com.jphr.lastmarket.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -72,6 +73,7 @@ public class LiveBuyActivity extends AppCompatActivity {
     private Session session;
     private CustomHttpClient httpClient;
     private String token;
+    private Long productId;
     String session_name = "SessionA";
     String participant_name = "participant_tmp";
 
@@ -81,6 +83,9 @@ public class LiveBuyActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_live_buy);
         ButterKnife.bind(this);
+
+        productId=getIntent().getLongExtra("productId",0);
+
 
         SharedPreferences pref= getSharedPreferences("user_info",MODE_PRIVATE);
         token= pref.getString("token","null");

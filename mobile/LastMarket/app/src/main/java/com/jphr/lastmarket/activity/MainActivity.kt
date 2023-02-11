@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                 1->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProductWithSort("BOOK",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    ProductService().getProductWithSort("CAMPING",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }

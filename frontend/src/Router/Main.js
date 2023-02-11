@@ -22,11 +22,9 @@ function Main() {
 
   const [ lifestyles, setLifestyles ] = useState('')
   const [ addrs, setAddrs ] = useState('')
-  const [ value, setValue ] = useState(null)
   const dispatch = useDispatch()
 
   const cookieValue =  Cookies.get('Authentication');
-  setValue(cookieValue)
 
   const getUserInfo = (() => {
     return(
@@ -54,9 +52,9 @@ function Main() {
 
   useEffect(() => {
     dispatch(addToken(cookieValue))
-    dispatch(addInfo(jwt_decode(cookieValue)))
   }, [value])
-
+  
+  dispatch(addInfo(jwt_decode(cookieValue)))
   let reduxData = useSelector((state) => {return state})
   // console.log(reduxData.token)
 

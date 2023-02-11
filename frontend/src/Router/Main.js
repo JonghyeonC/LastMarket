@@ -56,12 +56,14 @@ function Main() {
   }, [cookieValue])
   
   let reduxData = useSelector((state) => {return state})
-  console.log(reduxData.token)
-  // useEffect(() => {
-  //   dispatch(addInfo(jwt_decode(reduxData.token)))
-  // }, [reduxData])
-  // console.log('리덕스')
-  // console.log(reduxData.userInfo)
+  // console.log(reduxData.token)
+
+  useEffect(() => {
+    dispatch(addInfo(jwt_decode(reduxData.token)))
+  }, [reduxData])
+  
+  console.log('리덕스')
+  console.log(reduxData.userInfo)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
   

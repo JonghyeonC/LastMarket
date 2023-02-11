@@ -76,7 +76,7 @@ function Navbar() {
       {/* <hr className="nav_line1"/> */}
       <br />
       <div className="navbar_down">
-        <img className="W_logo" src="logos/W_logo.png" alt="W_logo" onClick={() => navigate('/')}/>
+        <img className="W_logo" src="logos/W_logo3.png" alt="W_logo" onClick={() => navigate('/')}/>
         <span><input className="nav_input" type="text" placeholder="검색해보세요" defaultValue="" onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') { navigate("/search/" + inputValue) }}} /></span>
         <span>
           <span>

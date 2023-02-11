@@ -25,7 +25,7 @@
 
 
 import { Swiper, SwiperSlide } from "swiper/react"; // basic
-import SwiperCore, { Navigation, Pagination } from "swiper";
+import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import "swiper/css"; //basic
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -87,6 +87,7 @@ function GoodsListSwiper(props) {
     scrollbar={{ draggable: true }}
     navigation
     pagination={{ clickable: true }}
+    autoplay={{ delay: 5000 }}
     breakpoints={{
       1200: {
         slidesPerView: 5,

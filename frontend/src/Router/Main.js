@@ -25,7 +25,7 @@ function Main() {
 
   const dispatch = useDispatch()
 
-  const cookieValue =  Cookies.get('cookieName');
+  const cookieValue =  Cookies.get('Authentication');
   console.log(cookieValue);
 
   const getUserInfo = (() => {

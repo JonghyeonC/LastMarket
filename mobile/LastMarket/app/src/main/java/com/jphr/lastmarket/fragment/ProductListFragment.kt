@@ -7,11 +7,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentProductListBinding
+import com.jphr.lastmarket.dto.ListDTO
 import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductX
@@ -39,7 +44,7 @@ class ProductListFragment : Fragment() {
     private lateinit var productListAdapter:ProductListAdapter
     private lateinit var mainActivity: MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
-
+    lateinit var cityData:String
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
@@ -48,6 +53,9 @@ class ProductListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         productDTO=mainViewModel.getProduct()
         category=mainViewModel.getCategory()
+        var pref=mainActivity.getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
+        cityData= pref?.getString("city_data","null").toString()
+
 //        arguments?.let {
 //            productDTO = it.getSerializable("products") as ProductDTO
 //            category = it.getString("category")
@@ -66,6 +74,8 @@ class ProductListFragment : Fragment() {
         // Inflate the layout for this fragment
         binding=FragmentProductListBinding.inflate(inflater,container,false)
         productListAdapter= ProductListAdapter(mainActivity)
+
+        Log.d(TAG, "onCreateView: -----------")
         binding.recyclerview.apply {
             productListAdapter.list=productDTO
             layoutManager=GridLayoutManager(context,3)
@@ -73,15 +83,45 @@ class ProductListFragment : Fragment() {
             addItemDecoration(RecyclerViewDecoration(60,0))
         }
         binding.resultText.text="${category} 카테고리"
+        val itemList=resources.getStringArray(R.array.sort)
+        binding.spinner.adapter= ArrayAdapter(requireContext(), com.gun0912.tedpermission.R.layout.support_simple_spinner_dropdown_item,itemList)
+
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                try {
+                    if (binding.spinner.getItemAtPosition(position).toString() == "최신순"){
+                        ProductService().getProductWithSort(category,null,cityData,"createdDateTime,DESC","DEFAULT","0",ProductCallback(),false,null)
+                        Log.d(TAG, "onItemSelected: 최신순")
+                    }else if(binding.spinner.getItemAtPosition(position).toString() =="찜순"){
+                        Log.d(TAG, "onItemSelected: 찜순")
+
+                        ProductService().getProductWithSort(category,null,cityData,"favoriteCnt,DESC","DEFAULT","0",ProductCallback(),false,null)
+
+                    }else if(binding.spinner.getItemAtPosition(position).toString().substring(0, 4) == "라이브중"){
+                        ProductService().getProductWithSort(category,null,cityData,"favoriteCnt,DESC","ONBROADCAST","0",ProductCallback(),false,null)
+                        Log.d(TAG, "onItemSelected: 라이브중")
+
+                    }
+
+                } catch(e: Exception) {
+                    Log.d(TAG, "onItemSelected: $e")
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) = Unit
+        }
+
+
+
         productListAdapter.setItemClickListener(object : ProductListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId
                     ?.let {
                         ProductService().getProductDetail(it,ProductDetailCallback())
                     }
-
             }
         })
+
         return binding.root
     }
 
@@ -126,6 +166,36 @@ class ProductListFragment : Fragment() {
             Log.d(TAG, "onResponse: Error Code $code")
         }
 
+
+    }
+    inner class ProductCallback: RetrofitCallback<ListDTO> {
+        override fun onSuccess(code: Int, responseData: ListDTO, issearch:Boolean, word:String?, category:String?) {
+            if(responseData!=null) {
+                if(issearch){
+                    mainViewModel.setProduct(responseData.content)
+                    if (word != null) {
+                        mainViewModel.setWord(word)
+                    }
+                }
+                else {
+                    mainViewModel.setProduct(responseData.content)
+                    if (category != null) {
+                        mainViewModel.setCategory(category)
+                        productListAdapter.list=responseData.content
+                        productListAdapter.notifyDataSetChanged()
+                        Log.d(TAG, "onSuccess: 콜백!!!!!!!!!!!")
+                    }
+                }
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
 
     }
 }

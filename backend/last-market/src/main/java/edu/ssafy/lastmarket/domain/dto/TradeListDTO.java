@@ -21,6 +21,8 @@ public class TradeListDTO {
     String buyerNickname;
     LocalDateTime createdDateTime;
     String imgURI;
+    Long startingPrice;
+    Long instantPrice;
 
     public TradeListDTO(Trade trade){
         this.tradeId = trade.getId();
@@ -33,7 +35,8 @@ public class TradeListDTO {
         this.createdDateTime = trade.getCreatedDateTime();
         this.imgURI = (trade.getProduct().getImages()==null)
                 ?null:trade.getProduct().getImages().get(0).getImage().getImageURL();
-
+        this.startingPrice = trade.getProduct().getStartingPrice();
+        this.instantPrice = trade.getProduct().getInstantPrice();
 
     }
 

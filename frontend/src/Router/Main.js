@@ -54,6 +54,11 @@ function Main() {
   //   dispatch(addInfo(jwt_decode(cookieValue)))
   // }
 
+  const decoded_value = jwt_decode(cookieValue)
+  useEffect(() => {
+    dispatch(addInfo(decoded_value))
+  }, [decoded_value])
+
   let reduxData = useSelector((state) => {return state})
   // console.log(reduxData.token)
 
@@ -62,8 +67,6 @@ function Main() {
   console.log(reduxData.userInfo)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
-  
-
 
   return (
     <div>

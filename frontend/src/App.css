@@ -288,6 +288,7 @@
   box-shadow: 5px 5px 5px #D0EDEF;
 }
 
+/* 상품 리스트 제목 이미지 */
 .ListTitleLetterPic {
   width:120px;
   height: 50px;
@@ -328,6 +329,31 @@
 /* 검색 결과 컴포넌트 */
 .SearchResult {
   margin-left: 170px;
+}
+
+/* 마이페이지 컴포넌트 영역 */
+.profile_Compbox{
+  width: 1440px;
+  margin-top: 40px;
+  margin-left: 80px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile_Profile_Com{
+  /* border: solid; */
+  border-right: 2px solid #CCD3D9;
+  width: 960px;
+  padding-right: 20px;
+}
+
+.profile_Chat_Com{
+  /* border: solid; */
+  border-left: 2px solid #CCD3D9;
+  padding-left: 20px;
+  width: 480px;
+
 }
 
 .App-header {

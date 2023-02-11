@@ -22,7 +22,7 @@ function Main() {
 
   const [ lifestyles, setLifestyles ] = useState('')
   const [ addrs, setAddrs ] = useState('')
-
+  const [ condi, setCondi ] = useState(false)
   const dispatch = useDispatch()
 
   const cookieValue =  Cookies.get('Authentication');
@@ -59,12 +59,14 @@ function Main() {
   let reduxData = useSelector((state) => {return state})
   // console.log(reduxData.token)
 
-  useEffect(() => {
-    dispatch(addInfo(jwt_decode(reduxData.token)))
-  }, [reduxData.token])
-  // if (reduxData.token) {
-  //     dispatch(addInfo(jwt_decode(reduxData.token)))
-  // }
+  if (reduxData.token) {
+    setCondi(true)
+  }
+
+  if (reduxData.token && condi) {
+      dispatch(addInfo(jwt_decode(reduxData.token)))
+      setCondi(false)
+  }
 
   console.log('리덕스')
   console.log(reduxData.userInfo)

@@ -181,10 +181,8 @@ class ChatFragment : Fragment() {
                            chatSocketAdapter.list.add(chatDTO)
                            var linearLayoutManager= LinearLayoutManager(context)
                            linearLayoutManager.orientation= LinearLayoutManager.VERTICAL
-                           linearLayoutManager.setStackFromEnd(true)
                            setLayoutManager(linearLayoutManager)
                            adapter=chatSocketAdapter
-                           addItemDecoration(RecyclerViewDecoration(20,20))
                        }
                    }
 
@@ -302,7 +300,6 @@ class ChatFragment : Fragment() {
                     linearLayoutManager.setStackFromEnd(true)
                     setLayoutManager(linearLayoutManager)
                     adapter=chatAdapter
-                    addItemDecoration(RecyclerViewDecoration(20,20))
                 }
             }else Log.d(TAG, "onSuccess: data is null")
         }

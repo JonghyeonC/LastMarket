@@ -2,6 +2,7 @@ package com.jphr.lastmarket.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -11,6 +12,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,10 +25,13 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jphr.lastmarket.R;
+import com.jphr.lastmarket.adapter.LiveChatAdapter;
 import com.jphr.lastmarket.dto.ChatDTO;
 import com.jphr.lastmarket.dto.ProductDetailDTO;
 import com.jphr.lastmarket.openvidu.CustomHttpClient;
@@ -100,6 +105,10 @@ public class LiveSellActivity extends AppCompatActivity {
     private LinearLayout takePrice;
     private Long userId;
     private String nowBuyer;
+    private LiveChatAdapter chatAdapter;
+    private RecyclerView recyclerView;
+    private ImageView send;
+
     String session_name = "SessionA";
     String participant_name = "participant_tmp";
     private StompClient stompClient;
@@ -107,12 +116,18 @@ public class LiveSellActivity extends AppCompatActivity {
     private String wsServerUrl = "ws://i8d206.p.ssafy.io/api/ws/websocket";
 
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_live_sell);
         ButterKnife.bind(this);
+
+        recyclerView=findViewById(R.id.recyclerview);
+        chatAdapter= new LiveChatAdapter(this);
+
+        send=findViewById(R.id.send);
 
         startPriceTv = findViewById(R.id.startPriceTv);
         topPriceTv = findViewById(R.id.topPriceTv);
@@ -155,6 +170,27 @@ public class LiveSellActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     Log.e(TAG, "error " + e);
                 }
+            }else if(type.equals("CHAT")){
+                Context context= getApplicationContext();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 현재 UI 스레드가 아니기 때문에 메시지 큐에 Runnable을 등록 함
+                        runOnUiThread(new Runnable() {
+
+                            @SuppressLint("NotifyDataSetChanged")
+                            public void run() {
+                                Log.d(TAG, "run: 메인 스레드");
+                                chatAdapter.getList().add(price);
+                                LinearLayoutManager linearLayoutManager= new LinearLayoutManager(context);
+                                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                                recyclerView.setLayoutManager(linearLayoutManager);
+                                recyclerView.setAdapter(chatAdapter);
+                                chatAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }).start();
             }
 
         });
@@ -208,6 +244,29 @@ public class LiveSellActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        send.setOnClickListener(new ImageView.OnClickListener(){
+            @SuppressLint("CheckResult")
+            @Override
+            public void onClick(View v) {
+                EditText text=findViewById(R.id.chatText);
+                String msg=text.getText().toString();
+                ChatDTO dto= new ChatDTO("CHAT",userId.toString(),sellerId.toString(),msg,productId.toString(),userId.toString());
+
+                ObjectMapper mapper=new ObjectMapper();
+                try {
+                    String jsonString=mapper.writeValueAsString(dto);
+                    stompClient.send("/send/room."+productId, jsonString).subscribe();
+                    Log.d(TAG, "onClick: send OK"+jsonString);
+                    text.setText(null);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+
         viewModel.nowPrice.observe(this, new Observer<Long>() {
             @Override
             public void onChanged(Long aLong) {

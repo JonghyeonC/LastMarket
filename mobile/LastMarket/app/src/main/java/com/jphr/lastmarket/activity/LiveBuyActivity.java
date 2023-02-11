@@ -2,6 +2,8 @@ package com.jphr.lastmarket.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,10 +28,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jphr.lastmarket.R;
+import com.jphr.lastmarket.adapter.LiveChatAdapter;
 import com.jphr.lastmarket.dto.ChatDTO;
 import com.jphr.lastmarket.dto.ProductDetailDTO;
 import com.jphr.lastmarket.openvidu.CustomHttpClient;
@@ -104,6 +110,9 @@ public class LiveBuyActivity extends AppCompatActivity {
     private StompClient stompClient;
     private List<StompHeader> headerList;
     private Long myTopPrice;
+    private LiveChatAdapter chatAdapter;
+    private RecyclerView recyclerView;
+    private ImageView send;
 
     @SuppressLint("CheckResult")
     @Override
@@ -113,6 +122,10 @@ public class LiveBuyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_live_buy);
         ButterKnife.bind(this);
 
+        recyclerView=findViewById(R.id.recyclerview);
+        chatAdapter= new LiveChatAdapter(this);
+
+        send=findViewById(R.id.send);
         ImageView postPrice=findViewById(R.id.postPrice);
         startPriceTv=findViewById(R.id.startPriceTv);
         topPriceTv=findViewById(R.id.topPriceTv);
@@ -138,6 +151,12 @@ public class LiveBuyActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         askForPermissions();
         initStomp();
+
+        LinearLayoutManager linearLayoutManager= new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(chatAdapter);
+
         stompClient.topic("/exchange/chat.exchange/room."+productId).subscribe(topicMessage -> {
             String str=topicMessage.getPayload();
             JSONObject jsonObject=new JSONObject(str);
@@ -150,8 +169,6 @@ public class LiveBuyActivity extends AppCompatActivity {
                 Log.d(TAG, "mytopprice"+myTopPrice+"tmp2"+tmp2);
                 if(tmp2.equals(myTopPrice)){//내가격이 최고가일때 (낙찰)
                     //TODO : 낙찰되었을 때 EVENT 화려하게
-//                    Toast toast = Toast.makeText(LiveBuyActivity.this,"낙찰되었습니다 ", Toast.LENGTH_LONG);
-//                    toast.show();
                     Log.d(TAG, "onCreate: 낙찰");
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("isFromLive","true");
@@ -176,8 +193,28 @@ public class LiveBuyActivity extends AppCompatActivity {
                 }catch (Exception e){
                     Log.e(TAG, "error "+e );
                 }
+            }else if(type.equals("CHAT")){
+                Context context= getApplicationContext();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                            // 현재 UI 스레드가 아니기 때문에 메시지 큐에 Runnable을 등록 함
+                            runOnUiThread(new Runnable() {
+                                
+                                @SuppressLint("NotifyDataSetChanged")
+                                public void run() {
+                                    Log.d(TAG, "run: 메인 스레드");
+                                    chatAdapter.getList().add(price);
+                                    LinearLayoutManager linearLayoutManager= new LinearLayoutManager(context);
+                                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                                    recyclerView.setLayoutManager(linearLayoutManager);
+                                    recyclerView.setAdapter(chatAdapter);
+                                    chatAdapter.notifyDataSetChanged();
+                                }
+                            });
+                    }
+                }).start();
             }
-
         });
 
 
@@ -219,6 +256,28 @@ public class LiveBuyActivity extends AppCompatActivity {
 
             }
         });
+        send.setOnClickListener(new ImageView.OnClickListener(){
+            @SuppressLint("CheckResult")
+            @Override
+            public void onClick(View v) {
+                EditText text=findViewById(R.id.chatText);
+                String msg=text.getText().toString();
+                ChatDTO dto= new ChatDTO("CHAT",userId.toString(),sellerId.toString(),msg,productId.toString(),userId.toString());
+
+                ObjectMapper mapper=new ObjectMapper();
+                try {
+                    String jsonString=mapper.writeValueAsString(dto);
+                    stompClient.send("/send/room."+productId, jsonString).subscribe();
+                    Log.d(TAG, "onClick: send OK"+jsonString);
+                    text.setText(null);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+
         viewModel.nowPrice.observe(this, new Observer<Long>() {
             @Override
             public void onChanged(Long aLong) {

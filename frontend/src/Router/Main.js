@@ -30,7 +30,7 @@ function Main() {
   const dispatch = useDispatch()
 
   const cookieValue =  Cookies.get('Authentication');
-  console.log(cookieValue);
+  // console.log(cookieValue);
 
   const getUserInfo = (() => {
     return(
@@ -49,16 +49,19 @@ function Main() {
   
   useEffect(() => {
     getUserInfo()
-    dispatch(addToken(cookieValue))
   },[])
-  
-  let reduxData = useSelector((state) => {return state})
 
   useEffect(() => {
-    dispatch(addInfo(jwt_decode(reduxData.token)))
-  }, [reduxData])
-  console.log('리덕스')
-  console.log(reduxData.userInfo)
+    dispatch(addToken(cookieValue))
+  }, [cookieValue])
+  
+  let reduxData = useSelector((state) => {return state})
+  console.log(reduxData.token)
+  // useEffect(() => {
+  //   dispatch(addInfo(jwt_decode(reduxData.token)))
+  // }, [reduxData])
+  // console.log('리덕스')
+  // console.log(reduxData.userInfo)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
   

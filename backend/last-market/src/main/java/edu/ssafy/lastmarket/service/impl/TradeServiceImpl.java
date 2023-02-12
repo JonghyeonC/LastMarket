@@ -28,7 +28,14 @@ public class TradeServiceImpl implements TradeService {
     @Override
     @Transactional
     public Trade saveTrade(Product product, Member buyer) {
+        if (product.getSeller().getId().equals(buyer.getId())) {
+            throw new IllegalArgumentException("판매자가 구입할 수 없습니다.");
+        }
         if (product.getDealState() == DealState.FINISH) {
+            throw new ProductSoldException();
+        }
+        boolean exist = tradeRepository.existsByProductId(product.getId());
+        if (exist) {
             throw new ProductSoldException();
         }
 

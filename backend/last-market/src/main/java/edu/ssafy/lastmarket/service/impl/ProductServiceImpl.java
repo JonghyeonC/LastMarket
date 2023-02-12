@@ -228,6 +228,7 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("맞지 않는 가격입니다.");
         }
         product.setStartingPrice(longPrice);
+        product.setDealState(DealState.FINISH);
         productRepository.save(product);
     }
 

@@ -46,7 +46,7 @@ function ProfileGoodsList(props) {
     ProfileGoodsListApi()
   }, [props])
 
-  console.log(products)
+  console.log(tabUrls)
 
   return (
 

@@ -19,4 +19,6 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
 
     @Query(value = "select t from Trade t left join fetch t.product where t.buyer =:buyer")
     List<Trade> findByBuyer(@Param("buyer") Member member, Pageable pageable);
+
+    boolean existsByProductId(Long productId);
 }

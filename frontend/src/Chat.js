@@ -30,7 +30,7 @@ function LiveChat(props) {
         const msg = {
             "chatType": "CHAT ",
             "seller": `${props.sellerId}`,
-            "buyer": "buyer",
+            "buyer": `${props.id}`,
             "sender": `${props.id}`,
             "roomKey": `${props.productId}`,
             "message": talk
@@ -42,7 +42,7 @@ function LiveChat(props) {
     
     function addChatLog(msg) {
         let talks = JSON.parse(msg.body)
-        // console.log(talks.message)
+        console.log(talks)
         if (talks.sender === "seller") {
             // chat.style.color = "red";
         }

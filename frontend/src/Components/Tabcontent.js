@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import ProfileGoodsList from '../Components/ProfileGoodsList'
-
+import products from "../Data"
+import Card from "./Card"
 
 function TabContent({tab}) {
 
@@ -19,18 +19,32 @@ function TabContent({tab}) {
     { 
     [
     <div>
-      <ProfileGoodsList tab={tab} />
+      <div className="container">
+        <div className="row">
+          {
+            products.map((product, i) => {
+              return (
+                <Card key={i} product={product} i={i} />
+              )
+            })
+          }
+        </div>
+      </div>
     </div>, 
     <div>
-      <ProfileGoodsList tab={tab} />
-    </div>,
-    <div>
-      <ProfileGoodsList tab={tab} />
-    </div>,
-    <div>
-      <ProfileGoodsList tab={tab} />
+      <div className="container">
+        <div className="row">
+          {
+            products.map((product, i) => {
+              return (
+                <Card key={i} product={product} i={i} />
+              )
+            })
+          }
+        </div>
+      </div>
     </div>, 
-    ][tab] 
+    <div>후기</div>][tab] 
     }
   </div>)
 }

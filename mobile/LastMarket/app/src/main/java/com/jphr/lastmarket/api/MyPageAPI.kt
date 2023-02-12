@@ -9,6 +9,7 @@ interface MyPageAPI {
     @GET("api/favorite")
     fun getFavoriteList(@Header("Authentication") token: String): Call<MutableList<LikeListProductDTO>>
 
+    @Multipart
     @PATCH("api/user/profile")
     fun insertUserProfile(@Header("Authentication") token: String,@Part imgs: MultipartBody.Part): Call<Unit>
 

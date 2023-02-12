@@ -76,16 +76,16 @@ class ModalBottomSheet(productId: Long, token: String) : BottomSheetDialogFragme
                 0
             ) { dialog: DialogInterface?, which: Int ->
                 //0 이면 좋아요 1이면 soso 2면 bad
-                if (which == 0) {
-                    var review = ReviewDTO("GOOD", tradeId)
-                    MyPageService().insertReview(token, review)
-                } else if (which == 1) {
-                    var review = ReviewDTO("SOSO", tradeId)
-                    MyPageService().insertReview(token, review)
-                } else if (which == 2) {
-                    var review = ReviewDTO("BAD", tradeId)
-                    MyPageService().insertReview(token, review)
-                }
+//                if (which == 0) {
+//                    var review = ReviewDTO("GOOD", tradeId)
+//                    MyPageService().insertReview(token, review)
+//                } else if (which == 1) {
+//                    var review = ReviewDTO("SOSO", tradeId)
+//                    MyPageService().insertReview(token, review)
+//                } else if (which == 2) {
+//                    var review = ReviewDTO("BAD", tradeId)
+//                    MyPageService().insertReview(token, review)
+//                }
 
             }
                 .setTitle("리뷰를 남겨주세요")

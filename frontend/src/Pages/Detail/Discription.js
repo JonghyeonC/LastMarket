@@ -51,7 +51,7 @@ function Discription(props) {
     // function DeleteGoodApi(){
       return(
         axios({
-          method: 'post',
+          method: 'delete',
           url: `https://i8d206.p.ssafy.io/api/product/${props.id}`
         })
         .then((res) => {
@@ -72,8 +72,8 @@ function Discription(props) {
 
   const Delete = (() => {
     return(
-      navigate('/'),
-      DeleteGood()
+      DeleteGood(),
+      navigate('/')
     )
   })
 

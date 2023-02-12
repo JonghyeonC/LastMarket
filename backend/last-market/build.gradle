@@ -10,6 +10,7 @@ plugins {
     id 'org.asciidoctor.convert' version '2.2.0'
     //querydsl 추가
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'jacoco'
 }
 
 group = 'edu.ssafy'

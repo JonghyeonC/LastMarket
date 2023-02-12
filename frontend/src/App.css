@@ -310,8 +310,6 @@
 
 /* 제품 목록(낱개)에 마우스 올릴 때 */
 .GoodsCard:hover {
-  /* width: 230px;
-  height: 290px; */
   background-color: #D0EDEF;
   box-shadow: 5px 5px 3px 2px #8fdfd6;
 }
@@ -335,7 +333,7 @@
 
 /* 마이페이지 컴포넌트 영역 */
 .profile_Compbox{
-  width: 1280px;
+  width: 1440px;
   margin-top: 40px;
   margin-left: 80px;
   margin-right: 10px;
@@ -346,7 +344,7 @@
 .profile_Profile_Com{
   /* border: solid; */
   border-right: 2px solid #CCD3D9;
-  width: 800px;
+  width: 960px;
   padding-right: 20px;
 }
 

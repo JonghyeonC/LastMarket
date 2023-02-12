@@ -310,6 +310,8 @@
 
 /* 제품 목록(낱개)에 마우스 올릴 때 */
 .GoodsCard:hover {
+  /* width: 230px;
+  height: 290px; */
   background-color: #D0EDEF;
   box-shadow: 5px 5px 3px 2px #8fdfd6;
 }

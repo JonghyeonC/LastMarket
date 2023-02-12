@@ -39,11 +39,19 @@ function Discription(props) {
     })
   }
 
-  const navigate = useNavigate()
-
+  
   useEffect(() => {
     DiscriptionApi()
   }, [])
+  
+  const navigate = useNavigate()
+
+  const Delete = (() => {
+    return(
+      DeleteGood(`${props.id}`),
+      navigate('/')
+    )
+  })
 
   console.log(productDetail)
 
@@ -127,10 +135,7 @@ function Discription(props) {
         {
           productDetail.sellerId === userDetail.id ?
           <div>
-            <button onClick={() => {
-              DeleteGood(`${props.id}`)
-              navigate('/')
-              }}>삭제하기</button>
+            <button onClick={() => Delete()}>삭제하기</button>
           </div>
           :
           null

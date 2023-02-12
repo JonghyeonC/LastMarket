@@ -22,7 +22,7 @@ function DeleteGood(props){
 
   useEffect(() => {
     DeleteGoodApi()
-  }, [props])
+  }, [props.id])
 
 }
 

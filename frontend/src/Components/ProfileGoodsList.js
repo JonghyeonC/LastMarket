@@ -44,9 +44,9 @@ function ProfileGoodsList(props) {
 
   useEffect(() => {
     ProfileGoodsListApi()
-  }, [props])
+  }, [tabUrls])
 
-  console.log(tabUrls)
+  console.log(products)
 
   return (
 

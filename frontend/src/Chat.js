@@ -11,7 +11,7 @@ function LiveChat(props) {
     
     const [talk, setTalk] = useState('')
     const [chat_log, setChat_log] = useState([''])
-    const [chat, setChat] = useState('')
+    const [ logs, setLogs ] = useState(null)
 
     const socket = new SockJS("https://i8d206.p.ssafy.io/api/ws");
     console.log(socket)
@@ -47,10 +47,12 @@ function LiveChat(props) {
             // chat.style.color = "red";
         }
         setChat_log(chat_log.concat(talks.message))
+        setLogs(talks)
     }
 
     console.log(12)
     console.log(chat_log)
+    console.log(logs)
 
     return (
         <div className='chatContainer'>

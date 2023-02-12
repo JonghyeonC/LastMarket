@@ -9,7 +9,7 @@ function DeleteGood(props){
     return(
       axios({
         method: 'post',
-        url: `https://i8d206.p.ssafy.io/api/product/${props.id}`
+        url: `https://i8d206.p.ssafy.io/api/product/${props}`
       })
       .then((res) => {
         console.log('삭제 post 완료')
@@ -22,7 +22,7 @@ function DeleteGood(props){
 
   useEffect(() => {
     DeleteGoodApi()
-  }, [props.id])
+  }, [props])
 
 }
 

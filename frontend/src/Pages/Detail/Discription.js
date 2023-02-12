@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import products from "../../Data"
+// import products from "../../Data"
+import DeleteGood from "./DeleteGood"
 import './Discription.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'

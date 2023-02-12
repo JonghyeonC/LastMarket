@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
-import products from "../../Data"
+// import products from "../../Data"
 import './Discription.css'
+import DeleteGood from '../../DeleteGood'
+
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -114,6 +116,16 @@ function Discription(props) {
       </div>
       <div className='contentBox'>
         {productDetail.content}
+      </div>
+      <div>
+        {
+          productDetail.sellerId === userDetail.id ?
+          <div>
+            <button onClick={() => {DeleteGood(`${props.id}`); navigate('/');}}>삭제하기</button>
+          </div>
+          :
+          null
+        }
       </div>
     </div>
   )

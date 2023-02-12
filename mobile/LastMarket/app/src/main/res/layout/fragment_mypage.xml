@@ -23,8 +23,8 @@
             android:src="@drawable/search" />
 
         <LinearLayout
-            android:layout_weight="3"            android:layout_gravity="center"
-
+            android:layout_weight="3"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -119,7 +119,34 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="8dp"
             android:layout_alignParentTop="true"
-            android:text="판매중인 상품 목록 보기"
+            android:text="판매 상품 목록 보기"
+            android:fontFamily="@font/gmarket_sans_ttf_medium"
+            style="@style/chat"
+            android:lineSpacingExtra="4sp"
+            android:textSize="28sp"
+            android:gravity="center_vertical"
+            />
+    </LinearLayout>
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dividerThickness="2dp"/>
+
+    <LinearLayout
+        android:id="@+id/buy_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:layout_alignParentTop="true"
+            android:text="구매 상품 목록 보기"
             android:fontFamily="@font/gmarket_sans_ttf_medium"
             style="@style/chat"
             android:lineSpacingExtra="4sp"

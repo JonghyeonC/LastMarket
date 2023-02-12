@@ -21,7 +21,6 @@ interface MyPageAPI {
     @GET("api/trades/buy")
     fun getBuyList():Call<MutableList<TradeDTO>>
 
-
     @GET("api/reviews")
     fun getReviewList():Call<MutableList<ReviewListDTO>>
 

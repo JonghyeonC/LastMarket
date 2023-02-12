@@ -121,7 +121,10 @@ function Discription(props) {
         {
           productDetail.sellerId === userDetail.id ?
           <div>
-            <button onClick={() => {DeleteGood(`${props.id}`); navigate('/');}}>삭제하기</button>
+            <button onClick={() => {
+              DeleteGood(`${props.id}`)
+              navigate('/')
+              }}>삭제하기</button>
           </div>
           :
           null

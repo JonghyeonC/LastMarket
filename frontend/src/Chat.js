@@ -3,7 +3,7 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import './Chat.css'
 
-function LiveChat() {
+function LiveChat(props) {
 
     const msg_send_btn = useRef()
     const inputBox = useRef()
@@ -29,14 +29,14 @@ function LiveChat() {
     function sendMessage() {
         const msg = {
             "chatType": "CHAT ",
-            "seller": "seller",
+            "seller": `${props.sellerId}`,
             "buyer": "buyer",
-            "sender": "seller",
-            "roomKey": "123",
+            "sender": `${props.id}`,
+            "roomKey": `${props.productId}`,
             "message": talk
         }
         return(
-            stomp_client.send("/send/room.123", {}, JSON.stringify(msg))
+            stomp_client.send(`/send/room.${msg.roomKey}`, {}, JSON.stringify(msg))
         )
     }
     

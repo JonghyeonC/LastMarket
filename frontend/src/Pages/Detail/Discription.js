@@ -122,6 +122,19 @@ function Discription(props) {
       <div className='contentBox'>
         {productDetail.content}
       </div>
+      <div>
+        {
+          productDetail.sellerId === userDetail.id ?
+          <div>
+            <button onClick={() => {
+              DeleteGood(`${props.id}`)
+              navigate('/')
+              }}>삭제하기</button>
+          </div>
+          :
+          null
+        }
+      </div>
     </div>
   )
 }

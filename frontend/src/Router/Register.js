@@ -155,7 +155,10 @@ function Register() {
           <InputPage setInputData={setInputData} />
         </div>
       </div>
-      <button onClick={() => {reg(); navigate('/');}}>등록하기</button>
+      <button onClick={() => {
+        reg()
+        navigate('/')
+        }}>등록하기</button>
       <button onClick={test}>테스트</button>
     </div>
   )

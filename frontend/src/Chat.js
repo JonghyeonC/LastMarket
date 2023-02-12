@@ -7,7 +7,6 @@ function LiveChat(props) {
 
     const msg_send_btn = useRef()
     const inputBox = useRef()
-    // const chat_log = useRef()
     
     const [talk, setTalk] = useState('')
     const [chat_log, setChat_log] = useState([''])
@@ -28,7 +27,7 @@ function LiveChat(props) {
     
     function sendMessage() {
         const msg = {
-            "chatType": "CHAT ",
+            "chatType": "CHAT",
             "seller": `${props.sellerId}`,
             "buyer": `${props.id}`,
             "sender": `${props.id}`,
@@ -39,6 +38,20 @@ function LiveChat(props) {
             stomp_client.send(`/send/room.${props.productId}`, {}, JSON.stringify(msg))
         )
     }
+
+    function bidMessage() {
+        const bidMsg = {
+            "chatType": "BID",
+            "seller": `${props.sellerId}`,
+            "buyer": `${props.id}`,
+            "sender": `${props.id}`,
+            "roomKey": `${props.productId}`,
+            "message": talk
+        }
+        return(
+            stomp_client.send(`/send/room.${props.productId}`, {}, JSON.stringify(bidMsg))
+        )
+    }
     
     function addChatLog(msg) {
         let talks = JSON.parse(msg.body)
@@ -46,8 +59,10 @@ function LiveChat(props) {
         // if (talks.sender === "seller") {
         //     chat.style.color = "red";
         // }
-        setChat_log(chat_log.concat(talks.message))
-        setLogs(talks)
+        const new_chatlog = chat_log.concat(talks.message)
+        setChat_log(new_chatlog)
+        const new_logs = logs.concat(talks)
+        setLogs(new_logs)
     }
 
     console.log("메시지 출력")
@@ -60,14 +75,17 @@ function LiveChat(props) {
             <div className='chatBox'>
                 <div className='chatContent'>
                     {
-                        chat_log.map((logs) => {
-                            return <ul>{logs}</ul>
+                        logs.map((log) => {
+                            return(
+                                log.message
+                            )
                         })
                     }
                 </div>
                 <input type="text" ref={inputBox} className="chatInput" placeholder="채팅을 입력해주세요!!" onChange={(e) => setTalk(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') {sendMessage(); e.target.value=''}}} />
                     <br />
-                <button ref={msg_send_btn} onClick={sendMessage} >send</button>
+                <button ref={msg_send_btn} onClick={sendMessage}>전송</button>
+                <button ref={msg_send_btn} onClick={bidMessage}>경매</button>
                     <br />
             </div>
         </div>

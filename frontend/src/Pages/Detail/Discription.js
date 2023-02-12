@@ -47,7 +47,7 @@ function Discription(props) {
   const navigate = useNavigate()
 
   function DeleteGood(){
- 
+
     // function DeleteGoodApi(){
       return(
         axios({

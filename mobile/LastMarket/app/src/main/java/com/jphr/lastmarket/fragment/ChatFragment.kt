@@ -1,6 +1,7 @@
 package com.jphr.lastmarket.fragment
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ChatAdapter
@@ -23,7 +25,9 @@ import com.jphr.lastmarket.databinding.FragmentChatBinding
 import com.jphr.lastmarket.dto.ChatDTO
 import com.jphr.lastmarket.dto.ChatLogListDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
+import com.jphr.lastmarket.dto.ReviewDTO
 import com.jphr.lastmarket.service.ChatService
+import com.jphr.lastmarket.service.MyPageService
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
@@ -49,9 +53,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 private const val TAG = "ChatFragment"
-class ModalBottomSheet(productId:Long,token:String):BottomSheetDialogFragment(){
-    var token =token
-    var productId=productId
+
+class ModalBottomSheet(productId: Long, token: String) : BottomSheetDialogFragment() {
+    var token = token
+    var productId = productId
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,11 +66,39 @@ class ModalBottomSheet(productId:Long,token:String):BottomSheetDialogFragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
+        //TODO:거래 완료를 판매자만 누를수있게 해야함
 
         view?.findViewById<ImageView>(R.id.trade_sucess)?.setOnClickListener {
             //거래 성공
-            ProductService().changeFinish(token,productId)
+            ProductService().changeFinish(token, productId)
+            MaterialAlertDialogBuilder(requireContext()).setSingleChoiceItems(
+                R.array.review,
+                0
+            ) { dialog: DialogInterface?, which: Int ->
+                //0 이면 좋아요 1이면 soso 2면 bad
+                if (which == 0) {
+                    var review = ReviewDTO("GOOD", tradeId)
+                    MyPageService().insertReview(token, review)
+                } else if (which == 1) {
+                    var review = ReviewDTO("SOSO", tradeId)
+                    MyPageService().insertReview(token, review)
+                } else if (which == 2) {
+                    var review = ReviewDTO("BAD", tradeId)
+                    MyPageService().insertReview(token, review)
+                }
+
+            }
+                .setTitle("리뷰를 남겨주세요")
+                .setMessage("거래의 느낌은 어땠나요? 아래의 문구에서 선택해주세요")
+                .setNegativeButton("취소") { dialog, which ->
+                    // Respond to negative button press
+                }
+                .setPositiveButton("확인") { dialog, which ->
+
+                    // Respond to positive button press
+                }
+                .show()
+
         }
         view?.findViewById<ImageView>(R.id.trade_fail)?.setOnClickListener {
             //거래 파기
@@ -73,11 +106,13 @@ class ModalBottomSheet(productId:Long,token:String):BottomSheetDialogFragment(){
         }
 
     }
+
     companion object {
         const val TAG = "ModalBottomSheet"
 
     }
 }
+
 class ChatFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -87,17 +122,17 @@ class ChatFragment : Fragment() {
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var chatSocketAdapter: ChatSocketAdapter
     private val wsServerUrl = "ws://i8d206.p.ssafy.io/api/ws/websocket"
-    private var token=""
-    private var userId =0L
-    private var productId:Long=0L
-    var chatDTO:ChatDTO?=null
+    private var token = ""
+    private var userId = 0L
+    private var productId: Long = 0L
+    var chatDTO: ChatDTO? = null
     private var stompClient: StompClient? = null
-    private var headerList= ArrayList<StompHeader>()
-    var isreservation:String=""
-    var modalBottomSheet:ModalBottomSheet?=null
+    private var headerList = ArrayList<StompHeader>()
+    var isreservation: String = ""
+    var modalBottomSheet: ModalBottomSheet? = null
     private val mainViewModel by activityViewModels<MainViewModel>()
-    private lateinit var chatList:ChatLogListDTO
-    private var detailDTO:ProductDetailDTO?=null
+    private lateinit var chatList: ChatLogListDTO
+    private var detailDTO: ProductDetailDTO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,14 +141,15 @@ class ChatFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.d(TAG, "onAttach: ChatFragment")
-        chatDTO=mainViewModel.getChatDTO()
-        mainActivity=context as MainActivity
+        chatDTO = mainViewModel.getChatDTO()
+        mainActivity = context as MainActivity
         //product 정보 불러와서 deal state에 따라 바텀시트의 상태 변화 시키기
-        productId= chatDTO?.roomKey?.toLong()!!
-        ProductService().getProductDetail(productId,ProductDetailCallback())
+        productId = chatDTO?.roomKey?.toLong()!!
+        ProductService().getProductDetail(productId, ProductDetailCallback())
 
     }
 
@@ -124,12 +160,13 @@ class ChatFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment'
 
-        binding=FragmentChatBinding.inflate(inflater,container,false)
+        binding = FragmentChatBinding.inflate(inflater, container, false)
 
-        var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
+        var prefs =
+            requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
 
-        token =prefs.getString("token","")!!
-        userId=prefs.getLong("user_id",0)
+        token = prefs.getString("token", "")!!
+        userId = prefs.getLong("user_id", 0)
 
         val fragManager: FragmentManager =
             requireActivity().supportFragmentManager //If using fragments from support v4
@@ -137,30 +174,30 @@ class ChatFragment : Fragment() {
 
         binding.plus.setOnClickListener {
 //            val modalBottomSheetBehavior = (modalBottomSheet.dialog as BottomSheetDialog).behavior
-            modalBottomSheet= ModalBottomSheet(productId,token)
-            modalBottomSheet?.show(fragManager,ModalBottomSheet.TAG)
+            modalBottomSheet = ModalBottomSheet(productId, token)
+            modalBottomSheet?.show(fragManager, ModalBottomSheet.TAG)
         }
         Log.d(TAG, "onCreateView: USER ID $userId  SELLERID ${chatDTO?.seller}")
-        if(chatDTO?.seller.equals(userId.toString())){//내가 seller 일 때
-            binding.nickname.text=chatDTO?.buyer
-        }else{
-            binding.nickname.text=chatDTO?.seller
+        if (chatDTO?.seller.equals(userId.toString())) {//내가 seller 일 때
+            binding.nickname.text = chatDTO?.buyer
+        } else {
+            binding.nickname.text = chatDTO?.seller
         }
 
 
-        var roomId=chatDTO?.seller+"-"+chatDTO?.buyer+"-"+chatDTO?.roomKey
+        var roomId = chatDTO?.seller + "-" + chatDTO?.buyer + "-" + chatDTO?.roomKey
 
         Log.d(TAG, "onAttach: ${chatDTO}")
         initAdapter(userId)
-        ChatService().getChatDetail(roomId,chatCallback())
+        ChatService().getChatDetail(roomId, chatCallback())
 
 
         binding.recyclerview.apply {
-            var linearLayoutManager= LinearLayoutManager(context)
-            linearLayoutManager.orientation= LinearLayoutManager.VERTICAL
+            var linearLayoutManager = LinearLayoutManager(context)
+            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
             setLayoutManager(linearLayoutManager)
-            adapter=chatSocketAdapter
-            addItemDecoration(RecyclerViewDecoration(20,20))
+            adapter = chatSocketAdapter
+            addItemDecoration(RecyclerViewDecoration(20, 20))
         }
 
         initStomp()
@@ -170,21 +207,27 @@ class ChatFragment : Fragment() {
                 val jsonObject = JSONObject(str)
                 val type = jsonObject.getString("chatType")
 
-                if(type.equals("TRADE_CHAT")){
-                    var chatDTO=ChatDTO(jsonObject.getString("chatType"),jsonObject.getString("buyer")
-                        ,jsonObject.getString("seller"),jsonObject.getString("message"),jsonObject.getString("roomKey"),jsonObject.getString("sender"))
+                if (type.equals("TRADE_CHAT")) {
+                    var chatDTO = ChatDTO(
+                        jsonObject.getString("chatType"),
+                        jsonObject.getString("buyer"),
+                        jsonObject.getString("seller"),
+                        jsonObject.getString("message"),
+                        jsonObject.getString("roomKey"),
+                        jsonObject.getString("sender")
+                    )
 
 
                     Log.d(TAG, "Chat receive 했을 때 chatDTO:  $chatDTO")
-                   mainActivity.runOnUiThread{
-                       binding.recyclerview.apply {
-                           chatSocketAdapter.list.add(chatDTO)
-                           var linearLayoutManager= LinearLayoutManager(context)
-                           linearLayoutManager.orientation= LinearLayoutManager.VERTICAL
-                           setLayoutManager(linearLayoutManager)
-                           adapter=chatSocketAdapter
-                       }
-                   }
+                    mainActivity.runOnUiThread {
+                        binding.recyclerview.apply {
+                            chatSocketAdapter.list.add(chatDTO)
+                            var linearLayoutManager = LinearLayoutManager(context)
+                            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+                            setLayoutManager(linearLayoutManager)
+                            adapter = chatSocketAdapter
+                        }
+                    }
 
                 }
 
@@ -236,11 +279,12 @@ class ChatFragment : Fragment() {
             }
 //            chatSocketAdapter.list.add(dto)
 //            chatSocketAdapter.notifyDataSetChanged()
-            binding.chatText.text=null
+            binding.chatText.text = null
         }
 
         return binding.root
     }
+
     fun initStomp() {
         val isUnexpectedClosed = AtomicBoolean(false)
 
@@ -248,7 +292,7 @@ class ChatFragment : Fragment() {
         stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, wsServerUrl)
 
         stompClient!!.lifecycle().subscribe(Consumer { lifecycleEvent: LifecycleEvent ->
-            when(lifecycleEvent.type) {
+            when (lifecycleEvent.type) {
                 LifecycleEvent.Type.OPENED -> Log.d(TAG, "Stomp connection opened")
                 LifecycleEvent.Type.ERROR -> {
                     Log.e(TAG, "initStomp:")
@@ -270,7 +314,7 @@ class ChatFragment : Fragment() {
                         isUnexpectedClosed.set(false)
                     }
                 }
-                else ->{
+                else -> {
                     Log.d(TAG, "initStomp: else")
                 }
             }
@@ -280,28 +324,36 @@ class ChatFragment : Fragment() {
         headerList!!.add(StompHeader("Authorization", token))
         stompClient!!.connect(headerList)
     }
-    fun initAdapter(userId:Long){
-        chatAdapter=ChatAdapter(mainActivity)
-        chatSocketAdapter= ChatSocketAdapter(mainActivity)
-        chatSocketAdapter.myId=userId
-        chatAdapter.myId=userId
+
+    fun initAdapter(userId: Long) {
+        chatAdapter = ChatAdapter(mainActivity)
+        chatSocketAdapter = ChatSocketAdapter(mainActivity)
+        chatSocketAdapter.myId = userId
+        chatAdapter.myId = userId
 
     }
-    inner class chatCallback: RetrofitCallback<ChatLogListDTO> {
-        override fun onSuccess(code: Int, responseData: ChatLogListDTO, issearch:Boolean, word:String?, category:String?) {
-            if(responseData!=null) {
+
+    inner class chatCallback : RetrofitCallback<ChatLogListDTO> {
+        override fun onSuccess(
+            code: Int,
+            responseData: ChatLogListDTO,
+            issearch: Boolean,
+            word: String?,
+            category: String?
+        ) {
+            if (responseData != null) {
                 //취미별
-                chatList=responseData
+                chatList = responseData
 
                 binding.recyclerviewOld.apply {
-                    chatAdapter.list=responseData
-                    var linearLayoutManager= LinearLayoutManager(context)
-                    linearLayoutManager.orientation= LinearLayoutManager.VERTICAL
+                    chatAdapter.list = responseData
+                    var linearLayoutManager = LinearLayoutManager(context)
+                    linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
                     linearLayoutManager.setStackFromEnd(true)
                     setLayoutManager(linearLayoutManager)
-                    adapter=chatAdapter
+                    adapter = chatAdapter
                 }
-            }else Log.d(TAG, "onSuccess: data is null")
+            } else Log.d(TAG, "onSuccess: data is null")
         }
 
         override fun onError(t: Throwable) {
@@ -313,7 +365,8 @@ class ChatFragment : Fragment() {
         }
 
     }
-    inner class ProductDetailCallback: RetrofitCallback<ProductDetailDTO> {
+
+    inner class ProductDetailCallback : RetrofitCallback<ProductDetailDTO> {
 
         override fun onSuccess(
             code: Int,
@@ -323,7 +376,7 @@ class ChatFragment : Fragment() {
             category: String?
         ) {
 
-            detailDTO=responseData
+            detailDTO = responseData
         }
 
         override fun onError(t: Throwable) {

@@ -22,4 +22,9 @@
     <string name="accept_permissions_dialog">GIVE PERMISSIONS!</string>
     <string name="cancel_dialog">CANCEL</string>
     <string name="no_internet_connection">NO INTERNET CONNECTION, PLEASE CHECK YOUR CONNECTION</string>
+    <string-array name="review">
+        <item>😄좋았어요</item>
+        <item>😶보통이에요</item>
+        <item>😣별로였어요</item>
+    </string-array>
 </resources>

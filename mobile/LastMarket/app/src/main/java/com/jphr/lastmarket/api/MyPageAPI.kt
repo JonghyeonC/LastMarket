@@ -3,10 +3,7 @@ package com.jphr.lastmarket.api
 import com.jphr.lastmarket.dto.*
 import okhttp3.MultipartBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.PATCH
-import retrofit2.http.Part
+import retrofit2.http.*
 
 interface MyPageAPI {
     @GET("api/favorite")
@@ -24,4 +21,6 @@ interface MyPageAPI {
     @GET("api/reviews")
     fun getReviewList():Call<MutableList<ReviewListDTO>>
 
+    @POST("api/reviews")
+    fun insertReview(@Header("Authentication") token: String,@Body review:ReviewDTO):Call<Unit>
 }

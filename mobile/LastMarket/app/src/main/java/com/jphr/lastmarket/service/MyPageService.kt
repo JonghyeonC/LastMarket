@@ -140,4 +140,26 @@ class MyPageService {
             }
         })
     }
+    fun insertReview(token:String,review:ReviewDTO) {
+        RetrofitUtil.myPageService.insertReview(token,review).enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                val res = response.body()
+                Log.d(TAG, "insertData: ${response}")
+                if (response.isSuccessful) {
+                    if (res != null) {
+                        Log.d(TAG, "insertdata: true")
+                        true
+                    }
+                } else {
+                    Log.d(TAG, "insertdata:false ")
+
+                    false
+                }
+            }
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                Log.d(TAG, "insertdata:false ")
+
+            }
+        })
+    }
 }

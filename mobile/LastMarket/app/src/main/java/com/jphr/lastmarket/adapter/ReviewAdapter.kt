@@ -9,42 +9,36 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jphr.lastmarket.R
-import com.jphr.lastmarket.dto.ChatListDTO
-import com.jphr.lastmarket.dto.Product
-import com.jphr.lastmarket.dto.ProductDTO
-import com.jphr.lastmarket.dto.ProductX
+import com.jphr.lastmarket.dto.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val TAG = "LatestOrderAdapter_싸피"
+private const val TAG = "ReviewAdapter"
 class ReviewAdapter(val context: Context) :RecyclerView.Adapter<ReviewAdapter.ChatListHolder>(){
-    var list : MutableList<ChatListDTO>? =null
+    var list : MutableList<ReviewListDTO>? =null
 
     inner class ChatListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val image = itemView.findViewById<ImageView>(R.id.profileImage)
-        val nickname: TextView = itemView.findViewById(R.id.Nickname)
-        val lastChat: TextView = itemView.findViewById(R.id.last_chat)
+        val nickname: TextView = itemView.findViewById(R.id.nickname)
+        val review: TextView = itemView.findViewById(R.id.review)
 
 
-        fun bindInfo(chat: ChatListDTO){
-            if(image==null){
-                if (image != null) {
-                    Glide.with(itemView)
-                        .load(R.drawable.default_user_image)
-                        .into(image)
-                }
+        fun bindInfo(reviewDTO: ReviewListDTO){
+            nickname.setText(reviewDTO.buyerNickname.toString())
+            var str=reviewDTO.reviewTemplate
+            val array = context.resources.getStringArray(R.array.review)
+            if(str.equals("GOOD")){
+                review.setText(array.get(0))
+            }else if(str.equals("SOSO")){
+                review.setText(array.get(1))
+            }else if(str.equals("BAD")){
+                review.setText(array.get(2))
             }
-            Glide.with(itemView)
-                .load("${chat.otherImageUrl}")
-                .into(image)
-            nickname.text=chat.otherName
-            lastChat.text=chat.lastChat.msg
 
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatListHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.chat_list_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_review, parent, false)
 
         return ChatListHolder(view)
     }
@@ -54,26 +48,12 @@ class ReviewAdapter(val context: Context) :RecyclerView.Adapter<ReviewAdapter.Ch
 
         holder.apply {
             list?.get(position)?.let { bindInfo(it) }
-            //클릭연결
-            itemView.setOnClickListener{
-                list?.get(position)?.let { it1 -> itemClickListner.onClick(it, position, it1) }
-            }
+
         }
     }
 
     override fun getItemCount(): Int {
         return 10.coerceAtMost(list!!.size)
-    }
-
-    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
-    interface ItemClickListener {
-        fun onClick(view: View,  position: Int, item: ChatListDTO)
-    }
-    //클릭리스너 선언
-    private lateinit var itemClickListner: ItemClickListener
-    //클릭리스너 등록 매소드
-    fun setItemClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListner = itemClickListener
     }
 
 }

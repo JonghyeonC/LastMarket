@@ -1,9 +1,6 @@
 package com.jphr.lastmarket.api
 
-import com.jphr.lastmarket.dto.LikeListProductDTO
-import com.jphr.lastmarket.dto.ProductDTO
-import com.jphr.lastmarket.dto.ReviewListDTO
-import com.jphr.lastmarket.dto.SellListDTO
+import com.jphr.lastmarket.dto.*
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.GET
@@ -19,7 +16,11 @@ interface MyPageAPI {
     fun insertUserProfile(@Header("Authentication") token: String,@Part imgs: MultipartBody.Part): Call<Unit>
 
     @GET("api/trades/sell")
-    fun getSellList():Call<MutableList<SellListDTO>>
+    fun getSellList():Call<MutableList<TradeDTO>>
+
+    @GET("api/trades/buy")
+    fun getBuyList():Call<MutableList<TradeDTO>>
+
 
     @GET("api/reviews")
     fun getReviewList():Call<MutableList<ReviewListDTO>>

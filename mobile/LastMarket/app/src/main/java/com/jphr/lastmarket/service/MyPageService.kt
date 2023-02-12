@@ -1,10 +1,7 @@
 package com.jphr.lastmarket.service
 
 import android.util.Log
-import com.jphr.lastmarket.dto.LikeListProductDTO
-import com.jphr.lastmarket.dto.ListDTO
-import com.jphr.lastmarket.dto.ReviewListDTO
-import com.jphr.lastmarket.dto.SellListDTO
+import com.jphr.lastmarket.dto.*
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.util.RetrofitUtil
 import okhttp3.MultipartBody
@@ -65,10 +62,10 @@ class MyPageService {
             }
         })
     }
-    fun getSellList(callback: RetrofitCallback<MutableList<SellListDTO>>){
-        val productInterface: Call<MutableList<SellListDTO>> = RetrofitUtil.myPageService.getSellList()
-        productInterface.enqueue(object : Callback<MutableList<SellListDTO>> {
-            override fun onResponse(call: Call<MutableList<SellListDTO>>, response: Response<MutableList<SellListDTO>>) {
+    fun getSellList(callback: RetrofitCallback<MutableList<TradeDTO>>){
+        val productInterface: Call<MutableList<TradeDTO>> = RetrofitUtil.myPageService.getSellList()
+        productInterface.enqueue(object : Callback<MutableList<TradeDTO>> {
+            override fun onResponse(call: Call<MutableList<TradeDTO>>, response: Response<MutableList<TradeDTO>>) {
                 val res = response.body()
                 if(response.code() == 200){
                     if (res != null) {
@@ -86,7 +83,33 @@ class MyPageService {
                 }
             }
 
-            override fun onFailure(call: Call<MutableList<SellListDTO>>, t: Throwable) {
+            override fun onFailure(call: Call<MutableList<TradeDTO>>, t: Throwable) {
+                callback.onError(t)
+            }
+        })
+    }
+    fun getBuyList(callback: RetrofitCallback<MutableList<TradeDTO>>){
+        val productInterface: Call<MutableList<TradeDTO>> = RetrofitUtil.myPageService.getBuyList()
+        productInterface.enqueue(object : Callback<MutableList<TradeDTO>> {
+            override fun onResponse(call: Call<MutableList<TradeDTO>>, response: Response<MutableList<TradeDTO>>) {
+                val res = response.body()
+                if(response.code() == 200){
+                    if (res != null) {
+                        Log.d(TAG, "onResponse: ${response}")
+                        callback.onSuccess(response.code(), res,false,null,null)
+
+                    }
+                    Log.d(TAG, "onResponse: $res")
+                } else {
+                    Log.d(TAG, "onResponse: ${response}")
+                    Log.d(TAG, "onResponse: ${response.body()}")
+                    Log.d(TAG, "onResponse: ${response.errorBody()}")
+
+                    callback.onFailure(response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<MutableList<TradeDTO>>, t: Throwable) {
                 callback.onError(t)
             }
         })

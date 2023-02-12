@@ -19,7 +19,7 @@ function LiveChat(props) {
     
     stomp_client.connect({}, () => {
         console.log("connection successe")
-        stomp_client.subscribe("/exchange/chat.exchange/room.123", (message) => {
+        stomp_client.subscribe(`/exchange/chat.exchange/room.${props.productId}`, (message) => {
             // addChatLog(JSON.parse(message.body));
             // console.log(JSON.parse(message.body))
             addChatLog(message)
@@ -36,21 +36,21 @@ function LiveChat(props) {
             "message": talk
         }
         return(
-            stomp_client.send(`/send/room.${msg.roomKey}`, {}, JSON.stringify(msg))
+            stomp_client.send(`/send/room.${props.productId}`, {}, JSON.stringify(msg))
         )
     }
     
     function addChatLog(msg) {
         let talks = JSON.parse(msg.body)
         console.log(talks)
-        if (talks.sender === "seller") {
-            // chat.style.color = "red";
-        }
+        // if (talks.sender === "seller") {
+        //     chat.style.color = "red";
+        // }
         setChat_log(chat_log.concat(talks.message))
         setLogs(talks)
     }
 
-    console.log(12)
+    console.log("메시지 출력")
     console.log(chat_log)
     console.log(logs)
 

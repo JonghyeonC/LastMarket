@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
-// import products from "../../Data"
+import products from "../../Data"
 import './Discription.css'
-import DeleteGood from '../../DeleteGood'
-
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -14,8 +12,13 @@ function Discription(props) {
 
   const [ productDetail, setProductDetail ] = useState([])
   const [ detailURIS, setDetailURIS ] = useState([])
+  // const [ userDetail, setUserDetail] = useState(null)
 
+  // useEffect(() => {
+  //   setUserDetail(jwt_decode(reduxData.token))
+  // }, [reduxData])
   const userDetail = jwt_decode(reduxData.token)
+  
   console.log(userDetail)
 
   function DiscriptionApi() {
@@ -43,6 +46,8 @@ function Discription(props) {
 
   console.log(productDetail)
 
+  const productId = productDetail.productId
+
   return (
     <div>
       <div className="decriptionBox">
@@ -61,7 +66,7 @@ function Discription(props) {
         <div className='detailBox'>
           <h1>{productDetail.title}</h1>
           {
-            productDetail.sellerId === userDetail.id ?
+            productDetail.sellerId === userDetail?.id ?
             null
             :
             <div className='likeBtn'>
@@ -87,19 +92,19 @@ function Discription(props) {
               <p>{productDetail.location}</p>
             </div>
             {
-              productDetail.sellerId === userDetail.id ?
+              productDetail.sellerId === userDetail?.id ?
               null :
               <span><button>채팅</button></span>
             }
           </div>
           {
-            productDetail.sellerId === userDetail.id ?
+            productDetail.sellerId === userDetail?.id ?
             <div>
-              <button onClick={() => (navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}`}}))}>라이브 시작</button>
+              <button onClick={() => (navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 시작</button>
             </div>
             :
             <div>
-              <button onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}`}}))}>라이브 참여</button>
+              <button onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</button>
               <button>즉시구매</button>
             </div>
           }
@@ -116,16 +121,6 @@ function Discription(props) {
       </div>
       <div className='contentBox'>
         {productDetail.content}
-      </div>
-      <div>
-        {
-          productDetail.sellerId === userDetail.id ?
-          <div>
-            <button onClick={() => {DeleteGood(`${props.id}`); navigate('/');}}>삭제하기</button>
-          </div>
-          :
-          null
-        }
       </div>
     </div>
   )

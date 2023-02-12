@@ -12,6 +12,7 @@ import HeadsetOffIcon from "@mui/icons-material/HeadsetOff";
 import CallEndIcon from "@mui/icons-material/CallEnd";
 import ChatIcon from "@mui/icons-material/Chat";
 import LiveChat from "../Chat"
+import WithRouter from "../Components/WithRouter";
 
 // 로컬 미디어 서버 주소
 const OPENVIDU_SERVER_URL = "https://i8d206.p.ssafy.io";
@@ -227,7 +228,11 @@ class OnlineMeeting_sell extends Component {
             </VideoContainer>
           </Left>
           <Right primary={this.state.isChat}>
-            <LiveChat />
+            <LiveChat
+              id={this.id}
+              sellerId={this.sellerId}
+              productId={productId}
+            />
           </Right>
         </Middle>
         <Bottom>
@@ -273,6 +278,9 @@ class OnlineMeeting_sell extends Component {
   constructor(props) {
     super(props);
     this.userRef = React.createRef();
+
+    this.id = this.props.location.state.id
+    this.sellerId = this.props.location.state.sellerId
 
     this.state = {
       mySessionId: undefined,
@@ -543,4 +551,4 @@ class OnlineMeeting_sell extends Component {
   }
 }
 
-export default OnlineMeeting_sell;
+export default WithRouter(OnlineMeeting_sell);

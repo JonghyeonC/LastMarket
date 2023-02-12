@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import './Chat.css'
 
 function LiveChat(props) {
 

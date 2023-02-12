@@ -5,7 +5,7 @@ import GoodsListCard from './GoodsListCard'
 function ProfileGoodsList(props) {
   
   const [ products, setProducts ] = useState([])
-  const [ tabUrls, setTabUrls ] = useState('')
+  const [ tabUrls, setTabUrls ] = useState('trades/sell')
 
   function TabtoURL() {
     if (`${props.tab}` === '0'){

@@ -5,6 +5,7 @@ import edu.ssafy.lastmarket.domain.document.TradeChat;
 import edu.ssafy.lastmarket.domain.dto.ChatListDTO;
 import edu.ssafy.lastmarket.domain.dto.ChatMessageDTO;
 import edu.ssafy.lastmarket.domain.dto.ChatType;
+import edu.ssafy.lastmarket.domain.entity.DealState;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.domain.entity.Product;
 import edu.ssafy.lastmarket.domain.entity.Trade;
@@ -47,6 +48,9 @@ public class ChatController {
         } else if (msg.getChatType() == ChatType.FINISH) {
             Product product = productService.findProductMemberById(Long.parseLong(msg.getRoomKey()))
                     .orElseThrow(() -> new NotFoundException("없는 제품입니다."));
+            if (product.getDealState() == DealState.FINISH) {
+                throw new IllegalArgumentException("이미 판매된 상품입니다.");
+            }
             if (msg.getSender().equals(msg.getSeller())) {
                 Member buyer = memberService.findMemberById(Long.parseLong(msg.getBuyer()));
                 Trade trade = tradeService.saveTrade(product, buyer);

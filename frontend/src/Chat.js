@@ -76,9 +76,7 @@ function LiveChat(props) {
                 <div className='chatContent'>
                     {
                         logs.map((log) => {
-                            return(
-                                log.message
-                            )
+                            return <ul>{log.message}</ul>
                         })
                     }
                 </div>

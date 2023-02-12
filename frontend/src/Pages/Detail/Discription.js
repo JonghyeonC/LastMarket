@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 // import products from "../../Data"
-import DeleteGood from "./DeleteGood"
+// import DeleteGood from "./DeleteGood"
 import './Discription.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -46,10 +46,34 @@ function Discription(props) {
   
   const navigate = useNavigate()
 
+  function DeleteGood(){
+ 
+    // function DeleteGoodApi(){
+      return(
+        axios({
+          method: 'post',
+          url: `https://i8d206.p.ssafy.io/api/product/${props.id}`
+        })
+        .then((res) => {
+          console.log('삭제 post 완료')
+        })
+        .catch((res) => {
+          console.log('삭제 post 실패')
+        })
+      )
+    // }
+  
+    // useEffect(() => {
+    //   DeleteGoodApi()
+    // }, [])
+  
+  }
+  
+
   const Delete = (() => {
     return(
-      DeleteGood(`${props.id}`),
-      navigate('/')
+      navigate('/'),
+      DeleteGood()
     )
   })
 

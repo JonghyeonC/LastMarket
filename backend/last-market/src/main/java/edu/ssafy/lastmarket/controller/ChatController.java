@@ -7,6 +7,7 @@ import edu.ssafy.lastmarket.domain.dto.ChatMessageDTO;
 import edu.ssafy.lastmarket.domain.dto.ChatType;
 import edu.ssafy.lastmarket.domain.entity.Member;
 import edu.ssafy.lastmarket.domain.entity.Product;
+import edu.ssafy.lastmarket.domain.entity.Trade;
 import edu.ssafy.lastmarket.exception.NotFoundException;
 import edu.ssafy.lastmarket.exception.NotMatchSellerException;
 import edu.ssafy.lastmarket.service.MemberService;
@@ -36,6 +37,7 @@ public class ChatController {
     private final ProductService productService;
     private final MemberService memberService;
 
+    //TODO : service로 분리하기
     @MessageMapping("room.{roomKey}")
     public void chatSend(ChatMessageDTO msg, @DestinationVariable String roomKey) {
         log.info("[msg from {}]{}", roomKey, msg);
@@ -47,8 +49,10 @@ public class ChatController {
                     .orElseThrow(() -> new NotFoundException("없는 제품입니다."));
             if (msg.getSender().equals(msg.getSeller())) {
                 Member buyer = memberService.findMemberById(Long.parseLong(msg.getBuyer()));
-                tradeService.saveTrade(product, buyer);
+                Trade trade = tradeService.saveTrade(product, buyer);
                 productService.successBid(product, msg.getMessage());
+                // TODO : tradeId 보내주기
+                template.convertAndSend("chat.exchange", "room." + roomKey, "{\"msg\" : \"" + trade.getId() + "\"}");
             } else {
                 throw new NotMatchSellerException("판매자가 아닙니다.");
             }

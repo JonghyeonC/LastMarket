@@ -34,6 +34,7 @@ function ProfileGoodsList(props) {
       setProducts(res.data.content)
       console.log(res)
       console.log(`products 받기 성공`)
+      console.log(url)
     })
     .catch((res) => {
       console.log("실패")

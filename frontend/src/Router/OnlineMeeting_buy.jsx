@@ -304,7 +304,7 @@ class OnlineMeeting_buy extends Component {
 
   componentDidMount() {
     // this.leaveSession();
-    // this.joinSession();
+    this.joinSession();
     window.addEventListener("beforeunload", this.onbeforeunload);
     // 스터디방에서 화상회의 입장 -> props로 roomId로 받으면 세션id 업뎃 user 정보 전역변수 가져옴 -> 상태값 업뎃
   }

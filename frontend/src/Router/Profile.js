@@ -38,11 +38,11 @@ function Profile() {
   return (
     <div>
       <div className="Profile_title">
-        <h1>{nickName}님의 프로필입니다.</h1>
+        <h1>{nickName}님의 프로필</h1>
       </div>
       <div className="profile_Profile_Info_Com">
         <div className="profile_Profile_Info_Com_Img">
-          <img src="profile_profile.png" width="270px" height="270px" alt="" />
+          <img src="profile_profile.png" width="250px" height="250px" alt="" />
           <br />
           <br />
           <div>
@@ -57,7 +57,7 @@ function Profile() {
             <p>{lifestyles} 라이프스타일</p>
           </div>
           <div>
-            <p><img src="addr.png" width="50px" height="50px" alt="addr" /> {addrs}</p>
+            <p><img src="addr.png" width="40px" height="40px" alt="addr" /> {addrs}</p>
           </div>
         </div>
         <div className="profile_Profile_Info_Com_Btn">

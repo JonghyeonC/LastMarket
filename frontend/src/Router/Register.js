@@ -22,55 +22,26 @@ function Register() {
   // console.log(inputData)
   console.log(imageUrls)
   
-  const test = (() => {
-    let formData = new FormData();
-    let jsonData = new FormData()
+  // const test = (() => {
+  //   let formData = new FormData();
+  //   let jsonData = new FormData()
 
-    imageUrls.map((url) => {
-      formData.append('imgs', url)
-    })
+  //   imageUrls.map((url) => {
+  //     formData.append('imgs', url)
+  //   })
 
-    console.log(inputData)
+  //   console.log(inputData)
 
-    // imageUrls.imgs.map((url) => {
-    //   formData.append('imgs', url)
-    // })
-
-    // formData.append(
-    //   "product", JSON.stringify(inputData)
-    // )
-
-    // jsonData.append(
-    //   "category", JSON.stringify(inputData.category)
-    // )
-    // jsonData.append(
-    //   "title", JSON.stringify(inputData.title)
-    // )
-    // jsonData.append(
-    //   "content", JSON.stringify(inputData.content)
-    // )
-    // jsonData.append(
-    //   "instantPrice", JSON.stringify(inputData.instantPrice)
-    // )
-    // jsonData.append(
-    //   "lifestyle", JSON.stringify(inputData.lifestyle)
-    // )
-    // jsonData.append(
-    //   "livetime", JSON.stringify(inputData.livetime)
-    // )
-    // jsonData.append(
-    //   "startingPrice", JSON.stringify(inputData.startingPrice)
-    // )
     
-    for (let key of formData.keys()) {
-      console.log(key);
-    }
+  //   for (let key of formData.keys()) {
+  //     console.log(key);
+  //   }
     
-    // FormData의 value 확인
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-  })
+  //   // FormData의 value 확인
+  //   for (let value of formData.values()) {
+  //     console.log(value);
+  //   }
+  // })
 
   const reg = (() => {
     
@@ -82,31 +53,6 @@ function Register() {
 
     formData.append('product', new Blob([JSON.stringify(inputData)]), {type: "application/json"})
 
-    // formData.append(
-    //   "product", JSON.stringify(inputData)
-    // )
-
-    // jsonData.append(
-    //   "category", JSON.stringify(inputData.category)
-    // )
-    // jsonData.append(
-    //   "title", JSON.stringify(inputData.title)
-    // )
-    // jsonData.append(
-    //   "content", JSON.stringify(inputData.content)
-    // )
-    // jsonData.append(
-    //   "instantPrice", JSON.stringify(inputData.instantPrice)
-    // )
-    // jsonData.append(
-    //   "lifestyle", JSON.stringify(inputData.lifestyle)
-    // )
-    // jsonData.append(
-    //   "livetime", JSON.stringify(inputData.livetime)
-    // )
-    // jsonData.append(
-    //   "startingPrice", JSON.stringify(inputData.startingPrice)
-    // )
     
     for (let key of formData.keys()) {
       console.log(key);
@@ -117,14 +63,6 @@ function Register() {
       console.log(value);
     }
 
-    // for (let key of jsonData.keys()) {
-    //   console.log(key);
-    // }
-    
-    // // FormData의 value 확인
-    // for (let value of jsonData.values()) {
-    //   console.log(value);
-    // }
 
     axios({
       method: "post",
@@ -144,7 +82,7 @@ function Register() {
     })
   })
 
-  const Register = (() => {
+  const RegAndMain = (() => {
     return(
       reg(),
       navigate('/')
@@ -160,8 +98,8 @@ function Register() {
           <InputPage setInputData={setInputData} />
         </div>
       </div>
-      <button onClick={() => Register()}>등록하기</button>
-      <button onClick={test}>테스트</button>
+      <button onClick={() => RegAndMain()}>등록하기</button>
+      {/* <button onClick={test}>테스트</button> */}
     </div>
   )
 }

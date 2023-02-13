@@ -65,18 +65,38 @@
             android:fontFamily="@font/gmarket_sans_ttf_medium"
             android:text="권주현님이 방송중입니다" />
 
-        <TextView
-            android:id="@+id/textView4"
-            style="@style/live_subtitle"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="263dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="7dp"
-            android:background="@drawable/rectangle_1"
-            android:fontFamily="@font/gmarket_sans_ttf_medium"
-            android:text="채팅 들어갈곳"
+            android:layout_height="250dp"
+            android:background="@drawable/rectangle_1">
 
-            android:textAlignment="center" />
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/chatText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:ems="10"
+                android:hint="궁금한 내용을 물어보세요" />
+
+            <ImageView
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+
+                android:src="@drawable/send" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -150,5 +170,6 @@
                     android:textSize="17dp" />
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

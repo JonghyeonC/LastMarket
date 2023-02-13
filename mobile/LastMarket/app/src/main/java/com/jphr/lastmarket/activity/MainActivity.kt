@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     var categoryList = mutableListOf<String>()
     var SearchFragment=SearchFragment()
     var ProductListFragment= ProductListFragment()
+    lateinit var actionButton:FloatingActionButton
     private val mainViewModel: MainViewModel by viewModels()
     var cityData=""
     var city=""
@@ -44,39 +45,47 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        actionButton=findViewById(R.id.floating_action_button)
         var isFromLive=intent.getStringExtra("isFromLive")
+        Log.d(TAG, "onCreate: $isFromLive")
+        actionButton.visibility=View.VISIBLE
+
         if(isFromLive.equals("true")) {
-         var chatDTO=intent.getSerializableExtra("chatDTO")
-            mainViewModel.setChatDTO(chatDTO as ChatDTO)   //데이터 set
+            Log.d(TAG, "onCreate: isLivetrue")
+            actionButton.visibility=View.GONE
+         var chatDTO=intent.getSerializableExtra("chatDTO") as ChatDTO
+            mainViewModel.setChatDTO(chatDTO)   //데이터 set
             changeFragment(8)
         }else{
+            actionButton.visibility=View.VISIBLE
+            Log.d(TAG, "onCreate: isLivefalse")
             val transaction = supportFragmentManager.beginTransaction()
                 .add(R.id.fragmentContainer, MainFragment())
             transaction.commit()
+            //sharedPreference 작업 viewmodel로 옮기기
+
+            var pref=getSharedPreferences("user_info",MODE_PRIVATE)
+            city= pref?.getString("city","null").toString()
+            cityData= pref?.getString("city_data","null").toString()
+            lifestyle= pref?.getString("lifestyle","null").toString()
+
+            var prefs = getSharedPreferences("user_info", MODE_PRIVATE)
+            var editor = prefs?.edit()
+            var token=prefs?.getString("token", "")
+            Log.d(TAG, "onCreate: $token")
+            var jwt= token?.let { JWT(it) }
+            val issuer = jwt!!.issuer //get registered claims
+
+            val claim = jwt.getClaim("id").asString() //get custom claims
+
+            val isExpired = jwt.isExpired(10)
+
+            Log.d(TAG, "onCreate: $claim $issuer $isExpired")
+            editor?.putLong("user_id",claim!!.toLong())
+            editor?.commit()
+
+
         }
-
-        //sharedPreference 작업 viewmodel로 옮기기
-
-        var pref=getSharedPreferences("user_info",MODE_PRIVATE)
-        city= pref?.getString("city","null").toString()
-        cityData= pref?.getString("city_data","null").toString()
-        lifestyle= pref?.getString("lifestyle","null").toString()
-
-        var prefs = getSharedPreferences("user_info", MODE_PRIVATE)
-        var editor = prefs?.edit()
-        var token=prefs?.getString("token", "")
-        Log.d(TAG, "onCreate: $token")
-        var jwt= token?.let { JWT(it) }
-        val issuer = jwt!!.issuer //get registered claims
-
-        val claim = jwt.getClaim("id").asString() //get custom claims
-
-        val isExpired = jwt.isExpired(10)
-
-        Log.d(TAG, "onCreate: $claim $issuer $isExpired")
-        editor?.putLong("user_id",claim!!.toLong())
-        editor?.commit()
-
 
         drawerLayout=findViewById<DrawerLayout>(R.id.drawer_layout)
         var navigationView=findViewById<NavigationView>(R.id.navigation_view)
@@ -99,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         searchBar.visibility=View.GONE
 
 
-       UserInfoService().getCategory(CategoryCallback())
+        UserInfoService().getCategory(CategoryCallback())
 
 
         setSupportActionBar(toolbar)
@@ -168,6 +177,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     override fun onResume() {
@@ -179,7 +189,7 @@ class MainActivity : AppCompatActivity() {
                 searchBar.text = searchView.text
                 searchView.hide()
                 ProductService().getProductWithSort("",null,cityData,"favoriteCnt","DEFAULT","1",ProductCallback(),true,searchView.text.toString())
-                searchBar.visibility=View.GONE
+                searchView.editText.text=null
                 false
             }
     }
@@ -215,6 +225,18 @@ class MainActivity : AppCompatActivity() {
             }
             8->{
                 transaction.replace(R.id.fragmentContainer,ChatFragment()).commit()
+            }
+            9->{
+                transaction.replace(R.id.fragmentContainer,LikeListFragment()).commit()
+            }
+            10->{
+                transaction.replace(R.id.fragmentContainer,EditUserInfoFragment()).commit()
+            }
+            11->{
+                transaction.replace(R.id.fragmentContainer,ReviewListFragment()).commit()
+            }
+            12->{
+                transaction.replace(R.id.fragmentContainer,SellListFragment()).commit()
             }
         }
     }

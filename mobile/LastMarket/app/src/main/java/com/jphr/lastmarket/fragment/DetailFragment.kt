@@ -2,8 +2,6 @@ package com.jphr.lastmarket.fragment
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,28 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.LiveBuyActivity
 import com.jphr.lastmarket.activity.LiveSellActivity
 import com.jphr.lastmarket.activity.MainActivity
-import com.jphr.lastmarket.activity.WebViewActivity
 import com.jphr.lastmarket.adapter.ImageViewPagerAdapter
 import com.jphr.lastmarket.databinding.FragmentDetailBinding
-import com.jphr.lastmarket.dto.FavoriteDTO
-import com.jphr.lastmarket.dto.Product
-import com.jphr.lastmarket.dto.ProductDTO
-import com.jphr.lastmarket.dto.ProductDetailDTO
+import com.jphr.lastmarket.dto.*
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.chrono.ChronoLocalDate
 import java.time.format.DateTimeFormatter
 
 // TODO: Rename parameter arguments, choose names that match
@@ -56,14 +45,18 @@ class DetailFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     var productId: Long=0
     var isLikeOn:Boolean=false
-    lateinit var data:ProductDetailDTO
+    var data:ProductDetailDTO?=null
 
     fun initAdpater() {
+        try{
+            data= mainViewModel.getProductDetail()
 
-        data= mainViewModel.getProductDetail()!!
-        mainViewModel.setProductId(data.productId)
+        }catch (e:Exception){
+            Log.d(TAG, "initAdpater: error")
+        }
+        data?.productId?.let { mainViewModel.setProductId(it) }
         productId= mainViewModel.getProductId()
-        isLikeOn=data.isFavorite
+        data?.isFavorite?.let { isLikeOn=it }
 //        ProductService().getProductDetail(productId,ProductDetailCallback())
         Log.d(TAG, "initAdpater: $productId")
     }
@@ -80,7 +73,7 @@ class DetailFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        data= mainViewModel.getProductDetail()!!
+        data= mainViewModel.getProductDetail()
         Log.d(TAG, "onCreate:$productId ")
 
     }
@@ -97,29 +90,29 @@ class DetailFragment : Fragment() {
 
         var state= data?.dealState
 
-        if(data.sellerId==userId){
+        if(data?.sellerId==userId){
             binding.buttons.visibility=View.VISIBLE
         }
 
-        var date =data.liveTime
-        Log.d(TAG, "onCreateView: ${data.liveTime}")
+        var date =data?.liveTime
+        Log.d(TAG, "onCreateView: ${data?.liveTime}")
         var typedDate=LocalDateTime.now()
-        if(data.liveTime!=null){
+        if(data?.liveTime!=null){
             var formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
            typedDate=LocalDateTime.parse(date,formatter)
         }
 
         Log.d(TAG, "onCreateView: $data")
         //공통기능 img, title, lifestyle, content,sellerinfos
-        var viewPagerAdapter=ImageViewPagerAdapter(requireContext(),data.imgURIs)
+        var viewPagerAdapter= data?.imgURIs?.let { ImageViewPagerAdapter(requireContext(), it) }
 
-        var imgSize=data.imgURIs.size
+        var imgSize= data?.imgURIs?.size
 
         binding.title.text=data?.title
         binding.lifestyle.text=data?.lifestyle
         binding.content.text=data?.content
-        binding.sellerNicname.text=data.sellerNickname
-        binding.sellerLocation.text=data.location
+        binding.sellerNicname.text=data?.sellerNickname
+        binding.sellerLocation.text=data?.location
         //TODO: 사용자 프로필 이미지 담기
 //        Glide.with(requireContext())
 //            .load(data.profile)
@@ -132,7 +125,9 @@ class DetailFragment : Fragment() {
 
         binding.indicator.apply {
             setViewPager(binding.viewPager)
-            createIndicators(imgSize,0)
+            if (imgSize != null) {
+                createIndicators(imgSize,0)
+            }
             orientation=ViewPager2.ORIENTATION_HORIZONTAL
         }
         if(isLikeOn){
@@ -165,7 +160,7 @@ class DetailFragment : Fragment() {
         binding.edit.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("is_edit", "true")
-            bundle.putLong("productId", data.productId)
+            data?.productId?.let { it1 -> bundle.putLong("productId", it1) }
 
             var createProduct=CreateProductFragment()
             createProduct.arguments = bundle
@@ -189,8 +184,8 @@ class DetailFragment : Fragment() {
 
         if(state=="DEFAULT"){// 라이브 O 아직 시작안함
             binding.startPriceLinear.visibility=View.VISIBLE
-            binding.startPrice.text=data.startingPrice.toString()
-            binding.liveButton.text=data.liveTime
+            binding.startPrice.text=data?.startingPrice.toString()
+            binding.liveButton.text=data?.liveTime
 
             //버튼 클릭 이벤트
             binding.liveButton.setOnClickListener {
@@ -206,38 +201,40 @@ class DetailFragment : Fragment() {
             }
             binding.purchaseButton.setOnClickListener {
                 mainActivity.changeFragment(8)
-                //TODO: 채팅 상대 연결시키기
+                var chatDTO= ChatDTO("BID",userId.toString(),data?.sellerId.toString(),"",productId.toString(),userId.toString())
+                mainViewModel.setChatDTO(chatDTO)
+                mainActivity.changeFragment(8)
             }
 
         }else if(state=="ONBROADCAST"){ // 라이브 중
             binding.startPriceLinear.visibility=View.VISIBLE
-            binding.startPrice.text=data.startingPrice.toString()
+            binding.startPrice.text=data?.startingPrice.toString()
             binding.purchaseButton.text="경매 진행중"
-            if(data.sellerId==userId){  //내 상품이면
+            if(data?.sellerId==userId){  //내 상품이면
                 binding.liveButton.text="Live 시작하기"
             }else {//남의 상품이면
                 binding.liveButton.text="Live 참여하기"
             }
 
             binding.liveButton.setOnClickListener {
-                if(data.sellerId==userId){  //내 상품이면
+                if(data?.sellerId==userId){  //내 상품이면
 
                     var intent= Intent(mainActivity, LiveSellActivity::class.java)
                     intent.putExtra("productId",productId)
                     intent.putExtra("data",data)
-                    intent.putExtra("sellerId",data.sellerId)
-                    intent.putExtra("startPrice",data.startingPrice)
+                    intent.putExtra("sellerId",data?.sellerId)
+                    intent.putExtra("startPrice",data?.startingPrice)
                     startActivity(intent)
 
                 }else {//남의 상품이면
 
                     var intent= Intent(mainActivity, LiveBuyActivity::class.java)
-                    intent.putExtra("productId",data.productId)
-                    Log.d(TAG, "onCreateView productId: ${data.productId}")
-                    intent.putExtra("sellerId",data.sellerId)
-                    intent.putExtra("startPrice",data.startingPrice)
+                    intent.putExtra("productId",data?.productId)
+                    Log.d(TAG, "onCreateView productId: ${data?.productId}")
+                    intent.putExtra("sellerId",data?.sellerId)
+                    intent.putExtra("startPrice",data?.startingPrice)
 
-                    Log.d(TAG, "onCreateView data: ${data.sellerId} ${data.startingPrice}")
+                    Log.d(TAG, "onCreateView data: ${data?.sellerId} ${data?.startingPrice}")
 
                     startActivity(intent)
                 }
@@ -257,13 +254,15 @@ class DetailFragment : Fragment() {
                 Toast.makeText(requireContext(), "라이브가 존재하지 않는 상품입니다.", Toast.LENGTH_LONG).show()
             }
             binding.purchaseButton.setOnClickListener {
+                var chatDTO= ChatDTO("BID",userId.toString(),data?.sellerId.toString(),"",productId.toString(),userId.toString())
+                mainViewModel.setChatDTO(chatDTO)
                 mainActivity.changeFragment(8)
-                //TODO: 채팅 상대 연결시키기
+
             }
 
         }else if(state=="RESERVATION") {//라이브 후 낙찰 시
             binding.startPriceLinear.visibility=View.VISIBLE
-            binding.startPrice.text=data.startingPrice.toString()
+            binding.startPrice.text=data?.startingPrice.toString()
 
             binding.liveButton.text="Live 종료"
             binding.purchaseButton.text="낙찰 완료"
@@ -279,7 +278,7 @@ class DetailFragment : Fragment() {
 
         }else if(state=="FINISH"){  //완전히 거래가 완료된 상태
             binding.startPriceLinear.visibility=View.VISIBLE
-            binding.startPrice.text=data.startingPrice.toString()
+            binding.startPrice.text=data?.startingPrice.toString()
 
             binding.liveButton.text="Live 종료"
             binding.purchaseButton.text="낙찰 완료"

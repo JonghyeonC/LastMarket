@@ -57,4 +57,8 @@ interface ProductAPI {
     @GET("api/product/{productId}/broadcast")
     fun changeOnBoradCast(@Header("Authentication") token: String,
                           @Path("productId") productId:Long):Call<Unit>
+
+    @GET("api/product/{productId}/finish")
+    fun changeFinish(@Header("Authentication") token: String,
+                          @Path("productId") productId:Long):Call<Unit>
 }

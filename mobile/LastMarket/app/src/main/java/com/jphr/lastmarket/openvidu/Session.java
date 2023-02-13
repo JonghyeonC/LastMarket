@@ -46,38 +46,12 @@ public class Session {
     private PeerConnectionFactory peerConnectionFactory;
     private CustomWebSocket websocket;
     private LiveBuyActivity activity;
-    private LiveSellActivity activity2;
 
     public Session(String id, String token, LinearLayout views_container, LiveBuyActivity activity) {
         this.id = id;
         this.token = token;
         this.views_container = views_container;
         this.activity = activity;
-
-        // Creating a new PeerConnectionFactory instance
-        PeerConnectionFactory.InitializationOptions.Builder optionsBuilder = PeerConnectionFactory.InitializationOptions.builder(activity.getApplicationContext());
-        optionsBuilder.setEnableInternalTracer(true);
-        PeerConnectionFactory.InitializationOptions opt = optionsBuilder.createInitializationOptions();
-        PeerConnectionFactory.initialize(opt);
-        PeerConnectionFactory.Options options = new PeerConnectionFactory.Options();
-
-        // Using software encoder and decoder
-        final VideoEncoderFactory encoderFactory;
-        final VideoDecoderFactory decoderFactory;
-        encoderFactory = new SoftwareVideoEncoderFactory();
-        decoderFactory = new SoftwareVideoDecoderFactory();
-
-        peerConnectionFactory = PeerConnectionFactory.builder()
-                .setVideoEncoderFactory(encoderFactory)
-                .setVideoDecoderFactory(decoderFactory)
-                .setOptions(options)
-                .createPeerConnectionFactory();
-    }
-    public Session(String id, String token, LinearLayout views_container, LiveSellActivity activity) {
-        this.id = id;
-        this.token = token;
-        this.views_container = views_container;
-        this.activity2 = activity;
 
         // Creating a new PeerConnectionFactory instance
         PeerConnectionFactory.InitializationOptions.Builder optionsBuilder = PeerConnectionFactory.InitializationOptions.builder(activity.getApplicationContext());
@@ -173,7 +147,6 @@ public class Session {
             public void onAddTrack(RtpReceiver rtpReceiver, MediaStream[] mediaStreams) {
                 super.onAddTrack(rtpReceiver, mediaStreams);
                 activity.setRemoteMediaStream(mediaStreams[0], remoteParticipants.get(connectionId));
-                activity2.setRemoteMediaStream(mediaStreams[0], remoteParticipants.get(connectionId));
 
             }
 
@@ -277,17 +250,9 @@ public class Session {
                 websocket.leaveRoom();
                 websocket.disconnect();
             }
-            this.localParticipant.dispose();
+//            this.localParticipant.dispose();
         });
-//        this.activity.runOnUiThread(() -> {
-//            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
-//                if (remoteParticipant.getPeerConnection() != null) {
-//                    remoteParticipant.getPeerConnection().close();
-//                }
-//                views_container.removeView(remoteParticipant.getView());
-//            }
-//        });
-        this.activity2.runOnUiThread(() -> {
+        this.activity.runOnUiThread(() -> {
             for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
                 if (remoteParticipant.getPeerConnection() != null) {
                     remoteParticipant.getPeerConnection().close();
@@ -295,6 +260,14 @@ public class Session {
                 views_container.removeView(remoteParticipant.getView());
             }
         });
+//        this.activity2.runOnUiThread(() -> {
+//            for (RemoteParticipant remoteParticipant : remoteParticipants.values()) {
+//                if (remoteParticipant.getPeerConnection() != null) {
+//                    remoteParticipant.getPeerConnection().close();
+//                }
+//                views_container.removeView(remoteParticipant.getView());
+//            }
+//        });
         AsyncTask.execute(() -> {
             if (peerConnectionFactory != null) {
                 peerConnectionFactory.dispose();

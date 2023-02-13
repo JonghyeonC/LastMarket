@@ -37,7 +37,9 @@ function Profile() {
 
   return (
     <div>
-      <h1>{nickName}님의 프로필입니다.</h1>
+      <div className="Profile_title">
+        <h1>{nickName}님의 프로필입니다.</h1>
+      </div>
       <div className="profile_Profile_Info_Com">
         <div className="profile_Profile_Info_Com_Img">
           <img src="profile_icon.png" width="230px" height="230px" alt="" />

@@ -20,3 +20,15 @@
   display: flex;
   flex-direction: row;
 }
+
+.yourMsg {
+  display: flex;
+  justify-content: left;
+  background-color: blueviolet;
+}
+
+.myMsg {
+  display: flex;
+  justify-content: right;
+  background-color: coral;
+}

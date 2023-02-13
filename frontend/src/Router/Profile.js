@@ -5,6 +5,8 @@ import LiveChat from "../Chat";
 import { useEffect, useState } from "react"
 import axios from "axios"
 
+import Button from 'react-bootstrap/Button'
+
 
 function Profile() {
 
@@ -37,18 +39,19 @@ function Profile() {
     <div>
       <h1>{nickName}님의 프로필입니다.</h1>
       <div className="profile_Profile_Info_Com">
-        <div>
+        <div className="profile_Profile_Info_Com_Img">
           <img src="profile_icon.png" width="230px" height="230px" alt="" />
-          <br />
           <button>프로필 사진 수정</button>
         </div>
-        <div>
+        <div className="profile_Profile_Info_Com_Text">
           <h3>{nickName}</h3>
+          <br />
           <h3>{addrs}</h3>
+          <br />
           <h3>{lifestyles}</h3>
         </div>
-        <div>
-          <button>회원정보 수정</button>
+        <div className="profile_Profile_Info_Com_Btn">
+          <Button variant="secondary">회원정보 수정</Button>
         </div>
       </div>
       <div className="profile_Compbox">

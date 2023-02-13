@@ -45,21 +45,24 @@ public class ChatController {
         if (msg.getChatType() == ChatType.TRADE_CHAT) {
             tradeChatService.makeChatRoom(msg);
             tradeChatService.saveChatLog(msg);
-        } else if (msg.getChatType() == ChatType.FINISH) {
-            Product product = productService.findProductMemberById(Long.parseLong(msg.getRoomKey()))
+        } else if (msg.getChatType() == ChatType.FINISH_BROADCAST) {
+            long userId = msg.getSender();
+            Member sendUser = memberService.findMemberById(userId);
+            productService.finishBroadcast(sendUser, msg.getRoomKey());
+        } else if (msg.getChatType() == ChatType.FINISH_TRADE) {
+            Product product = productService.findProductMemberById(msg.getRoomKey())
                     .orElseThrow(() -> new NotFoundException("없는 제품입니다."));
             if (product.getDealState() == DealState.FINISH) {
                 throw new IllegalArgumentException("이미 판매된 상품입니다.");
             }
-            if (msg.getSender().equals(msg.getSeller())) {
-                Member buyer = memberService.findMemberById(Long.parseLong(msg.getBuyer()));
-                Trade trade = tradeService.saveTrade(product, buyer);
-                productService.successBid(product, msg.getMessage());
-                // TODO : tradeId 보내주기
-                template.convertAndSend("chat.exchange", "room." + roomKey, "{\"msg\" : \"" + trade.getId() + "\"}");
-            } else {
+            if (!msg.getSender().equals(msg.getSeller())) {
                 throw new NotMatchSellerException("판매자가 아닙니다.");
             }
+            Member buyer = memberService.findMemberById(msg.getBuyer());
+            Trade trade = tradeService.saveTrade(product, buyer);
+            productService.successBid(product, msg.getMessage());
+            template.convertAndSend("chat.exchange", "room." + roomKey, "{\"msg\" : \"" + trade.getId() + "\"}");
+            return;
         }
         template.convertAndSend("chat.exchange", "room." + roomKey, msg);
     }

@@ -99,11 +99,7 @@ class MainFragment : Fragment() {
         binding.lifestyle.text=lifestyle
         binding.lifestyle2.text=lifestyle
 
-        binding.button.setOnClickListener{
-            Log.d(TAG, "onCreateView: ")
-            var intent = Intent(activity,LiveBuyActivity::class.java)
-            startActivity(intent)
-        }
+
         return binding.root
     }
 

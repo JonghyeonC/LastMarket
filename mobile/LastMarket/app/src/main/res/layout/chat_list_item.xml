@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/gmarket_sans_ttf_medium"
-                android:text="님과의 대화" />
+                android:text="님" />
         </LinearLayout>
 
         <TextView

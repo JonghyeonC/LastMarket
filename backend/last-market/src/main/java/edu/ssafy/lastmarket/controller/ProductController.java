@@ -153,9 +153,9 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/product/{productId}/finish")
-    public ResponseEntity<?> finishBroadcast(@Login Member login, @PathVariable Long productId) {
-        productService.finishBroadcast(login, productId);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+//    @GetMapping("/product/{productId}/finish")
+//    public ResponseEntity<?> finishBroadcast(@Login Member login, @PathVariable Long productId) {
+//        productService.finishBroadcast(login, productId);
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//    }
 }

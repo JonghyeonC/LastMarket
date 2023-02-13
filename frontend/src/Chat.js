@@ -74,11 +74,7 @@ function LiveChat(props) {
 
             <div className='chatBox'>
                 <div className='chatContent'>
-                    { 
-                        logs[-1] ?
-                        logs[-1].message :
-                        null
-                    }
+                    {logs[-1].message}
                     {
                         logs.map((log) => {
                             return `${log.chatType}` === "CHAT" ?

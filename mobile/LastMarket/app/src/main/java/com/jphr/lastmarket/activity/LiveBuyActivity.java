@@ -162,8 +162,7 @@ public class LiveBuyActivity extends AppCompatActivity {
             JSONObject jsonObject=new JSONObject(str);
             String price=jsonObject.getString("message");
             String type=jsonObject.getString("chatType");
-            if(type.equals("FINISH")){
-
+            if(type.equals("FINISH_BROADCAST")){
                 Long tmp2=Long.parseLong(price);
                 ProductService productService=new ProductService();
                 Log.d(TAG, "mytopprice"+myTopPrice+"tmp2"+tmp2);
@@ -174,13 +173,11 @@ public class LiveBuyActivity extends AppCompatActivity {
                     intent.putExtra("isFromLive","true");
                     ChatDTO chatDTO=new ChatDTO(jsonObject.getString("chatType"),jsonObject.getString("buyer"),jsonObject.getString("seller"),jsonObject.getString("message"),jsonObject.getString("roomKey"),jsonObject.getString("sender"));
                     intent.putExtra("chatDTO",chatDTO);
-                    productService.changeFinish(token,productId);
                     startActivity(intent);
                 }else {//내가격이 최고가가 아닐때(미낙찰)
                     Log.d(TAG, "onCreate: 미낙찰");
 
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                    productService.changeFinish(token,productId);
                     startActivity(intent);
                 }
 

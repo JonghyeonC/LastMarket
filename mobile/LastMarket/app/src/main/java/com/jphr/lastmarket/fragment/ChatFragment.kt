@@ -54,9 +54,13 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "ChatFragment"
 
-class ModalBottomSheet(productId: Long, token: String) : BottomSheetDialogFragment() {
+class ModalBottomSheet(productId: Long, token: String,stompClient: StompClient,chatDTO:ChatDTO,userId: Long) : BottomSheetDialogFragment() {
     var token = token
     var productId = productId
+    var stompClient=stompClient
+    var chatDTO=chatDTO
+    var userId=userId
+    var tradeId=""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,37 +69,77 @@ class ModalBottomSheet(productId: Long, token: String) : BottomSheetDialogFragme
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         //TODO:거래 완료를 판매자만 누를수있게 해야함
+        var review:ReviewDTO
 
         view?.findViewById<ImageView>(R.id.trade_sucess)?.setOnClickListener {
             //거래 성공
-            ProductService().changeFinish(token, productId)
+
+            val dto = ChatDTO(
+                "FINISH_TRADE",
+                chatDTO?.buyer.toString(),
+                chatDTO?.seller.toString(),
+                "FINISH_TRADE",
+                chatDTO?.roomKey.toString(),
+                userId.toString()
+            )
+            val mapper = ObjectMapper()
+            try {
+                val jsonString = mapper.writeValueAsString(dto)
+                stompClient!!.send("/send/room.${chatDTO?.roomKey}", jsonString).subscribe()
+                Log.d(TAG, "onClick: send OK$jsonString")
+            } catch (e: JsonProcessingException) {
+                e.printStackTrace()
+            }
+
+            stompClient?.topic("/exchange/chat.exchange/room.${chatDTO?.roomKey}")
+                ?.subscribe(Consumer { topicMessage: StompMessage ->
+                    val str = topicMessage.payload
+                    val jsonObject = JSONObject(str)
+                    val type = jsonObject.getString("chatType")
+
+                    if (type.equals("FINISH_TRADE")) {
+                        var chatDTO = ChatDTO(
+                            jsonObject.getString("chatType"),
+                            jsonObject.getString("buyer"),
+                            jsonObject.getString("seller"),
+                            jsonObject.getString("message"),
+                            jsonObject.getString("roomKey"),
+                            jsonObject.getString("sender")
+                        )
+                        if(chatDTO.message.equals("FINISH_TRADE")){//TRADE ID 가 MESSAGE에 담겨옴
+                            tradeId=chatDTO.message
+                        }
+
+                    }
+
+                })
+
             MaterialAlertDialogBuilder(requireContext()).setSingleChoiceItems(
                 R.array.review,
                 0
             ) { dialog: DialogInterface?, which: Int ->
                 //0 이면 좋아요 1이면 soso 2면 bad
-//                if (which == 0) {
-//                    var review = ReviewDTO("GOOD", tradeId)
-//                    MyPageService().insertReview(token, review)
-//                } else if (which == 1) {
-//                    var review = ReviewDTO("SOSO", tradeId)
-//                    MyPageService().insertReview(token, review)
-//                } else if (which == 2) {
-//                    var review = ReviewDTO("BAD", tradeId)
-//                    MyPageService().insertReview(token, review)
-//                }
+                if (which == 0) {
+                    review = ReviewDTO("GOOD", tradeId)
+                } else if (which == 1) {
+                    review = ReviewDTO("SOSO", tradeId)
+                } else if (which == 2) {
+                   review = ReviewDTO("BAD", tradeId)
+                }
 
             }
                 .setTitle("리뷰를 남겨주세요")
                 .setMessage("거래의 느낌은 어땠나요? 아래의 문구에서 선택해주세요")
                 .setNegativeButton("취소") { dialog, which ->
                     // Respond to negative button press
+
                 }
                 .setPositiveButton("확인") { dialog, which ->
-
                     // Respond to positive button press
+//                   MyPageService().insertReview(token, review)
+
+
                 }
                 .show()
 
@@ -134,13 +178,6 @@ class ChatFragment : Fragment() {
     private lateinit var chatList: ChatLogListDTO
     private var detailDTO: ProductDetailDTO? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -153,6 +190,16 @@ class ChatFragment : Fragment() {
 
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+        initStomp()
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -174,7 +221,7 @@ class ChatFragment : Fragment() {
 
         binding.plus.setOnClickListener {
 //            val modalBottomSheetBehavior = (modalBottomSheet.dialog as BottomSheetDialog).behavior
-            modalBottomSheet = ModalBottomSheet(productId, token)
+            modalBottomSheet = stompClient?.let { it1 -> ModalBottomSheet(productId, token, it1,chatDTO!!,userId) }
             modalBottomSheet?.show(fragManager, ModalBottomSheet.TAG)
         }
         Log.d(TAG, "onCreateView: USER ID $userId  SELLERID ${chatDTO?.seller}")
@@ -200,7 +247,6 @@ class ChatFragment : Fragment() {
             addItemDecoration(RecyclerViewDecoration(20, 20))
         }
 
-        initStomp()
         stompClient?.topic("/exchange/chat.exchange/room.${chatDTO?.roomKey}")
             ?.subscribe(Consumer { topicMessage: StompMessage ->
                 val str = topicMessage.payload

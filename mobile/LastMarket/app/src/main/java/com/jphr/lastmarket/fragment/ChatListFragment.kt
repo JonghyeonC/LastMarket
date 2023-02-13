@@ -66,7 +66,7 @@ class ChatListFragment : Fragment() {
                 chatListAdapter.list?.get(position)?.productId
                     ?.let {
                         val chatDTO = ChatDTO(
-                            "FINISH",
+                            "FINISH_BROADCAST",
                             item.otherId,
                             userId.toString(),
                             "",

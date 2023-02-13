@@ -59,6 +59,7 @@ class WebViewActivity : AppCompatActivity() {
                     editor?.commit()
                     Log.d(TAG, "shouldOverrideUrlLoading: $token")
                     var intent = Intent(this@WebViewActivity, UserInfoActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                     startActivity(intent)
 
 //                    val thread = thread {

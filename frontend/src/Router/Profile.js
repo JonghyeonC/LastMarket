@@ -37,9 +37,9 @@ function Profile() {
     <div>
       <div className="profile_Profile_Info_Com">
         <div>
-          <img src="profile_icon.png" width="150px" height="150px" alt="" />
-          <br />
-          <br />
+          <div>
+            <img src="profile_icon.png" width="300px" height="300px" alt="" />
+          </div>
           <span>
             <p>닉네임 : {nickName}</p>
             <p>지역 : {addrs}</p>

@@ -335,9 +335,10 @@
 .profile_Profile_Info_Com{
   border: solid;
   width: 1280px;
-  height: 800px;
+  height: 600px;
   margin-left: 80px;
   margin-right: 10px;
+  padding: 50px;
   display: flex;
   justify-content: center;
 }

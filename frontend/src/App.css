@@ -351,8 +351,9 @@
 .profile_Profile_Info_Com_Text{
   font-size: 30px;
   font-family: 'GongGothicMedium';
-  width: 300px;
+  width: 250px;
   justify-content: flex-start;
+  margin-right: 150px;
 }
 
 .profile_Profile_Info_Com_Btn{

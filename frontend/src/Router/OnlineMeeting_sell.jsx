@@ -218,11 +218,11 @@ class OnlineMeeting_sell extends Component {
                       />
                     </StreamContainer>
                   ) : null}
-                  {this.state.subscribers.map((sub, i) => (
+                  {/* {this.state.subscribers.map((sub, i) => (
                     <StreamContainer key={sub.stream.streamId}>
                       <UserVideoComponent streamManager={sub} />
                     </StreamContainer>
-                  ))}
+                  ))} */}
                 </StreamContainerWrapper>
               ) : null}
             </VideoContainer>
@@ -304,7 +304,7 @@ class OnlineMeeting_sell extends Component {
 
   componentDidMount() {
     // this.leaveSession();
-    // this.joinSession();
+    this.joinSession();
     window.addEventListener("beforeunload", this.onbeforeunload);
     // 스터디방에서 화상회의 입장 -> props로 roomId로 받으면 세션id 업뎃 user 정보 전역변수 가져옴 -> 상태값 업뎃
   }

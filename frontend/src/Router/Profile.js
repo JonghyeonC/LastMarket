@@ -48,11 +48,11 @@ function Profile() {
           </div>
         </div>
         <div className="profile_Profile_Info_Com_Text">
-          <h3>{nickName}</h3>
+          <p>{nickName}</p>
           <br />
-          <h3>{lifestyles}</h3>
+          <p>{lifestyles}</p>
           <br />
-          <h3>{addrs}</h3>
+          <p>{addrs}</p>
         </div>
         <div className="profile_Profile_Info_Com_Btn">
           <Button variant="secondary">회원정보 수정</Button>

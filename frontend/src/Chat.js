@@ -25,17 +25,12 @@ function LiveChat(props) {
         });
     })
 
-    let buyer = ''
-    if (props.sellerId !== props.id) {
-        return(
-            buyer = props.id
-        )}
 
     function sendMessage() {
         const msg = {
             "chatType": "CHAT",
             "seller": `${props.sellerId}`,
-            "buyer": buyer,
+            "buyer": `${props.id}`,
             "sender": `${props.id}`,
             "roomKey": `${props.productId}`,
             "message": talk
@@ -49,7 +44,7 @@ function LiveChat(props) {
         const bidMsg = {
             "chatType": "BID",
             "seller": `${props.sellerId}`,
-            "buyer": buyer,
+            "buyer": `${props.id}`,
             "sender": `${props.id}`,
             "roomKey": `${props.productId}`,
             "message": talk

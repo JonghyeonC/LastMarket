@@ -23,9 +23,9 @@ function Profile() {
       .then((res) => {
         console.log(res)
         console.log('여기 성공')
-        // setNickName()
-        // setLifestyles()
-        // setAddrs()
+        setNickName(res.data.nickname)
+        setLifestyles(res.data.lifestyles)
+        setAddrs(res.data.addr)
       })
       .catch((res) => console.log('여기 실패'))
     )
@@ -42,7 +42,7 @@ function Profile() {
       </div>
       <div className="profile_Profile_Info_Com">
         <div className="profile_Profile_Info_Com_Img">
-          <img src="profile_profile.png" width="230px" height="230px" alt="" />
+          <img src="profile_profile.png" width="250px" height="250px" alt="" />
           <br />
           <br />
           <div>

@@ -52,7 +52,7 @@ function ProfileGoodsList(props) {
 
     <div className='row'>
       {
-        products.map((product) => {
+        products?.map((product) => {
           return <GoodsListCard product = {product}/>
         })
       }

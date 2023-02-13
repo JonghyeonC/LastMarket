@@ -39,6 +39,8 @@ function Profile() {
       <div className="profile_Profile_Info_Com">
         <div>
           <img src="profile_icon.png" width="230px" height="230px" alt="" />
+          <br />
+          <button>프로필 사진 수정</button>
         </div>
         <div>
           <h3>{nickName}</h3>
@@ -46,9 +48,7 @@ function Profile() {
           <h3>{lifestyles}</h3>
         </div>
         <div>
-          <button>닉네임 수정</button>
-          <br />
-          <button>프로필 수정</button>
+          <button>회원정보 수정</button>
         </div>
       </div>
       <div className="profile_Compbox">

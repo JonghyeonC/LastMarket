@@ -86,7 +86,8 @@ function Register() {
   function RegAndMain(){
     return(
       reg(),
-      navigate('/')
+      navigate('/'),
+      location.reload()
     )
   }
   return (

@@ -353,10 +353,11 @@
   font-family: 'GongGothicMedium';
   width: 250px;
   justify-content: flex-start;
-  margin-right: 150px;
+  margin-right: 200px;
 }
 
 .profile_Profile_Info_Com_Btn{
+  height: 300px;
   align-items: flex-end;  
 }
 

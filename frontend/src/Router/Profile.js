@@ -41,9 +41,9 @@ function Profile() {
           <img src="profile_icon.png" width="230px" height="230px" alt="" />
         </div>
         <div>
-          <p>닉네임 : {nickName}</p>
-          <p>지역 : {addrs}</p>
-          <p>라이프스타일 : {lifestyles}</p>
+          <h3>{nickName}</h3>
+          <h3>{addrs}</h3>
+          <h3>{lifestyles}</h3>
         </div>
         <div>
           <button>닉네임 수정</button>

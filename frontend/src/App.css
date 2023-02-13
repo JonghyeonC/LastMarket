@@ -344,18 +344,17 @@
   align-items: center;
 }
 
-/* .profile_Profile_Info_Com_Img{
+.profile_Profile_Info_Com_Img{
+  font-family: 'GongGothicMedium';
 
-} */
+}
 
 .profile_Profile_Info_Com_Text{
-  display: flex;
-  justify-content: flex-start;
+ 
 }
 
 .profile_Profile_Info_Com_Btn{
-  display: flex;
-  align-items: flex-end;
+  vertical-align: bottom;
 }
 
 /* 마이페이지 컴포넌트 영역 */

@@ -37,7 +37,7 @@ function Profile() {
     <div>
       <div className="profile_Profile_Info_Com">
         <div>
-          <img src="profile_icon.png" width="200px" height="200px" alt="" />
+          <img src="profile_icon.png" width="230px" height="230px" alt="" />
         </div>
         <div>
           <p>닉네임 : {nickName}</p>

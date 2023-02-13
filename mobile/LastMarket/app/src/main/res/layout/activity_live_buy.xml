@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.jphr.lastmarket.activity.LiveBuyActivity">
 
-
+<!--TODO: 채팅치면 레이아웃 올라가는 문제-->
     <LinearLayout
         android:id="@+id/views_container"
         android:layout_width="match_parent"

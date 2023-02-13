@@ -238,6 +238,9 @@ class MainActivity : AppCompatActivity() {
             12->{
                 transaction.replace(R.id.fragmentContainer,SellListFragment()).commit()
             }
+            13->{
+                transaction.replace(R.id.fragmentContainer,BuyListFragment()).commit()
+            }
         }
     }
 

@@ -217,7 +217,7 @@ public class LiveSellActivity extends AppCompatActivity {
 
                 Long price = viewModel.getNowPrice();
                 String priceToString = Long.toString(price);
-                ChatDTO dto = new ChatDTO("FINISH", nowBuyer, userId.toString(), priceToString, productId.toString(), userId.toString());
+                ChatDTO dto = new ChatDTO("FINISH_BROADCAST", nowBuyer, userId.toString(), priceToString, productId.toString(), userId.toString());
 
                 ObjectMapper mapper = new ObjectMapper();
                 try {

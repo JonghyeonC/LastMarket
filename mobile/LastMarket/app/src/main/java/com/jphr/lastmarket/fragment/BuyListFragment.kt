@@ -19,6 +19,7 @@ import com.jphr.lastmarket.databinding.FragmentSellListBinding
 import com.jphr.lastmarket.dto.LikeListProductDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.TradeDTO
+import com.jphr.lastmarket.dto.tradeListDTO
 import com.jphr.lastmarket.service.MyPageService
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.util.RecyclerViewDecoration
@@ -59,7 +60,7 @@ class BuyListFragment : Fragment() {
         var pref=mainActivity.getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         var token= pref?.getString("token","null").toString()
 
-        MyPageService().getBuyList(ProductCallback())
+        MyPageService().getBuyList(token,ProductCallback())
 
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
@@ -79,7 +80,7 @@ class BuyListFragment : Fragment() {
 
         productListAdapter.setItemClickListener(object : TradeListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
-                productListAdapter.list?.get(position)?.productId
+                productListAdapter.list?.trades?.get(position)?.productId
                     ?.let {
                         ProductService().getProductDetail(it,ProductDetailCallback())
                     }
@@ -112,8 +113,8 @@ class BuyListFragment : Fragment() {
 
 
     }
-    inner class ProductCallback: RetrofitCallback<MutableList<TradeDTO>> {
-        override fun onSuccess(code: Int, responseData: MutableList<TradeDTO>, issearch:Boolean, word:String?, category:String?) {
+    inner class ProductCallback: RetrofitCallback<tradeListDTO> {
+        override fun onSuccess(code: Int, responseData: tradeListDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
 
                 binding.recyclerview.apply {

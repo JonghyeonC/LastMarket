@@ -58,8 +58,9 @@ class MypageFragment : Fragment() {
         binding.sellList.setOnClickListener {
             mainActivity.changeFragment(12)
         }
-
-
+        binding.buyList.setOnClickListener {
+            mainActivity.changeFragment(13)
+        }
         return binding.root
     }
 

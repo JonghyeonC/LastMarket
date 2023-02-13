@@ -17,7 +17,7 @@
         android:text="Button"
         android:textColor="@color/green5"
         android:layout_gravity="left"
-
+        
         app:strokeColor="@color/green5" />
 
     <Button

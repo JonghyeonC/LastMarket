@@ -36,6 +36,8 @@ private const val ARG_PARAM2 = "param2"
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+//TODO: FRAGMENT 들에서 뒤로가기 누르면 (ON BACKPRESSED) MAIN FRAGMENT로 돌아오도록 하기
+
 private const val TAG = "MainFragment"
 
 class MainFragment : Fragment() {

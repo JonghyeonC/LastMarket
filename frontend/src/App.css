@@ -340,7 +340,8 @@
   margin-right: 10px;
   padding: 50px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* 마이페이지 컴포넌트 영역 */

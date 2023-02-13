@@ -344,6 +344,18 @@
   align-items: center;
 }
 
+/* .profile_Profile_Info_Com_Img{
+
+} */
+
+.profile_Profile_Info_Com_Text{
+  justify-content: flex-start;
+}
+
+.profile_Profile_Info_Com_Btn{
+  align-items: flex-end;
+}
+
 /* 마이페이지 컴포넌트 영역 */
 .profile_Compbox{
   width: 1280px;

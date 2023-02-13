@@ -218,11 +218,11 @@ class OnlineMeeting_buy extends Component {
                       />
                     </StreamContainer>
                   ) : null}
-                  {this.state.subscribers.map((sub, i) => (
+                  {/* {this.state.subscribers.map((sub, i) => (
                     <StreamContainer key={sub.stream.streamId}>
                       <UserVideoComponent streamManager={sub} />
                     </StreamContainer>
-                  ))}
+                  ))} */}
                 </StreamContainerWrapper>
               ) : null}
             </VideoContainer>

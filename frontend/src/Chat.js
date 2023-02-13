@@ -10,7 +10,7 @@ function LiveChat(props) {
     
     const [talk, setTalk] = useState('')
     const [chat_log, setChat_log] = useState([''])
-    const [ logs, setLogs ] = useState(null)
+    const [ logs, setLogs ] = useState([''])
 
     const socket = new SockJS("https://i8d206.p.ssafy.io/api/ws");
     console.log(socket)

@@ -26,12 +26,12 @@ function LiveChat(props) {
     })
 
     let buyer = ''
+    if (props.sellerId !== props.id) {
+        return(
+            buyer = props.id
+        )}
+
     function sendMessage() {
-        if (props.sellerId !== props.id) {
-            return(
-                buyer = props.id
-            )}
-    
         const msg = {
             "chatType": "CHAT",
             "seller": `${props.sellerId}`,

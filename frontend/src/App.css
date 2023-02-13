@@ -351,13 +351,11 @@
 .profile_Profile_Info_Com_Text{
   font-family: 'GongGothicMedium';
   width: 300px;
-  display: flex;
-  justify-content: left;
-
+  flex-direction: row;
 }
 
 .profile_Profile_Info_Com_Btn{
-  vertical-align: bottom;
+  display: flex-end;
 }
 
 /* 마이페이지 컴포넌트 영역 */

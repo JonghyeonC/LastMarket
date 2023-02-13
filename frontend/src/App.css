@@ -338,7 +338,7 @@
 /* 마이페이지 프로필 영역 */
 .profile_Profile_Info_Com{
   /* border: solid; */
-  width: 1280px;
+  width: 1200px;
   height: 400px;
   margin-left: 80px;
   margin-right: 10px;
@@ -355,9 +355,9 @@
 .profile_Profile_Info_Com_Text{
   font-size: 30px;
   font-family: 'GongGothicMedium';
-  width: 350px;
+  width: 400px;
   justify-content: flex-start;
-  margin-right: 150px;
+  margin-right: 100px;
 }
 
 .profile_Profile_Info_Com_Btn{

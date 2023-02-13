@@ -49,9 +49,7 @@ function Profile() {
         </div>
         <div className="profile_Profile_Info_Com_Text">
           <p>{nickName}</p>
-          <br />
           <p>{lifestyles}</p>
-          <br />
           <p>{addrs}</p>
         </div>
         <div className="profile_Profile_Info_Com_Btn">

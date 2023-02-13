@@ -43,7 +43,7 @@ function Register() {
   //   }
   // })
 
-  const reg = (() => {
+  function reg(){
     
     let formData = new FormData();
     
@@ -80,7 +80,7 @@ function Register() {
       console.log(res)
       console.log({formData})
     })
-  })
+  }
 
   const RegAndMain = (() => {
     return(

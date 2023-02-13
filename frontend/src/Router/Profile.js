@@ -48,12 +48,20 @@ function Profile() {
           </div>
         </div>
         <div className="profile_Profile_Info_Com_Text">
-          <p>{nickName}</p>
-          <p>{lifestyles}</p>
-          <p>{addrs}</p>
+          <div>
+            <p>{nickName}</p>
+          </div>
+          <div>
+            <p>{lifestyles}</p>
+          </div>
+          <div>
+            <p>{addrs}</p>
+          </div>
         </div>
         <div className="profile_Profile_Info_Com_Btn">
-          <Button variant="secondary">회원정보 수정</Button>
+          <div>
+            <Button variant="secondary">회원정보 수정</Button>
+          </div>
         </div>
       </div>
       <div className="profile_Compbox">

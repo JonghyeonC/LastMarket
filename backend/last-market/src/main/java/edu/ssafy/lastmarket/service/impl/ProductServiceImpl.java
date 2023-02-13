@@ -170,11 +170,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void changeDealstateToAfterbroadcast(List<Product> productList) {
-        for (int i = 0; i < productList.size(); i++) {
-            Product product = productList.get(i);
-            product.setDealState(DealState.AFTERBROADCAST);
-            productRepository.save(product);
-        }
+        productList.stream()
+                .filter(product -> product.getDealState()==DealState.DEFAULT)
+                .forEach(product -> {
+                    product.setDealState(DealState.AFTERBROADCAST);
+                    productRepository.save(product);
+                });
     }
 
     @Override

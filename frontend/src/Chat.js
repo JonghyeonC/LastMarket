@@ -24,12 +24,18 @@ function LiveChat(props) {
             addChatLog(message)
         });
     })
-    
+
+    let buyer = ''
     function sendMessage() {
+        if (props.sellerId !== props.id) {
+            return(
+                buyer = props.id
+            )}
+    
         const msg = {
             "chatType": "CHAT",
             "seller": `${props.sellerId}`,
-            "buyer": `${props.id}`,
+            "buyer": buyer,
             "sender": `${props.id}`,
             "roomKey": `${props.productId}`,
             "message": talk
@@ -43,7 +49,7 @@ function LiveChat(props) {
         const bidMsg = {
             "chatType": "BID",
             "seller": `${props.sellerId}`,
-            "buyer": `${props.id}`,
+            "buyer": buyer,
             "sender": `${props.id}`,
             "roomKey": `${props.productId}`,
             "message": talk

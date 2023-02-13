@@ -35,31 +35,31 @@ function Profile() {
 
   return (
     <div>
-      <div className="profile_Compbox">
-        <div className="profile_Profile_Info_Com">
-          <div>
-            <img src="profile_icon.png" width="150px" height="150px" alt="" />
-            <br />
-            <br />
-            <span>
-              <p>닉네임 : {nickName}</p>
-              <p>지역 : {addrs}</p>
-              <p>라이프스타일 : {lifestyles}</p>
-            </span>
-          </div>
+      <div className="profile_Profile_Info_Com">
+        <div>
+          <img src="profile_icon.png" width="150px" height="150px" alt="" />
           <br />
-          <div>
-            <button>닉네임 수정</button>
-            <br />
-            <button>프로필 수정</button>
+          <br />
+          <span>
+            <p>닉네임 : {nickName}</p>
+            <p>지역 : {addrs}</p>
+            <p>라이프스타일 : {lifestyles}</p>
+          </span>
+        </div>
+        <br />
+        <div>
+          <button>닉네임 수정</button>
+          <br />
+          <button>프로필 수정</button>
+        </div>
+      </div>
+      <div className="profile_Compbox">
+          <div className="profile_Profile_Good_Com">
+            <ProfileGoodComponent />
           </div>
-        </div>
-        <div className="profile_Profile_Good_Com">
-          <ProfileGoodComponent />
-        </div>
-        <div className="profile_Chat_Com">
-          <LiveChat />
-        </div>
+          <div className="profile_Chat_Com">
+            <LiveChat />
+          </div>
       </div>
     </div>
   )

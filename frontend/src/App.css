@@ -341,7 +341,14 @@
   justify-content: center;
 }
 
-.profile_Profile_Com{
+.profile_Profile_Info_Com{
+  /* border: solid; */
+  border-right: 2px solid #CCD3D9;
+  width: 960px;
+  padding-right: 20px;
+}
+
+.profile_Profile_Good_Com{
   /* border: solid; */
   border-right: 2px solid #CCD3D9;
   width: 960px;

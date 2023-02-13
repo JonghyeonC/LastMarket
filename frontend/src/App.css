@@ -344,13 +344,13 @@
   align-items: center;
 }
 
-.profile_Profile_Info_Com_Img{
-  font-family: 'GongGothicMedium';
+/* .profile_Profile_Info_Com_Img{
 
-}
+} */
 
 .profile_Profile_Info_Com_Text{
- 
+  font-family: 'GongGothicMedium';
+
 }
 
 .profile_Profile_Info_Com_Btn{

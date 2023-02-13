@@ -358,7 +358,7 @@
 
 .profile_Profile_Info_Com_Btn{
   height: 300px;
-  align-items: flex-end;  
+  align-items: flex-start;  
 }
 
 /* 마이페이지 컴포넌트 영역 */

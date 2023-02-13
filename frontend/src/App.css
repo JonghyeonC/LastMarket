@@ -352,11 +352,11 @@
   font-size: 30px;
   font-family: 'GongGothicMedium';
   width: 300px;
-  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .profile_Profile_Info_Com_Btn{
-  flex-direction: column-reverse;
+  align-items: flex-end;  
 }
 
 /* 마이페이지 컴포넌트 영역 */

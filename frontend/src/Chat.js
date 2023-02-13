@@ -60,10 +60,10 @@ function LiveChat(props) {
         // if (talks.sender === "seller") {
         //     chat.style.color = "red";
         // }
-        const new_chatlog = chat_log.concat(talks.message)
-        setChat_log(new_chatlog)
-        const new_logs = logs.concat(talks)
-        setLogs(new_logs)
+        // const new_chatlog = chat_log.concat(talks.message)
+        setChat_log([...chat_log, talks.message])
+        // const new_logs = logs.concat(talks)
+        setLogs([...logs, talks])
     }
 
     console.log("메시지 출력")
@@ -77,7 +77,7 @@ function LiveChat(props) {
                 <div className='chatContent'>
                     {
                         `${logs[logs.length - 1]?.chatType}` === "BID" ?
-                        <div>`${logs[logs.length - 1]?.message}`</div> :
+                        <div>{logs[logs.length - 1]?.message}</div> :
                         null
                     }
                     {

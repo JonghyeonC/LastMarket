@@ -36,7 +36,7 @@
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="hint"
+                android:hint="필요한 상품을 찾아보세요"
                 android:visibility="gone" />
             <!--fit systemwindow윈도우 창이랑 자연스럽게 이어지게-->
         </com.google.android.material.appbar.AppBarLayout>

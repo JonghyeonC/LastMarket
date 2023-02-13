@@ -129,10 +129,12 @@ class UserInfoActivity : AppCompatActivity() {
                 Log.d(TAG, "onCreate: $userinfo")
 
                 var intent = Intent(this@UserInfoActivity, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 startActivity(intent)
             }
         }else{
             var intent = Intent(this@UserInfoActivity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
         }
 

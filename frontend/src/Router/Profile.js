@@ -41,8 +41,10 @@ function Profile() {
       <div className="profile_Profile_Info_Com">
         <div className="profile_Profile_Info_Com_Img">
           <img src="profile_icon.png" width="230px" height="230px" alt="" />
+          <br />
+          <br />
           <div>
-            <button>프로필 사진 수정</button>
+            <Button variant="secondary">프로필 사진 수정</Button>
           </div>
         </div>
         <div className="profile_Profile_Info_Com_Text">

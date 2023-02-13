@@ -7,7 +7,7 @@ import InputPage from '../Pages/Register/InputPage'
 
 function Register() {
 
-  let navigate = useNavigate
+  const navigate = useNavigate()
   let [inputValue, setInputValue] = useState('')
 
   // function gomain() {

@@ -82,12 +82,12 @@ function Register() {
     })
   }
 
-  const RegAndMain = (() => {
+  function RegAndMain(){
     return(
       reg(),
       navigate('/')
     )
-  })
+  }
   return (
     <div>
       <div className='registerBox'>

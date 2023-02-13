@@ -335,6 +335,7 @@
 .profile_Profile_Info_Com{
   border: solid;
   width: 1280px;
+  height: 800px;
   margin-left: 80px;
   margin-right: 10px;
   display: flex;
@@ -353,7 +354,7 @@
 
 /* 마이페이지 상품 목록 영역 */
 .profile_Profile_Good_Com{
-  border: solid;
+  /* border: solid; */
   border-right: 2px solid #CCD3D9;
   width: 800px;
   padding-right: 20px;
@@ -361,7 +362,7 @@
 
 /* 마이페이지 채팅 목록 영역 */
 .profile_Chat_Com{
-  border: solid;
+  /* border: solid; */
   border-left: 2px solid #CCD3D9;
   padding-left: 20px;
   width: 480px;

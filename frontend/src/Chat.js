@@ -84,7 +84,7 @@ function LiveChat(props) {
                         logs.map((log) => {
                             return `${log.chatType}` === "CHAT" ?
                             (
-                                log.sender !== props.id ?
+                                `${log.sender}` !== `${props.id}` ?
                                 <div className='yourMsg'>{log.message}</div> :
                                 <div className='myMsg'>{log.message}</div>
                             ) :

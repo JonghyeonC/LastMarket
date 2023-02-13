@@ -333,12 +333,12 @@
 
 /* 마이페이지 프로필 영역 */
 .profile_Profile_Info_Com{
-  border: solid;
+  /* border: solid; */
   width: 1280px;
   height: 400px;
   margin-left: 80px;
   margin-right: 10px;
-  padding: 50px;
+  padding: 50px 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;

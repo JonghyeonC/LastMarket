@@ -334,13 +334,15 @@
 /* 마이페이지 프로필 영역 */
 .profile_Profile_Info_Com{
   border: solid;
-  width: 960px;
+  width: 1200px;
   padding-right: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 /* 마이페이지 컴포넌트 영역 */
 .profile_Compbox{
-  width: 1440px;
+  width: 1200px;
   margin-top: 40px;
   margin-left: 80px;
   margin-right: 10px;
@@ -352,7 +354,7 @@
 .profile_Profile_Good_Com{
   border: solid;
   border-right: 2px solid #CCD3D9;
-  width: 960px;
+  width: 720px;
   padding-right: 20px;
 }
 

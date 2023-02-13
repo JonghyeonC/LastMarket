@@ -82,15 +82,19 @@ function LiveChat(props) {
                         })
                     }
                     {
-                        chat_log.map((log) => {
-                            return <ul>{log}</ul>
+                        logs.map((log) => {
+                            return `${log.chatType}` === "CHAT" ?
+                            <ul>{log.message}</ul> :
+                            null
                         })
                     }
                 </div>
                 <input type="text" ref={inputBox} className="chatInput" placeholder="채팅을 입력해주세요!!" onChange={(e) => setTalk(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') {sendMessage(); e.target.value=''}}} />
                     <br />
-                <button ref={msg_send_btn} onClick={sendMessage}>전송</button>
-                <button ref={msg_send_btn} onClick={bidMessage}>경매</button>
+                <div className='btnSet'>
+                    <button ref={msg_send_btn} onClick={sendMessage}>전송</button>
+                    <button ref={msg_send_btn} onClick={bidMessage}>경매</button>
+                </div>
                     <br />
             </div>
         </div>

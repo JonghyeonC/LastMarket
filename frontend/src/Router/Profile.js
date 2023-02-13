@@ -42,7 +42,7 @@ function Profile() {
       </div>
       <div className="profile_Profile_Info_Com">
         <div className="profile_Profile_Info_Com_Img">
-          <img src="profile_icon.png" width="230px" height="230px" alt="" />
+          <img src="profile_profile.png" width="230px" height="230px" alt="" />
           <br />
           <br />
           <div>

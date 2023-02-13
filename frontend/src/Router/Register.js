@@ -85,8 +85,8 @@ function Register() {
 
   function RegAndMain(){
     return(
-      reg(),
-      navigate('/')
+      navigate('/'),
+      reg()
     )
   }
   return (

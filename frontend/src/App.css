@@ -331,6 +331,10 @@
   margin-left: 170px;
 }
 
+.Profile_title{
+  font-family: 'GmarketSansMedium';
+}
+
 /* 마이페이지 프로필 영역 */
 .profile_Profile_Info_Com{
   /* border: solid; */
@@ -358,7 +362,7 @@
 
 .profile_Profile_Info_Com_Btn{
   height: 300px;
-  align-items: flex-start;  
+  align-items: flex-end;  
 }
 
 /* 마이페이지 컴포넌트 영역 */

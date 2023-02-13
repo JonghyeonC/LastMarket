@@ -87,7 +87,7 @@ function Register() {
     return(
       reg(),
       navigate('/'),
-      location.reload()
+      // location.reload()i
     )
   }
   return (

@@ -349,10 +349,12 @@
 } */
 
 .profile_Profile_Info_Com_Text{
+  display: flex;
   justify-content: flex-start;
 }
 
 .profile_Profile_Info_Com_Btn{
+  display: flex;
   align-items: flex-end;
 }
 

@@ -343,7 +343,7 @@
 
 /* 마이페이지 컴포넌트 영역 */
 .profile_Compbox{
-  width: 1300px;
+  width: 1250px;
   margin-top: 40px;
   margin-left: 80px;
   margin-right: 10px;
@@ -355,7 +355,7 @@
 .profile_Profile_Good_Com{
   border: solid;
   border-right: 2px solid #CCD3D9;
-  width: 820px;
+  width: 770px;
   padding-right: 20px;
 }
 

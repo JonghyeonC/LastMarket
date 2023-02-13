@@ -1,9 +1,9 @@
+import './Routercss.css'
+import { useState } from 'react'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import UploadPage from '../Pages/Register/UploadPage'
 import InputPage from '../Pages/Register/InputPage'
-import { useState } from 'react'
-import './Routercss.css'
-import axios from 'axios'
 
 function Register() {
 

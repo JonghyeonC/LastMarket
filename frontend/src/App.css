@@ -342,7 +342,7 @@
   height: 400px;
   margin-left: 80px;
   margin-right: 10px;
-  padding: 50px 200px;
+  padding: 50px 150px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -355,9 +355,9 @@
 .profile_Profile_Info_Com_Text{
   font-size: 30px;
   font-family: 'GongGothicMedium';
-  width: 250px;
+  width: 350px;
   justify-content: flex-start;
-  margin-right: 200px;
+  margin-right: 150px;
 }
 
 .profile_Profile_Info_Com_Btn{

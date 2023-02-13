@@ -54,10 +54,10 @@ function Profile() {
             <p>{nickName}</p>
           </div>
           <div>
-            <p>{lifestyles}</p>
+            <p>{lifestyles} 라이프스타일</p>
           </div>
           <div>
-            <p>{addrs}</p>
+            <p><img src="addr.png" width="50px" height="50px" alt="addr" /> {addrs}</p>
           </div>
         </div>
         <div className="profile_Profile_Info_Com_Btn">

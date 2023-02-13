@@ -75,7 +75,7 @@ function LiveChat(props) {
             <div className='chatBox'>
                 <div className='chatContent'>
                     { 
-                        logs[-1] !== '' ?
+                        logs[-1] ?
                         logs[-1].message :
                         null
                     }

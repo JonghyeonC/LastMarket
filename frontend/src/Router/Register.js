@@ -103,5 +103,5 @@ function Register() {
     </div>
   )
 }
-
+// 수정
 export default Register

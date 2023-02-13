@@ -37,16 +37,13 @@ function Profile() {
     <div>
       <div className="profile_Profile_Info_Com">
         <div>
-          <div>
-            <img src="profile_icon.png" width="300px" height="300px" alt="" />
-          </div>
-          <span>
-            <p>닉네임 : {nickName}</p>
-            <p>지역 : {addrs}</p>
-            <p>라이프스타일 : {lifestyles}</p>
-          </span>
+          <img src="profile_icon.png" width="200px" height="200px" alt="" />
         </div>
-        <br />
+        <div>
+          <p>닉네임 : {nickName}</p>
+          <p>지역 : {addrs}</p>
+          <p>라이프스타일 : {lifestyles}</p>
+        </div>
         <div>
           <button>닉네임 수정</button>
           <br />

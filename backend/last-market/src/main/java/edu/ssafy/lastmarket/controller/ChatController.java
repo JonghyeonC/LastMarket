@@ -40,8 +40,9 @@ public class ChatController {
 
     //TODO : service로 분리하기
     @MessageMapping("room.{roomKey}")
-    public void chatSend(ChatMessageDTO msg, @DestinationVariable String roomKey) {
+    public void chatSend(ChatMessageDTO msg, @DestinationVariable Long roomKey) {
         log.info("[msg from {}]{}", roomKey, msg);
+        //chatService 레이어는 어떻게 할까?
         if (msg.getChatType() == ChatType.TRADE_CHAT) {
             tradeChatService.makeChatRoom(msg);
             tradeChatService.saveChatLog(msg);
@@ -61,7 +62,11 @@ public class ChatController {
             Member buyer = memberService.findMemberById(msg.getBuyer());
             Trade trade = tradeService.saveTrade(product, buyer);
             productService.successBid(product, msg.getMessage());
-            template.convertAndSend("chat.exchange", "room." + roomKey, "{\"msg\" : \"" + trade.getId() + "\"}");
+            ChatMessageDTO finishMsg = new ChatMessageDTO();
+            finishMsg.setChatType(ChatType.FINISH_TRADE);
+            finishMsg.setRoomKey(roomKey);
+            finishMsg.setMessage(String.valueOf(trade.getId()));
+            template.convertAndSend("chat.exchange", "room." + roomKey, finishMsg);
             return;
         }
         template.convertAndSend("chat.exchange", "room." + roomKey, msg);

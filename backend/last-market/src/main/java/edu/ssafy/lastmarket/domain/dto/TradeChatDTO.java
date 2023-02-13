@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TradeChatDTO {
-    private String sender;
+    private Long sender;
     private String msg;
     private LocalDateTime sendDate;
 }

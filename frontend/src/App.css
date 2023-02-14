@@ -385,6 +385,7 @@
   border-right: 2px solid #CCD3D9;
   width: 800px;
   padding-right: 20px;
+  padding-top: 10px;
 }
 
 /* 마이페이지 채팅 목록 영역 */
@@ -393,7 +394,7 @@
   border-left: 2px solid #CCD3D9;
   padding-left: 20px;
   width: 480px;
-
+  padding-top: 10px;
 }
 
 .App-header {

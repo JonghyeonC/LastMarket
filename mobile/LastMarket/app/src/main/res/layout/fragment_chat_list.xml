@@ -4,12 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background_grey"
+    tools:context=".fragment.ChatFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     android:layout_marginHorizontal="16dp"
     android:layout_marginTop="13dp"
     android:background="@color/background_grey"
-    tools:context=".fragment.ChatFragment">
+>
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         style="@style/result"
         android:layout_width="wrap_content"
@@ -23,4 +28,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+</LinearLayout>
 </LinearLayout>

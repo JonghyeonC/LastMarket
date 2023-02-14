@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.*
@@ -74,6 +75,7 @@ class CreateProductFragment : Fragment() {
     var lifeStyleList = mutableListOf<String>()
     var imageUriList = mutableListOf<Uri>()
     var imageMultipartList = mutableListOf<MultipartBody.Part>()
+    private lateinit var callback: OnBackPressedCallback
 
     var year = 0
     var month = 0
@@ -86,6 +88,13 @@ class CreateProductFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(1)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -423,6 +432,10 @@ class CreateProductFragment : Fragment() {
 
         return binding.root
     }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
 
     // 절대경로 변환
     fun absolutelyPath(path: Uri?, context: Context): String {
@@ -509,23 +522,4 @@ class CreateProductFragment : Fragment() {
     }
 
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance ofE
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CreateProductFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CreateProductFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

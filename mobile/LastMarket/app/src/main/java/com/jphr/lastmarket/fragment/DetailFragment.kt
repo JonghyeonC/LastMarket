@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -47,6 +48,7 @@ class DetailFragment : Fragment() {
     var isLikeOn:Boolean=false
     var data:ProductDetailDTO?=null
     var ispullup:Boolean=false
+    private lateinit var callback: OnBackPressedCallback
 
     fun initAdpater() {
         try{
@@ -65,6 +67,13 @@ class DetailFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(1)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
         initAdpater()
 
     }
@@ -327,25 +336,6 @@ class DetailFragment : Fragment() {
         }
 
     }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 
     inner class ProductDetailCallback: RetrofitCallback<ProductDetailDTO> {
 
@@ -370,4 +360,9 @@ class DetailFragment : Fragment() {
 
 
     }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
+
 }

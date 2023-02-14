@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -228,10 +229,18 @@ class ChatFragment : Fragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
     private lateinit var chatList: ChatLogListDTO
     private var detailDTO: ProductDetailDTO? = null
+    private lateinit var callback: OnBackPressedCallback
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(1)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
         Log.d(TAG, "onAttach: ChatFragment")
         chatDTO = mainViewModel.getChatDTO()
         mainActivity = context as MainActivity
@@ -259,6 +268,8 @@ class ChatFragment : Fragment() {
         // Inflate the layout for this fragment'
 
         binding = FragmentChatBinding.inflate(inflater, container, false)
+
+        mainActivity.actionButton.visibility=View.GONE
 
         var prefs =
             requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
@@ -440,6 +451,11 @@ class ChatFragment : Fragment() {
 
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+
+    }
     inner class chatCallback : RetrofitCallback<ChatLogListDTO> {
         override fun onSuccess(
             code: Int,

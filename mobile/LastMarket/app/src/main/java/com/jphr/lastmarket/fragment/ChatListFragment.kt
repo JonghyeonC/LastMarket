@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -43,6 +44,7 @@ class ChatListFragment : Fragment() {
     private lateinit var chatListAdapter:ChatListAdapter
     private lateinit var mainActivity:MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
+    private lateinit var callback: OnBackPressedCallback
 
     var chatList= mutableListOf<ChatListDTO>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +56,13 @@ class ChatListFragment : Fragment() {
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(2)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
         mainActivity=context as MainActivity
         var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         userId = prefs.getLong("user_id", 0)
@@ -120,6 +129,11 @@ class ChatListFragment : Fragment() {
         }
 
     }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of

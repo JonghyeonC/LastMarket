@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +15,7 @@ import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.LikeListAdapter
 import com.jphr.lastmarket.adapter.TradeListAdapter
+import com.jphr.lastmarket.databinding.FragmentBuyListBinding
 import com.jphr.lastmarket.databinding.FragmentLikeListBinding
 import com.jphr.lastmarket.databinding.FragmentSellListBinding
 import com.jphr.lastmarket.dto.LikeListProductDTO
@@ -42,15 +44,22 @@ class BuyListFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var binding: FragmentSellListBinding
+    private lateinit var binding: FragmentBuyListBinding
     private lateinit var productListAdapter: TradeListAdapter
     private lateinit var mainActivity: MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
     private var productDTO: MutableList<TradeDTO>? = null
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(2)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
 
@@ -73,7 +82,7 @@ class BuyListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=FragmentSellListBinding.inflate(inflater,container,false)
+        binding=FragmentBuyListBinding.inflate(inflater,container,false)
 
         productListAdapter= TradeListAdapter(mainActivity)
 
@@ -134,23 +143,10 @@ class BuyListFragment : Fragment() {
             Log.d(TAG, "onResponse: Error Code $code")
         }
     }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SellListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SellListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
+
 }

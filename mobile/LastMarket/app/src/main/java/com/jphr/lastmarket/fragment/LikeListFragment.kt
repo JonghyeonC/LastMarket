@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -46,6 +47,7 @@ class LikeListFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
     private var productDTO: MutableList<LikeListProductDTO>? = null
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,6 +63,13 @@ class LikeListFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(2)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
     }
 
     override fun onCreateView(
@@ -83,6 +92,10 @@ class LikeListFragment : Fragment() {
         })
 
         return binding.root
+    }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
     inner class ProductDetailCallback: RetrofitCallback<ProductDetailDTO> {
@@ -130,4 +143,5 @@ class LikeListFragment : Fragment() {
             Log.d(TAG, "onResponse: Error Code $code")
         }
     }
+
 }

@@ -26,7 +26,8 @@ android:background="@color/background_grey"
             android:id="@+id/sellerProfile"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/search" />
+            android:layout_marginRight="5dp"
+            android:src="@drawable/profile_blue" />
 
         <LinearLayout
             android:layout_weight="3"

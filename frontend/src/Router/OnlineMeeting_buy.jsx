@@ -211,18 +211,18 @@ class OnlineMeeting_buy extends Component {
                   primary={this.state.isChat}
                   ref={this.userRef}
                 >
-                  {this.state.publisher !== undefined ? (
+                  {/* {this.state.publisher !== undefined ? (
                     <StreamContainer key={this.state.publisher.stream.streamId}>
                       <UserVideoComponent
                         streamManager={this.state.publisher}
                       />
                     </StreamContainer>
-                  ) : null}
-                  {/* {this.state.subscribers.map((sub, i) => (
+                  ) : null} */}
+                  {this.state.subscribers.map((sub, i) => (
                     <StreamContainer key={sub.stream.streamId}>
                       <UserVideoComponent streamManager={sub} />
                     </StreamContainer>
-                  ))} */}
+                  ))}
                 </StreamContainerWrapper>
               ) : null}
             </VideoContainer>

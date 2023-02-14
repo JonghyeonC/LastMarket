@@ -44,7 +44,6 @@ import ua.naiksoftware.stomp.dto.StompMessage
 import java.util.concurrent.atomic.AtomicBoolean
 
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -117,7 +116,7 @@ class ModalBottomSheet(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ):View? {
-
+        setStyle(STYLE_NORMAL,R.style.CustomBottomSheetDialogTheme)
        return inflater.inflate(R.layout.chat_bottom_sheet, container, false)
 
     }
@@ -198,6 +197,7 @@ class ModalBottomSheet(
         }
         view?.findViewById<ImageView>(R.id.trade_fail)?.setOnClickListener {
             //거래 파기
+            dismiss()
 
         }
 
@@ -210,7 +210,7 @@ class ModalBottomSheet(
 }
 
 class ChatFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentChatBinding
@@ -246,7 +246,7 @@ class ChatFragment : Fragment() {
         mainActivity = context as MainActivity
         //product 정보 불러와서 deal state에 따라 바텀시트의 상태 변화 시키기
         productId = chatDTO?.roomKey?.toLong()!!
-        ProductService().getProductDetail(productId, ProductDetailCallback())
+        ProductService().getProductDetail(token,productId, ProductDetailCallback())
 
     }
 
@@ -283,6 +283,7 @@ class ChatFragment : Fragment() {
 
         binding.plus.setOnClickListener {
 //            val modalBottomSheetBehavior = (modalBottomSheet.dialog as BottomSheetDialog).behavior
+            Log.d(TAG, "onCreateView: ")
             modalBottomSheet = stompClient?.let { it1 ->
                 detailDTO?.let { it2 ->
                     ModalBottomSheet(
@@ -522,7 +523,7 @@ class ChatFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment ChatFragment.
          */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ChatFragment().apply {

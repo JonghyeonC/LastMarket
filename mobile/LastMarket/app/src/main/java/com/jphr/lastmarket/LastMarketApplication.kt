@@ -10,7 +10,7 @@ class LastMarketApplication:Application() {
     companion object{
         //전역변수를 통해 앱실행시 1번만 생성(singleton)
         lateinit var wRetrofit: Retrofit
-        var baseurl="https://i8d206.p.ssafy.io/"//TODO: BASEURL나오면 입력해주기
+        var baseurl="https://i8d206.p.ssafy.io/"
     }
     override fun onCreate() {
         super.onCreate()

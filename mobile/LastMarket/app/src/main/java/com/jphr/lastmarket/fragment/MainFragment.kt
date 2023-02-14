@@ -27,7 +27,6 @@ import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -37,12 +36,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-//TODO: FRAGMENT 들에서 뒤로가기 누르면 (ON BACKPRESSED) MAIN FRAGMENT로 돌아오도록 하기
 
 private const val TAG = "MainFragment"
 
 class MainFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentMainBinding
@@ -52,7 +49,7 @@ class MainFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
-
+    var token =""
     val PREFERENCES_NAME = "user_info"
     var productList1 : MutableList<ProductX>?=null
     var productList2 : MutableList<ProductX>? =null
@@ -85,7 +82,7 @@ class MainFragment : Fragment() {
         var pref:SharedPreferences?= getPreferences(requireContext())
         var city= pref?.getString("city","null")
         var cityData=pref?.getString("city_data","null")
-
+        token = pref?.getString("token", "")!!
         var lifestyle= pref?.getString("lifestyle","null")
 
 
@@ -202,7 +199,7 @@ class MainFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId
                     ?.let {
-                        ProductService().getProductDetail(it,ProductDetailCallback())
+                        ProductService().getProductDetail(token,it,ProductDetailCallback())
                     }
 
             }
@@ -211,7 +208,7 @@ class MainFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 productListAdapter2.list?.get(position)?.productId
                     ?.let {
-                        ProductService().getProductDetail(it,ProductDetailCallback())
+                        ProductService().getProductDetail(token,it,ProductDetailCallback())
                     }
 
             }
@@ -220,7 +217,7 @@ class MainFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 productListAdapter3.list?.get(position)?.productId
                     ?.let {
-                        ProductService().getProductDetail(it,ProductDetailCallback())
+                        ProductService().getProductDetail(token,it,ProductDetailCallback())
                     }
 
             }

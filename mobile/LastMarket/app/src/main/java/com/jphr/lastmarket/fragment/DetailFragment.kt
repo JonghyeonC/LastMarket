@@ -26,7 +26,6 @@ import com.jphr.lastmarket.viewmodel.MainViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -38,7 +37,6 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "DetailFragment"
 class DetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private val mainViewModel by activityViewModels<MainViewModel>()
@@ -53,13 +51,13 @@ class DetailFragment : Fragment() {
     fun initAdpater() {
         try{
             data= mainViewModel.getProductDetail()
-
+            Log.d(TAG, "initAdpater: $data")
         }catch (e:Exception){
             Log.d(TAG, "initAdpater: error")
         }
         data?.productId?.let { mainViewModel.setProductId(it) }
         productId= mainViewModel.getProductId()
-        data?.isFavorite?.let { isLikeOn=it }
+        data?.favorite?.let { isLikeOn=it }
 //        ProductService().getProductDetail(productId,ProductDetailCallback())
         Log.d(TAG, "initAdpater: $productId")
     }
@@ -123,10 +121,7 @@ class DetailFragment : Fragment() {
         binding.content.text=data?.content
         binding.sellerNicname.text=data?.sellerNickname
         binding.sellerLocation.text=data?.location
-        //TODO: 사용자 프로필 이미지 담기
-//        Glide.with(requireContext())
-//            .load(data.profile)
-//            .into(binding.sellerProfile)
+
         binding.instantPrice.text=data?.instantPrice.toString()
         binding.startPrice.text=data?.startingPrice.toString()
 

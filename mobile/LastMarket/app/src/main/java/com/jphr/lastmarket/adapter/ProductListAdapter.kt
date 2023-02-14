@@ -26,7 +26,7 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
         val liveImage = itemView.findViewById<ImageView>(R.id.live_image)
         val liveText=itemView.findViewById<TextView>(R.id.live_text)
         fun bindInfo(product: ProductX){
-            //TODO:image삽입하기
+
             Glide.with(itemView)
                 .load("${product.imgURI}")
                 .into(image)

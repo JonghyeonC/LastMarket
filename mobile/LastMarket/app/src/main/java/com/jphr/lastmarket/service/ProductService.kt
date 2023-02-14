@@ -13,30 +13,7 @@ import retrofit2.Response
 
 class ProductService {
     private val TAG = "ProductService"
-    var searchFragment=SearchFragment()
 
-
-//    fun getProduct(word:String?, category: String?, callback: RetrofitCallback<ProductDTO>,issearch:Boolean){
-//        val productInterface: Call<ProductDTO> = RetrofitUtil.ProductService.getProductList(word,category)
-//        productInterface.enqueue(object : Callback<ProductDTO> {
-//            override fun onResponse(call: Call<ProductDTO>, response: Response<ProductDTO>) {
-//                val res = response.body()
-//                Log.d(TAG, "onResponse res 값: $res")
-//                if(response.code() == 200){
-//                    if (res != null) {
-//                        callback.onSuccess(response.code(), res,issearch,word,category)
-//                    }
-//                    Log.d(TAG, "onResponse: $res")
-//                } else {
-//                    callback.onFailure(response.code())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ProductDTO>, t: Throwable) {
-//                callback.onError(t)
-//            }
-//        })
-//    }
     fun getProductWithSort(
     category: String?,
     lifestyle:String?,
@@ -102,8 +79,8 @@ class ProductService {
             }
         })
     }
-    fun getProductDetail(productId:Long,callback:RetrofitCallback<ProductDetailDTO>){
-        RetrofitUtil.productService.getProudctDetail(productId).enqueue(object : Callback<ProductDetailDTO> {
+    fun getProductDetail(token: String,productId:Long,callback:RetrofitCallback<ProductDetailDTO>){
+        RetrofitUtil.productService.getProudctDetail(token,productId).enqueue(object : Callback<ProductDetailDTO> {
             override fun onResponse(call: Call<ProductDetailDTO>, response: Response<ProductDetailDTO>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")

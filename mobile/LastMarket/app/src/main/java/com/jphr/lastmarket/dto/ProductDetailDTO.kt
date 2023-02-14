@@ -9,7 +9,7 @@ data class ProductDetailDTO(
     val favoriteCnt: Long,
     val imgURIs: MutableList<String>,
     val instantPrice: Long,
-    val isFavorite: Boolean,
+    val favorite: Boolean,
     val lifestyle: String,
     val liveTime: String?,
     val location: String,

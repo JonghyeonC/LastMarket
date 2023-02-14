@@ -23,7 +23,6 @@ import com.jphr.lastmarket.service.MyPageService
 import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -35,7 +34,6 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "ReviewListFragment"
 class ReviewListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding:FragmentReviewListBinding

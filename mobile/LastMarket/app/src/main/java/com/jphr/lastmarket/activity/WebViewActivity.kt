@@ -24,7 +24,6 @@ class WebViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
 
-        //TODO: 헤더에 KEY-VALUE쌍으로 되어있는 토큰 LOCAL STORAGE에 저장하기
 
         var intent = intent
         var naverUrl = intent.getStringExtra("naver")

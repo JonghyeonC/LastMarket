@@ -3,6 +3,7 @@ package com.jphr.lastmarket.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -241,9 +243,24 @@ public class LiveSellActivity extends AppCompatActivity {
         exitLive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: 정말 나가시겠습니까 다이얼로그 띄우기
-                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                new AlertDialog.Builder(LiveSellActivity.this)
+                        .setTitle("정말로 종료하시겠습니까?")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
+
+
             }
         });
 
@@ -438,32 +455,7 @@ public class LiveSellActivity extends AppCompatActivity {
         });
     }
 
-    //---------------다른 사용자 비디오 레이아웃-----------------
-//    public void createRemoteParticipantVideo(final RemoteParticipant remoteParticipant) {
-//        Handler mainHandler = new Handler(this.getMainLooper());
-//        Runnable myRunnable = () -> {
-//            View rowView = this.getLayoutInflater().inflate(R.layout.peer_video, null);
-//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            lp.setMargins(0, 0, 0, 20);
-//            rowView.setLayoutParams(lp);
-//            int rowId = View.generateViewId();
-//            rowView.setId(rowId);
-//            views_container.addView(rowView);
-//            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
-//            remoteParticipant.setVideoView(videoView);
-//            videoView.setMirror(false);
-//            EglBase rootEglBase = EglBase.create();
-//            videoView.init(rootEglBase.getEglBaseContext(), null);
-//            videoView.setZOrderMediaOverlay(true);
-//            View textView = ((ViewGroup) rowView).getChildAt(1);
-//            remoteParticipant.setParticipantNameText((TextView) textView);
-//            remoteParticipant.setView(rowView);
-//
-//            remoteParticipant.getParticipantNameText().setText(remoteParticipant.getParticipantName());
-//            remoteParticipant.getParticipantNameText().setPadding(20, 3, 20, 3);
-//        };
-//        mainHandler.post(myRunnable);
-//    }
+
 
     public void setRemoteMediaStream(MediaStream stream, final RemoteParticipant2 remoteParticipant) {
 //        final VideoTrack videoTrack = stream.videoTracks.get(0);
@@ -498,8 +490,22 @@ public class LiveSellActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        leaveSession();
-        super.onBackPressed();
+        new AlertDialog.Builder(LiveSellActivity.this)
+                .setTitle("정말로 종료하시겠습니까?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        leaveSession();
+                        exit();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
     }
 
     @Override
@@ -507,5 +513,7 @@ public class LiveSellActivity extends AppCompatActivity {
         leaveSession();
         super.onStop();
     }
-
+    public void exit() { // 종료
+        super.onBackPressed();
+    }
 }

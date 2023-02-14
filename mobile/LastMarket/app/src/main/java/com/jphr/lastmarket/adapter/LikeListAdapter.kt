@@ -27,7 +27,7 @@ class LikeListAdapter(val context: Context) :RecyclerView.Adapter<LikeListAdapte
         val liveImage = itemView.findViewById<ImageView>(R.id.live_image)
         val liveText=itemView.findViewById<TextView>(R.id.live_text)
         fun bindInfo(product: LikeListProductDTO){
-            //TODO:image삽입하기
+
             Glide.with(itemView)
                 .load("${product.imgURI}")
                 .into(image)

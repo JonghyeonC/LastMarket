@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -173,7 +175,11 @@ public class LiveBuyActivity extends AppCompatActivity {
                     intent.putExtra("isFromLive","true");
                     ChatDTO chatDTO=new ChatDTO(jsonObject.getString("chatType"),jsonObject.getString("buyer"),jsonObject.getString("seller"),jsonObject.getString("message"),jsonObject.getString("roomKey"),jsonObject.getString("sender"));
                     intent.putExtra("chatDTO",chatDTO);
+                    leaveSession();
                     startActivity(intent);
+
+                    onDestroy();
+
                 }else {//내가격이 최고가가 아닐때(미낙찰)
                     Log.d(TAG, "onCreate: 미낙찰");
 
@@ -506,7 +512,26 @@ public class LiveBuyActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        leaveSession();
+        new AlertDialog.Builder(LiveBuyActivity.this)
+                .setTitle("정말로 종료하시겠습니까?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        leaveSession();
+                        exit();
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
+
+    }
+    public void exit() { // 종료
         super.onBackPressed();
     }
 

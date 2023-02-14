@@ -27,7 +27,6 @@ import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -39,7 +38,7 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "SearchFragment"
 class SearchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
     private var productDTO: MutableList<ProductX>? = null
     private var word: String? = null
     private lateinit var binding:FragmentSearchBinding
@@ -48,7 +47,7 @@ class SearchFragment : Fragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
     lateinit var cityData:String
     private lateinit var callback: OnBackPressedCallback
-
+    var token =""
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
@@ -67,6 +66,7 @@ class SearchFragment : Fragment() {
         word=mainViewModel.getWord()
         var pref=mainActivity.getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         cityData= pref?.getString("city_data","null").toString()
+        token= pref?.getString("token","null").toString()
 
     }
 
@@ -122,7 +122,7 @@ class SearchFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId
                     ?.let {
-                        ProductService().getProductDetail(it,ProductDetailCallback())
+                        ProductService().getProductDetail(token,it,ProductDetailCallback())
                     }
 
             }

@@ -45,7 +45,6 @@ import java.time.LocalDateTime
 import java.util.*
 
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -58,7 +57,6 @@ private const val ARG_PARAM2 = "param2"
 private const val TAG = "CreateProductFragment"
 
 class CreateProductFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var isEdit: String? = null
     private var productId: Long = 0
 
@@ -302,7 +300,6 @@ class CreateProductFragment : Fragment() {
                         var jsonBody =
                             RequestBody.create("application/json".toMediaTypeOrNull(), jsonString)
                         Log.d(TAG, "onCreateView: $product")
-                        //TODO :EDIT PRODUCCT
                         ProductService().editProudct(token, productId,jsonBody, imageMultipartList)
                         mainActivity.changeFragment(1)
                     } catch (e: Exception) {

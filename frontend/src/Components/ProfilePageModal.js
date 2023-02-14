@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 // import './ModalBasic.css';
 import '../Components/ProfilePageModal.css'
-// import NaverLogin from "./NaverLogin"
-// import KakaoLogin from "./KakaoLogin";
 
-function ProfilePageModal({ setModalOpen, id, title, content, writer }) {
+import UploadPage from '../Pages/Register/UploadPage';
+
+function ProfilePageModal({ setModalOpen }) {
 
     // 모달 끄기 (X버튼 onClick 이벤트 핸들러)
     const closeModal = () => {
@@ -41,10 +41,8 @@ function ProfilePageModal({ setModalOpen, id, title, content, writer }) {
             <button className="close" onClick={closeModal}>
                 X
             </button>
-            <div className="loginBox">
-                {/* <KakaoLogin />
-                <br />
-                <NaverLogin /> */}
+            <div className="profile_img_change_box">
+              <UploadPage />
             </div>
         </div>
     );

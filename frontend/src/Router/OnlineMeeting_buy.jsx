@@ -465,9 +465,9 @@ class OnlineMeeting_buy extends Component {
                 mirror: "true",
               });
 
-              mySession.publish(publisher);
+              // mySession.publish(publisher);
 
-              this.setState({ mainStreamManager: publisher, publisher });
+              // this.setState({ mainStreamManager: publisher, publisher });
             })
             .catch((error) => {
               console.log("세션 연결 오류", error.code, error.message);

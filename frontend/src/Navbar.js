@@ -76,48 +76,54 @@ function Navbar() {
   
   return (
     <div >
-      <div className="navbar_up">
+      {/* <div className="navbar_up">
         <div onClick={() => navigate('/live')}>
             <img className="App-logo" src="logos/App_logo.png" alt="App_logo"/>
             <span>앱 다운로드</span>
         </div>
         <div onClick={() => navigate('/register')}>고객센터</div>
-      </div>
+      </div> */}
       {/* <hr className="nav_line1"/> */}
       <br />
-      <div className="navbar_down">
-        <img className="W_logo" src="logos/W_logo3.png" alt="W_logo" onClick={() => navigate('/')}/>
-        <span><input className="nav_input" type="text" placeholder="검색해보세요" defaultValue="" onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') { navigate("/search/" + inputValue) }}} /></span>
-        <span>
-          { reduxData.token ? 
+      <div className='nav_last'>
+        <div className='W_logo_box'>
+          <img className="W_logo" src="logos/W_logo5.png" alt="W_logo" onClick={() => navigate('/')}/>
+        </div>
+        <div className="navbar_down">
+          <div className='input_box_box'>
+            <input className="nav_input" type="text" placeholder="검색해보세요" defaultValue="" onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') { navigate("/search/" + inputValue) }}} />
+          </div>
           <span>
-            <div className="nav_btn_box"> 
-              <img className="chat_icon" src="chat_icon.png" alt="chat_icon" onClick={() => navigate('/chat')}/>
-              <img className="myprofile_icon" src="myprofile_icon.png" alt="myprofile_icon" onClick={() => navigate('/profile')}/>
-              <span>
-                <img className="logout_icon" src="logout_icon.png" alt="logout_icon" onclick={delCookie}/>
-                {/* {modalOpen && <ModalBasic setModalOpen={setModalOpen} />} */}
-              </span>
-            </div>
+            { reduxData.token ? 
+            <span>
+              <div className="nav_btn_box"> 
+                <img className="chat_icon" src="chat_icon.png" alt="chat_icon" onClick={() => navigate('/chat')}/>
+                <img className="myprofile_icon" src="myprofile_icon.png" alt="myprofile_icon" onClick={() => navigate('/profile')}/>
+                <span>
+                  <img className="logout_icon" src="logout_icon.png" alt="logout_icon" onclick={delCookie}/>
+                  {/* {modalOpen && <ModalBasic setModalOpen={setModalOpen} />} */}
+                </span>
+              </div>
+            </span>
+            :
+            <span>
+              <div className="nav_btn_box">
+                <img className="login_icon" src="login_icon.png" alt="login_icon" onClick={showModal} />
+                <img className="signup_icon" src="signup_icon.png" alt="signup_icon" onClick={showModal} />
+                {modalOpen && <ModalBasic setModalOpen={setModalOpen} />}
+              </div>
+            </span>
+            }
+            {/* <br /> */}
+            {/* <br />
+            <span>
+              <div class="nav_btn_box">
+                <a href="https://www.kakaocorp.com/"><img className="login_icon" src="login_icon.png" alt="login_icon" /></a>
+                <a href="https://www.coupang.com/"><img className="signup_icon" src="signup_icon.png" alt="signup_icon" /></a>
+              </div>
+            </span> */}
           </span>
-          :
-          <span>
-            <div className="nav_btn_box">
-              <img className="login_icon" src="login_icon.png" alt="login_icon" onClick={showModal} />
-              <img className="signup_icon" src="signup_icon.png" alt="signup_icon" onClick={showModal} />
-              {modalOpen && <ModalBasic setModalOpen={setModalOpen} />}
-            </div>
-          </span>
-          }
-          {/* <br /> */}
-          {/* <br />
-          <span>
-            <div class="nav_btn_box">
-              <a href="https://www.kakaocorp.com/"><img className="login_icon" src="login_icon.png" alt="login_icon" /></a>
-              <a href="https://www.coupang.com/"><img className="signup_icon" src="signup_icon.png" alt="signup_icon" /></a>
-            </div>
-          </span> */}
-        </span>
+        </div>
       </div>
       <div>
         <span>

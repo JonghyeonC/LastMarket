@@ -11,12 +11,17 @@ import javax.persistence.Id;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "dongCode")
 public class Location {
     @Id
     private String dongCode;
     private String sido;
     private String gugun;
     private String dong;
+
+    @Override
+    public String toString(){
+        return sido+" "+gugun+" "+ dong;
+    }
+
 
 }

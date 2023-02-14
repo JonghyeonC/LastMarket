@@ -1,74 +1,160 @@
 package edu.ssafy.lastmarket.controller;
 
-import edu.ssafy.lastmarket.exception.BanExistException;
-import edu.ssafy.lastmarket.exception.NotMemberUsernameException;
-import edu.ssafy.lastmarket.exception.NotYourAuthority;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import edu.ssafy.lastmarket.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.support.ErrorMessage;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-@ControllerAdvice
+@Slf4j
+@RestControllerAdvice
 public class ControllerExceptionHandler {
 
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(NotMemberUsernameException.class)
-    public ResponseEntity<?> jwtValidate(Exception e) {
-        e.printStackTrace();
-        Map<String, Object> result = new HashMap<>();
-        result.put("error msg", e.toString());
-        result.put("msg", "your username is not validate");
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ErrorMsgDTO jwtValidate(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "your username is not validate");
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(SignatureException.class)
-    public ResponseEntity<?> jwtSignature(Exception e){
-        e.printStackTrace();
-        Map<String, Object> result = new HashMap<>();
-        result.put("error msg", e.toString());
-        result.put("msg", "your jwt signature is not validate");
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ErrorMsgDTO jwtSignature(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "your jwt signature is not validate");
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<?> expiredJwt(Exception e){
-
-        e.printStackTrace();
-        Map<String, Object> result = new HashMap<>();
-        result.put("error msg", e.toString());
-        result.put("msg", "jwt is expired");
-        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+    public ErrorMsgDTO expiredJwt(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "jwt is expired");
     }
 
-    @ExceptionHandler(BanExistException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<?> alreadyBan(Exception e) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("error msg", e.toString());
-        result.put("msg", "user is alreay banned");
-        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(BanExistException.class)
+    public ErrorMsgDTO alreadyBan(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "user is alreay banned");
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(NotYourAuthority.class)
-    public ResponseEntity<?> notYouAuthrity(Exception e) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("error msg", e.toString());
-        result.put("msg", "notYouAuthrity");
-        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+    public ErrorMsgDTO notYouAuthrity(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "notYouAuthrity");
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(IOException.class)
-    public ResponseEntity<?> iOException(Exception e) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("error msg", e.toString());
-        result.put("msg", "iOException");
-        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ErrorMsgDTO iOException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "iOException");
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ErrorMsgDTO notFoundException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "notFoundException");
+    }
+
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(NotAuthenticated.class)
+    public ErrorMsgDTO notAuthenticated(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "notAuthenticated");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ErrorMsgDTO missingServletRequestParameterException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "missingServletRequestParameterException");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public ErrorMsgDTO missingServletRequestPartException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "missingServletRequestPartException");
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ProductSoldException.class)
+    public ErrorMsgDTO productSoldException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "productSoldException");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NoChatRoomException.class)
+    public ErrorMsgDTO noChatRoomException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "noChatRoomException");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorMsgDTO illegalArgumentException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "illegalArgumentException");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ReviewAlreadyExistException.class)
+    public ErrorMsgDTO reviewAlreadyExistException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "reviewAlreadyExistException");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotMatchSellerException.class)
+    public ErrorMsgDTO notMatchSellerException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "notMatchSellerException");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UpdateProductCooltimeException.class)
+    public ErrorMsgDTO updateProductCooltimeException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "updateProductCooltimeException");
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UnrecognizedPropertyException.class)
+    public ErrorMsgDTO unrecognizedPropertyException(Exception e, HttpServletRequest request) {
+        String uuid = (String) request.getAttribute("uuid");
+        log.error("[{}][{}|{}][{}]", request.getMethod(), request.getRequestURI(), uuid, e.toString());
+        return new ErrorMsgDTO(e.toString(), "unrecognizedPropertyException");
+    }
 }

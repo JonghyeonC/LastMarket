@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -17,37 +18,36 @@ public class Member extends BaseEntity {
     private Long id;
     private String username;
     private String nickname;
-//    private String password;
     @OneToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Image profile;
-
     @Enumerated(EnumType.STRING)
-    private Job job;
-
+    private Lifestyle lifestyle;
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
     private Role role;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "locationDongCode")
+    @ToString.Exclude
     private Location location;
     @OneToMany(mappedBy = "seller",fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Product> products;
     @OneToMany(mappedBy = "from", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Ban> banList;
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Favorite> favorites;
     @OneToMany(mappedBy = "seller",fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<SellerReview> sellerReviews;
     @OneToMany(mappedBy = "buyer",fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<BuyerReview> buyerReviews;
 
     public Member(String username){
         this.username =username;
         this.role= Role.USER;
     }
-//    public Member(String username, String password) {
-//        this.username = username;
-//        this.password = password;
-//        this.role = Role.USER;
-//
-//    }
 }

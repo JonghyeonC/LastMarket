@@ -1,13 +1,19 @@
 import { useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import { useLocation } from "react-router-dom";
 import './Chat.css'
 
-function LiveChat(props) {
+function Chat_onetoone(props) {
 
     const msg_send_btn = useRef()
     const inputBox = useRef()
-    
+
+    const location = useLocation()
+    const productId = location.state.productId
+    const id = location.state.id
+    const sellerId = location.state.sellerId
+
     const [talk, setTalk] = useState('')
     const [chat_log, setChat_log] = useState([''])
     const [ logs, setLogs ] = useState([''])
@@ -18,9 +24,7 @@ function LiveChat(props) {
     
     stomp_client.connect({}, () => {
         console.log("connection successe")
-        stomp_client.subscribe(`/exchange/chat.exchange/room.${props.productId}`, (message) => {
-            // addChatLog(JSON.parse(message.body));
-            // console.log(JSON.parse(message.body))
+        stomp_client.subscribe(`/exchange/chat.exchange/room.${productId}`, (message) => {
             addChatLog(message)
         });
     })
@@ -28,41 +32,22 @@ function LiveChat(props) {
 
     function sendMessage() {
         const msg = {
-            "chatType": "CHAT",
-            "seller": `${props.sellerId}`,
-            "buyer": `${props.id}`,
-            "sender": `${props.id}`,
-            "roomKey": `${props.productId}`,
+            "chatType": "TRADE_CHAT",
+            "seller": sellerId,
+            "buyer": id,
+            "sender": id,
+            "roomKey": productId,
             "message": talk
         }
         return(
-            stomp_client.send(`/send/room.${props.productId}`, {}, JSON.stringify(msg))
-        )
-    }
-
-    function bidMessage() {
-        const bidMsg = {
-            "chatType": "BID",
-            "seller": `${props.sellerId}`,
-            "buyer": `${props.id}`,
-            "sender": `${props.id}`,
-            "roomKey": `${props.productId}`,
-            "message": `${talk}`
-        }
-        return(
-            stomp_client.send(`/send/room.${props.productId}`, {}, JSON.stringify(bidMsg))
+            stomp_client.send(`/send/room.${productId}`, {}, JSON.stringify(msg))
         )
     }
     
     function addChatLog(msg) {
         let talks = JSON.parse(msg.body)
         console.log(talks)
-        // if (talks.sender === "seller") {
-        //     chat.style.color = "red";
-        // }
-        // const new_chatlog = chat_log.concat(talks.message)
         setChat_log([...chat_log, talks.message])
-        // const new_logs = logs.concat(talks)
         setLogs([...logs, talks])
     }
 
@@ -76,15 +61,10 @@ function LiveChat(props) {
             <div className='chatBox'>
                 <div className='chatContent'>
                     {
-                        `${logs[logs.length - 1]?.chatType}` === "BID" ?
-                        <div>{logs[logs.length - 1]?.message}</div> :
-                        null
-                    }
-                    {
                         logs.map((log) => {
-                            return `${log.chatType}` === "CHAT" ?
+                            return `${log.chatType}` === "TRADE_CHAT" ?
                             (
-                                `${log.sender}` !== `${props.id}` ?
+                                `${log.sender}` !== `${id}` ?
                                 <div className='yourMsg'>{log.message}</div> :
                                 <div className='myMsg'>{log.message}</div>
                             ) :
@@ -96,7 +76,7 @@ function LiveChat(props) {
                     <br />
                 <div className='btnSet'>
                     <button ref={msg_send_btn} onClick={sendMessage}>전송</button>
-                    <button ref={msg_send_btn} onClick={bidMessage}>경매</button>
+                    <button>예약</button>
                 </div>
                     <br />
             </div>
@@ -104,4 +84,4 @@ function LiveChat(props) {
     )
 }
 
-export default LiveChat
+export default Chat_onetoone

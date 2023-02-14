@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 // import './ModalBasic.css';
 import '../Components/ProfilePageModal.css'
+// import NaverLogin from "./NaverLogin"
+// import KakaoLogin from "./KakaoLogin";
 
-import UploadPage from '../Pages/Register/UploadPage';
-
-function ProfilePageModal({ setModalOpen }) {
+function ProfilePageModal({ setModalOpen, id, title, content, writer }) {
 
     // 모달 끄기 (X버튼 onClick 이벤트 핸들러)
     const closeModal = () => {
@@ -35,20 +35,16 @@ function ProfilePageModal({ setModalOpen }) {
         };
     });
     
-    const [imageUrls, setImageUrls] = useState([])
-
-    // imageUrls.map((url) => {
-    //     formData.append('imgs', url)
-    //   })
-
     return (
         // 모달창을 useRef로 잡아준다.
         <div ref={modalRef} className="modalcontainer">
             <button className="close" onClick={closeModal}>
                 X
             </button>
-            <div className="profile_img_change_box">
-              <UploadPage setImageUrls={setImageUrls} />
+            <div className="loginBox">
+                {/* <KakaoLogin />
+                <br />
+                <NaverLogin /> */}
             </div>
         </div>
     );

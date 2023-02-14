@@ -1,13 +1,14 @@
-import { useLocation } from 'react-router-dom'; 
+import { useNavigate , useLocation } from 'react-router-dom'; 
 
 const withRouter = WrappedComponent => props => {
   const location = useLocation();
+  const navigate = useNavigate();
   // other hooks
 
   return (
     <WrappedComponent
       {...props}
-      {...{ location }}
+      {...{ navigate, location }}
     />
   );
 };

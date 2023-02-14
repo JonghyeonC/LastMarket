@@ -124,11 +124,12 @@ function Discription(props) {
               <p>{productDetail.sellerNickname}</p>
               <p>{productDetail.location}</p>
             </div>
-            {
+              <span><button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button></span>
+            {/* {
               productDetail.sellerId === userDetail?.id ?
               null :
-              <span><button>채팅</button></span>
-            }
+              <span><button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button></span>
+            } */}
           </div>
           {
             productDetail.sellerId === userDetail?.id ?

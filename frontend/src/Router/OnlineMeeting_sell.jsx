@@ -261,7 +261,8 @@ class OnlineMeeting_sell extends Component {
             >
               {this.state.isSpeaker ? <HeadsetIcon /> : <HeadsetOffIcon />}
             </Icon>
-            <Icon primary onClick={this.leaveSession}>
+            {/* <Icon primary onClick={this.leaveSession ; navigate(`${/chat_onetoone/productId}`)}> */}
+              <Icon primary onClick={this.leaveSession}>
               <CallEndIcon />
             </Icon>
           </BottomBox>
@@ -459,7 +460,7 @@ class OnlineMeeting_sell extends Component {
                 videoSource: undefined, // 웹캠 기본 값으로
                 publishAudio: true,
                 publishVideo: true,
-                resolution: "640x480",
+                resolution: "1280x960",
                 frameRate: 30,
                 insertMode: "APPEND",
                 mirror: "true",

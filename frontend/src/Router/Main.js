@@ -92,7 +92,14 @@ function Main() {
           {/* <hr /> */}
           <br />
           <div>
-            <h1 >{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_HOT.png" alt="HOT" /> 한 <img className="ListTitleLetterPic" src={"letter_"+`${lifestyles}`+".png"} alt="lifestyles" /> 상품</h1>
+            <div>
+              {
+              reduxData.token ?
+              <h1 >{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_HOT.png" alt="HOT" /> 한 <img className="ListTitleLetterPic" src={"letter_"+`${lifestyles}`+".png"} alt="lifestyles" /> 상품</h1>
+              :
+              <h1 >라스트마켓에서 <img className="ListTitleLetterPic" src="letter_HOT.png" alt="HOT" /> 한 상품</h1>
+            }
+            </div>
             <br />
             <div>
               <GoodsListSwiper lifestyles={'lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="&dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
@@ -101,7 +108,14 @@ function Main() {
           <br />
           <br />
           <div>
-            <h1>{addrs.split(' ')[2]}에서 <img className="ListTitleLetterPic" src={"letter_"+`${lifestyles}`+".png"} alt="lifestyles" /> <img className="ListTitleLetterPic" src="letter_LIVE.png" alt="LIVE" />  중</h1>
+            <div>
+              {
+              reduxData.token ?
+              <h1>{addrs.split(' ')[2]}에서 <img className="ListTitleLetterPic" src={"letter_"+`${lifestyles}`+".png"} alt="lifestyles" /> <img className="ListTitleLetterPic" src="letter_LIVE.png" alt="LIVE" />  중</h1>
+              :
+              <h1>라스트마켓에서 <img className="ListTitleLetterPic" src="letter_LIVE.png" alt="LIVE" />  중</h1>
+            }
+            </div>
             <br />
             <div>
               <GoodsListSwiper lifestyles={'lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=favoriteCnt,DESC&sort=lastModifiedDateTime,DESC" dealState="&dealState=DEFAULT&dealState=ONBROADCAST" />
@@ -111,7 +125,14 @@ function Main() {
           <br />
         </div>
         <div>
-          <h1>{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_NEW.png" alt="NEW" />  <img className="ListTitleLetterPic" src={"letter_"+`${lifestyles}`+".png"} alt="lifestyles" /></h1>
+          <div>
+              {
+              reduxData.token ?
+              <h1>{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_NEW.png" alt="NEW" />  <img className="ListTitleLetterPic" src={"letter_"+`${lifestyles}`+".png"} alt="lifestyles" /></h1>
+              :
+              <h1>오늘의 <img className="ListTitleLetterPic" src="letter_NEW.png" alt="NEW" /> 라스트마켓 상품</h1>
+            }
+            </div>
           <br />
           <GoodsList lifestyles={'lifestyle='+lifestyles} addrs={'&location='+addrs} sort="&sort=lastModifiedDateTime,DESC&sort=favoriteCnt" dealState="&dealState=DEFAULT&dealState=ONBROADCAST&dealState=AFTERBROADCAST" />
           {/* <div className='row'>

@@ -75,7 +75,7 @@ function Navbar() {
 
   
   return (
-    <div >
+    <div className='Nav' >
       {/* <div className="navbar_up">
         <div onClick={() => navigate('/live')}>
             <img className="App-logo" src="logos/App_logo.png" alt="App_logo"/>
@@ -97,7 +97,7 @@ function Navbar() {
             { reduxData.token ? 
             <span>
               <div className="nav_btn_box"> 
-                <img className="chat_icon" src="chat_icon.png" alt="chat_icon" onClick={() => navigate('/chat')}/>
+                {/* <img className="chat_icon" src="chat_icon.png" alt="chat_icon" onClick={() => navigate('/chat')}/> */}
                 <img className="myprofile_icon" src="myprofile_icon.png" alt="myprofile_icon" onClick={() => navigate('/profile')}/>
                 <span>
                   <img className="logout_icon" src="logout_icon.png" alt="logout_icon" onclick={delCookie}/>
@@ -139,7 +139,17 @@ function Navbar() {
           {/* <button className='sellBtn'>판매하기</button> */}
           <hr className="nav_line2"/>
         </span>
-        <img className='sell_icon' src="sell_icon.png" alt="sell_icon" onClick={() => navigate('/register')} />
+        <div>
+        { 
+        reduxData.token ?
+        <div>
+          <img className='sell_icon' src="sell_icon.png" alt="sell_icon" onClick={() => navigate('/register')} />
+        </div>
+        :
+        null
+        }
+        </div>
+
       </div>
       <br />
     </div>

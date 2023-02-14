@@ -58,8 +58,16 @@
   width: 200px;
 }
 
+.Nav{
+  height: 117px;
+  position:sticky;
+  top: 0;
+  background: white;
+  z-index: 2;
+}
+
 .nav_last{
-  height: 70px;
+  height: 80px;
   display: flex;
   justify-content: left;
 }
@@ -101,8 +109,8 @@
   padding-left: 0px;
   /* width: 400px; */
   /* height: 50px; */
-  width: 150px;
-  height: 75px;
+  width: 180px;
+  height: 90px;
   cursor: pointer;
 }
 
@@ -110,8 +118,9 @@
 .W_logo_box {
   display: flex;
   align-items: center;
-  margin-left: 50px;
+  margin-left: 20px;
   margin-right: 200px;
+  margin-bottom: 10px;
 }
 
 /* 네브바 상단 라인 */
@@ -220,7 +229,7 @@
 
 /* 회원가입 버튼 */
 .signup_icon{
-  width: 50px;
+  width: 100px;
   height: 50px;
   margin: 10px;
   cursor: pointer;
@@ -228,7 +237,7 @@
 
 /* 회원가입 버튼 마우스 올릴 때 */
 .signup_icon:hover{
-  width: 55px;
+  width: 105px;
   height: 55px;
   margin: 0px 8px;
 }
@@ -297,7 +306,7 @@
   width: 120px;
   height: 40px;
   float: right;
-  margin-right: 170px;
+  margin-right: 150px;
   cursor: pointer;
 }
 
@@ -309,11 +318,26 @@
   box-shadow: 5px 5px 5px #D0EDEF;
 }
 
+.side_banner_div{
+  position:sticky;
+  top: 510px;
+}
+
+.side_banner{
+  width: 90px;
+  height: 180px;
+  float: right;
+  margin-right: 10px;
+  margin-top: 10px;
+
+}
+
 /* 상품 리스트 제목 이미지 */
 .ListTitleLetterPic {
   width:120px;
   height: 50px;
   padding-bottom: 10px;
+  z-index: 1;
 }
 
 /* 제품목록(낱개) */

@@ -10,6 +10,7 @@ import Search from './Router/Search'
 import Chat from './Router/Chat'
 import Login from './Login/Login'
 import Navbar from './Navbar'
+import SideBanner from './Components/SideBanner';
 import OnlineMeeting_sell from './Router/OnlineMeeting_sell'
 import OnlineMeeting_buy from './Router/OnlineMeeting_buy'
 import Signup from './Router/Signup'
@@ -21,6 +22,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
+      <SideBanner />
       <br />
       <Routes>
 

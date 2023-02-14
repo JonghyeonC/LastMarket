@@ -120,6 +120,10 @@ public class ProductServiceImpl implements ProductService {
             throw new UpdateProductCooltimeException("need 30 min");
         }
         if (productDto.getLiveTime() != null) {
+            LocalDateTime now = LocalDateTime.now();
+            if(now.isAfter(productDto.getLiveTime())){
+                throw new IllegalArgumentException("liveTime is invalid");
+            }
             LocalDateTime localDateTime = localDateTimeFloor(productDto.getLiveTime());
             product.setLiveTime(localDateTime);
         }

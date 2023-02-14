@@ -13,6 +13,7 @@ function Discription(props) {
 
   const [ productDetail, setProductDetail ] = useState([])
   const [ detailURIS, setDetailURIS ] = useState([])
+  const [ isBrod, setIsBrod ] = useState(false)
   // const [ userDetail, setUserDetail] = useState(null)
 
   // useEffect(() => {
@@ -69,6 +70,17 @@ function Discription(props) {
   
   }
   
+  const favorite = (() => {
+    return(
+      axios({
+        method: 'post',
+        url: `https://i8d206.p.ssafy.io/api/favorite/${props.id}`
+      })
+      .then((res) => {
+        console.log(res.data)
+      })
+    )
+  })
 
   const Delete = (() => {
     return(
@@ -103,8 +115,13 @@ function Discription(props) {
             null
             :
             <div className='likeBtn'>
+              {
+                `${productDetail.isFavorite}` ?
+                <div>찜 완료</div> :
+                <div>찜 아님</div>
+              }
               <div>{productDetail.favoriteCnt}</div>
-              <button>하트</button>
+              <button onClick={favorite}>하트</button>
             </div>
           }
           <div className="priceBox">
@@ -124,11 +141,12 @@ function Discription(props) {
               <p>{productDetail.sellerNickname}</p>
               <p>{productDetail.location}</p>
             </div>
-            {
+              <span><button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button></span>
+            {/* {
               productDetail.sellerId === userDetail?.id ?
               null :
-              <span><button>채팅</button></span>
-            }
+              <span><button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button></span>
+            } */}
           </div>
           {
             productDetail.sellerId === userDetail?.id ?

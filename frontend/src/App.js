@@ -14,6 +14,7 @@ import OnlineMeeting_sell from './Router/OnlineMeeting_sell'
 import OnlineMeeting_buy from './Router/OnlineMeeting_buy'
 import Signup from './Router/Signup'
 import CategoryPage from './Pages/Category/CategoryPage'
+import Chat_onetoone from './Chat_onetoone';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 
 function App() {
@@ -71,6 +72,10 @@ function App() {
           <CategoryPage />
         } />
         
+        <Route path="/Chat_onetoone/:productId" element={
+          <Chat_onetoone />
+        } />
+
         <Route path='*' element={
           <Main />
         } />

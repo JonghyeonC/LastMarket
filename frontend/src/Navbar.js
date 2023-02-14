@@ -6,7 +6,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Category from "./Category";
 import ModalBasic from './Login/ModalBasic';
 import { useSelector } from 'react-redux';
-import Cookies from 'js-cookie'
+import { addToken } from '../redux/store'
 
 const options = [
   {
@@ -51,21 +51,8 @@ function Example() {
 }
 
 function delCookie() {
-
-  let date = new Date();
-
-  date.setDate(date.getDate() - 1); // 이전 날짜로 설정.
-
-  let setCookie = '';
-
-  setCookie += 'CookieName = Hz;';
-
-  setCookie += 'expires = ' + date.toUTCString();
-
-  document.cookie = setCookie;
-
+  dispatch(addToken(null))
 }
-
 
 function Navbar() {
   

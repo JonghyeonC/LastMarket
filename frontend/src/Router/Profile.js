@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 import Button from 'react-bootstrap/Button'
+import ProfilePageModal from '../Components/ProfilePageModal';
 
 
 function Profile() {
@@ -34,6 +35,12 @@ function Profile() {
   useEffect(() => {
     getInfo()
   }, [])
+  
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const showModal = () => {
+    setModalOpen(true);
+  };
 
   return (
     <div>
@@ -46,7 +53,8 @@ function Profile() {
           <br />
           <br />
           <div>
-            <Button variant="secondary">프로필 사진 수정</Button>
+            <Button variant="secondary" onClick={showModal}>프로필 사진 수정</Button>
+            {modalOpen && <ProfilePageModal setModalOpen={setModalOpen} />}
           </div>
         </div>
         <div className="profile_Profile_Info_Com_Text">

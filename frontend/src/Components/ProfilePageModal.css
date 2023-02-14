@@ -4,8 +4,8 @@
   justify-content: center;
   align-items: center;
   /* 모달창 크기 */
-  width: 400px;
-  height: 200px;
+  width:800px;
+  height: 400px;
 
   /* 최상단 위치 */
   z-index: 999;
@@ -31,7 +31,7 @@
   top: 10px;
 }
 
-.loginBox {
+.profile_img_change_box {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,17 +1,19 @@
 package edu.ssafy.lastmarket.domain.dto;
 
-import edu.ssafy.lastmarket.domain.entity.Category;
-import edu.ssafy.lastmarket.domain.entity.Job;
+import edu.ssafy.lastmarket.domain.entity.CategoryName;
+import edu.ssafy.lastmarket.domain.entity.Lifestyle;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
+@ToString
 public class MemberRegistDto {
     private String nickname;
-    private Job job;
+    private Lifestyle lifestyle;
     private String addr;
-    private ArrayList<Category> categories;
+    private List<CategoryName> categories;
 }

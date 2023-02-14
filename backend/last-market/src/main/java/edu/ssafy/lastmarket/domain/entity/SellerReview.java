@@ -1,8 +1,17 @@
 package edu.ssafy.lastmarket.domain.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class SellerReview extends BaseEntity{
     @Id
     @Column(name = "receive_review_id")

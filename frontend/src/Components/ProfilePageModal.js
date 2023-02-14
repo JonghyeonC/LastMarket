@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 // import './ModalBasic.css';
 import '../Components/ProfilePageModal.css'
 
@@ -37,9 +37,9 @@ function ProfilePageModal({ setModalOpen }) {
     
     const [imageUrls, setImageUrls] = useState([])
 
-    imageUrls.map((url) => {
-        formData.append('imgs', url)
-      })
+    // imageUrls.map((url) => {
+    //     formData.append('imgs', url)
+    //   })
 
     return (
         // 모달창을 useRef로 잡아준다.

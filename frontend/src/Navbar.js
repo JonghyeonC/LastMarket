@@ -6,7 +6,8 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Category from "./Category";
 import ModalBasic from './Login/ModalBasic';
 import { useSelector } from 'react-redux';
-import { addToken } from '../redux/store'
+import { addToken } from './redux/store'
+import { useDispatch } from 'react-redux';
 
 const options = [
   {
@@ -50,12 +51,16 @@ function Example() {
   );
 }
 
-function delCookie() {
-  dispatch(addToken(null))
-}
+
 
 function Navbar() {
-  
+
+  const dispatch = useDispatch()
+
+  function delCookie() {
+    dispatch(addToken(null))
+  }
+
   let navigate = useNavigate()
   let [inputValue, setInputValue] = useState('')
   let reduxData = useSelector((state) => {return state})

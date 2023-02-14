@@ -7,10 +7,16 @@ import edu.ssafy.lastmarket.service.CloudImageUploadService;
 import edu.ssafy.lastmarket.service.ImageUploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import magick.*;
+import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,8 +43,14 @@ public class ImageUploadServiceImpl implements ImageUploadService {
 
         String originFileName = multipartFile.getOriginalFilename();
         File uploadFile = convert(multipartFile);
+
+
         String fileName = "files/" + UUID.randomUUID() + uploadFile.getName(); // S3에 저장된 파일 이름
         String uploadImageUrl = cloudImageUploadService.putImage( uploadFile, fileName); // s3로 업로드
+
+        File s_uploadFile = changeFileQualitu(uploadFile);
+        cloudImageUploadService.putImage( s_uploadFile, fileName);
+
 
         Image image = new Image(originFileName, uploadImageUrl);
         imageRepository.save(image);
@@ -47,7 +59,6 @@ public class ImageUploadServiceImpl implements ImageUploadService {
         Optional<Image> imageOptional = imageRepository.findByImageURL(uploadImageUrl);
 
         removeNewFile(uploadFile);
-
         return imageOptional;
     }
 
@@ -99,7 +110,24 @@ public class ImageUploadServiceImpl implements ImageUploadService {
         return imageRepository.findById(id).get().getImageURL();
     }
 
+    private File changeFileFormat(File file) throws MagickException {
 
+
+        return null;
+    }
+
+    private File changeFileQualitu(File file) throws IOException {
+
+        //섬네일 생성 -> 섬네일 파일 이름은 중간에 s_로 시작
+        String thubmnailSaveName = "s_" +file.getName();
+
+        File thumbnailFile = new File(thubmnailSaveName);
+        // 섬네일 생성
+        Thumbnailator.createThumbnail(file,thumbnailFile,256,256);
+
+        return thumbnailFile;
+
+    }
 
 
 }

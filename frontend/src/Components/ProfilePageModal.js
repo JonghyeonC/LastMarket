@@ -35,6 +35,12 @@ function ProfilePageModal({ setModalOpen }) {
         };
     });
     
+    const [imageUrls, setImageUrls] = useState([])
+
+    imageUrls.map((url) => {
+        formData.append('imgs', url)
+      })
+
     return (
         // 모달창을 useRef로 잡아준다.
         <div ref={modalRef} className="modalcontainer">
@@ -42,7 +48,7 @@ function ProfilePageModal({ setModalOpen }) {
                 X
             </button>
             <div className="profile_img_change_box">
-              <UploadPage />
+              <UploadPage setImageUrls={setImageUrls} />
             </div>
         </div>
     );

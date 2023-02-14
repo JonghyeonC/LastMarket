@@ -89,7 +89,7 @@ class ProductListFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 try {
                     if (binding.spinner.getItemAtPosition(position).toString() == "최신순"){
-                        ProductService().getProductWithSort(category,null,cityData,"createdDateTime,DESC","","0",ProductCallback(),false,null)
+                        ProductService().getProductWithSort(category,null,cityData,"lastModifiedDateTime,DESC","","0",ProductCallback(),false,null)
                         Log.d(TAG, "onItemSelected: 최신순")
                     }else if(binding.spinner.getItemAtPosition(position).toString() =="찜순"){
                         Log.d(TAG, "onItemSelected: 찜순")

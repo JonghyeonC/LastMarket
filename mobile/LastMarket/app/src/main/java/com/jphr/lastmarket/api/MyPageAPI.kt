@@ -11,7 +11,7 @@ interface MyPageAPI {
 
     @Multipart
     @PATCH("api/user/profile")
-    fun insertUserProfile(@Header("Authentication") token: String,@Part imgs: MultipartBody.Part): Call<Unit>
+    fun insertUserProfile(@Header("Authentication") token: String,@Part image: MultipartBody.Part): Call<Unit>
 
     @GET("api/trades/sell")
     fun getSellList(@Header("Authentication") token: String, @Query("page") pagable:Long):Call<tradeListDTO>

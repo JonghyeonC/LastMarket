@@ -148,7 +148,7 @@ public class LiveBuyActivity extends AppCompatActivity {
         userId=pref.getLong("user_id",0);
         token= pref.getString("token","null");
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         askForPermissions();
         initStomp();
 

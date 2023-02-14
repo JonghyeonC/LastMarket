@@ -95,7 +95,7 @@ class EditUserInfoFragment : Fragment() {
                             val requestFile =
                                 RequestBody.create("image/*".toMediaTypeOrNull(), file)
                             val body =
-                                MultipartBody.Part.createFormData("imgs", file.name, requestFile)
+                                MultipartBody.Part.createFormData("image", file.name, requestFile)
 
                             imageMultipartList.add(body)
                             imageUriList.add(imageUri)
@@ -118,7 +118,7 @@ class EditUserInfoFragment : Fragment() {
                                 val requestFile =
                                     RequestBody.create("image/*".toMediaTypeOrNull(), file)
                                 val body = MultipartBody.Part.createFormData(
-                                    "imgs",
+                                    "image",
                                     file.name,
                                     requestFile
                                 )
@@ -160,6 +160,7 @@ class EditUserInfoFragment : Fragment() {
             var token = prefs.getString("token", "")!!
             Log.d("TAG", "onCreateView: $imageMultipartList")
             MyPageService().insertUserProfile(token, imageMultipartList[0])
+            mainActivity.changeFragment(2)
         }
         return binding.root
     }

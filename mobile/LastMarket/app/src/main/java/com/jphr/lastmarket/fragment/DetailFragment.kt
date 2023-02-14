@@ -46,6 +46,7 @@ class DetailFragment : Fragment() {
     var productId: Long=0
     var isLikeOn:Boolean=false
     var data:ProductDetailDTO?=null
+    var ispullup:Boolean=false
 
     fun initAdpater() {
         try{
@@ -144,16 +145,15 @@ class DetailFragment : Fragment() {
                 binding.favorite.setImageResource(R.drawable.like2)
                 isLikeOn=true
             }
-
-
         }
 
 
         binding.up.setOnClickListener {
-           if( ProductService().pullProduct(token,productId)){
-               Toast.makeText(MainActivity(), "끌올되었습니다.", Toast.LENGTH_LONG).show()
+            var result=ProductService().pullProduct(token,productId,PullUpCallback())
+//            if(ispullup)
+//            Toast.makeText(requireActivity(), "끌올되었습니다.", Toast.LENGTH_LONG).show()
+//            else  Toast.makeText(requireActivity(), "30분 후에 시도해주세요.", Toast.LENGTH_LONG).show()
 
-           }else Toast.makeText(MainActivity(), "30분 뒤에 시도해주세요", Toast.LENGTH_LONG).show()
             mainActivity.changeFragment(1)
 
         }
@@ -172,12 +172,8 @@ class DetailFragment : Fragment() {
             //patch product/productid
         }
         binding.delete.setOnClickListener {
-            if( ProductService().deleteProduct(token,productId)){
+            ProductService().deleteProduct(token,productId)
                 Toast.makeText(requireContext(), "삭제되었습니다.", Toast.LENGTH_LONG).show()
-
-            }else {
-                Toast.makeText(requireContext(), "삭제에 실패했습니다.", Toast.LENGTH_LONG).show()
-            }
             mainActivity.changeFragment(1)
 
         }
@@ -293,7 +289,44 @@ class DetailFragment : Fragment() {
 
         return binding.root
     }
+    inner class PullUpCallback: RetrofitCallback<Unit> {
+        override fun onSuccess(code: Int,responseData: Unit, issearch:Boolean,word:String?,category:String?) {
+            if(code==201){
+                ispullup=true
+                Log.d(TAG, "onSuccess: $ispullup")
 
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+    }
+    inner class DeleteCallback: RetrofitCallback<Unit> {
+        override fun onSuccess(code: Int,responseData: Unit, issearch:Boolean,word:String?,category:String?) {
+            if(code==200){
+                ispullup=true
+                Log.d(TAG, "onSuccess: $ispullup")
+                Toast.makeText(requireActivity(), "끌올되었습니다.", Toast.LENGTH_LONG).show()
+
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+            Toast.makeText(requireActivity(), "30분 뒤에 시도해주세요", Toast.LENGTH_LONG).show()
+        }
+
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

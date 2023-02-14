@@ -3,14 +3,16 @@ package com.jphr.lastmarket.fragment
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.activity.MainActivity
@@ -51,11 +53,8 @@ class SearchFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            productDTO = it.getSerializable("products") as ProductDTO?
-//            word = it.getString("word")
-//        }
         productDTO=mainViewModel.getProduct()
+        Log.d(TAG, "onCreate: $productDTO")
         word=mainViewModel.getWord()
         var pref=mainActivity.getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         cityData= pref?.getString("city_data","null").toString()
@@ -70,13 +69,18 @@ class SearchFragment : Fragment() {
         binding=FragmentSearchBinding.inflate(inflater,container,false)
 
         productListAdapter= ProductListAdapter(mainActivity)
+
         binding.recyclerview.apply {
-            productListAdapter.list=productDTO as MutableList<ProductX>
+            if(productDTO!=null){
+                var dto=mainViewModel.getProduct()
+                productListAdapter.list=dto as MutableList<ProductX>
+            }
             layoutManager= GridLayoutManager(context,3)
             adapter=productListAdapter
             addItemDecoration(RecyclerViewDecoration(60,0))
         }
-        binding.resultText.text="${word}에 대한 검색결과"
+        var w=mainViewModel.getWord()
+        binding.resultText.text="${w}에 대한 검색결과"
 
         val itemList=resources.getStringArray(R.array.sort)
         binding.spinner.adapter= ArrayAdapter(requireContext(), com.gun0912.tedpermission.R.layout.support_simple_spinner_dropdown_item,itemList)
@@ -85,7 +89,7 @@ class SearchFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 try {
                     if (binding.spinner.getItemAtPosition(position).toString().substring(0, 3) == "최신순"){
-                        ProductService().getProductWithSort(null,null,cityData,"createdDateTime,DESC","","0",ProductCallback(),true,word)
+                        ProductService().getProductWithSort(null,null,cityData,"lastModifiedDateTime,DESC","","0",ProductCallback(),true,word)
                         Log.d(TAG, "onItemSelected: 최신순")
                     }else if(binding.spinner.getItemAtPosition(position).toString() =="찜순"){
                         ProductService().getProductWithSort(null,null,cityData,"favoriteCnt,DESC","","0",ProductCallback(),true,word)

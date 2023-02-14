@@ -89,7 +89,7 @@ class MainFragment : Fragment() {
 
         ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","AFTERBROADCAST","0",ProductSortCallback1(),false,null)
         ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","ONBROADCAST","0",ProductSortCallback2(),false,null)
-        ProductService().getProductWithSort("",lifestyle,cityData,"createdDateTime,DESC","","0",ProductSortCallback3(),false,null)
+        ProductService().getProductWithSort("",lifestyle,cityData,"lastModifiedDateTime,DESC","","0",ProductSortCallback3(),false,null)
 
 
 

@@ -150,7 +150,7 @@ public class LiveSellActivity extends AppCompatActivity {
         token = pref.getString("token", "null");
         userId = pref.getLong("user_id", 0);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         askForPermissions();
 
         initStomp();
@@ -164,6 +164,8 @@ public class LiveSellActivity extends AppCompatActivity {
                 Log.d(TAG, "onCreate: " + price);
                 Double tmp = Double.valueOf(price);
                 Long tmp2 = Long.valueOf(Math.round(tmp));
+
+                //TODO: 웹과 데이터 형 다른듯 경매하면 터짐
                 try {
                     viewModel.setNowPrice(tmp2);
                     nowBuyer=buyer;

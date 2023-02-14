@@ -51,26 +51,12 @@
         </activity>
         <activity
             android:name=".activity.UserInfoActivity"
+            android:noHistory="true"
             android:exported="true">
 
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity> <!-- Redirect URI에 접근하기위한 Activity -->
-        <activity
-            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
-                <data
-                    android:host="oauth"
-                    android:scheme="@string/kakao_native_key" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -95,6 +81,7 @@
         </activity>
         <activity
             android:name=".activity.LiveBuyActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -102,6 +89,8 @@
         </activity>
         <activity
             android:name=".activity.LiveSellActivity"
+            android:windowSoftInputMode="adjustPan"
+
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

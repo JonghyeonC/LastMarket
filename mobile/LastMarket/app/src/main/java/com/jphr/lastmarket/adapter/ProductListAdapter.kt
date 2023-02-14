@@ -61,7 +61,7 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
     }
 
     override fun getItemCount(): Int {
-        return 10.coerceAtMost(list!!.size)
+        return list!!.size
     }
 
     //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.

@@ -55,6 +55,8 @@ class ProductService {
                 Log.d(TAG, "onResponse res 값: $res")
                 if(response.code() == 200){
                     if (res != null) {
+                        Log.d(TAG, "onResponse: $word")
+
                         Log.d(TAG, "onResponse: ${response}")
                         callback.onSuccess(response.code(), res,issearch,word,category)
 
@@ -124,7 +126,7 @@ class ProductService {
             }
         })
     }
-    fun pullProduct(token:String,productId: Long):Boolean{
+    fun pullProduct(token:String,productId: Long,callback: RetrofitCallback<Unit>):Boolean{
         var issucess=false
 
         RetrofitUtil.productService.pullProduct(token,productId).enqueue(object : Callback<Unit> {
@@ -134,8 +136,10 @@ class ProductService {
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "Detail_onResponse : ${response.code()}")
+                        callback.onSuccess(response.code(), res,false,null,null)
 
                         issucess=true
+                        Log.d(TAG, "onResponse: $issucess")
                         true
                     }
                 } else {

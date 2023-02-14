@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.auth0.android.jwt.JWT
 import com.google.android.material.appbar.MaterialToolbar
@@ -188,8 +190,9 @@ class MainActivity : AppCompatActivity() {
             .setOnEditorActionListener { v, actionId, event ->
                 searchBar.text = searchView.text
                 searchView.hide()
+
                 ProductService().getProductWithSort("",null,cityData,"favoriteCnt","DEFAULT","1",ProductCallback(),true,searchView.text.toString())
-                searchView.editText.text=null
+                Log.d(TAG, "onResume: ${searchView.text.toString()}")
                 false
             }
     }
@@ -253,7 +256,10 @@ class MainActivity : AppCompatActivity() {
                     if (word != null) {
                         mainViewModel.setWord(word)
                     }
+                    refreshFragment(SearchFragment(),supportFragmentManager)
                     changeFragment(4)
+                    searchView.editText.text=null
+
                 }
                 else {
                     mainViewModel.setProduct(responseData.content)
@@ -303,7 +309,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
+        var ft: FragmentTransaction = fragmentManager.beginTransaction()
+        ft.detach(fragment).attach(fragment).commit()
+    }
 
 
 }

@@ -18,7 +18,8 @@ class LiveChatAdapter(val context: Context) :RecyclerView.Adapter<LiveChatAdapte
     inner class ChatListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bindInfo(chat: String,position: Int){
             if(position%2==0){
-                binding.chat.setBackgroundResource(R.drawable.rectangle4)
+                binding.linear.setBackgroundResource(R.drawable.rectangle4)
+                binding.imageView3.setImageResource(R.drawable.profile_green)
             }
             binding.chat.text=chat
         }
@@ -32,30 +33,14 @@ class LiveChatAdapter(val context: Context) :RecyclerView.Adapter<LiveChatAdapte
     }
 
     override fun onBindViewHolder(holder: ChatListHolder, position: Int) {
-//        holder.bind()
 
         holder.apply {
             list?.get(position)?.let { bindInfo(it,position) }
-            //클릭연결
-//            itemView.setOnClickListener{
-//                itemClickListner.onClick(it, position)
-//            }
         }
     }
 
     override fun getItemCount(): Int {
         return 10.coerceAtMost(list!!.size)
     }
-
-    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
-//    interface ItemClickListener {
-//        fun onClick(view: View,  position: Int)
-//    }
-//    //클릭리스너 선언
-//    private lateinit var itemClickListner: ItemClickListener
-//    //클릭리스너 등록 매소드
-//    fun setItemClickListener(itemClickListener: ItemClickListener) {
-//        this.itemClickListner = itemClickListener
-//    }
 
 }

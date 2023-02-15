@@ -77,13 +77,13 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
     private Map<Integer, Pair<String, String>> IDS_PREPARERECEIVEVIDEO = new ConcurrentHashMap<>();
     private Map<Integer, String> IDS_RECEIVEVIDEO = new ConcurrentHashMap<>();
     private Set<Integer> IDS_ONICECANDIDATE = Collections.newSetFromMap(new ConcurrentHashMap<>());
-    private Session session;
+    private Session2 session;
     private String mediaServer;
     private LiveSellActivity activity;
     private WebSocket websocket;
     private boolean websocketCancelled = false;
 
-    public CustomWebSocket2(Session session, LiveSellActivity activity) {
+    public CustomWebSocket2(Session2 session, LiveSellActivity activity) {
         this.session = session;
         this.activity = activity;
     }
@@ -113,7 +113,7 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
         } else if (rpcId == this.ID_JOINROOM.get()) {
             // Response to joinRoom
 
-            final LocalParticipant localParticipant = this.session.getLocalParticipant();
+            final LocalParticipant2 localParticipant = this.session.getLocalParticipant();
             final String localConnectionId = result.getString(JsonConstants.ID);
             localParticipant.setConnectionId(localConnectionId);
 
@@ -175,13 +175,13 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
             }
         } else if (rpcId == this.ID_PUBLISHVIDEO.get()) {
             // Response to publishVideo
-            LocalParticipant localParticipant = this.session.getLocalParticipant();
+            LocalParticipant2 localParticipant = this.session.getLocalParticipant();
             SessionDescription remoteSdpAnswer = new SessionDescription(SessionDescription.Type.ANSWER, result.getString("sdpAnswer"));
             localParticipant.getPeerConnection().setRemoteDescription(new CustomSdpObserver("publishVideo_setRemoteDescription"), remoteSdpAnswer);
         } else if (this.IDS_PREPARERECEIVEVIDEO.containsKey(rpcId)) {
             // Response to prepareReceiveVideoFrom
             Pair<String, String> participantAndStream = IDS_PREPARERECEIVEVIDEO.remove(rpcId);
-            RemoteParticipant remoteParticipant = session.getRemoteParticipant(participantAndStream.first);
+            RemoteParticipant2 remoteParticipant = session.getRemoteParticipant(participantAndStream.first);
             String streamId = participantAndStream.second;
             SessionDescription remoteSdpOffer = new SessionDescription(SessionDescription.Type.OFFER, result.getString("sdpOffer"));
             remoteParticipant.getPeerConnection().setRemoteDescription(new CustomSdpObserver("prepareReceiveVideoFrom_setRemoteDescription") {
@@ -244,14 +244,14 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
         this.ID_PUBLISHVIDEO.set(this.sendJson(JsonConstants.PUBLISHVIDEO_METHOD, publishVideoParams));
     }
 
-    public void prepareReceiveVideoFrom(RemoteParticipant remoteParticipant, String streamId) {
+    public void prepareReceiveVideoFrom(RemoteParticipant2 remoteParticipant, String streamId) {
         Map<String, String> prepareReceiveVideoFromParams = new HashMap<>();
         prepareReceiveVideoFromParams.put("sender", streamId);
         prepareReceiveVideoFromParams.put("reconnect", "false");
         this.IDS_PREPARERECEIVEVIDEO.put(this.sendJson(JsonConstants.PREPARERECEIVEVIDEO_METHOD, prepareReceiveVideoFromParams), new Pair<>(remoteParticipant.getConnectionId(), streamId));
     }
 
-    public void receiveVideoFrom(SessionDescription sessionDescription, RemoteParticipant remoteParticipant, String streamId) {
+    public void receiveVideoFrom(SessionDescription sessionDescription, RemoteParticipant2 remoteParticipant, String streamId) {
         Map<String, String> receiveVideoFromParams = new HashMap<>();
         receiveVideoFromParams.put("sender", streamId);
         if ("kurento".equals(this.mediaServer)) {
@@ -335,7 +335,7 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
             JSONException {
         for (int i = 0; i < result.getJSONArray(JsonConstants.VALUE).length(); i++) {
             JSONObject participantJson = result.getJSONArray(JsonConstants.VALUE).getJSONObject(i);
-            RemoteParticipant remoteParticipant = this.newRemoteParticipantAux(participantJson);
+            RemoteParticipant2 remoteParticipant = this.newRemoteParticipantAux(participantJson);
             try {
                 JSONArray streams = participantJson.getJSONArray("streams");
                 for (int j = 0; j < streams.length(); j++) {
@@ -356,7 +356,7 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
         final String connectionId = params.getString("senderConnectionId");
         boolean isRemote = !session.getLocalParticipant().getConnectionId().equals(connectionId);
         //로컬 참여자와 보낸 사람의 CONNCTIONID가 같으면 리모트 참여자를 가져오고 아니면 로컬 참여자를 가져옴
-        final Participant participant = isRemote ? session.getRemoteParticipant(connectionId) : session.getLocalParticipant();
+        final Participant2 participant = isRemote ? session.getRemoteParticipant(connectionId) : session.getLocalParticipant();
         final PeerConnection pc = participant.getPeerConnection();
 
         switch (pc.signalingState()) {
@@ -382,20 +382,20 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
     private void participantPublishedEvent(JSONObject params) throws
             JSONException {
         String remoteParticipantId = params.getString(JsonConstants.ID);
-        final RemoteParticipant remoteParticipant = this.session.getRemoteParticipant(remoteParticipantId);
+        final RemoteParticipant2 remoteParticipant = this.session.getRemoteParticipant(remoteParticipantId);
         final String streamId = params.getJSONArray("streams").getJSONObject(0).getString("id");
         this.subscribe(remoteParticipant, streamId);
     }
 
     private void participantLeftEvent(JSONObject params) throws JSONException {
-        final RemoteParticipant remoteParticipant = this.session.removeRemoteParticipant(params.getString("connectionId"));
+        final RemoteParticipant2 remoteParticipant = this.session.removeRemoteParticipant(params.getString("connectionId"));
         remoteParticipant.dispose();
         Handler mainHandler = new Handler(activity.getMainLooper());
         Runnable myRunnable = () -> session.removeView(remoteParticipant.getView());
         mainHandler.post(myRunnable);
     }
 
-    private RemoteParticipant newRemoteParticipantAux(JSONObject participantJson) throws JSONException {
+    private RemoteParticipant2 newRemoteParticipantAux(JSONObject participantJson) throws JSONException {
         final String connectionId = participantJson.getString(JsonConstants.ID);
         String participantName = "";
         if (participantJson.getString(JsonConstants.METADATA) != null) {
@@ -410,13 +410,13 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
                 participantName = jsonStringified;
             }
         }
-        final RemoteParticipant remoteParticipant = new RemoteParticipant(connectionId, participantName, this.session);
+        final RemoteParticipant2 remoteParticipant = new RemoteParticipant2(connectionId, participantName, this.session);
 //        this.activity.createRemoteParticipantVideo(remoteParticipant);
         this.session.createRemotePeerConnection(remoteParticipant.getConnectionId());
         return remoteParticipant;
     }
 
-    private void subscribe(RemoteParticipant remoteParticipant, String streamId) {
+    private void subscribe(RemoteParticipant2 remoteParticipant, String streamId) {
         if ("kurento".equals(this.mediaServer)) {
             this.subscriptionInitiatedFromClient(remoteParticipant, streamId);
         } else {
@@ -424,7 +424,7 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
         }
     }
 
-    private void subscriptionInitiatedFromClient(RemoteParticipant remoteParticipant, String streamId) {
+    private void subscriptionInitiatedFromClient(RemoteParticipant2 remoteParticipant, String streamId) {
         MediaConstraints sdpConstraints = new MediaConstraints();
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("offerToReceiveAudio", "true"));
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("offerToReceiveVideo", "true"));
@@ -445,7 +445,7 @@ public class CustomWebSocket2 extends AsyncTask<LiveBuyActivity, Void, Void> imp
         }, sdpConstraints);
     }
 
-    private void subscriptionInitiatedFromServer(RemoteParticipant remoteParticipant, String streamId) {
+    private void subscriptionInitiatedFromServer(RemoteParticipant2 remoteParticipant, String streamId) {
         MediaConstraints sdpConstraints = new MediaConstraints();
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("offerToReceiveAudio", "true"));
         sdpConstraints.mandatory.add(new MediaConstraints.KeyValuePair("offerToReceiveVideo", "true"));

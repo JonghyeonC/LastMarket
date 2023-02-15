@@ -17,7 +17,6 @@ import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
 import com.jphr.lastmarket.databinding.FragmentProductListBinding
 import com.jphr.lastmarket.dto.ListDTO
-import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductX
 import com.jphr.lastmarket.service.ProductService
@@ -90,12 +89,12 @@ class ProductListFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 try {
                     if (binding.spinner.getItemAtPosition(position).toString() == "최신순"){
-                        ProductService().getProductWithSort(category,null,cityData,"createdDateTime,DESC","DEFAULT","0",ProductCallback(),false,null)
+                        ProductService().getProductWithSort(category,null,cityData,"createdDateTime,DESC","","0",ProductCallback(),false,null)
                         Log.d(TAG, "onItemSelected: 최신순")
                     }else if(binding.spinner.getItemAtPosition(position).toString() =="찜순"){
                         Log.d(TAG, "onItemSelected: 찜순")
 
-                        ProductService().getProductWithSort(category,null,cityData,"favoriteCnt,DESC","DEFAULT","0",ProductCallback(),false,null)
+                        ProductService().getProductWithSort(category,null,cityData,"favoriteCnt,DESC","","0",ProductCallback(),false,null)
 
                     }else if(binding.spinner.getItemAtPosition(position).toString().substring(0, 4) == "라이브중"){
                         ProductService().getProductWithSort(category,null,cityData,"favoriteCnt,DESC","ONBROADCAST","0",ProductCallback(),false,null)

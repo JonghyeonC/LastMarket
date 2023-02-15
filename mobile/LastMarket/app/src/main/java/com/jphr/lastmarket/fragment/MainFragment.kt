@@ -15,9 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jphr.lastmarket.activity.LiveBuyActivity
 import com.jphr.lastmarket.activity.MainActivity
 import com.jphr.lastmarket.adapter.ProductListAdapter
+import com.jphr.lastmarket.adapter.ProductListAdapter2
+import com.jphr.lastmarket.adapter.ProductListAdapter3
 import com.jphr.lastmarket.databinding.FragmentMainBinding
 import com.jphr.lastmarket.dto.ListDTO
-import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.ProductDetailDTO
 import com.jphr.lastmarket.dto.ProductX
 import com.jphr.lastmarket.service.ProductService
@@ -43,6 +44,9 @@ class MainFragment : Fragment() {
     private var param2: String? = null
     private lateinit var binding: FragmentMainBinding
     private lateinit var productListAdapter:ProductListAdapter
+    private lateinit var productListAdapter2: ProductListAdapter2
+    private lateinit var productListAdapter3: ProductListAdapter3
+
     private lateinit var mainActivity: MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
 
@@ -81,9 +85,9 @@ class MainFragment : Fragment() {
         var lifestyle= pref?.getString("lifestyle","null")
 
 
-        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","DEFAULT","1",ProductSortCallback1(),false,null)
-        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","ONBROADCAST","1",ProductSortCallback2(),false,null)
-        ProductService().getProductWithSort("",lifestyle,cityData,"createdDateTime,DESC","DEFAULT","1",ProductSortCallback3(),false,null)
+        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","AFTERBROADCAST","0",ProductSortCallback1(),false,null)
+        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","ONBROADCAST","0",ProductSortCallback2(),false,null)
+        ProductService().getProductWithSort("",lifestyle,cityData,"createdDateTime,DESC","","0",ProductSortCallback3(),false,null)
 
 
 
@@ -126,14 +130,15 @@ class MainFragment : Fragment() {
             if(responseData!=null) {
                 //취미별
                 productList1=responseData.content
-
                 binding.recyclerviewCategory.apply {
                     productListAdapter.list=responseData.content as MutableList<ProductX>
                     var linearLayoutManager= LinearLayoutManager(context)
                     linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
                     setLayoutManager(linearLayoutManager)
-                    adapter=productListAdapter
                     addItemDecoration(RecyclerViewDecoration(20,20))
+                    productListAdapter.notifyDataSetChanged()
+                    adapter=productListAdapter
+
                 }
             }else Log.d(TAG, "onSuccess: data is null")
         }
@@ -154,12 +159,15 @@ class MainFragment : Fragment() {
                 productList2=responseData.content
 
                 binding.recyclerviewLive.apply {
-                    productListAdapter.list=responseData.content as MutableList<ProductX>
+                    productListAdapter2.list=responseData.content as MutableList<ProductX>
                     var linearLayoutManager= LinearLayoutManager(context)
                     linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
                     setLayoutManager(linearLayoutManager)
-                    adapter=productListAdapter
                     addItemDecoration(RecyclerViewDecoration(20,20))
+                    productListAdapter2.notifyDataSetChanged()
+                    adapter=productListAdapter2
+
+
                 }
             }else Log.d(TAG, "onSuccess: data is null")
         }
@@ -181,12 +189,14 @@ class MainFragment : Fragment() {
                 productList3=responseData.content
 
                 binding.recyclerviewNew.apply {
-                    productListAdapter.list=responseData.content as MutableList<ProductX>
+                    productListAdapter3.list=responseData.content as MutableList<ProductX>
                     var linearLayoutManager= LinearLayoutManager(context)
                     linearLayoutManager.orientation=LinearLayoutManager.HORIZONTAL
                     layoutManager = linearLayoutManager
-                    adapter=productListAdapter
                     addItemDecoration(RecyclerViewDecoration(20,20))
+                    productListAdapter3.notifyDataSetChanged()
+                    adapter=productListAdapter3
+
                 }
 
             }else Log.d(TAG, "onSuccess: data is null")
@@ -204,11 +214,30 @@ class MainFragment : Fragment() {
 
     fun initAdapter() {
         productListAdapter= ProductListAdapter(mainActivity)
-
+        productListAdapter2= ProductListAdapter2(mainActivity)
+        productListAdapter3= ProductListAdapter3(mainActivity)
 
         productListAdapter.setItemClickListener(object : ProductListAdapter.ItemClickListener{
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId
+                    ?.let {
+                        ProductService().getProductDetail(it,ProductDetailCallback())
+                    }
+
+            }
+        })
+        productListAdapter2.setItemClickListener(object : ProductListAdapter2.ItemClickListener{
+            override fun onClick(view: View, position: Int) {
+                productListAdapter2.list?.get(position)?.productId
+                    ?.let {
+                        ProductService().getProductDetail(it,ProductDetailCallback())
+                    }
+
+            }
+        })
+        productListAdapter3.setItemClickListener(object : ProductListAdapter3.ItemClickListener{
+            override fun onClick(view: View, position: Int) {
+                productListAdapter3.list?.get(position)?.productId
                     ?.let {
                         ProductService().getProductDetail(it,ProductDetailCallback())
                     }

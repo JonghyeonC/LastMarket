@@ -2,6 +2,8 @@ package com.jphr.lastmarket.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,17 +28,22 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jphr.lastmarket.R;
+import com.jphr.lastmarket.adapter.LiveChatAdapter;
 import com.jphr.lastmarket.dto.ChatDTO;
 import com.jphr.lastmarket.dto.ProductDetailDTO;
 import com.jphr.lastmarket.openvidu.CustomHttpClient;
 import com.jphr.lastmarket.openvidu.CustomWebSocket;
+import com.jphr.lastmarket.openvidu.LocalParticipant;
 import com.jphr.lastmarket.openvidu.PermissionsDialogFragment;
 import com.jphr.lastmarket.openvidu.RemoteParticipant;
 import com.jphr.lastmarket.openvidu.Session;
+import com.jphr.lastmarket.service.ProductService;
 import com.jphr.lastmarket.viewmodel.LiveViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +78,7 @@ public class LiveBuyActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 101;
     private static final int MY_PERMISSIONS_REQUEST = 102;
-    private final String TAG = "SessionActivity";
+    private final String TAG = "LiveBuyActivity";
     private LiveViewModel viewModel ;
     @Nullable
     @BindView(R.id.views_container)
@@ -102,6 +110,9 @@ public class LiveBuyActivity extends AppCompatActivity {
     private StompClient stompClient;
     private List<StompHeader> headerList;
     private Long myTopPrice;
+    private LiveChatAdapter chatAdapter;
+    private RecyclerView recyclerView;
+    private ImageView send;
 
     @SuppressLint("CheckResult")
     @Override
@@ -111,6 +122,10 @@ public class LiveBuyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_live_buy);
         ButterKnife.bind(this);
 
+        recyclerView=findViewById(R.id.recyclerview);
+        chatAdapter= new LiveChatAdapter(this);
+
+        send=findViewById(R.id.send);
         ImageView postPrice=findViewById(R.id.postPrice);
         startPriceTv=findViewById(R.id.startPriceTv);
         topPriceTv=findViewById(R.id.topPriceTv);
@@ -136,25 +151,40 @@ public class LiveBuyActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         askForPermissions();
         initStomp();
+
+        LinearLayoutManager linearLayoutManager= new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(chatAdapter);
+
         stompClient.topic("/exchange/chat.exchange/room."+productId).subscribe(topicMessage -> {
             String str=topicMessage.getPayload();
             JSONObject jsonObject=new JSONObject(str);
             String price=jsonObject.getString("message");
             String type=jsonObject.getString("chatType");
-            if(type.equals("FINSH")){
-                Double tmp= Double.valueOf(price);
-                Long tmp2= Long.valueOf(Math.round(tmp));
-                if(tmp2==myTopPrice){//내가격이 최고가일때 (낙찰)
+            if(type.equals("FINISH")){
+
+                Long tmp2=Long.parseLong(price);
+                ProductService productService=new ProductService();
+                Log.d(TAG, "mytopprice"+myTopPrice+"tmp2"+tmp2);
+                if(tmp2.equals(myTopPrice)){//내가격이 최고가일때 (낙찰)
                     //TODO : 낙찰되었을 때 EVENT 화려하게
+                    Log.d(TAG, "onCreate: 낙찰");
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("isFromLive","true");
-                    intent.putExtra("chatDTO",str);
+                    ChatDTO chatDTO=new ChatDTO(jsonObject.getString("chatType"),jsonObject.getString("buyer"),jsonObject.getString("seller"),jsonObject.getString("message"),jsonObject.getString("roomKey"),jsonObject.getString("sender"));
+                    intent.putExtra("chatDTO",chatDTO);
+                    productService.changeFinish(token,productId);
                     startActivity(intent);
                 }else {//내가격이 최고가가 아닐때(미낙찰)
+                    Log.d(TAG, "onCreate: 미낙찰");
+
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                    productService.changeFinish(token,productId);
                     startActivity(intent);
                 }
-            }else{
+
+            }else if(type.equals("BID")){
                 Log.d(TAG, "onCreate: "+price);
                 Double tmp= Double.valueOf(price);
                 Long tmp2= Long.valueOf(Math.round(tmp));
@@ -163,8 +193,28 @@ public class LiveBuyActivity extends AppCompatActivity {
                 }catch (Exception e){
                     Log.e(TAG, "error "+e );
                 }
+            }else if(type.equals("CHAT")){
+                Context context= getApplicationContext();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                            // 현재 UI 스레드가 아니기 때문에 메시지 큐에 Runnable을 등록 함
+                            runOnUiThread(new Runnable() {
+                                
+                                @SuppressLint("NotifyDataSetChanged")
+                                public void run() {
+                                    Log.d(TAG, "run: 메인 스레드");
+                                    chatAdapter.getList().add(price);
+                                    LinearLayoutManager linearLayoutManager= new LinearLayoutManager(context);
+                                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                                    recyclerView.setLayoutManager(linearLayoutManager);
+                                    recyclerView.setAdapter(chatAdapter);
+                                    chatAdapter.notifyDataSetChanged();
+                                }
+                            });
+                    }
+                }).start();
             }
-
         });
 
 
@@ -187,6 +237,9 @@ public class LiveBuyActivity extends AppCompatActivity {
             @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {
+//                Toast toast = Toast.makeText(LiveBuyActivity.this,"가격을 제시했습니다", Toast.LENGTH_SHORT);
+//                toast.show();
+
                 double price=viewModel.getNowPrice()+tick;
                 String priceToString = Double.toString(price);
                 ChatDTO dto= new ChatDTO("BID",userId.toString(),sellerId.toString(),priceToString,productId.toString(),userId.toString());
@@ -203,6 +256,28 @@ public class LiveBuyActivity extends AppCompatActivity {
 
             }
         });
+        send.setOnClickListener(new ImageView.OnClickListener(){
+            @SuppressLint("CheckResult")
+            @Override
+            public void onClick(View v) {
+                EditText text=findViewById(R.id.chatText);
+                String msg=text.getText().toString();
+                ChatDTO dto= new ChatDTO("CHAT",userId.toString(),sellerId.toString(),msg,productId.toString(),userId.toString());
+
+                ObjectMapper mapper=new ObjectMapper();
+                try {
+                    String jsonString=mapper.writeValueAsString(dto);
+                    stompClient.send("/send/room."+productId, jsonString).subscribe();
+                    Log.d(TAG, "onClick: send OK"+jsonString);
+                    text.setText(null);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+
         viewModel.nowPrice.observe(this, new Observer<Long>() {
             @Override
             public void onChanged(Long aLong) {
@@ -326,7 +401,7 @@ public class LiveBuyActivity extends AppCompatActivity {
 
         // Initialize our local participant and start local camera
         String participantName = participant_name.toString();
-//        LocalParticipant localParticipant = new LocalParticipant(participantName, session, this.getApplicationContext(), localVideoView);
+        LocalParticipant localParticipant = new LocalParticipant(participantName, session, this.getApplicationContext(), localVideoView);
 //        localParticipant.startCamera();
         runOnUiThread(() -> {
             // Update local participant view
@@ -379,15 +454,16 @@ public class LiveBuyActivity extends AppCompatActivity {
             lp.setMargins(0, 0, 0, 20);
             rowView.setLayoutParams(lp);
             int rowId = View.generateViewId();
+            Log.d(TAG, "createRemoteParticipantVideo: "+rowId);
             rowView.setId(rowId);
-            views_container.addView(rowView);
-            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
-            remoteParticipant.setVideoView(videoView);
-            videoView.setMirror(false);
-            EglBase rootEglBase = EglBase.create();
-            videoView.init(rootEglBase.getEglBaseContext(), null);
-            videoView.setZOrderMediaOverlay(true);
-            View textView = ((ViewGroup) rowView).getChildAt(1);
+//            views_container.addView(rowView);
+//            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
+            remoteParticipant.setVideoView(localVideoView);
+//            videoView.setMirror(false);
+//            EglBase rootEglBase = EglBase.create();
+//            videoView.init(rootEglBase.getEglBaseContext(), null);
+//            videoView.setZOrderMediaOverlay(true);
+            View textView = main_participant;
             remoteParticipant.setParticipantNameText((TextView) textView);
             remoteParticipant.setView(rowView);
 
@@ -420,6 +496,11 @@ public class LiveBuyActivity extends AppCompatActivity {
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_DENIED);
     }
 
+    @Override
+    protected void onPause() {
+        leaveSession();
+        super.onPause();
+    }
     @Override
     protected void onDestroy() {
         leaveSession();

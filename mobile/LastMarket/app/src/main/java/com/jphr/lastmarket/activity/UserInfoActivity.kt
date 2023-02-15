@@ -177,7 +177,7 @@ class UserInfoActivity : AppCompatActivity() {
             Toast.makeText(mContext, "주소를 가져 올 수 없습니다.", Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
-
+        removeLocationUpdate()
     }
 
     @SuppressLint("MissingPermission")
@@ -185,7 +185,7 @@ class UserInfoActivity : AppCompatActivity() {
         Log.d(TAG, "startLocationUpdates: ")
         mLocationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 10* 10000
+            interval = 10* 1000
         }
         //FusedLocationProviderClient의 인스턴스를 생성.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -267,6 +267,11 @@ class UserInfoActivity : AppCompatActivity() {
         removeLocationUpdate()
         Log.d(TAG, "finish: ")
         super.finish()
+    }
+
+    override fun onPause() {
+
+        super.onPause()
     }
 
     inner class LifeStyleCallback: RetrofitCallback<LifeStyleDTO> {

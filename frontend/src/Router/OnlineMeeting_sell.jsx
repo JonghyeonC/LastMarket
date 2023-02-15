@@ -261,7 +261,7 @@ class OnlineMeeting_sell extends Component {
             >
               {this.state.isSpeaker ? <HeadsetIcon /> : <HeadsetOffIcon />}
             </Icon>
-            <Icon primary onClick={this.leaveSession}>
+            <Icon primary onClick={(this.leaveSession) (axios.get(`https://i8d206.p.ssafy.io/api/product/${sessionId}/finish`))}>
               <CallEndIcon />
             </Icon>
           </BottomBox>

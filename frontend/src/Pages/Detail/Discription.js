@@ -156,7 +156,7 @@ function Discription(props) {
             :
             <div>
               <button onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</button>
-              <button>즉시구매</button>
+              <button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}} ))}>즉시구매</button>
             </div>
           }
         </div>

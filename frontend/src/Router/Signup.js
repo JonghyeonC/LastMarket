@@ -49,7 +49,7 @@ function Signup() {
     })
   
   const Korea = {
-    'MINIAL' : '미니멀 라이프',
+    'MINIMAL' : '미니멀 라이프',
     'HOMELIFE' : '집돌이/집순이 라이프',
     'ECOVEGAN' : '친환경/비건 라이프',
     'WELLBEING' : '웰빙 라이프',
@@ -190,7 +190,7 @@ function Signup() {
             <label className='dropdownLabel1' for="dropdown2">
               {
                 life ?
-                lifestyle :
+                Korea[lifestyle] :
                 <div>어떤 것에 관심이 있는지 선택해주세요</div>
               }
               <FaAngleDown className='caretIcon' />
@@ -200,7 +200,7 @@ function Signup() {
                 {
                   life.map((style) => {
                     return (
-                      <li onClick={() => {setlifeStyle(style)}}>{Korea.style}</li>
+                      <li onClick={() => {setlifeStyle(style)}}>{Korea[style]}</li>
                     )
                   })
                 }

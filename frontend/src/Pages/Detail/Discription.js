@@ -152,7 +152,8 @@ function Discription(props) {
                 detailURIS.map((imgURI, index) => {
                   return (
                     <SwiperSlide>
-                      <img className='Small_Img' src={imgURI} alt="DetailImg" onClick={MainImg(index)} />
+                      <img className='Small_Img' src={imgURI} alt="DetailImg" />
+                      {/* onClick={MainImg(index)} */}
                     </SwiperSlide>
                   )
                 })

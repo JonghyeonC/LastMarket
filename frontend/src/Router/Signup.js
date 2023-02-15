@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom"
 function Signup() {
   const navigate = useNavigate()
   const [life, setLife] = useState([])
-  
+  console.log(life)
   let [ nickName, setNickName ] = useState('')
   let [ lifestyle, setlifeStyle ] = useState('')
+  // let [ lifestyle_Kor, setlifeStyle_Kor ] = useState('')
   let [ location, setLocation ] = useState('')
   let [ loca, setLoca ] = useState('')
 
@@ -21,9 +22,67 @@ function Signup() {
       })
       .then((res) => {
         setLife(res.data.lifestyles)
+
       })
       )
     })
+
+  
+    const Kor = (({style}) => {
+      if (style === 'MINIMAL'){
+        return <p>'미니멀 라이프'</p>
+      } else if (style === 'HOMELIFE'){
+        return'집돌이/집순이 라이프'
+      } else if (style === 'ECOVEGAN'){
+        return'친환경/비건 라이프'
+      } else if (style === 'WELLBEING'){
+        return'웰빙 라이프'
+      } else if (style === 'SLOWLIFE'){
+        return'슬로우 라이프'
+      } else if (style === 'FLEX'){
+        return'플렉스 라이프'
+      } else if (style === 'DIY'){
+        return'DIY 라이프'
+      } else if (style === 'EARLYADOPTER'){
+        return'얼리어답터 라이프'
+      }
+    })
+  
+  const Korea = {
+    'MINIAL' : '미니멀 라이프',
+    'HOMELIFE' : '집돌이/집순이 라이프',
+    'ECOVEGAN' : '친환경/비건 라이프',
+    'WELLBEING' : '웰빙 라이프',
+    'SLOWLIFE' : '슬로우 라이프',
+    'FLEX' : '플렉스 라이프',
+    'DIY' : 'DIY 라이프',
+    'EARLYADOPTER' : '얼리어답터 라이프',
+  }
+  // function lifestyle_trans() {
+  //   if (`${life}` === 'MINIMAL'){
+  //     setlifeStyle_Kor('미니멀 라이프')
+  //   } else if (`${life}` === 'HOMELIFE'){
+  //     setlifeStyle_Kor('집돌이/집순이 라이프')
+  //   } else if (`${life}` === 'ECOVEGAN'){
+  //     setlifeStyle_Kor('친환경/비건 라이프')
+  //   } else if (`${life}` === 'WELLBEING'){
+  //     setlifeStyle_Kor('웰빙 라이프')
+  //   } else if (`${life}` === 'SLOWLIFE'){
+  //     setlifeStyle_Kor('슬로우 라이프')
+  //   } else if (`${life}` === 'FLEX'){
+  //     setlifeStyle_Kor('플렉스 라이프')
+  //   } else if (`${life}` === 'DIY'){
+  //     setlifeStyle_Kor('DIY 라이프')
+  //   } else if (`${life}` === 'EARLYADOPTER'){
+  //     setlifeStyle_Kor('얼리어답터 라이프')
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   lifestyle_trans();
+  // }, [life])
+
+
     console.log(`${loca.address_name?.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`)
     const sendInfor = (() => {
       return (
@@ -141,7 +200,7 @@ function Signup() {
                 {
                   life.map((style) => {
                     return (
-                      <li onClick={() => {setlifeStyle(style)}}>{style}</li>
+                      <li onClick={() => {setlifeStyle(style)}}>{Korea.style}</li>
                     )
                   })
                 }

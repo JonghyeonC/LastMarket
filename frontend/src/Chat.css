@@ -1,7 +1,7 @@
 .chatContainer {
   display: flex;
   width:450px;
-  height: 1000px;
+  height: 600px;
   flex-direction: row;
 }
 

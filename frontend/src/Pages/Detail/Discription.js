@@ -8,6 +8,15 @@ import { useSelector } from 'react-redux'
 import Cookies from 'js-cookie'
 import jwt_decode from "jwt-decode"
 
+import Button from 'react-bootstrap/Button';
+
+import { Swiper, SwiperSlide } from "swiper/react"; // basic
+import SwiperCore, { Navigation, Pagination, Scrollbar, Autoplay } from "swiper";
+import "swiper/css"; //basic
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import 'swiper/css/scrollbar';
+
 
 function Discription(props) {
   let reduxData = useSelector((state) => {return state})
@@ -33,7 +42,7 @@ function Discription(props) {
     .then((res) => {
       setProductDetail(res.data)
       setDetailURIS(res.data.imgURIs)
-      // console.log(res.data.imgURIs)
+      console.log(res.data.imgURIs)
       console.log('success')
       
     })
@@ -44,6 +53,25 @@ function Discription(props) {
   
   useEffect(() => {
     DiscriptionApi()
+  }, [])
+
+
+  // const [ MainImg, setIMainImg ] = useState(detailURIS[0])
+
+  // function BigImg(imgURI){
+  //   return(
+  //     setIMainImg(imgURI)
+  //   )
+  // }
+  const [ MainImgIndex, setMainImgIndex ] = useState(0)
+
+  function MainImg(index){
+    return(
+      setMainImgIndex(index)
+    )
+  }
+  useEffect(() => {
+    MainImg()
   }, [])
   
   const navigate = useNavigate()
@@ -90,14 +118,49 @@ function Discription(props) {
     <div>
       <div className="decriptionBox">
         <div className='imagesBox'>
-          {
-            detailURIS.map((imgURI) => {
-              return (
-                <img src={imgURI} width="500px" height="400px" alt="DetailImg" />
-              )
-            })
-          }
+          <div>
+            <img src={detailURIS[MainImgIndex]} alt="MainImg" width='500px' height="400px" />
+          </div>
+          <br />
+          <Swiper
+            className='SwiperBox'
+            modules={[Navigation, Pagination, Scrollbar, Autoplay]}
+            spaceBetween={15}
+            slidesPerView={5}
+            // scrollbar={{ draggable: true }}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 3000 }}
+            // breakpoints={{
+            //   1200: {
+            //     slidesPerView: 1,
+            //   },
+              // 900: {
+              //   slidesPerView: 1,
+              // },
+              // 768: {
+              //   slidesPerView: 1,
+              // },
+              // 576: {
+              //   slidesPerView: 1,
+              // },
+
+            // }}
+          >
+            <div className='row'>
+              {
+                detailURIS.map((imgURI, index) => {
+                  return (
+                    <SwiperSlide>
+                      <img className='Small_Img' src={imgURI} alt="DetailImg" onClick={MainImg(index)} />
+                    </SwiperSlide>
+                  )
+                })
+              }
+            </div>
+          </Swiper>
         </div>
+        <br />
         <div className='detailBox'>
           <h1>{productDetail.title}</h1>
           {
@@ -121,6 +184,7 @@ function Discription(props) {
               <p>{productDetail.instantPrice}</p>}
             </div>
           </div>
+          <br />
           <div className='profileBox'>
             {
               <img src={productDetail.profile} alt="프로필사진" /> ?
@@ -128,11 +192,17 @@ function Discription(props) {
               <img src="profile_icon.png" width="150px" height="150px" alt="" />
             }
             <div>
-              <p>{productDetail.sellerNickname}</p>
-              <p>{productDetail.location}</p>
+              <h3>{productDetail.sellerNickname}</h3>
+              <br />
+              <h5>{productDetail.location}</h5>
             </div>
-              <span><button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button></span>
+            <span>
+              <Button variant="secondary" onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅걸기</Button>
+              {/* <button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button> */}
+            </span>
           </div>
+          <br />
+          <br />
           {
             productDetail.sellerId === userDetail?.id ?
             <div>
@@ -140,8 +210,11 @@ function Discription(props) {
             </div>
             :
             <div>
-              <button onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</button>
-              <button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>즉시구매</button>
+              <Button variant="success" onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</Button>
+              <span> </span>
+              <Button variant="warning" onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>즉시구매</Button>
+              {/* <button onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</button>
+              <button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>즉시구매</button> */}
             </div>
           }
         </div>

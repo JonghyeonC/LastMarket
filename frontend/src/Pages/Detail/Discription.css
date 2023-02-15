@@ -1,4 +1,5 @@
 .decriptionBox {
+  margin-top: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -10,8 +11,24 @@
 }
 
 .imagesBox {
+  padding-top: 35px;
+  width: 600px;
+  height: 570px;
   display: flex;
   flex-direction: column;
+  background: black;
+  border-radius: 5px;
+}
+
+.SwiperBox{
+  width: 600px;
+  padding-left: 25px;
+}
+
+.Small_Img{
+  width : 100px;
+  height : 80px;
+  cursor: pointer;
 }
 
 .priceBox{

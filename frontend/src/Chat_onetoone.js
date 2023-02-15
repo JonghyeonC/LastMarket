@@ -43,6 +43,20 @@ function Chat_onetoone(props) {
             stomp_client.send(`/send/room.${productId}`, {}, JSON.stringify(msg))
         )
     }
+
+    function doneDeal() {
+        const msg = {
+            "chatType": "FINISH",
+            "seller": sellerId,
+            "buyer": id,
+            "sender": id,
+            "roomKey": productId,
+            "message": ""
+        }
+        return(
+            stomp_client.send(`/send/room.${productId}`, {}, JSON.stringify(msg))
+        )
+    }
     
     function addChatLog(msg) {
         let talks = JSON.parse(msg.body)
@@ -76,7 +90,11 @@ function Chat_onetoone(props) {
                     <br />
                 <div className='btnSet'>
                     <button ref={msg_send_btn} onClick={sendMessage}>전송</button>
-                    <button>예약</button>
+                    {
+                        `${sellerId}` === `${id}` ?
+                        <button onClick={doneDeal}>거래 종료</button> :
+                        null
+                    }
                 </div>
                     <br />
             </div>

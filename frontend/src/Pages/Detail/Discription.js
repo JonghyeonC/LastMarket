@@ -23,7 +23,7 @@ function Discription(props) {
 
   const [ productDetail, setProductDetail ] = useState([])
   const [ detailURIS, setDetailURIS ] = useState([])
-  const [ isBrod, setIsBrod ] = useState(false)
+  const [ isBrod, setIsBrod ] = useState("1")
   
   const cookieValue =  Cookies.get('Authentication');
   
@@ -112,6 +112,15 @@ function Discription(props) {
     )
   })
 
+  const onBrodcast = (() => {
+    return (
+      axios({
+        method: 'get',
+        url: `https://i8d206.p.ssafy.io/api/product/${productDetail.productId}/broadcast`
+      })
+    )
+  })
+
   console.log(productDetail)
 
   return (
@@ -170,9 +179,9 @@ function Discription(props) {
             :
             <div className='likeBtn'>
               {
-                `${productDetail.isFavorite}` ?
+                `${productDetail.favorite}` ?
                 <div>찜 완료</div> :
-                <div>찜 아님</div>
+                <div>찜 X</div>
               }
               <div>{productDetail.favoriteCnt}</div>
               <button onClick={favorite}>하트</button>
@@ -207,11 +216,19 @@ function Discription(props) {
           {
             productDetail.sellerId === userDetail?.id ?
             <div>
-              <button onClick={() => (navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 시작</button>
+              {
+                productDetail.dealState === "AFTERBRODCAST" ? 
+                null :
+                <button onClick={() => {(navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}})) ; onBrodcast()} }>라이브 시작</button>
+              }
             </div>
             :
             <div>
-              <Button variant="success" onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</Button>
+              {
+                productDetail.dealState === "AFTERBRODCAST" ?
+                <Button variant="success">라이브 종료</Button> :
+                <Button variant="success" onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</Button>
+              }
               <span> </span>
               <Button variant="warning" onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>즉시구매</Button>
               {/* <button onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</button>

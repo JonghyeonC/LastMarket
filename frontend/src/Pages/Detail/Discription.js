@@ -70,9 +70,9 @@ function Discription(props) {
       setMainImgIndex(index)
     )
   }
-  useEffect(() => {
-    MainImg()
-  }, [])
+  // useEffect(() => {
+  //   MainImg()
+  // }, [])
   
   const navigate = useNavigate()
 

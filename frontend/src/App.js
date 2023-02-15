@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <SideBanner />
+      {/* <SideBanner /> */}
       <br />
       <Routes>
 

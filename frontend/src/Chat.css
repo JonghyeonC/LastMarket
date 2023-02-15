@@ -16,6 +16,11 @@
   border-radius: 1.5px;
 }
 
+.chatInput {
+  display: flex;
+  justify-content: end;
+}
+
 .btnSet {
   display: flex;
   flex-direction: row;
@@ -24,11 +29,13 @@
 .yourMsg {
   display: flex;
   justify-content: left;
+  width: 200px;
   background-color: blueviolet;
 }
 
 .myMsg {
   display: flex;
   justify-content: right;
+  width: 200px;
   background-color: coral;
 }

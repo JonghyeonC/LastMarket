@@ -47,7 +47,7 @@ function LiveChat(props) {
             "buyer": `${props.id}`,
             "sender": `${props.id}`,
             "roomKey": `${props.productId}`,
-            "message": talk
+            "message": String(talk)
         }
         return(
             stomp_client.send(`/send/room.${props.productId}`, {}, JSON.stringify(bidMsg))
@@ -72,7 +72,6 @@ function LiveChat(props) {
 
     return (
         <div className='chatContainer'>
-
             <div className='chatBox'>
                 <div className='chatContent'>
                     {

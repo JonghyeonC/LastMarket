@@ -170,6 +170,7 @@ function Discription(props) {
           </div>
         </div> */}
       </div>
+      <br />
       <div className='contentBox'>
         {productDetail.content}
       </div>

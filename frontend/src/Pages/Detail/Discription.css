@@ -30,6 +30,9 @@
 }
 
 .contentBox {
+  display: flex;
+  justify-content: center;
   border: 0.2ch solid crimson;
   width: 600px;
+  height: 300px;
 }

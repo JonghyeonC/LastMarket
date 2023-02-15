@@ -86,7 +86,7 @@ class MainFragment : Fragment() {
         var lifestyle= pref?.getString("lifestyle","null")
 
 
-        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","AFTERBROADCAST","0",ProductSortCallback1(),false,null)
+        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","","0",ProductSortCallback1(),false,null)
         ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","ONBROADCAST","0",ProductSortCallback2(),false,null)
         ProductService().getProductWithSort("",lifestyle,cityData,"lastModifiedDateTime,DESC","","0",ProductSortCallback3(),false,null)
 

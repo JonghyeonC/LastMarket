@@ -223,6 +223,9 @@ class DetailFragment : Fragment() {
                     intent.putExtra("productId",productId)
                     intent.putExtra("data",data)
                     intent.putExtra("sellerId",data?.sellerId)
+                    intent.putExtra("sellerNickname",data?.sellerNickname)
+                    intent.putExtra("title",data?.title)
+
                     intent.putExtra("startPrice",data?.startingPrice)
                     startActivity(intent)
 
@@ -233,6 +236,8 @@ class DetailFragment : Fragment() {
                     Log.d(TAG, "onCreateView productId: ${data?.productId}")
                     intent.putExtra("sellerId",data?.sellerId)
                     intent.putExtra("startPrice",data?.startingPrice)
+                    intent.putExtra("sellerNickname",data?.sellerNickname)
+                    intent.putExtra("title",data?.title)
 
                     Log.d(TAG, "onCreateView data: ${data?.sellerId} ${data?.startingPrice}")
 

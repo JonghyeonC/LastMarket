@@ -104,6 +104,8 @@ public class LiveBuyActivity extends AppCompatActivity {
     private Long startPrice;
     private TextView topPriceTv;
     private TextView startPriceTv;
+    private TextView title;
+    private TextView nickname;
     private Long userId;
     private ProductDetailDTO detailDTO;
     private Double tick;
@@ -131,6 +133,8 @@ public class LiveBuyActivity extends AppCompatActivity {
         ImageView postPrice=findViewById(R.id.postPrice);
         startPriceTv=findViewById(R.id.startPriceTv);
         topPriceTv=findViewById(R.id.topPriceTv);
+        nickname = findViewById(R.id.nickname);
+        title = findViewById(R.id.Title);
 
         productId=getIntent().getLongExtra("productId",0);
         Log.d(TAG, "onCreate: "+productId);
@@ -138,6 +142,11 @@ public class LiveBuyActivity extends AppCompatActivity {
         startPrice=getIntent().getLongExtra("startPrice",0);
         tick=startPrice*0.1;
         startPriceTv.setText(startPrice.toString());
+        String nickname = getIntent().getStringExtra("sellerNickname").toString();
+        String title = getIntent().getStringExtra("title").toString();
+
+        this.nickname.setText(nickname);
+        this.title.setText(title);
 
         detailDTO = (ProductDetailDTO) getIntent().getSerializableExtra("data");
         Log.d(TAG, "detailDTO: "+detailDTO);

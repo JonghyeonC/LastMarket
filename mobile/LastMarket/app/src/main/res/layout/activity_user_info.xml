@@ -124,9 +124,9 @@
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="                Start                "
+            android:text="              Start              "
             android:textColor="@color/blue1"
-            android:layout_gravity="left"
+            android:layout_gravity="center_horizontal"
             app:strokeColor="@color/blue1" />
     </LinearLayout>
 </LinearLayout>

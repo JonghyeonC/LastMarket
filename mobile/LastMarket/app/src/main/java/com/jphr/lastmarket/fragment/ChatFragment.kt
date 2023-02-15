@@ -300,8 +300,11 @@ class ChatFragment : Fragment() {
         Log.d(TAG, "onCreateView: USER ID $userId  SELLERID ${chatDTO?.seller}")
         if (chatDTO?.seller.equals(userId.toString())) {//내가 seller 일 때
             binding.nickname.text = chatDTO?.buyer
+            binding.nickname.text="최강종현"
         } else {
             binding.nickname.text = chatDTO?.seller
+            binding.nickname.text="호빵희종"
+
         }
 
 

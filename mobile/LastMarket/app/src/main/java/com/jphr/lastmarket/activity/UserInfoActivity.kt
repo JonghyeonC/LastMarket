@@ -116,9 +116,8 @@ class UserInfoActivity : AppCompatActivity() {
             binding.save.setOnClickListener {
                 userName = binding.userName.text.toString()
                 userLifeStyle = binding.lifestyleField.editText?.text.toString()
-//            userCategory = binding.userCategory.selectedItem as String
                 userAddress = binding.address.text as String
-                var categories = mutableListOf<String>("CAMPING", "BOOK")
+                var categories = mutableListOf<String>()
                 var userinfo = UserInfoDTO(userAddress, categories, userLifeStyle, userName)
                 Log.d(TAG, "onCreate: $userinfo")
 

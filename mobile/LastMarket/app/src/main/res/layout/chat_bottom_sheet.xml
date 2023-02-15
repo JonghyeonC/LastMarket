@@ -5,7 +5,6 @@
     android:background="@drawable/radius"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<!--TODO:Bottomsheet radius와 expanding 수정-->
 
     <ImageView
         android:id="@+id/trade_sucess"

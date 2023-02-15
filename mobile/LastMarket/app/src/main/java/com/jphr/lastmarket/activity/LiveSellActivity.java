@@ -101,6 +101,8 @@ public class LiveSellActivity extends AppCompatActivity {
     private Long productId;
     private Long sellerId;
     private Long startPrice;
+    private TextView title;
+    private TextView nickname;
     private TextView topPriceTv;
     private TextView startPriceTv;
     private LinearLayout exitLive;
@@ -135,13 +137,20 @@ public class LiveSellActivity extends AppCompatActivity {
         topPriceTv = findViewById(R.id.topPriceTv);
         exitLive = findViewById(R.id.exitLive);
         takePrice = findViewById(R.id.takePrice);
-
+        nickname = findViewById(R.id.nickname);
+        title = findViewById(R.id.Title);
 
         productId = getIntent().getLongExtra("productId", 0);
         session_name = productId.toString();
         sellerId = getIntent().getLongExtra("sellerId", 0);
         startPrice = getIntent().getLongExtra("startPrice", 0);
+        String nickname = getIntent().getStringExtra("sellerNickname").toString();
+        String title = getIntent().getStringExtra("title").toString();
+
         startPriceTv.setText(startPrice.toString());
+        this.nickname.setText(nickname);
+        this.title.setText(title);
+
 
         session_name = productId.toString();
 

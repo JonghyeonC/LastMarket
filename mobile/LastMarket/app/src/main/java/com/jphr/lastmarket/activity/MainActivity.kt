@@ -153,21 +153,63 @@ class MainActivity : AppCompatActivity() {
                 0->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProductWithSort("BOOK",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    ProductService().getProductWithSort("MOVE",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
                 1->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProductWithSort("CAMPING",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    ProductService().getProductWithSort("COOK",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
                 2->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProductWithSort("BOOK",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    ProductService().getProductWithSort("EAT",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                3->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("REST",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                4->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("GODLIFE",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                5->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("HOBBY",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                6->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("EXERCISE",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                7->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("CLEAN",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                8->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("STYLING",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }

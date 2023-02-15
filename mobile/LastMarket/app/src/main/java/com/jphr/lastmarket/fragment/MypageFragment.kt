@@ -52,8 +52,7 @@ class MypageFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding=FragmentMypageBinding.inflate(inflater,container,false)
-//
-//        binding.sellerProfile.setImageURI()
+        binding.sellerNicname.text="최강종현"
 
         binding.edit.setOnClickListener {
             mainActivity.changeFragment(10)

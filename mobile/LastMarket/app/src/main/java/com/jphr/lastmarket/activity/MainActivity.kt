@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import com.auth0.android.jwt.JWT
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -19,11 +20,13 @@ import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.dto.CategoryDTO
-import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ChatDTO
+import com.jphr.lastmarket.dto.ListDTO
 import com.jphr.lastmarket.fragment.*
 import com.jphr.lastmarket.service.ProductService
 import com.jphr.lastmarket.service.UserInfoService
 import com.jphr.lastmarket.util.RetrofitCallback
+import com.jphr.lastmarket.viewmodel.MainViewModel
 
 
 private const val TAG = "MainActivity"
@@ -33,12 +36,59 @@ class MainActivity : AppCompatActivity() {
     lateinit var searchView:SearchView
     lateinit var menu: Menu
     var categoryList = mutableListOf<String>()
-
     var SearchFragment=SearchFragment()
     var ProductListFragment= ProductListFragment()
+    lateinit var actionButton:FloatingActionButton
+    private val mainViewModel: MainViewModel by viewModels()
+    var cityData=""
+    var city=""
+    var lifestyle=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        actionButton=findViewById(R.id.floating_action_button)
+        var isFromLive=intent.getStringExtra("isFromLive")
+        Log.d(TAG, "onCreate: $isFromLive")
+        actionButton.visibility=View.VISIBLE
+
+        if(isFromLive.equals("true")) {
+            Log.d(TAG, "onCreate: isLivetrue")
+            actionButton.visibility=View.GONE
+         var chatDTO=intent.getSerializableExtra("chatDTO") as ChatDTO
+            mainViewModel.setChatDTO(chatDTO)   //데이터 set
+            changeFragment(8)
+        }else{
+            actionButton.visibility=View.VISIBLE
+            Log.d(TAG, "onCreate: isLivefalse")
+            val transaction = supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, MainFragment())
+            transaction.commit()
+            //sharedPreference 작업 viewmodel로 옮기기
+
+            var pref=getSharedPreferences("user_info",MODE_PRIVATE)
+            city= pref?.getString("city","null").toString()
+            cityData= pref?.getString("city_data","null").toString()
+            lifestyle= pref?.getString("lifestyle","null").toString()
+
+            var prefs = getSharedPreferences("user_info", MODE_PRIVATE)
+            var editor = prefs?.edit()
+            var token=prefs?.getString("token", "")
+            Log.d(TAG, "onCreate: $token")
+            var jwt= token?.let { JWT(it) }
+            val issuer = jwt!!.issuer //get registered claims
+
+            val claim = jwt.getClaim("id").asString() //get custom claims
+
+            val isExpired = jwt.isExpired(10)
+
+            Log.d(TAG, "onCreate: $claim $issuer $isExpired")
+            editor?.putLong("user_id",claim!!.toLong())
+            editor?.commit()
+
+
+        }
+
         drawerLayout=findViewById<DrawerLayout>(R.id.drawer_layout)
         var navigationView=findViewById<NavigationView>(R.id.navigation_view)
         var toolbar=findViewById<MaterialToolbar>(R.id.topAppBar)
@@ -48,9 +98,9 @@ class MainActivity : AppCompatActivity() {
         searchView=findViewById<SearchView>(R.id.search_view)
 
 
-        val transaction = supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, MainFragment())
-        transaction.commit()
+
+
+
 
         floatingActionButton.setOnClickListener {
             changeFragment(6)
@@ -60,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         searchBar.visibility=View.GONE
 
 
-       UserInfoService().getCategory(CategoryCallback())
+        UserInfoService().getCategory(CategoryCallback())
 
 
         setSupportActionBar(toolbar)
@@ -103,21 +153,63 @@ class MainActivity : AppCompatActivity() {
                 0->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProduct(null,title,ProductCallback(),false)
+                    ProductService().getProductWithSort("MOVE",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
                 1->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProduct(null,title,ProductCallback(),false)
+                    ProductService().getProductWithSort("COOK",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
                 2->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProduct(null,title,ProductCallback(),false)
+                    ProductService().getProductWithSort("EAT",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                3->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("REST",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                4->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("GODLIFE",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                5->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("HOBBY",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                6->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("EXERCISE",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                7->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("CLEAN",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                8->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("STYLING",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
@@ -129,6 +221,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     override fun onResume() {
@@ -139,8 +232,9 @@ class MainActivity : AppCompatActivity() {
             .setOnEditorActionListener { v, actionId, event ->
                 searchBar.text = searchView.text
                 searchView.hide()
-                ProductService().getProduct(searchView.text.toString(),null,ProductCallback(),true)
-                searchBar.visibility=View.GONE
+
+                ProductService().getProductWithSort("",null,cityData,"favoriteCnt","DEFAULT","1",ProductCallback(),true,searchView.text.toString())
+                Log.d(TAG, "onResume: ${searchView.text.toString()}")
                 false
             }
     }
@@ -160,7 +254,7 @@ class MainActivity : AppCompatActivity() {
                 transaction.replace(R.id.fragmentContainer, MypageFragment()).commit()
             }
             3->{
-                transaction.replace(R.id.fragmentContainer, ChatFragment()).commit()
+                transaction.replace(R.id.fragmentContainer, ChatListFragment()).commit()
             }
             4->{
                 transaction.replace(R.id.fragmentContainer,SearchFragment).commit()
@@ -171,25 +265,49 @@ class MainActivity : AppCompatActivity() {
             6->{
                 transaction.replace(R.id.fragmentContainer,CreateProductFragment()).commit()
             }
+            7->{
+                transaction.replace(R.id.fragmentContainer,DetailFragment()).commit()
+            }
+            8->{
+                transaction.replace(R.id.fragmentContainer,ChatFragment()).commit()
+            }
+            9->{
+                transaction.replace(R.id.fragmentContainer,LikeListFragment()).commit()
+            }
+            10->{
+                transaction.replace(R.id.fragmentContainer,EditUserInfoFragment()).commit()
+            }
+            11->{
+                transaction.replace(R.id.fragmentContainer,ReviewListFragment()).commit()
+            }
+            12->{
+                transaction.replace(R.id.fragmentContainer,SellListFragment()).commit()
+            }
+            13->{
+                transaction.replace(R.id.fragmentContainer,BuyListFragment()).commit()
+            }
         }
     }
 
-    inner class ProductCallback: RetrofitCallback<ProductDTO> {
-        override fun onSuccess(code: Int,responseData: ProductDTO, issearch:Boolean,word:String?,category:String?) {
+    inner class ProductCallback: RetrofitCallback<ListDTO> {
+        override fun onSuccess(code: Int,responseData: ListDTO, issearch:Boolean,word:String?,category:String?) {
             if(responseData!=null) {
                 if(issearch){
                     Log.d(TAG, "initData: ${responseData}")
-                    var bundle= bundleOf()
-                    bundle.putSerializable("products",responseData)
-                    bundle.putString("word",word)
-                    SearchFragment.arguments=bundle
+                    mainViewModel.setProduct(responseData.content)
+                    if (word != null) {
+                        mainViewModel.setWord(word)
+                    }
+                    refreshFragment(SearchFragment(),supportFragmentManager)
                     changeFragment(4)
+                    searchView.editText.text=null
+
                 }
                 else {
-                    var bundle= bundleOf()
-                    bundle.putSerializable("products",responseData)
-                    bundle.putString("category",category)
-                    ProductListFragment.arguments=bundle
+                    mainViewModel.setProduct(responseData.content)
+                    if (category != null) {
+                        mainViewModel.setCategory(category)
+                    }
                     changeFragment(5)
                 }
             }
@@ -233,7 +351,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
+        var ft: FragmentTransaction = fragmentManager.beginTransaction()
+        ft.detach(fragment).attach(fragment).commit()
+    }
 
 
 }

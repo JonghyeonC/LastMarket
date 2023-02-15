@@ -11,12 +11,13 @@ import com.bumptech.glide.Glide
 import com.jphr.lastmarket.R
 import com.jphr.lastmarket.dto.Product
 import com.jphr.lastmarket.dto.ProductDTO
+import com.jphr.lastmarket.dto.ProductX
 import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "LatestOrderAdapter_싸피"
 class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductListAdapter.ProductListHolder>(){
-    var list : ProductDTO? =null
+    var list : MutableList<ProductX>? =null
 
     inner class ProductListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val image = itemView.findViewById<ImageView>(R.id.iv)
@@ -24,13 +25,13 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
         val price: TextView = itemView.findViewById(R.id.price)
         val liveImage = itemView.findViewById<ImageView>(R.id.live_image)
         val liveText=itemView.findViewById<TextView>(R.id.live_text)
-        fun bindInfo(product: Product){
-            //TODO:image삽입하기
+        fun bindInfo(product: ProductX){
+
             Glide.with(itemView)
                 .load("${product.imgURI}")
                 .into(image)
             title.text=product.title
-            price.text=product.startingPrice
+            price.text=product.instantPrice.toString()
             if(product.liveTime!=null){
                 liveImage.visibility=View.VISIBLE
                 liveText.visibility=View.VISIBLE
@@ -51,7 +52,7 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
 //        holder.bind()
 
         holder.apply {
-            bindInfo(list!!.products[position])
+            list?.get(position)?.let { bindInfo(it) }
             //클릭연결
             itemView.setOnClickListener{
                 itemClickListner.onClick(it, position)
@@ -60,7 +61,7 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
     }
 
     override fun getItemCount(): Int {
-        return 10.coerceAtMost(list!!.products.size)
+        return list!!.size
     }
 
     //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.

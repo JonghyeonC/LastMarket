@@ -9,16 +9,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 class LastMarketApplication:Application() {
     companion object{
         //전역변수를 통해 앱실행시 1번만 생성(singleton)
-        lateinit var wRetrofit: Retrofit
-        var baseurl="https://c1d1e486-0a6a-449a-a1b5-d12ec8679d3b.mock.pstmn.io"//TODO: BASEURL나오면 입력해주기
+        var baseurl="https://i8d206.p.ssafy.io/"
+
+        var wRetrofit: Retrofit= Retrofit.Builder()
+            .baseUrl(baseurl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
     override fun onCreate() {
         super.onCreate()
 
-        wRetrofit=Retrofit.Builder()
-            .baseUrl(baseurl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+
 
         // Kakao SDK 초기화
 //        KakaoSdk.init(this, getString(R.string.kakao_native_key))

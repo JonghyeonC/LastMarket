@@ -37,6 +37,7 @@ class MultiImageAdapter(val context:Context) :RecyclerView.Adapter<MultiImageAda
             holder.apply {
             bindInfo(list[position])
             //클릭연결
+                //TODO: 클릭했을 때 사진 삭제되게 하기
 //            itemView.setOnClickListener{
 //                itemClickListner.onClick(it, position)
 //            }

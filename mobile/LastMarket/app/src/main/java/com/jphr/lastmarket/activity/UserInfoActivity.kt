@@ -13,7 +13,6 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -40,8 +39,9 @@ class UserInfoActivity : AppCompatActivity() {
     lateinit var userLifeStyle: String
     lateinit var userCategory: String
     lateinit var userAddress: String
-
+    var issearch:Boolean =false
     var display_address: String = ""
+    var add: String = ""
 
     val MY_PERMISSION_ACCESS_ALL = 100
     var categoryList = MutableLiveData<MutableList<String>>()
@@ -57,15 +57,18 @@ class UserInfoActivity : AppCompatActivity() {
     private fun getPreferences(context: Context): SharedPreferences? {
         return context.getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d(TAG, "onCreate: 시작------")
+        var pref=getSharedPreferences("user_info",MODE_PRIVATE)
+        var city= pref?.getString("city",null)
 
-
+        if(city==null) {
 //        categoryList = UserInfoService().getCategory()
-        lifeStyleList = UserInfoService().getLifeStyle(LifeStyleCallback())
+            lifeStyleList = UserInfoService().getLifeStyle(LifeStyleCallback())
 
 //        categoryList.observe(this, Observer {
 //            binding.userCategory.adapter = ArrayAdapter(
@@ -79,49 +82,65 @@ class UserInfoActivity : AppCompatActivity() {
 
             Log.d(TAG, "onCreate: $lifeStyleList")
 
+            var permissions = arrayOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
+            binding.search.setOnClickListener {
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    Log.d(TAG, "onCreate:if문")
+                    var permissions = arrayOf(
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
+                    ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
 
-        binding.search.setOnClickListener {
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                Log.d(TAG, "onCreate:if문")
-                var permissions = arrayOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-                ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
-
-            } else {
-                if (checkPermissionForLocation(this)) {
-                    Log.d(TAG, "onCreate: if2  ")
-                    startLocationUpdates()
+                } else {
+                    if (checkPermissionForLocation(this)||!issearch) {
+                        Log.d(TAG, "onCreate: if2  ")
+                        issearch=true
+                        startLocationUpdates()
+                    }
                 }
             }
-        }
 
-        binding.save.setOnClickListener {
-            userName = binding.userName.text.toString()
-            userLifeStyle = binding.lifestyle.text.toString()
-//            userCategory = binding.userCategory.selectedItem as String
-            userAddress= binding.address.text as String
-            var userinfo=UserInfoDTO(userAddress,userLifeStyle,userName)
-            Log.d(TAG, "onCreate: $userinfo")
+            binding.save.setOnClickListener {
+                userName = binding.userName.text.toString()
+                userLifeStyle = binding.lifestyleField.editText?.text.toString()
+                userAddress = binding.address.text as String
+                var categories = mutableListOf<String>()
+                var userinfo = UserInfoDTO(userAddress, categories, userLifeStyle, userName)
+                Log.d(TAG, "onCreate: $userinfo")
 
-            var prefs=getPreferences(this)
-            var editor :SharedPreferences.Editor?=prefs?.edit()
-            editor?.putString("city",display_address)
+                var prefs = getSharedPreferences("user_info", MODE_PRIVATE)
+                var editor = prefs?.edit()
+                editor?.putString("city", display_address)
+                editor?.putString("city_data", add)
 //            editor?.putString("category",userCategory)
-            editor?.putString("lifestyle",userLifeStyle)
-            editor?.commit()
-            UserInfoService().insertUserInfo(userinfo)
-            var intent=Intent(this@UserInfoActivity, MainActivity::class.java)
+                editor?.putString("lifestyle", userLifeStyle)
+                editor?.commit()
+                var token = prefs.getString("token", "")!!
+                UserInfoService().insertUserInfo(token, userinfo)
+                Log.d(TAG, "onCreate: $userinfo")
+
+                var intent = Intent(this@UserInfoActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+
+            }
+        }else{
+            var intent = Intent(this@UserInfoActivity, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }
@@ -139,9 +158,13 @@ class UserInfoActivity : AppCompatActivity() {
                     nowAddr = address[0].getAddressLine(0).toString()
                     var arr = nowAddr.split(" ")
                     var i = 0
-                    var add: String = ""
                     for (i in 1 until 4) {
-                        add += arr[i]+" ";
+                        if(i==3){
+                            add += arr[i]
+                        }else {
+                            add += arr[i]+" ";
+                        }
+
                         Log.d(TAG, "getAddress: ${arr[i]}")
                     }
                     display_address=arr[3]
@@ -161,7 +184,7 @@ class UserInfoActivity : AppCompatActivity() {
             Toast.makeText(mContext, "주소를 가져 올 수 없습니다.", Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
-
+        removeLocationUpdate()
     }
 
     @SuppressLint("MissingPermission")
@@ -169,7 +192,7 @@ class UserInfoActivity : AppCompatActivity() {
         Log.d(TAG, "startLocationUpdates: ")
         mLocationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 5 * 10000
+            interval = 10* 1000
         }
         //FusedLocationProviderClient의 인스턴스를 생성.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -253,10 +276,15 @@ class UserInfoActivity : AppCompatActivity() {
         super.finish()
     }
 
+    override fun onPause() {
+
+        super.onPause()
+    }
+
     inner class LifeStyleCallback: RetrofitCallback<LifeStyleDTO> {
         override fun onSuccess(code: Int, responseData: LifeStyleDTO, issearch:Boolean, word:String?, category:String?) {
             if(responseData!=null) {
-                lifeStyleList=responseData.lifestyle
+                lifeStyleList=responseData.lifestyles
                 (binding.lifestyleField.editText as? MaterialAutoCompleteTextView)?.setSimpleItems(lifeStyleList.toTypedArray())
                 binding.lifestyle.setText(lifeStyleList[0],false)
 

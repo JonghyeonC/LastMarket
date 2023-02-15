@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,7 +27,6 @@ import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -38,7 +38,6 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "LikeListFragment"
 class LikeListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentLikeListBinding
@@ -46,7 +45,8 @@ class LikeListFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
     private var productDTO: MutableList<LikeListProductDTO>? = null
-
+    private lateinit var callback: OnBackPressedCallback
+    private var token=""
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
@@ -54,13 +54,20 @@ class LikeListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var pref=mainActivity.getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
-        var token= pref?.getString("token","null").toString()
+        token= pref?.getString("token","null").toString()
 
         MyPageService().getLikeList(token, ProductCallback())
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(2)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
     }
 
     override fun onCreateView(
@@ -77,12 +84,16 @@ class LikeListFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId
                     ?.let {
-                        ProductService().getProductDetail(it,ProductDetailCallback())
+                        ProductService().getProductDetail(token,it,ProductDetailCallback())
                     }
             }
         })
 
         return binding.root
+    }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
     inner class ProductDetailCallback: RetrofitCallback<ProductDetailDTO> {
@@ -130,4 +141,5 @@ class LikeListFragment : Fragment() {
             Log.d(TAG, "onResponse: Error Code $code")
         }
     }
+
 }

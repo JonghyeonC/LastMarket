@@ -2,7 +2,6 @@
     <string name="app_name">LastMarket</string>
     <string name="title_enter">LAST\nMARKET</string>
     <string name="subtitle"><b>당신</b>의 <b>라이프스타일</b>을\n알려주세요!</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="info">경매가 낙찰되지 않는다면 경매 시작가가 즉시 구매가로 등록됩니다.</string>
     <string name="instant_price_info">구매가는 경매전에도 즉시 구매를 할 수있는 가격입니다.</string>
@@ -23,8 +22,8 @@
     <string name="cancel_dialog">CANCEL</string>
     <string name="no_internet_connection">NO INTERNET CONNECTION, PLEASE CHECK YOUR CONNECTION</string>
     <string-array name="review">
-        <item>😄좋았어요</item>
-        <item>😶보통이에요</item>
-        <item>😣별로였어요</item>
+        <item>좋았어요</item>
+        <item>보통이에요</item>
+        <item>별로였어요</item>
     </string-array>
 </resources>

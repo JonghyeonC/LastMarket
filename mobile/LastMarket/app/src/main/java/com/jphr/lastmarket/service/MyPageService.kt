@@ -39,8 +39,8 @@ class MyPageService {
             }
         })
     }
-    fun insertUserProfile(token:String, images: MultipartBody.Part){
-        RetrofitUtil.myPageService.insertUserProfile(token,images).enqueue(object : Callback<Unit> {
+    fun insertUserProfile(token:String, image: MultipartBody.Part){
+        RetrofitUtil.myPageService.insertUserProfile(token,image).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
@@ -62,10 +62,10 @@ class MyPageService {
             }
         })
     }
-    fun getSellList(callback: RetrofitCallback<MutableList<TradeDTO>>){
-        val productInterface: Call<MutableList<TradeDTO>> = RetrofitUtil.myPageService.getSellList()
-        productInterface.enqueue(object : Callback<MutableList<TradeDTO>> {
-            override fun onResponse(call: Call<MutableList<TradeDTO>>, response: Response<MutableList<TradeDTO>>) {
+    fun getSellList(token:String,callback: RetrofitCallback<tradeListDTO>){
+        val productInterface: Call<tradeListDTO> = RetrofitUtil.myPageService.getSellList(token,1)
+        productInterface.enqueue(object : Callback<tradeListDTO> {
+            override fun onResponse(call: Call<tradeListDTO>, response: Response<tradeListDTO>) {
                 val res = response.body()
                 if(response.code() == 200){
                     if (res != null) {
@@ -83,15 +83,15 @@ class MyPageService {
                 }
             }
 
-            override fun onFailure(call: Call<MutableList<TradeDTO>>, t: Throwable) {
+            override fun onFailure(call: Call<tradeListDTO>, t: Throwable) {
                 callback.onError(t)
             }
         })
     }
-    fun getBuyList(callback: RetrofitCallback<MutableList<TradeDTO>>){
-        val productInterface: Call<MutableList<TradeDTO>> = RetrofitUtil.myPageService.getBuyList()
-        productInterface.enqueue(object : Callback<MutableList<TradeDTO>> {
-            override fun onResponse(call: Call<MutableList<TradeDTO>>, response: Response<MutableList<TradeDTO>>) {
+    fun getBuyList(token:String,callback: RetrofitCallback<tradeListDTO>){
+        val productInterface: Call<tradeListDTO> = RetrofitUtil.myPageService.getBuyList(token,1)
+        productInterface.enqueue(object : Callback<tradeListDTO> {
+            override fun onResponse(call: Call<tradeListDTO>, response: Response<tradeListDTO>) {
                 val res = response.body()
                 if(response.code() == 200){
                     if (res != null) {
@@ -109,7 +109,7 @@ class MyPageService {
                 }
             }
 
-            override fun onFailure(call: Call<MutableList<TradeDTO>>, t: Throwable) {
+            override fun onFailure(call: Call<tradeListDTO>, t: Throwable) {
                 callback.onError(t)
             }
         })

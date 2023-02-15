@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.auth0.android.jwt.JWT
 import com.google.android.material.appbar.MaterialToolbar
@@ -151,21 +153,63 @@ class MainActivity : AppCompatActivity() {
                 0->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProductWithSort("BOOK",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    ProductService().getProductWithSort("MOVE",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
                 1->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProductWithSort("CAMPING",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    ProductService().getProductWithSort("COOK",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
                 2->{
                     menuItem.isChecked = true
                     title= menuItem.title as String
-                    ProductService().getProductWithSort("BOOK",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    ProductService().getProductWithSort("EAT",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                3->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("REST",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                4->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("GODLIFE",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                5->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("HOBBY",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                6->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("EXERCISE",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                7->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("CLEAN",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
+                    drawerLayout.close()
+                    true
+                }
+                8->{
+                    menuItem.isChecked = true
+                    title= menuItem.title as String
+                    ProductService().getProductWithSort("STYLING",null,cityData,"favoriteCnt","DEFAULT","0",ProductCallback(),false,null)
                     drawerLayout.close()
                     true
                 }
@@ -188,8 +232,9 @@ class MainActivity : AppCompatActivity() {
             .setOnEditorActionListener { v, actionId, event ->
                 searchBar.text = searchView.text
                 searchView.hide()
+
                 ProductService().getProductWithSort("",null,cityData,"favoriteCnt","DEFAULT","1",ProductCallback(),true,searchView.text.toString())
-                searchView.editText.text=null
+                Log.d(TAG, "onResume: ${searchView.text.toString()}")
                 false
             }
     }
@@ -238,6 +283,9 @@ class MainActivity : AppCompatActivity() {
             12->{
                 transaction.replace(R.id.fragmentContainer,SellListFragment()).commit()
             }
+            13->{
+                transaction.replace(R.id.fragmentContainer,BuyListFragment()).commit()
+            }
         }
     }
 
@@ -250,7 +298,10 @@ class MainActivity : AppCompatActivity() {
                     if (word != null) {
                         mainViewModel.setWord(word)
                     }
+                    refreshFragment(SearchFragment(),supportFragmentManager)
                     changeFragment(4)
+                    searchView.editText.text=null
+
                 }
                 else {
                     mainViewModel.setProduct(responseData.content)
@@ -300,7 +351,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
+        var ft: FragmentTransaction = fragmentManager.beginTransaction()
+        ft.detach(fragment).attach(fragment).commit()
+    }
 
 
 }

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.jphr.lastmarket.activity.LiveBuyActivity">
-
 
     <LinearLayout
         android:id="@+id/views_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="8dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,8 +23,7 @@
         <FrameLayout
             android:id="@+id/peer_container"
             android:layout_width="match_parent"
-            android:layout_height="212dp"
-            android:layout_marginBottom="5dp">
+            android:layout_height="212dp">
 
             <TextView
                 android:id="@+id/main_participant"
@@ -40,38 +40,64 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="394dp"
-        android:layout_height="459dp"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="18dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/views_container">
+        >
 
         <TextView
             android:id="@+id/Title"
             style="@style/result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:fontFamily="@font/gmarket_sans_ttf_bold"
             android:text="Signiture Ball Cap" />
 
-        <TextView
-            android:id="@+id/subTitle"
-            style="@style/live_subtitle"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gmarket_sans_ttf_medium"
-            android:text="권주현님이 방송중입니다" />
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+            <TextView
+                android:id="@+id/nickname"
+                style="@style/live_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="권주현" />
+
+            <TextView
+                android:id="@+id/subTitle"
+                style="@style/live_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="님이 방송중입니다" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
             android:background="@drawable/rectangle_1">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="15dp" />
+
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,13 +146,26 @@
                     android:fontFamily="@font/gmarket_sans_ttf_medium"
                     android:text="현재 최고가" />
 
-                <TextView
-                    android:id="@+id/topPriceTv"
-                    style="@style/result"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/gmarket_sans_ttf_bold"
-                    android:text="21,000원" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/topPriceTv"
+                        style="@style/result"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gmarket_sans_ttf_bold"
+                        android:text="21,000" />
+
+                    <TextView
+                        style="@style/result"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gmarket_sans_ttf_bold"
+                        android:text="원" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView7"
@@ -136,14 +175,27 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/gmarket_sans_ttf_medium"
                     android:text="경매 시작가" />
-
-                <TextView
-                    android:id="@+id/startPriceTv"
-                    style="@style/result"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/gmarket_sans_ttf_bold"
-                    android:text="10,000원" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/startPriceTv"
+                        style="@style/result"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gmarket_sans_ttf_bold"
+                        android:text="10,000" />
+
+                    <TextView
+                        style="@style/result"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gmarket_sans_ttf_bold"
+                        android:text="원" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -172,4 +224,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

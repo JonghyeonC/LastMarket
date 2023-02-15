@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue3"
-    tools:context=".JoinActivity" >
-<!--TODO:APPBAR 지우기-->
+    android:background="@color/blue2"
+    tools:context=".activity.JoinActivity" >
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -22,8 +21,8 @@
 
     <ImageButton
         android:id="@+id/kakao"
-        android:layout_width="196dp"
-        android:layout_height="50dp"
+        android:layout_width="190dp"
+        android:layout_height="48dp"
         android:layout_marginTop="68dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -41,35 +40,5 @@
         app:layout_constraintTop_toBottomOf="@+id/kakao"
         tools:ignore="MissingConstraints" />
 
-<!--        <LinearLayout-->
-<!--        android:id="@+id/naver"-->
-<!--        android:layout_width="311dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:background="#1EC800"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="horizontal"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/kakao"-->
-<!--        >-->
 
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView2"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_marginRight="30dp"-->
-<!--            android:src="@drawable/naver_icon" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/tv_naver"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Login with Naver"-->
-<!--            android:textColor="#ffffff"-->
-<!--            android:textStyle="bold"-->
-<!--/>-->
-
-
-<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,12 +26,12 @@ import java.security.SecureRandom
 private const val TAG = "JoinActivity"
 
 class JoinActivity : AppCompatActivity() {
-    lateinit var binding:ActivityJoinBinding
-    lateinit var naverData:SharedPreferences
-    var saveNaverLoginData=""
+    lateinit var binding: ActivityJoinBinding
+    lateinit var naverData: SharedPreferences
+    var saveNaverLoginData = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityJoinBinding.inflate(layoutInflater)
+        binding = ActivityJoinBinding.inflate(layoutInflater)
         setContentView(binding.root)
         var kakao: ImageButton = findViewById(R.id.kakao)
         var naver: NidOAuthLoginButton = findViewById(R.id.naver)
@@ -43,41 +43,26 @@ class JoinActivity : AppCompatActivity() {
         kakao.setOnClickListener {
 //                var token=generateState()
 //                kakao_save(token)
-                var str="https://i8d206.p.ssafy.io/oauth2/authorization/kakao"
-                var intent=Intent(this@JoinActivity,WebViewActivity::class.java)
-                intent.putExtra("kakao",str)
-                startActivity(intent)
+            var str = "https://i8d206.p.ssafy.io/oauth2/authorization/kakao"
+            var intent = Intent(this@JoinActivity, WebViewActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+            intent.putExtra("kakao", str)
+            startActivity(intent)
 
         }
 
-        naver.setOnClickListener{
+        naver.setOnClickListener {
 //                var token=generateState()
 //                naver_save(token)
-                var str="https://i8d206.p.ssafy.io/oauth2/authorization/naver"
-                var intent=Intent(this@JoinActivity,WebViewActivity::class.java)
-                intent.putExtra("naver",str)
-                startActivity(intent)
+            var str = "https://i8d206.p.ssafy.io/oauth2/authorization/naver"
+            var intent = Intent(this@JoinActivity, WebViewActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+
+            intent.putExtra("naver", str)
+            startActivity(intent)
         }
     }
 
-
-    fun changeActivity(){
-        var intent=Intent(this, UserInfoActivity::class.java)
-        startActivity(intent)
-    }
-//    fun generateState():String{
-//        var random: SecureRandom = SecureRandom()
-//        return BigInteger(130,random).toString(32)
-//    }
-//
-//    fun naver_save(token:String){
-//        var editor :SharedPreferences.Editor = naverData.edit()
-//
-//        editor.putString("NAVER_TOKEN",token);
-//    }
-//    fun load(){
-//        saveNaverLoginData= naverData.getString("NAVER_TOKEN","").toString()
-//    }
 }
 
 

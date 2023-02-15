@@ -15,7 +15,7 @@ import java.util.*
 
 private const val TAG = "LatestOrderAdapter_싸피"
 class TradeListAdapter(val context: Context) :RecyclerView.Adapter<TradeListAdapter.ProductListHolder>(){
-    var list : MutableList<TradeDTO>? =null
+    var list : tradeListDTO? =null
 
     inner class ProductListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val image = itemView.findViewById<ImageView>(R.id.iv)
@@ -44,7 +44,7 @@ class TradeListAdapter(val context: Context) :RecyclerView.Adapter<TradeListAdap
 //        holder.bind()
 
         holder.apply {
-            list?.get(position)?.let { bindInfo(it) }
+            list?.trades?.get(position)?.let { bindInfo(it) }
             //클릭연결
             itemView.setOnClickListener{
                 itemClickListner.onClick(it, position)
@@ -53,7 +53,7 @@ class TradeListAdapter(val context: Context) :RecyclerView.Adapter<TradeListAdap
     }
 
     override fun getItemCount(): Int {
-        return 10.coerceAtMost(list!!.size)
+        return 10.coerceAtMost(list!!.trades.size)
     }
 
     //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.

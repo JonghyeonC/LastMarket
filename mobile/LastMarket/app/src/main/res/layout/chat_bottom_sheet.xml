@@ -2,26 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/blue3"
+    android:background="@drawable/radius"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:id="@+id/drag_handle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/trade_sucess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/circle2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drag_handle"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/check" />
 
     <TextView
@@ -41,9 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/circle2"
         app:layout_constraintStart_toEndOf="@+id/trade_sucess"
-        app:layout_constraintTop_toBottomOf="@+id/drag_handle"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/clear" />
 
 
@@ -58,5 +52,14 @@
         android:text="거래 파결"
         app:layout_constraintStart_toEndOf="@+id/trade_sucess_tv"
         app:layout_constraintTop_toBottomOf="@+id/trade_fail" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="           "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trade_sucess_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

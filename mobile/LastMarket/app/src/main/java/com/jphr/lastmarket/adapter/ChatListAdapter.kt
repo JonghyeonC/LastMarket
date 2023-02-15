@@ -21,22 +21,11 @@ class ChatListAdapter(val context: Context) :RecyclerView.Adapter<ChatListAdapte
     var list : MutableList<ChatListDTO>? =null
 
     inner class ChatListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val image = itemView.findViewById<ImageView>(R.id.profileImage)
         val nickname: TextView = itemView.findViewById(R.id.Nickname)
         val lastChat: TextView = itemView.findViewById(R.id.last_chat)
 
 
         fun bindInfo(chat: ChatListDTO){
-            if(image==null){
-                if (image != null) {
-                    Glide.with(itemView)
-                        .load(R.drawable.default_user_image)
-                        .into(image)
-                }
-            }
-            Glide.with(itemView)
-                .load("${chat.otherImageUrl}")
-                .into(image)
             nickname.text=chat.otherName
             lastChat.text=chat.lastChat.msg
 

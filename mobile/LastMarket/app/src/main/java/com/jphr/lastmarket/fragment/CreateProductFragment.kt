@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.*
@@ -44,7 +45,6 @@ import java.time.LocalDateTime
 import java.util.*
 
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -57,7 +57,6 @@ private const val ARG_PARAM2 = "param2"
 private const val TAG = "CreateProductFragment"
 
 class CreateProductFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var isEdit: String? = null
     private var productId: Long = 0
 
@@ -74,6 +73,7 @@ class CreateProductFragment : Fragment() {
     var lifeStyleList = mutableListOf<String>()
     var imageUriList = mutableListOf<Uri>()
     var imageMultipartList = mutableListOf<MultipartBody.Part>()
+    private lateinit var callback: OnBackPressedCallback
 
     var year = 0
     var month = 0
@@ -86,6 +86,13 @@ class CreateProductFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(1)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -293,7 +300,6 @@ class CreateProductFragment : Fragment() {
                         var jsonBody =
                             RequestBody.create("application/json".toMediaTypeOrNull(), jsonString)
                         Log.d(TAG, "onCreateView: $product")
-                        //TODO :EDIT PRODUCCT
                         ProductService().editProudct(token, productId,jsonBody, imageMultipartList)
                         mainActivity.changeFragment(1)
                     } catch (e: Exception) {
@@ -423,6 +429,10 @@ class CreateProductFragment : Fragment() {
 
         return binding.root
     }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
 
     // 절대경로 변환
     fun absolutelyPath(path: Uri?, context: Context): String {
@@ -509,23 +519,4 @@ class CreateProductFragment : Fragment() {
     }
 
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance ofE
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CreateProductFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CreateProductFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

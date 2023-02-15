@@ -13,30 +13,7 @@ import retrofit2.Response
 
 class ProductService {
     private val TAG = "ProductService"
-    var searchFragment=SearchFragment()
 
-
-//    fun getProduct(word:String?, category: String?, callback: RetrofitCallback<ProductDTO>,issearch:Boolean){
-//        val productInterface: Call<ProductDTO> = RetrofitUtil.ProductService.getProductList(word,category)
-//        productInterface.enqueue(object : Callback<ProductDTO> {
-//            override fun onResponse(call: Call<ProductDTO>, response: Response<ProductDTO>) {
-//                val res = response.body()
-//                Log.d(TAG, "onResponse res 값: $res")
-//                if(response.code() == 200){
-//                    if (res != null) {
-//                        callback.onSuccess(response.code(), res,issearch,word,category)
-//                    }
-//                    Log.d(TAG, "onResponse: $res")
-//                } else {
-//                    callback.onFailure(response.code())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ProductDTO>, t: Throwable) {
-//                callback.onError(t)
-//            }
-//        })
-//    }
     fun getProductWithSort(
     category: String?,
     lifestyle:String?,
@@ -55,6 +32,8 @@ class ProductService {
                 Log.d(TAG, "onResponse res 값: $res")
                 if(response.code() == 200){
                     if (res != null) {
+                        Log.d(TAG, "onResponse: $word")
+
                         Log.d(TAG, "onResponse: ${response}")
                         callback.onSuccess(response.code(), res,issearch,word,category)
 
@@ -100,8 +79,8 @@ class ProductService {
             }
         })
     }
-    fun getProductDetail(productId:Long,callback:RetrofitCallback<ProductDetailDTO>){
-        RetrofitUtil.productService.getProudctDetail(productId).enqueue(object : Callback<ProductDetailDTO> {
+    fun getProductDetail(token: String,productId:Long,callback:RetrofitCallback<ProductDetailDTO>){
+        RetrofitUtil.productService.getProudctDetail(token,productId).enqueue(object : Callback<ProductDetailDTO> {
             override fun onResponse(call: Call<ProductDetailDTO>, response: Response<ProductDetailDTO>) {
                 val res = response.body()
                 Log.d(TAG, "Detail_onResponse: ${res}")
@@ -124,7 +103,7 @@ class ProductService {
             }
         })
     }
-    fun pullProduct(token:String,productId: Long):Boolean{
+    fun pullProduct(token:String,productId: Long,callback: RetrofitCallback<Unit>):Boolean{
         var issucess=false
 
         RetrofitUtil.productService.pullProduct(token,productId).enqueue(object : Callback<Unit> {
@@ -134,8 +113,10 @@ class ProductService {
                 if (response.isSuccessful) {
                     if (res != null) {
                         Log.d(TAG, "Detail_onResponse : ${response.code()}")
+                        callback.onSuccess(response.code(), res,false,null,null)
 
                         issucess=true
+                        Log.d(TAG, "onResponse: $issucess")
                         true
                     }
                 } else {
@@ -275,27 +256,27 @@ class ProductService {
             }
         })
     }
-    fun changeFinish(token:String,productId: Long){
-        RetrofitUtil.productService.changeFinish(token,productId).enqueue(object : Callback<Unit> {
-            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                val res = response.body()
-                Log.d(TAG, "Change_onResponse: ${res}")
-                if (response.isSuccessful) {
-                    if (res != null) {
-                        Log.d(TAG, "Change_onResponse : ${response.code()}")
-                        true
-                    }
-                } else {
-                    Log.d(TAG, "Change_onResponse:false :${response.code()} ")
-                    Log.d(TAG, "onResponse: ${response.message()}")
-
-                    false
-                }
-            }
-            override fun onFailure(call: Call<Unit>, t: Throwable) {
-                Log.d(TAG, "onResponse:false ${t.message}")
-
-            }
-        })
-    }
+//    fun changeFinish(token:String,productId: Long){
+//        RetrofitUtil.productService.changeFinish(token,productId).enqueue(object : Callback<Unit> {
+//            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+//                val res = response.body()
+//                Log.d(TAG, "Change_onResponse: ${res}")
+//                if (response.isSuccessful) {
+//                    if (res != null) {
+//                        Log.d(TAG, "Change_onResponse : ${response.code()}")
+//                        true
+//                    }
+//                } else {
+//                    Log.d(TAG, "Change_onResponse:false :${response.code()} ")
+//                    Log.d(TAG, "onResponse: ${response.message()}")
+//
+//                    false
+//                }
+//            }
+//            override fun onFailure(call: Call<Unit>, t: Throwable) {
+//                Log.d(TAG, "onResponse:false ${t.message}")
+//
+//            }
+//        })
+//    }
 }

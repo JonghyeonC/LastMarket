@@ -179,8 +179,8 @@ function Discription(props) {
             :
             <div className='likeBtn'>
               {
-                `${productDetail.favorite}` === true ?
-                <div>찜 완료</div> :
+                productDetail.favorite === true ?
+                <div>찜 O</div> :
                 <div>찜 X</div>
               }
               <div>{productDetail.favoriteCnt}</div>

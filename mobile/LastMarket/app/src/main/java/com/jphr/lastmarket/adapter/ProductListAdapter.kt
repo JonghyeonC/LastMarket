@@ -26,7 +26,7 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
         val liveImage = itemView.findViewById<ImageView>(R.id.live_image)
         val liveText=itemView.findViewById<TextView>(R.id.live_text)
         fun bindInfo(product: ProductX){
-            //TODO:image삽입하기
+
             Glide.with(itemView)
                 .load("${product.imgURI}")
                 .into(image)
@@ -61,7 +61,7 @@ class ProductListAdapter(val context: Context) :RecyclerView.Adapter<ProductList
     }
 
     override fun getItemCount(): Int {
-        return 10.coerceAtMost(list!!.size)
+        return list!!.size
     }
 
     //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.

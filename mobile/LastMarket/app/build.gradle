@@ -114,4 +114,8 @@ dependencies {
 // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 //    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
+    //https://github.com/DanielMartinus/Konfetti
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
+
+
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +27,6 @@ import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -36,10 +36,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 private const val TAG = "MainFragment"
 
 class MainFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentMainBinding
@@ -49,7 +49,7 @@ class MainFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
-
+    var token =""
     val PREFERENCES_NAME = "user_info"
     var productList1 : MutableList<ProductX>?=null
     var productList2 : MutableList<ProductX>? =null
@@ -61,6 +61,7 @@ class MainFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
+
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,13 +82,13 @@ class MainFragment : Fragment() {
         var pref:SharedPreferences?= getPreferences(requireContext())
         var city= pref?.getString("city","null")
         var cityData=pref?.getString("city_data","null")
-
+        token = pref?.getString("token", "")!!
         var lifestyle= pref?.getString("lifestyle","null")
 
 
-        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","AFTERBROADCAST","0",ProductSortCallback1(),false,null)
+        ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","","0",ProductSortCallback1(),false,null)
         ProductService().getProductWithSort("",lifestyle,cityData,"favoriteCnt,DESC","ONBROADCAST","0",ProductSortCallback2(),false,null)
-        ProductService().getProductWithSort("",lifestyle,cityData,"createdDateTime,DESC","","0",ProductSortCallback3(),false,null)
+        ProductService().getProductWithSort("",lifestyle,cityData,"lastModifiedDateTime,DESC","","0",ProductSortCallback3(),false,null)
 
 
 
@@ -97,33 +98,10 @@ class MainFragment : Fragment() {
         binding.lifestyle.text=lifestyle
         binding.lifestyle2.text=lifestyle
 
-        binding.button.setOnClickListener{
-            Log.d(TAG, "onCreateView: ")
-            var intent = Intent(activity,LiveBuyActivity::class.java)
-            startActivity(intent)
-        }
+
         return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MainFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MainFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 
     inner class ProductSortCallback1: RetrofitCallback<ListDTO> {
         override fun onSuccess(code: Int, responseData: ListDTO, issearch:Boolean, word:String?, category:String?) {
@@ -221,7 +199,7 @@ class MainFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId
                     ?.let {
-                        ProductService().getProductDetail(it,ProductDetailCallback())
+                        ProductService().getProductDetail(token,it,ProductDetailCallback())
                     }
 
             }
@@ -230,7 +208,7 @@ class MainFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 productListAdapter2.list?.get(position)?.productId
                     ?.let {
-                        ProductService().getProductDetail(it,ProductDetailCallback())
+                        ProductService().getProductDetail(token,it,ProductDetailCallback())
                     }
 
             }
@@ -239,7 +217,7 @@ class MainFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 productListAdapter3.list?.get(position)?.productId
                     ?.let {
-                        ProductService().getProductDetail(it,ProductDetailCallback())
+                        ProductService().getProductDetail(token,it,ProductDetailCallback())
                     }
 
             }
@@ -270,4 +248,5 @@ class MainFragment : Fragment() {
 
 
     }
+
 }

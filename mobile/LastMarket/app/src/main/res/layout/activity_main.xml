@@ -8,12 +8,14 @@
     tools:context=".activity.MainActivity">
 
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:background="@color/background_grey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -30,21 +32,22 @@
                 app:navigationIcon="@drawable/hamberger"
 
                 />
+
             <com.google.android.material.search.SearchBar
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:hint="hint" />
+                android:hint="필요한 상품을 찾아보세요"
+                android:visibility="gone" />
             <!--fit systemwindow윈도우 창이랑 자연스럽게 이어지게-->
         </com.google.android.material.appbar.AppBarLayout>
+
         <com.google.android.material.search.SearchView
+            android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="hint"
-            app:layout_anchor="@id/search_bar"
-            android:id="@+id/search_view"
-            >
+            android:hint="필요한 상품을 찾아보세요"
+            app:layout_anchor="@id/search_bar">
             <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
 
         </com.google.android.material.search.SearchView>
@@ -60,10 +63,10 @@
             <FrameLayout
                 android:id="@+id/fragmentContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
+                android:layout_height="match_parent"></FrameLayout>
 
         </androidx.core.widget.NestedScrollView>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
             android:layout_width="wrap_content"
@@ -71,7 +74,7 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:backgroundTint="@color/blue3"
-            app:srcCompat="@drawable/pen"/>
+            app:srcCompat="@drawable/pen" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

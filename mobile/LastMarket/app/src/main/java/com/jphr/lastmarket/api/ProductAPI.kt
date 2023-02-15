@@ -28,7 +28,7 @@ interface ProductAPI {
                         @Part imgs: MutableList<MultipartBody.Part>):Call<String>
 
     @GET("api/product/{productId}")
-    fun getProudctDetail(@Path("productId") productId:Long):Call<ProductDetailDTO>
+    fun getProudctDetail(@Header("Authentication") token: String,@Path("productId") productId:Long):Call<ProductDetailDTO>
 
     @PUT("api/pullup/{productId}")
     fun pullProduct(@Header("Authentication") token: String,
@@ -58,7 +58,7 @@ interface ProductAPI {
     fun changeOnBoradCast(@Header("Authentication") token: String,
                           @Path("productId") productId:Long):Call<Unit>
 
-    @GET("api/product/{productId}/finish")
-    fun changeFinish(@Header("Authentication") token: String,
-                          @Path("productId") productId:Long):Call<Unit>
+//    @GET("api/product/{productId}/finish")
+//    fun changeFinish(@Header("Authentication") token: String,
+//                          @Path("productId") productId:Long):Call<Unit>
 }

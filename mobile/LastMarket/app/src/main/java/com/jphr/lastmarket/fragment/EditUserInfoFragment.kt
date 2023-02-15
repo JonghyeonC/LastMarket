@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,7 +33,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -44,7 +44,6 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "EditUserInfoFragment"
 class EditUserInfoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding:FragmentEditUserInfoBinding
@@ -58,9 +57,18 @@ class EditUserInfoFragment : Fragment() {
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
+    private lateinit var callback: OnBackPressedCallback
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(2)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +103,7 @@ class EditUserInfoFragment : Fragment() {
                             val requestFile =
                                 RequestBody.create("image/*".toMediaTypeOrNull(), file)
                             val body =
-                                MultipartBody.Part.createFormData("imgs", file.name, requestFile)
+                                MultipartBody.Part.createFormData("image", file.name, requestFile)
 
                             imageMultipartList.add(body)
                             imageUriList.add(imageUri)
@@ -118,7 +126,7 @@ class EditUserInfoFragment : Fragment() {
                                 val requestFile =
                                     RequestBody.create("image/*".toMediaTypeOrNull(), file)
                                 val body = MultipartBody.Part.createFormData(
-                                    "imgs",
+                                    "image",
                                     file.name,
                                     requestFile
                                 )
@@ -160,6 +168,7 @@ class EditUserInfoFragment : Fragment() {
             var token = prefs.getString("token", "")!!
             Log.d("TAG", "onCreateView: $imageMultipartList")
             MyPageService().insertUserProfile(token, imageMultipartList[0])
+            mainActivity.changeFragment(2)
         }
         return binding.root
     }
@@ -190,23 +199,9 @@ class EditUserInfoFragment : Fragment() {
             )
         }
     }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditUserInfoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditUserInfoFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
+
 }

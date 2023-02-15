@@ -39,7 +39,7 @@ class UserInfoActivity : AppCompatActivity() {
     lateinit var userLifeStyle: String
     lateinit var userCategory: String
     lateinit var userAddress: String
-
+    var issearch:Boolean =false
     var display_address: String = ""
     var add: String = ""
 
@@ -82,7 +82,11 @@ class UserInfoActivity : AppCompatActivity() {
 
             Log.d(TAG, "onCreate: $lifeStyleList")
 
-
+            var permissions = arrayOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
             binding.search.setOnClickListener {
                 if (ActivityCompat.checkSelfPermission(
                         this,
@@ -101,8 +105,9 @@ class UserInfoActivity : AppCompatActivity() {
                     ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
 
                 } else {
-                    if (checkPermissionForLocation(this)) {
+                    if (checkPermissionForLocation(this)||!issearch) {
                         Log.d(TAG, "onCreate: if2  ")
+                        issearch=true
                         startLocationUpdates()
                     }
                 }
@@ -111,9 +116,8 @@ class UserInfoActivity : AppCompatActivity() {
             binding.save.setOnClickListener {
                 userName = binding.userName.text.toString()
                 userLifeStyle = binding.lifestyleField.editText?.text.toString()
-//            userCategory = binding.userCategory.selectedItem as String
                 userAddress = binding.address.text as String
-                var categories = mutableListOf<String>("CAMPING", "BOOK")
+                var categories = mutableListOf<String>()
                 var userinfo = UserInfoDTO(userAddress, categories, userLifeStyle, userName)
                 Log.d(TAG, "onCreate: $userinfo")
 
@@ -130,10 +134,13 @@ class UserInfoActivity : AppCompatActivity() {
 
                 var intent = Intent(this@UserInfoActivity, MainActivity::class.java)
                 startActivity(intent)
+                finish()
+
             }
         }else{
             var intent = Intent(this@UserInfoActivity, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }

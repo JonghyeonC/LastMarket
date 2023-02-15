@@ -16,7 +16,7 @@ class ChatAdapter(val context: Context) :RecyclerView.Adapter<ChatAdapter.ChatLi
 
     inner class ChatListHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bindInfo(chat: ChatLog){
-            Log.d(TAG, "bindInfo(chaList):  ${list}")
+            Log.d(TAG, "bindInfo(chaList):  ${chat}")
             if(chat.sender==myId.toString()){//내가 보낸 채팅
                 binding.my.visibility=View.VISIBLE
                 binding.my.text=chat.msg
@@ -44,25 +44,12 @@ class ChatAdapter(val context: Context) :RecyclerView.Adapter<ChatAdapter.ChatLi
         holder.apply {
             list?.chatLogs?.get(position)?.let { bindInfo(it) }
             //클릭연결
-//            itemView.setOnClickListener{
-//                itemClickListner.onClick(it, position)
-//            }
+
         }
     }
 
     override fun getItemCount(): Int {
-        return 10.coerceAtMost(list!!.chatLogs.size)
+        return list!!.chatLogs.size
     }
-
-    //클릭 인터페이스 정의 사용하는 곳에서 만들어준다.
-//    interface ItemClickListener {
-//        fun onClick(view: View,  position: Int)
-//    }
-//    //클릭리스너 선언
-//    private lateinit var itemClickListner: ItemClickListener
-//    //클릭리스너 등록 매소드
-//    fun setItemClickListener(itemClickListener: ItemClickListener) {
-//        this.itemClickListner = itemClickListener
-//    }
 
 }

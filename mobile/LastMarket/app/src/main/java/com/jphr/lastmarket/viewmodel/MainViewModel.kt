@@ -1,5 +1,7 @@
 package com.jphr.lastmarket.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jphr.lastmarket.dto.ChatDTO
 import com.jphr.lastmarket.dto.Product
@@ -31,7 +33,8 @@ class MainViewModel: ViewModel() {
         return productDetail
     }
     fun setProduct(product:MutableList<ProductX>){
-        productList=product
+        Log.d(TAG, "setProduct: $product")
+        productList =product
     }
     fun getProduct(): MutableList<ProductX>? {
         return productList
@@ -39,19 +42,21 @@ class MainViewModel: ViewModel() {
     fun setCategory(category:String){
         this.category=category
     }
+
     fun getCategory(): String {
         return category
     }
-    fun setWord(word:String){
-        this.word=word
-    }
-    fun getWord(): String {
-        return word
-    }
+
     fun setChatDTO(chatDTO:ChatDTO){
        this.chatDTO=chatDTO
     }
     fun getChatDTO() :ChatDTO?{
         return chatDTO
+    }
+    fun getWord(): String? {
+        return word
+    }
+    fun setWord(word:String){
+        this.word=word
     }
 }

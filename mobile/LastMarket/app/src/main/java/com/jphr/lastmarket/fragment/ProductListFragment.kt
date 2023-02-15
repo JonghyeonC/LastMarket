@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,7 +25,6 @@ import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -36,7 +36,6 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "ProductListFragment"
 class ProductListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var productDTO: MutableList<ProductX>? = null
     private var category: String? = null
     private lateinit var binding: FragmentProductListBinding
@@ -44,9 +43,19 @@ class ProductListFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
     lateinit var cityData:String
+    private lateinit var callback: OnBackPressedCallback
+    var token=""
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(1)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +63,7 @@ class ProductListFragment : Fragment() {
         category=mainViewModel.getCategory()
         var pref=mainActivity.getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         cityData= pref?.getString("city_data","null").toString()
-
+        token=pref?.getString("token","null")!!
 //        arguments?.let {
 //            productDTO = it.getSerializable("products") as ProductDTO
 //            category = it.getString("category")
@@ -89,7 +98,7 @@ class ProductListFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 try {
                     if (binding.spinner.getItemAtPosition(position).toString() == "최신순"){
-                        ProductService().getProductWithSort(category,null,cityData,"createdDateTime,DESC","","0",ProductCallback(),false,null)
+                        ProductService().getProductWithSort(category,null,cityData,"lastModifiedDateTime,DESC","","0",ProductCallback(),false,null)
                         Log.d(TAG, "onItemSelected: 최신순")
                     }else if(binding.spinner.getItemAtPosition(position).toString() =="찜순"){
                         Log.d(TAG, "onItemSelected: 찜순")
@@ -116,7 +125,7 @@ class ProductListFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 productListAdapter.list?.get(position)?.productId
                     ?.let {
-                        ProductService().getProductDetail(it,ProductDetailCallback())
+                        ProductService().getProductDetail(token,it,ProductDetailCallback())
                     }
             }
         })
@@ -124,25 +133,7 @@ class ProductListFragment : Fragment() {
         return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProductListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
     inner class ProductDetailCallback: RetrofitCallback<ProductDetailDTO> {
 
         override fun onSuccess(
@@ -196,5 +187,9 @@ class ProductListFragment : Fragment() {
             Log.d(TAG, "onResponse: Error Code $code")
         }
 
+    }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 }

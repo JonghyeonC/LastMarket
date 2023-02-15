@@ -3,6 +3,7 @@ package com.jphr.lastmarket.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -99,6 +101,8 @@ public class LiveSellActivity extends AppCompatActivity {
     private Long productId;
     private Long sellerId;
     private Long startPrice;
+    private TextView title;
+    private TextView nickname;
     private TextView topPriceTv;
     private TextView startPriceTv;
     private LinearLayout exitLive;
@@ -133,13 +137,20 @@ public class LiveSellActivity extends AppCompatActivity {
         topPriceTv = findViewById(R.id.topPriceTv);
         exitLive = findViewById(R.id.exitLive);
         takePrice = findViewById(R.id.takePrice);
-
+        nickname = findViewById(R.id.nickname);
+        title = findViewById(R.id.Title);
 
         productId = getIntent().getLongExtra("productId", 0);
         session_name = productId.toString();
         sellerId = getIntent().getLongExtra("sellerId", 0);
         startPrice = getIntent().getLongExtra("startPrice", 0);
+        String nickname = getIntent().getStringExtra("sellerNickname").toString();
+        String title = getIntent().getStringExtra("title").toString();
+
         startPriceTv.setText(startPrice.toString());
+        this.nickname.setText(nickname);
+        this.title.setText(title);
+
 
         session_name = productId.toString();
 
@@ -150,7 +161,7 @@ public class LiveSellActivity extends AppCompatActivity {
         token = pref.getString("token", "null");
         userId = pref.getLong("user_id", 0);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         askForPermissions();
 
         initStomp();
@@ -164,6 +175,8 @@ public class LiveSellActivity extends AppCompatActivity {
                 Log.d(TAG, "onCreate: " + price);
                 Double tmp = Double.valueOf(price);
                 Long tmp2 = Long.valueOf(Math.round(tmp));
+
+                //TODO: 웹과 데이터 형 다른듯 경매하면 터짐
                 try {
                     viewModel.setNowPrice(tmp2);
                     nowBuyer=buyer;
@@ -217,7 +230,7 @@ public class LiveSellActivity extends AppCompatActivity {
 
                 Long price = viewModel.getNowPrice();
                 String priceToString = Long.toString(price);
-                ChatDTO dto = new ChatDTO("FINISH", nowBuyer, userId.toString(), priceToString, productId.toString(), userId.toString());
+                ChatDTO dto = new ChatDTO("FINISH_BROADCAST", nowBuyer, userId.toString(), priceToString, productId.toString(), userId.toString());
 
                 ObjectMapper mapper = new ObjectMapper();
                 try {
@@ -239,9 +252,24 @@ public class LiveSellActivity extends AppCompatActivity {
         exitLive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: 정말 나가시겠습니까 다이얼로그 띄우기
-                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                new AlertDialog.Builder(LiveSellActivity.this)
+                        .setTitle("정말로 종료하시겠습니까?")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                Intent intent=new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
+
+
             }
         });
 
@@ -436,32 +464,7 @@ public class LiveSellActivity extends AppCompatActivity {
         });
     }
 
-    //---------------다른 사용자 비디오 레이아웃-----------------
-//    public void createRemoteParticipantVideo(final RemoteParticipant remoteParticipant) {
-//        Handler mainHandler = new Handler(this.getMainLooper());
-//        Runnable myRunnable = () -> {
-//            View rowView = this.getLayoutInflater().inflate(R.layout.peer_video, null);
-//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            lp.setMargins(0, 0, 0, 20);
-//            rowView.setLayoutParams(lp);
-//            int rowId = View.generateViewId();
-//            rowView.setId(rowId);
-//            views_container.addView(rowView);
-//            SurfaceViewRenderer videoView = (SurfaceViewRenderer) ((ViewGroup) rowView).getChildAt(0);
-//            remoteParticipant.setVideoView(videoView);
-//            videoView.setMirror(false);
-//            EglBase rootEglBase = EglBase.create();
-//            videoView.init(rootEglBase.getEglBaseContext(), null);
-//            videoView.setZOrderMediaOverlay(true);
-//            View textView = ((ViewGroup) rowView).getChildAt(1);
-//            remoteParticipant.setParticipantNameText((TextView) textView);
-//            remoteParticipant.setView(rowView);
-//
-//            remoteParticipant.getParticipantNameText().setText(remoteParticipant.getParticipantName());
-//            remoteParticipant.getParticipantNameText().setPadding(20, 3, 20, 3);
-//        };
-//        mainHandler.post(myRunnable);
-//    }
+
 
     public void setRemoteMediaStream(MediaStream stream, final RemoteParticipant2 remoteParticipant) {
 //        final VideoTrack videoTrack = stream.videoTracks.get(0);
@@ -496,8 +499,22 @@ public class LiveSellActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        leaveSession();
-        super.onBackPressed();
+        new AlertDialog.Builder(LiveSellActivity.this)
+                .setTitle("정말로 종료하시겠습니까?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        leaveSession();
+                        exit();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
     }
 
     @Override
@@ -505,5 +522,7 @@ public class LiveSellActivity extends AppCompatActivity {
         leaveSession();
         super.onStop();
     }
-
+    public void exit() { // 종료
+        super.onBackPressed();
+    }
 }

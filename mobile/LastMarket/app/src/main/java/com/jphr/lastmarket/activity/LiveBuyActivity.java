@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -102,6 +104,8 @@ public class LiveBuyActivity extends AppCompatActivity {
     private Long startPrice;
     private TextView topPriceTv;
     private TextView startPriceTv;
+    private TextView title;
+    private TextView nickname;
     private Long userId;
     private ProductDetailDTO detailDTO;
     private Double tick;
@@ -129,6 +133,8 @@ public class LiveBuyActivity extends AppCompatActivity {
         ImageView postPrice=findViewById(R.id.postPrice);
         startPriceTv=findViewById(R.id.startPriceTv);
         topPriceTv=findViewById(R.id.topPriceTv);
+        nickname = findViewById(R.id.nickname);
+        title = findViewById(R.id.Title);
 
         productId=getIntent().getLongExtra("productId",0);
         Log.d(TAG, "onCreate: "+productId);
@@ -136,6 +142,11 @@ public class LiveBuyActivity extends AppCompatActivity {
         startPrice=getIntent().getLongExtra("startPrice",0);
         tick=startPrice*0.1;
         startPriceTv.setText(startPrice.toString());
+        String nickname = getIntent().getStringExtra("sellerNickname").toString();
+        String title = getIntent().getStringExtra("title").toString();
+
+        this.nickname.setText(nickname);
+        this.title.setText(title);
 
         detailDTO = (ProductDetailDTO) getIntent().getSerializableExtra("data");
         Log.d(TAG, "detailDTO: "+detailDTO);
@@ -148,7 +159,7 @@ public class LiveBuyActivity extends AppCompatActivity {
         userId=pref.getLong("user_id",0);
         token= pref.getString("token","null");
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         askForPermissions();
         initStomp();
 
@@ -162,8 +173,7 @@ public class LiveBuyActivity extends AppCompatActivity {
             JSONObject jsonObject=new JSONObject(str);
             String price=jsonObject.getString("message");
             String type=jsonObject.getString("chatType");
-            if(type.equals("FINISH")){
-
+            if(type.equals("FINISH_BROADCAST")){
                 Long tmp2=Long.parseLong(price);
                 ProductService productService=new ProductService();
                 Log.d(TAG, "mytopprice"+myTopPrice+"tmp2"+tmp2);
@@ -174,13 +184,15 @@ public class LiveBuyActivity extends AppCompatActivity {
                     intent.putExtra("isFromLive","true");
                     ChatDTO chatDTO=new ChatDTO(jsonObject.getString("chatType"),jsonObject.getString("buyer"),jsonObject.getString("seller"),jsonObject.getString("message"),jsonObject.getString("roomKey"),jsonObject.getString("sender"));
                     intent.putExtra("chatDTO",chatDTO);
-                    productService.changeFinish(token,productId);
+                    leaveSession();
                     startActivity(intent);
+
+                    onDestroy();
+
                 }else {//내가격이 최고가가 아닐때(미낙찰)
                     Log.d(TAG, "onCreate: 미낙찰");
 
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
-                    productService.changeFinish(token,productId);
                     startActivity(intent);
                 }
 
@@ -509,7 +521,26 @@ public class LiveBuyActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        leaveSession();
+        new AlertDialog.Builder(LiveBuyActivity.this)
+                .setTitle("정말로 종료하시겠습니까?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        leaveSession();
+                        exit();
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
+
+    }
+    public void exit() { // 종료
         super.onBackPressed();
     }
 

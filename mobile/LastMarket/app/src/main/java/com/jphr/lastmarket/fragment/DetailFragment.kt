@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -25,7 +26,6 @@ import com.jphr.lastmarket.viewmodel.MainViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -37,7 +37,6 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "DetailFragment"
 class DetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private val mainViewModel by activityViewModels<MainViewModel>()
@@ -46,17 +45,19 @@ class DetailFragment : Fragment() {
     var productId: Long=0
     var isLikeOn:Boolean=false
     var data:ProductDetailDTO?=null
+    var ispullup:Boolean=false
+    private lateinit var callback: OnBackPressedCallback
 
     fun initAdpater() {
         try{
             data= mainViewModel.getProductDetail()
-
+            Log.d(TAG, "initAdpater: $data")
         }catch (e:Exception){
             Log.d(TAG, "initAdpater: error")
         }
         data?.productId?.let { mainViewModel.setProductId(it) }
         productId= mainViewModel.getProductId()
-        data?.isFavorite?.let { isLikeOn=it }
+        data?.favorite?.let { isLikeOn=it }
 //        ProductService().getProductDetail(productId,ProductDetailCallback())
         Log.d(TAG, "initAdpater: $productId")
     }
@@ -64,6 +65,13 @@ class DetailFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity=context as MainActivity
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(1)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
         initAdpater()
 
     }
@@ -113,10 +121,7 @@ class DetailFragment : Fragment() {
         binding.content.text=data?.content
         binding.sellerNicname.text=data?.sellerNickname
         binding.sellerLocation.text=data?.location
-        //TODO: 사용자 프로필 이미지 담기
-//        Glide.with(requireContext())
-//            .load(data.profile)
-//            .into(binding.sellerProfile)
+
         binding.instantPrice.text=data?.instantPrice.toString()
         binding.startPrice.text=data?.startingPrice.toString()
 
@@ -144,16 +149,15 @@ class DetailFragment : Fragment() {
                 binding.favorite.setImageResource(R.drawable.like2)
                 isLikeOn=true
             }
-
-
         }
 
 
         binding.up.setOnClickListener {
-           if( ProductService().pullProduct(token,productId)){
-               Toast.makeText(MainActivity(), "끌올되었습니다.", Toast.LENGTH_LONG).show()
+            var result=ProductService().pullProduct(token,productId,PullUpCallback())
+//            if(ispullup)
+//            Toast.makeText(requireActivity(), "끌올되었습니다.", Toast.LENGTH_LONG).show()
+//            else  Toast.makeText(requireActivity(), "30분 후에 시도해주세요.", Toast.LENGTH_LONG).show()
 
-           }else Toast.makeText(MainActivity(), "30분 뒤에 시도해주세요", Toast.LENGTH_LONG).show()
             mainActivity.changeFragment(1)
 
         }
@@ -172,12 +176,8 @@ class DetailFragment : Fragment() {
             //patch product/productid
         }
         binding.delete.setOnClickListener {
-            if( ProductService().deleteProduct(token,productId)){
+            ProductService().deleteProduct(token,productId)
                 Toast.makeText(requireContext(), "삭제되었습니다.", Toast.LENGTH_LONG).show()
-
-            }else {
-                Toast.makeText(requireContext(), "삭제에 실패했습니다.", Toast.LENGTH_LONG).show()
-            }
             mainActivity.changeFragment(1)
 
         }
@@ -223,6 +223,9 @@ class DetailFragment : Fragment() {
                     intent.putExtra("productId",productId)
                     intent.putExtra("data",data)
                     intent.putExtra("sellerId",data?.sellerId)
+                    intent.putExtra("sellerNickname",data?.sellerNickname)
+                    intent.putExtra("title",data?.title)
+
                     intent.putExtra("startPrice",data?.startingPrice)
                     startActivity(intent)
 
@@ -233,6 +236,8 @@ class DetailFragment : Fragment() {
                     Log.d(TAG, "onCreateView productId: ${data?.productId}")
                     intent.putExtra("sellerId",data?.sellerId)
                     intent.putExtra("startPrice",data?.startingPrice)
+                    intent.putExtra("sellerNickname",data?.sellerNickname)
+                    intent.putExtra("title",data?.title)
 
                     Log.d(TAG, "onCreateView data: ${data?.sellerId} ${data?.startingPrice}")
 
@@ -293,25 +298,43 @@ class DetailFragment : Fragment() {
 
         return binding.root
     }
+    inner class PullUpCallback: RetrofitCallback<Unit> {
+        override fun onSuccess(code: Int,responseData: Unit, issearch:Boolean,word:String?,category:String?) {
+            if(code==201){
+                ispullup=true
+                Log.d(TAG, "onSuccess: $ispullup")
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
             }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+        }
+
+    }
+    inner class DeleteCallback: RetrofitCallback<Unit> {
+        override fun onSuccess(code: Int,responseData: Unit, issearch:Boolean,word:String?,category:String?) {
+            if(code==200){
+                ispullup=true
+                Log.d(TAG, "onSuccess: $ispullup")
+                Toast.makeText(requireActivity(), "끌올되었습니다.", Toast.LENGTH_LONG).show()
+
+            }
+        }
+
+        override fun onError(t: Throwable) {
+            Log.d(TAG, t.message ?: "물품 정보 받아오는 중 통신오류")
+        }
+
+        override fun onFailure(code: Int) {
+            Log.d(TAG, "onResponse: Error Code $code")
+            Toast.makeText(requireActivity(), "30분 뒤에 시도해주세요", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     inner class ProductDetailCallback: RetrofitCallback<ProductDetailDTO> {
@@ -337,4 +360,9 @@ class DetailFragment : Fragment() {
 
 
     }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
+
 }

@@ -11,13 +11,13 @@ interface MyPageAPI {
 
     @Multipart
     @PATCH("api/user/profile")
-    fun insertUserProfile(@Header("Authentication") token: String,@Part imgs: MultipartBody.Part): Call<Unit>
+    fun insertUserProfile(@Header("Authentication") token: String,@Part image: MultipartBody.Part): Call<Unit>
 
     @GET("api/trades/sell")
-    fun getSellList():Call<MutableList<TradeDTO>>
+    fun getSellList(@Header("Authentication") token: String, @Query("page") pagable:Long):Call<tradeListDTO>
 
     @GET("api/trades/buy")
-    fun getBuyList():Call<MutableList<TradeDTO>>
+    fun getBuyList(@Header("Authentication") token: String, @Query("page") pagable:Long):Call<tradeListDTO>
 
     @GET("api/reviews")
     fun getReviewList():Call<MutableList<ReviewListDTO>>

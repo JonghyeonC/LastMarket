@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,7 +24,6 @@ import com.jphr.lastmarket.util.RecyclerViewDecoration
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.viewmodel.MainViewModel
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -35,7 +35,6 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "ChatListFragment"
 class ChatListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     var userId=0L
@@ -43,6 +42,7 @@ class ChatListFragment : Fragment() {
     private lateinit var chatListAdapter:ChatListAdapter
     private lateinit var mainActivity:MainActivity
     private val mainViewModel by activityViewModels<MainViewModel>()
+    private lateinit var callback: OnBackPressedCallback
 
     var chatList= mutableListOf<ChatListDTO>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +54,13 @@ class ChatListFragment : Fragment() {
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(2)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
         mainActivity=context as MainActivity
         var prefs=requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
         userId = prefs.getLong("user_id", 0)
@@ -66,7 +73,7 @@ class ChatListFragment : Fragment() {
                 chatListAdapter.list?.get(position)?.productId
                     ?.let {
                         val chatDTO = ChatDTO(
-                            "FINISH",
+                            "FINISH_BROADCAST",
                             item.otherId,
                             userId.toString(),
                             "",
@@ -120,23 +127,10 @@ class ChatListFragment : Fragment() {
         }
 
     }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChatListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
+
+
 }

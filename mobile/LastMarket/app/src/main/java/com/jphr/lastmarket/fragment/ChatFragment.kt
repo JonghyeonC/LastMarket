@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -42,7 +44,6 @@ import ua.naiksoftware.stomp.dto.StompMessage
 import java.util.concurrent.atomic.AtomicBoolean
 
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -54,54 +55,149 @@ private const val ARG_PARAM2 = "param2"
  */
 private const val TAG = "ChatFragment"
 
-class ModalBottomSheet(productId: Long, token: String) : BottomSheetDialogFragment() {
+class ModalBottomSheet(
+    productId: Long,
+    token: String,
+    chatDTO: ChatDTO,
+    userId: Long,
+    detailDTO: ProductDetailDTO
+) : BottomSheetDialogFragment() {
     var token = token
     var productId = productId
+    private var stompClient: StompClient? = null
+    var chatDTO = chatDTO
+    var userId = userId
+    var tradeId = ""
+    lateinit var review: ReviewDTO
+    private val wsServerUrl = "ws://i8d206.p.ssafy.io/api/ws/websocket"
+    private var headerList = ArrayList<StompHeader>()
+    var detailDTO=detailDTO
+    fun initStomp() {
+        val isUnexpectedClosed = AtomicBoolean(false)
+
+        //stomp client 생성
+        stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, wsServerUrl)
+
+        stompClient!!.lifecycle().subscribe(Consumer { lifecycleEvent: LifecycleEvent ->
+            when (lifecycleEvent.type) {
+                LifecycleEvent.Type.OPENED -> Log.d(TAG, "Stomp connection opened")
+                LifecycleEvent.Type.ERROR -> {
+                    Log.e(TAG, "initStomp:")
+                    Log.e(TAG, "Error", lifecycleEvent.exception)
+                    if (lifecycleEvent.exception.message!!.contains("EOF")) {
+                        isUnexpectedClosed.set(true)
+                    }
+                }
+                LifecycleEvent.Type.CLOSED -> {
+                    Log.d(TAG, "Stomp connection closed")
+                    if (isUnexpectedClosed.get()) {
+                        /**
+                         * EOF Error
+                         */
+                        /**
+                         * EOF Error
+                         */
+                        initStomp()
+                        isUnexpectedClosed.set(false)
+                    }
+                }
+                else -> {
+                    Log.d(TAG, "initStomp: else")
+                }
+            }
+        })
+
+        // add Header
+        headerList!!.add(StompHeader("Authorization", token))
+        stompClient!!.connect(headerList)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.chat_bottom_sheet, container, false)
+    ):View? {
+        setStyle(STYLE_NORMAL,R.style.CustomBottomSheetDialogTheme)
+       return inflater.inflate(R.layout.chat_bottom_sheet, container, false)
+
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         //TODO:거래 완료를 판매자만 누를수있게 해야함
+        initStomp()
+
 
         view?.findViewById<ImageView>(R.id.trade_sucess)?.setOnClickListener {
+
             //거래 성공
-            ProductService().changeFinish(token, productId)
-            MaterialAlertDialogBuilder(requireContext()).setSingleChoiceItems(
-                R.array.review,
-                0
-            ) { dialog: DialogInterface?, which: Int ->
-                //0 이면 좋아요 1이면 soso 2면 bad
-//                if (which == 0) {
-//                    var review = ReviewDTO("GOOD", tradeId)
-//                    MyPageService().insertReview(token, review)
-//                } else if (which == 1) {
-//                    var review = ReviewDTO("SOSO", tradeId)
-//                    MyPageService().insertReview(token, review)
-//                } else if (which == 2) {
-//                    var review = ReviewDTO("BAD", tradeId)
-//                    MyPageService().insertReview(token, review)
-//                }
-
+            val dto = ChatDTO(
+                "FINISH_TRADE",
+                chatDTO?.buyer.toString(),
+                chatDTO?.seller.toString(),
+                detailDTO.startingPrice.toString(),
+                chatDTO?.roomKey.toString(),
+                userId.toString()
+            )
+            val mapper = ObjectMapper()
+            try {
+                val jsonString = mapper.writeValueAsString(dto)
+                stompClient!!.send("/send/room.${chatDTO?.roomKey}", jsonString).subscribe()
+                Log.d(TAG, "onClick: send OK bottomfragment $jsonString")
+            } catch (e: JsonProcessingException) {
+                e.printStackTrace()
             }
-                .setTitle("리뷰를 남겨주세요")
-                .setMessage("거래의 느낌은 어땠나요? 아래의 문구에서 선택해주세요")
-                .setNegativeButton("취소") { dialog, which ->
-                    // Respond to negative button press
-                }
-                .setPositiveButton("확인") { dialog, which ->
+            stompClient?.topic("/exchange/chat.exchange/room.${chatDTO?.roomKey}")
+                ?.subscribe(Consumer { topicMessage: StompMessage ->
+                    val str = topicMessage.payload
+                    val jsonObject = JSONObject(str)
+                    val type = jsonObject.getString("chatType")
 
-                    // Respond to positive button press
+                    Log.d(TAG, "onCreateView: aaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    if (type.equals("FINISH_TRADE")) {
+                        var chatDTO = ChatDTO(
+                            jsonObject.getString("chatType"),
+                            jsonObject.getString("buyer"),
+                            jsonObject.getString("seller"),
+                            jsonObject.getString("message"),
+                            jsonObject.getString("roomKey"),
+                            jsonObject.getString("sender")
+                        )
+                        if (!chatDTO.message.equals("FINISH_TRADE")) {//TRADE ID 가 MESSAGE에 담겨옴
+                            //FINISH_TRADE는 본인이 보내는 MESSAGE
+                            tradeId = chatDTO.message
+                        }
+                    }
+
+                })
+
+
+
+            val items = arrayOf("좋았어요", "그저그럼", "나빴어요")
+
+            var selectedItem: String? = null
+            val builder = AlertDialog.Builder(requireContext())
+                .setTitle("거래는 어떤 느낌이였나요?")
+                .setSingleChoiceItems(items, -1) { dialog, which ->
+                    if (which == 0) {
+                        review = ReviewDTO("GOOD", tradeId)
+                    } else if (which == 1) {
+                        review = ReviewDTO("SOSO", tradeId)
+                    } else if (which == 2) {
+                        review = ReviewDTO("BAD", tradeId)
+                    }
+                    selectedItem = items[which]
+                }
+                .setPositiveButton("OK") { dialog, which ->
+                    Log.d(TAG, "onActivityCreated: $review")
+                    MyPageService().insertReview(token, review)
                 }
                 .show()
+
 
         }
         view?.findViewById<ImageView>(R.id.trade_fail)?.setOnClickListener {
             //거래 파기
+            dismiss()
 
         }
 
@@ -114,7 +210,7 @@ class ModalBottomSheet(productId: Long, token: String) : BottomSheetDialogFragme
 }
 
 class ChatFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentChatBinding
@@ -133,6 +229,27 @@ class ChatFragment : Fragment() {
     private val mainViewModel by activityViewModels<MainViewModel>()
     private lateinit var chatList: ChatLogListDTO
     private var detailDTO: ProductDetailDTO? = null
+    private lateinit var callback: OnBackPressedCallback
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivity.changeFragment(1)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
+        Log.d(TAG, "onAttach: ChatFragment")
+        chatDTO = mainViewModel.getChatDTO()
+        mainActivity = context as MainActivity
+        //product 정보 불러와서 deal state에 따라 바텀시트의 상태 변화 시키기
+        productId = chatDTO?.roomKey?.toLong()!!
+        ProductService().getProductDetail(token,productId, ProductDetailCallback())
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,19 +257,9 @@ class ChatFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.d(TAG, "onAttach: ChatFragment")
-        chatDTO = mainViewModel.getChatDTO()
-        mainActivity = context as MainActivity
-        //product 정보 불러와서 deal state에 따라 바텀시트의 상태 변화 시키기
-        productId = chatDTO?.roomKey?.toLong()!!
-        ProductService().getProductDetail(productId, ProductDetailCallback())
+        initStomp()
 
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -161,6 +268,8 @@ class ChatFragment : Fragment() {
         // Inflate the layout for this fragment'
 
         binding = FragmentChatBinding.inflate(inflater, container, false)
+
+        mainActivity.actionButton.visibility=View.GONE
 
         var prefs =
             requireActivity().getSharedPreferences("user_info", AppCompatActivity.MODE_PRIVATE)
@@ -174,14 +283,28 @@ class ChatFragment : Fragment() {
 
         binding.plus.setOnClickListener {
 //            val modalBottomSheetBehavior = (modalBottomSheet.dialog as BottomSheetDialog).behavior
-            modalBottomSheet = ModalBottomSheet(productId, token)
+            Log.d(TAG, "onCreateView: ")
+            modalBottomSheet = stompClient?.let { it1 ->
+                detailDTO?.let { it2 ->
+                    ModalBottomSheet(
+                        productId,
+                        token,
+                        chatDTO!!,
+                        userId,
+                        it2
+                    )
+                }
+            }
             modalBottomSheet?.show(fragManager, ModalBottomSheet.TAG)
         }
         Log.d(TAG, "onCreateView: USER ID $userId  SELLERID ${chatDTO?.seller}")
         if (chatDTO?.seller.equals(userId.toString())) {//내가 seller 일 때
             binding.nickname.text = chatDTO?.buyer
+            binding.nickname.text="최강종현"
         } else {
             binding.nickname.text = chatDTO?.seller
+            binding.nickname.text="호빵희종"
+
         }
 
 
@@ -200,7 +323,6 @@ class ChatFragment : Fragment() {
             addItemDecoration(RecyclerViewDecoration(20, 20))
         }
 
-        initStomp()
         stompClient?.topic("/exchange/chat.exchange/room.${chatDTO?.roomKey}")
             ?.subscribe(Consumer { topicMessage: StompMessage ->
                 val str = topicMessage.payload
@@ -246,7 +368,7 @@ class ChatFragment : Fragment() {
         try {
             val jsonString = mapper.writeValueAsString(dto)
             stompClient!!.send("/send/room.${chatDTO?.roomKey}", jsonString).subscribe()
-            Log.d(TAG, "onClick: send OK$jsonString")
+            Log.d(TAG, "onClick: send OKchatfragment$jsonString")
         } catch (e: JsonProcessingException) {
             e.printStackTrace()
         }
@@ -333,6 +455,11 @@ class ChatFragment : Fragment() {
 
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+
+    }
     inner class chatCallback : RetrofitCallback<ChatLogListDTO> {
         override fun onSuccess(
             code: Int,
@@ -399,7 +526,7 @@ class ChatFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment ChatFragment.
          */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ChatFragment().apply {

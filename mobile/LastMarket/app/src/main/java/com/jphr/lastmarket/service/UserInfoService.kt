@@ -1,10 +1,8 @@
 package com.jphr.lastmarket.service
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.jphr.lastmarket.dto.CategoryDTO
 import com.jphr.lastmarket.dto.LifeStyleDTO
-import com.jphr.lastmarket.dto.ProductDTO
 import com.jphr.lastmarket.dto.UserInfoDTO
 import com.jphr.lastmarket.util.RetrofitCallback
 import com.jphr.lastmarket.util.RetrofitUtil
@@ -17,7 +15,7 @@ class UserInfoService {
     fun getCategory(callback: RetrofitCallback<CategoryDTO>): MutableList<String> {
 
         var responseCategory= mutableListOf<String>()
-        val categoryInterface: Call<CategoryDTO> = RetrofitUtil.UserInfoService.getCategory()
+        val categoryInterface: Call<CategoryDTO> = RetrofitUtil.userInfoService.getCategory()
 
         categoryInterface.enqueue(object : Callback<CategoryDTO> {
             override fun onResponse(call: Call<CategoryDTO>, response: Response<CategoryDTO>) {
@@ -44,7 +42,7 @@ class UserInfoService {
     fun getLifeStyle(callback: RetrofitCallback<LifeStyleDTO>):MutableList<String>{
 
         var responseLifeStyle= mutableListOf<String>()
-        val lifeStyleInterface: Call<LifeStyleDTO> = RetrofitUtil.UserInfoService.getLifeStyle()
+        val lifeStyleInterface: Call<LifeStyleDTO> = RetrofitUtil.userInfoService.getLifeStyle()
 
         lifeStyleInterface.enqueue(object : Callback<LifeStyleDTO> {
             override fun onResponse(call: Call<LifeStyleDTO>, response: Response<LifeStyleDTO>) {
@@ -66,24 +64,24 @@ class UserInfoService {
 
         return responseLifeStyle
     }
-    fun insertUserInfo(userInfo:UserInfoDTO) {
-        RetrofitUtil.UserInfoService.insertUserInfo(userInfo).enqueue(object : Callback<Unit> {
+    fun insertUserInfo(token:String,userInfo:UserInfoDTO) {
+        RetrofitUtil.userInfoService.insertUserInfo(token,userInfo).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 val res = response.body()
-                Log.d(TAG, "onResponse: ${res}")
+                Log.d(TAG, "insertData: ${response}")
                 if (response.isSuccessful) {
                     if (res != null) {
-                        Log.d(TAG, "onResponse: true")
+                        Log.d(TAG, "insertdata: true")
                         true
                     }
                 } else {
-                    Log.d(TAG, "onResponse:false ")
+                    Log.d(TAG, "insertdata:false ")
 
                     false
                 }
             }
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                Log.d(TAG, "onResponse:false ")
+                Log.d(TAG, "insertdata:false ")
 
             }
         })

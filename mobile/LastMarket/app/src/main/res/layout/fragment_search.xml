@@ -4,18 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.SearchFragment"
+    android:background="@color/background_grey"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/result_text"
-        android:layout_width="296dp"
-        android:layout_height="31dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:text="임시 텍스트"
-        android:fontFamily="@font/gmarket_sans_ttf_bold"
-        android:textAppearance="@style/result"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/result_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="50dp"
+            android:text="임시 텍스트"
+            android:fontFamily="@font/gmarket_sans_ttf_bold"
+            android:textAppearance="@style/result"
+            />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/sort"
+            />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"

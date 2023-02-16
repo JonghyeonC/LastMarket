@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import { useNavigate } from 'react-router-dom'
 import './Chat.css'
 
 function LiveChat(props) {
@@ -8,6 +9,8 @@ function LiveChat(props) {
     const msg_send_btn = useRef()
     const inputBox = useRef()
     
+    const navigate = useNavigate()
+
     const [talk, setTalk] = useState('')
     const [chat_log, setChat_log] = useState([''])
     const [ logs, setLogs ] = useState([''])
@@ -115,7 +118,7 @@ function LiveChat(props) {
                     <button ref={msg_send_btn} onClick={bidMessage}>경매</button>
                     {
                         `${props.sellerId}` === `${props.id}` ?
-                        <button ref={msg_send_btn} onClick={endBid}>낙찰</button> :
+                        <button ref={msg_send_btn} onClick={() => {endBid() ; navigate('/detail/' + (props.productId))}}>낙찰</button> :
                         null
                     }
                 </div>

@@ -118,7 +118,7 @@ function LiveChat(props) {
                     <button ref={msg_send_btn} onClick={bidMessage}>경매</button>
                     {
                         `${props.sellerId}` === `${props.id}` ?
-                        <button ref={msg_send_btn} onClick={() => {endBid() ; navigate('/detail/' + (props.productId))}}>낙찰</button> :
+                        <button ref={msg_send_btn} onClick={() => {endBid()}}>낙찰</button> :
                         null
                     }
                 </div>

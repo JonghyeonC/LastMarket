@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Person4Icon from '@mui/icons-material/Person4';
 
 import { Swiper, SwiperSlide } from "swiper/react"; // basic
 import SwiperCore, { Navigation, Pagination, Scrollbar, Autoplay } from "swiper";
@@ -201,7 +202,8 @@ function Discription(props) {
             {
               productDetail.profile !== "" ?
               <img src={productDetail.profile} alt="프로필사진" width="100px" height="100px" /> :
-              <img src="logos/Lama_Blue.png" width="100px" height="100px" alt="profile" />
+              <Person4Icon />
+              // <img src="logos/Lama_Blue.png" width="100px" height="100px" alt="profile" />
             }
             <div>
               <h3>{productDetail.sellerNickname}</h3>

@@ -1,13 +1,15 @@
 import { useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import './Chat.css'
 
 function Chat_onetoone(props) {
 
     const msg_send_btn = useRef()
     const inputBox = useRef()
+
+    const navigate = useNavigate()
 
     const location = useLocation()
     const productId = location.state.productId

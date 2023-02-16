@@ -111,9 +111,9 @@ function LiveChat(props) {
                         })
                     }
                 </div>
-                <input type="text" ref={inputBox} className="chatInput" placeholder="채팅을 입력해주세요!!" onChange={(e) => setTalk(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') {sendMessage(); e.target.value=''}}} />
-                    <br />
                 <div className='btnSet'>
+                    <input type="text" ref={inputBox} className="chatInput" placeholder="채팅을 입력해주세요!!" onChange={(e) => setTalk(e.target.value)} onKeyPress={(e) => { if (e.key === 'Enter') {sendMessage(); e.target.value=''}}} />
+                        <br />
                     <button ref={msg_send_btn} onClick={sendMessage}>전송</button>
                     <button ref={msg_send_btn} onClick={bidMessage}>경매</button>
                     {

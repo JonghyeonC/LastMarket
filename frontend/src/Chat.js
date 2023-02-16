@@ -57,7 +57,7 @@ function LiveChat(props) {
 
     function endBid() {
         const endMsg = {
-            "chatType": "FINISH_BRODCAST",
+            "chatType": "FINISH_BROADCAST",
             "seller": `${props.sellerId}`,
             "buyer": `${props.id}`,
             "sender": `${props.id}`,

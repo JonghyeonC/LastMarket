@@ -332,13 +332,30 @@
 
 }
 
-/* 상품 리스트 제목 이미지 */
+/* 상품 리스트 제목 */
+.ListTitle{
+  /* display:inline-flex;
+  justify-items: end; */
+  display: flex;
+  justify-content: flex-start;
+  font-size: 60px;
+    /* font-family: 'GmarketSansMedium'; */
+  font-family: 'GongGothicMedium';
+  /* font-family: 'establishRetrosansOTF'; */
+  color: #3FC8BA;
+}
+
+.Hot{
+  color: red !important;
+}
+
+/* 상품 리스트 제목 이미지
 .ListTitleLetterPic {
   width:120px;
   height: 50px;
   padding-bottom: 10px;
   z-index: 1;
-}
+} */
 
 /* 제품목록(낱개) */
 .GoodsCard{

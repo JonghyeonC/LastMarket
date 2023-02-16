@@ -60,12 +60,15 @@ function CategoryPage() {
       <div className='container'>
         <div>
           <br />
-          <div>
+          <br />
+          <div className="ListTitle">
             {
             reduxData.token ?
-              <h1>{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_HOT" alt="HOT" /> 한 {lifestyles}라이프 {name} 상품</h1>
+              <p>{addrs.split(' ')[2]}의 <b>HOT</b>한 {lifestyles}라이프 {name} 상품</p>
+              // <h1>{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_HOT" alt="HOT" /> 한 {lifestyles}라이프 {name} 상품</h1>
             :
-              <h1>라스트마켓에서 <img className="ListTitleLetterPic" src="letter_HOT.png" alt="HOT" />한 {name} 상품</h1>
+              <p>라스트마켓에서 <b>HOT</b>한 {name} 상품</p>
+              // <h1>라스트마켓에서 <img className="ListTitleLetterPic" src="letter_HOT.png" alt="HOT" />한 {name} 상품</h1>
             }
           </div>
           <br />
@@ -74,12 +77,14 @@ function CategoryPage() {
           </div>
           <br />
           <br />
-          <div>
-          {
-            reduxData.token ?
-            <h1>{addrs.split(' ')[2]}에서 {lifestyles}라이프 {name} <img className="ListTitleLetterPic" src="letter_LIVE.png" alt="LIVE" />  중</h1>
-            :
-            <h1>라스트마켓에서 {name} <img className="ListTitleLetterPic" src="letter_LIVE.png" alt="LIVE" /> 중</h1>
+          <div className="ListTitle">
+            {
+              reduxData.token ?
+              <p>{addrs.split(' ')[2]}에서 {lifestyles}라이프 {name} <b>LIVE</b> 중</p>
+              // <h1>{addrs.split(' ')[2]}에서 {lifestyles}라이프 {name} <img className="ListTitleLetterPic" src="letter_LIVE.png" alt="LIVE" />  중</h1>
+              :
+              <p>라스트마켓에서 {name} <b>LIVE</b> 중</p>
+              // <h1>라스트마켓에서 {name} <img className="ListTitleLetterPic" src="letter_LIVE.png" alt="LIVE" /> 중</h1>
             }
           </div>
           <br />
@@ -93,12 +98,14 @@ function CategoryPage() {
           {/* <GoodsListCard /> */}
         </div>
         <div>
-          <div>
+          <div className="ListTitle">
             {
               reduxData.token ?
-              <h1>{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_NEW.png" alt="NEW" />  {lifestyles}라이프 {name}</h1>
+              <p>{addrs.split(' ')[2]}의 <b>NEW</b> {lifestyles}라이프 {name}</p>
+              // <h1>{addrs.split(' ')[2]}의 <img className="ListTitleLetterPic" src="letter_NEW.png" alt="NEW" />  {lifestyles}라이프 {name}</h1>
               :
-              <h1>오늘의 <img className="ListTitleLetterPic" src="letter_NEW.png" alt="NEW" /> {name} 상품</h1>
+              <p>오늘의 <b>NEW</b> {name} 상품</p>
+              // <h1>오늘의 <img className="ListTitleLetterPic" src="letter_NEW.png" alt="NEW" /> {name} 상품</h1>
             }
           </div>
           <br />

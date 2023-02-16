@@ -69,11 +69,11 @@ function Discription(props) {
   // }
   const [ MainImgIndex, setMainImgIndex ] = useState(0)
 
-  function MainImg(index){
-    return(
-      setMainImgIndex(index)
-    )
-  }
+  // function MainImg(index){
+  //   return(
+  //     setMainImgIndex(index)
+  //   )
+  // }
   // useEffect(() => {
   //   MainImg()
   // }, [])
@@ -162,11 +162,12 @@ function Discription(props) {
           >
             <div className='row'>
               {
-                detailURIS.map((imgURI, index) => {
+                detailURIS?.map((imgURI, index) => {
                   return (
                     <SwiperSlide>
                       <img className='Small_Img' src={imgURI} alt="DetailImg" />
                       {/* onClick={MainImg(index)} */}
+                      {/* onClick={setMainImgIndex(index)} */}
                     </SwiperSlide>
                   )
                 })

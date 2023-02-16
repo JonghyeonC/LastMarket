@@ -261,7 +261,7 @@ class OnlineMeeting_sell extends Component {
             >
               {this.state.isSpeaker ? <HeadsetIcon /> : <HeadsetOffIcon />}
             </Icon>
-            <Icon primary onClick={() => {this.leaveSession() ;  this.props.navigate('/detail/' + (productId)) }}>
+            <Icon primary onClick={() => {this.leaveSession() ;  this.props.navigate('/Chat_onetoone/' + (productId)) }}>
               <CallEndIcon />
             </Icon>
           </BottomBox>

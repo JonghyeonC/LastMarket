@@ -33,7 +33,7 @@ const Header = styled.div`
 `;
 
 const StudyTitle = styled.p`
-  color: white;
+  color: black;
   font-size: 20px;
   font-weight: 600;
 `;

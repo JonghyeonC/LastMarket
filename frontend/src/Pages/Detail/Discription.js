@@ -207,7 +207,7 @@ function Discription(props) {
               <h5>{productDetail.location}</h5>
             </div>
             <span>
-              <Button variant="secondary" onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅걸기</Button>
+              <Button variant="secondary" onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</Button>
               {/* <button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button> */}
             </span>
           </div>
@@ -219,7 +219,7 @@ function Discription(props) {
               {
                 productDetail.dealState === "AFTERBROADCAST" ? 
                 null :
-                <button onClick={() => {(navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}})) ; onBrodcast()} }>라이브 시작</button>
+                <Button variant="primary" onClick={() => {(navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}})) ; onBrodcast()} }>라이브 시작</Button>
               }
             </div>
             :

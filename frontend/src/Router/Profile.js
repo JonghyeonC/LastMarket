@@ -53,8 +53,8 @@ function Profile() {
           <br />
           <br />
           <div>
-            {/* <Button variant="secondary" onClick={showModal}>프로필 사진 수정</Button>
-            {modalOpen && <ProfilePageModal setModalOpen={setModalOpen} />} */}
+            <Button variant="secondary" onClick={showModal}>프로필 사진 수정</Button>
+            {modalOpen && <ProfilePageModal setModalOpen={setModalOpen} />}
           </div>
         </div>
         <div className="profile_Profile_Info_Com_Text">

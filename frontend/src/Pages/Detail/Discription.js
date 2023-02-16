@@ -197,7 +197,7 @@ function Discription(props) {
           <br />
           <div className='profileBox'>
             {
-              <img src={productDetail.profile} alt="프로필사진" /> ?
+              <img src={productDetail.profile} alt="프로필사진" /> !== "" ?
               <img src={productDetail.profile} alt="프로필사진" width="100px" height="100px" /> :
               <img src="profile_icon.png" width="150px" height="150px" alt="" />
             }

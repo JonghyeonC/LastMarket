@@ -93,7 +93,7 @@ function Chat_onetoone(props) {
                         <br />
                     <button ref={msg_send_btn} onClick={sendMessage}>전송</button>
                     {
-                        `${sellerId}` === `${id}` ?
+                        sellerId === id ?
                         <button onClick={() => {doneDeal() ; navigate('/detail/' + (productId))}}>거래 종료</button> :
                         null
                     }

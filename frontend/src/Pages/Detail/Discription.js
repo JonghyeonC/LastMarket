@@ -225,9 +225,13 @@ function Discription(props) {
             :
             <div>
               {
-                productDetail.dealState === "AFTERBRODCAST" ?
-                <Button variant="success">라이브 종료</Button> :
-                <Button variant="success" onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</Button>
+                productDetail.liveTime !== null ?
+                (
+                  productDetail.dealStates ?
+                  <Button variant="success">라이브 종료</Button> :
+                  <Button variant="success" onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</Button>
+                ) :
+                null
               }
               <span> </span>
               <Button variant="warning" onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>즉시구매</Button>

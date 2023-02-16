@@ -11,6 +11,7 @@ function LiveChat(props) {
     const [talk, setTalk] = useState('')
     const [chat_log, setChat_log] = useState([''])
     const [ logs, setLogs ] = useState([''])
+    const [ bids, setBids ] = useState([''])
 
     const socket = new SockJS("https://i8d206.p.ssafy.io/api/ws");
     console.log(socket)
@@ -53,6 +54,20 @@ function LiveChat(props) {
             stomp_client.send(`/send/room.${props.productId}`, {}, JSON.stringify(bidMsg))
         )
     }
+
+    function endBid() {
+        const endMsg = {
+            "chatType": "FINISH_BRODCAST",
+            "seller": `${props.sellerId}`,
+            "buyer": `${props.id}`,
+            "sender": `${props.id}`,
+            "roomKey": `${props.productId}`,
+            "message": bids[bids.length - 1]?.message
+        }
+        return(
+            stomp_client.send(`/send/room.${props.productId}`, {}, JSON.stringify(endMsg))
+        )
+    }
     
     function addChatLog(msg) {
         let talks = JSON.parse(msg.body)
@@ -64,6 +79,8 @@ function LiveChat(props) {
         setChat_log([...chat_log, talks.message])
         // const new_logs = logs.concat(talks)
         setLogs([...logs, talks])
+        setBids([...bids, talks])
+
     }
 
     console.log("메시지 출력")
@@ -75,8 +92,8 @@ function LiveChat(props) {
             <div className='chatBox'>
                 <div className='chatContent'>
                     {
-                        `${logs[logs.length - 1]?.chatType}` === "BID" ?
-                        <div>{logs[logs.length - 1]?.message}</div> :
+                        `${bids[bids.length - 1]?.chatType}` === "BID" ?
+                        <div>{bids[bids.length - 1]?.message}</div> :
                         null
                     }
                     {
@@ -96,6 +113,11 @@ function LiveChat(props) {
                 <div className='btnSet'>
                     <button ref={msg_send_btn} onClick={sendMessage}>전송</button>
                     <button ref={msg_send_btn} onClick={bidMessage}>경매</button>
+                    {
+                        `${props.sellerId}` === `${props.id}` ?
+                        <button ref={msg_send_btn} onClick={endBid}>낙찰</button> :
+                        null
+                    }
                 </div>
                     <br />
             </div>

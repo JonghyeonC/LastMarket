@@ -10,6 +10,9 @@ import jwt_decode from "jwt-decode"
 
 import Button from 'react-bootstrap/Button';
 
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
 import { Swiper, SwiperSlide } from "swiper/react"; // basic
 import SwiperCore, { Navigation, Pagination, Scrollbar, Autoplay } from "swiper";
 import "swiper/css"; //basic
@@ -180,11 +183,10 @@ function Discription(props) {
             <div className='likeBtn'>
               {
                 productDetail.favorite === true ?
-                <div>찜 O</div> :
-                <div>찜 X</div>
+                <FavoriteIcon onClick={favorite}/> :
+                <FavoriteBorderIcon onClick={favorite}/>
               }
               <div>{productDetail.favoriteCnt}</div>
-              <button onClick={favorite}>하트</button>
             </div>
           }
           <div className="priceBox">

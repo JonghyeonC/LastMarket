@@ -46,7 +46,7 @@ function Chat_onetoone(props) {
 
     function doneDeal() {
         const msg = {
-            "chatType": "FINISH",
+            "chatType": "FINISH_TRADE",
             "seller": sellerId,
             "buyer": id,
             "sender": id,

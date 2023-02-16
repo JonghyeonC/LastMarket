@@ -217,7 +217,7 @@ function Discription(props) {
             productDetail.sellerId === userDetail?.id ?
             <div>
               {
-                productDetail.dealState === "AFTERBRODCAST" ? 
+                productDetail.dealState === "AFTERBROADCAST" ? 
                 null :
                 <button onClick={() => {(navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}})) ; onBrodcast()} }>라이브 시작</button>
               }

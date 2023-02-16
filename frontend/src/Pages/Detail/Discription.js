@@ -199,7 +199,7 @@ function Discription(props) {
             {
               productDetail.profile !== "" ?
               <img src={productDetail.profile} alt="프로필사진" width="100px" height="100px" /> :
-              <img src="profile_icon.png" width="150px" height="150px" alt="" />
+              <img src="logos/Lama_Blue.png" width="100px" height="100px" alt="profile" />
             }
             <div>
               <h3>{productDetail.sellerNickname}</h3>

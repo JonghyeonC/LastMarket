@@ -62,7 +62,7 @@ function LiveChat(props) {
             "buyer": `${props.id}`,
             "sender": `${props.id}`,
             "roomKey": `${props.productId}`,
-            "message": bids[bids.length - 1]?.message
+            "message": String(bids[bids.length - 1]?.message)
         }
         return(
             stomp_client.send(`/send/room.${props.productId}`, {}, JSON.stringify(endMsg))

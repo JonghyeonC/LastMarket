@@ -174,10 +174,10 @@ public class LiveBuyActivity extends AppCompatActivity {
             String price=jsonObject.getString("message");
             String type=jsonObject.getString("chatType");
             if(type.equals("FINISH_BROADCAST")){
-                Long tmp2=Long.parseLong(price);
+                int tmp2=(int)Double.parseDouble(price);
                 ProductService productService=new ProductService();
                 Log.d(TAG, "mytopprice"+myTopPrice+"tmp2"+tmp2);
-                if(tmp2.equals(myTopPrice)){//내가격이 최고가일때 (낙찰)
+                if(tmp2==myTopPrice){//내가격이 최고가일때 (낙찰)
                     //TODO : 낙찰되었을 때 EVENT 화려하게
                     Log.d(TAG, "onCreate: 낙찰");
                     Intent intent=new Intent(getApplicationContext(), MainActivity.class);
@@ -254,6 +254,8 @@ public class LiveBuyActivity extends AppCompatActivity {
 
                 double price=viewModel.getNowPrice()+tick;
                 String priceToString = Double.toString(price);
+                int i = (int) Double.parseDouble(priceToString) + 1;
+
                 ChatDTO dto= new ChatDTO("BID",userId.toString(),sellerId.toString(),priceToString,productId.toString(),userId.toString());
 
                 ObjectMapper mapper=new ObjectMapper();

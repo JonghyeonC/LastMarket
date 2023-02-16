@@ -21,7 +21,7 @@ const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 const Container = styled.div`
   height: 100vh;
   width: 100%;
-  background-color: #5D6DBE; // 바탕화면 색
+  background-color: linear-gradient(to bottom, white, #CCD3D9); // 바탕화면 색
 `;
 
 const Header = styled.div`

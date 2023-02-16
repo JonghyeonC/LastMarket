@@ -1,5 +1,6 @@
 package edu.ssafy.lastmarket.domain.entity;
 
 public enum CategoryName {
-    BOOK, CAMPING
+    MOVE, COOK, EAT, REST, GODLIFE, HOBBY, EXERCISE, CLEAN, STYLING;
+
 }

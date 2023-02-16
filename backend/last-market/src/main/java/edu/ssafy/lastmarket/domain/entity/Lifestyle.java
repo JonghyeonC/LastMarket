@@ -1,5 +1,7 @@
 package edu.ssafy.lastmarket.domain.entity;
 
 public enum Lifestyle {
-    MINIMAL, YOLO
+    MINIMAL, HOMELIFE, ECOVEGAN, WELLBEING, EARLYADOPTER, SLOWLIFE, FLEX, DIY;
+
+
 }

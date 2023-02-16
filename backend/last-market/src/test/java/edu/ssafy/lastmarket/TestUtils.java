@@ -11,8 +11,8 @@ public class TestUtils {
 
     public static List<Category> getCategoryList() {
         ArrayList<Category> categoryArraList = new ArrayList<>();
-        categoryArraList.add(new Category(1L, CategoryName.BOOK));
-        categoryArraList.add(new Category(2L, CategoryName.CAMPING));
+        categoryArraList.add(new Category(1L, CategoryName.REST));
+        categoryArraList.add(new Category(2L, CategoryName.EAT));
         return categoryArraList;
     }
 
@@ -37,13 +37,13 @@ public class TestUtils {
     }
 
     public static Category getCategory() {
-        return new Category(1L, CategoryName.BOOK);
+        return new Category(1L, CategoryName.REST);
     }
 
     public static List<Category> getCategories() {
         List<Category> categories = new ArrayList<>();
-        categories.add(new Category(1L, CategoryName.BOOK));
-        categories.add(new Category(2L, CategoryName.CAMPING));
+        categories.add(new Category(1L, CategoryName.REST));
+        categories.add(new Category(2L, CategoryName.EAT));
 
         return categories;
 
@@ -51,8 +51,8 @@ public class TestUtils {
 
     public static List<CategoryName> getCategoryNames() {
         List<CategoryName> categoryNames = new ArrayList<>();
-        categoryNames.add(CategoryName.CAMPING);
-        categoryNames.add(CategoryName.BOOK);
+        categoryNames.add(CategoryName.REST);
+        categoryNames.add(CategoryName.EAT);
 
         return categoryNames;
 

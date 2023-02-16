@@ -1,5 +1,5 @@
 /* 모달창을 화면 중앙. 최상단에 노출 */
-.modalcontainer {
+.modalcontainer_prof {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,7 +25,7 @@
 }
 
 /* 모달창 내부 X버튼 */
-.close {
+.close_prof {
   position: absolute;
   right: 10px;
   top: 10px;

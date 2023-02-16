@@ -43,8 +43,8 @@ function ProfilePageModal({ setModalOpen }) {
 
     return (
         // 모달창을 useRef로 잡아준다.
-        <div ref={modalRef} className="modalcontainer">
-            <button className="close" onClick={closeModal}>
+        <div ref={modalRef} className="modalcontainer_prof">
+            <button className="close_prof" onClick={closeModal}>
                 X
             </button>
             <div className="profile_img_change_box">

@@ -42,14 +42,14 @@ public class MemberServiceImplTest {
 
         MemberRegistDto memberRegistDto = MemberRegistDto.builder()
                 .nickname("nick2")
-                .lifestyle(Lifestyle.YOLO)
+                .lifestyle(Lifestyle.FLEX)
                 .build();
 
         Member predict = Member.builder()
                 .id(1L)
                 .nickname("nick2")
                 .username("asdf")
-                .lifestyle(Lifestyle.YOLO)
+                .lifestyle(Lifestyle.FLEX)
                 .build();
 
         Optional<Member> memberOptional = Optional.of(member);

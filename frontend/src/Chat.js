@@ -92,7 +92,7 @@ function LiveChat(props) {
 
     return (
         <div className='chatContainer'>
-            <div className='chatBox'>
+            <div className='chattBox'>
                 <div className='chatContent'>
                     {
                         `${bids[bids.length - 1]?.chatType}` === "BID" ?

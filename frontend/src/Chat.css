@@ -5,7 +5,7 @@
   flex-direction: row;
 }
 
-.chatBox {
+.chattBox {
   display: flex;
   flex-direction: column;
 }

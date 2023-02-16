@@ -74,7 +74,7 @@ function Chat_onetoone(props) {
     return (
         <div className='chatContainer'>
 
-            <div className='chatBox'>
+            <div className='chattBox'>
                 <div className='chatContent'>
                     {
                         logs.map((log) => {

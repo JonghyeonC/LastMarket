@@ -1,5 +1,5 @@
 #  Last Market 
-![aa](./img/App_logo.png)
+![aa](./img/App_logo.png){: width="100" height="100"}
 Team 진평동 인력사무소
 
 ##  개요 

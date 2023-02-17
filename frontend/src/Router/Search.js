@@ -57,7 +57,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 
 function Search() {
   
-  const { result } = useParams()
+  const { result } = useParams('')
   // const [results, setResults] = useState('')
 
   

@@ -52,6 +52,9 @@ function Main() {
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
 
+  const cookieValue = Cookies.get('https://i8d206.p.ssafy.io')
+  console.log(cookieValue)
+
   return (
     <div>
       <div className='container'>

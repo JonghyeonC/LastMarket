@@ -5,6 +5,7 @@ import './Discription.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import Cookies from 'js-cookie'
 import jwt_decode from "jwt-decode"
 
 
@@ -14,13 +15,14 @@ function Discription(props) {
   const [ productDetail, setProductDetail ] = useState([])
   const [ detailURIS, setDetailURIS ] = useState([])
   const [ isBrod, setIsBrod ] = useState(false)
-  // const [ userDetail, setUserDetail] = useState(null)
-
-  // useEffect(() => {
-  //   setUserDetail(jwt_decode(reduxData.token))
-  // }, [reduxData])
-  const userDetail = jwt_decode(reduxData.token)
   
+  const cookieValue =  Cookies.get('Authentication');
+  
+  let userDetail 
+
+  if (cookieValue) {
+    userDetail = jwt_decode(cookieValue)
+  }
   console.log(userDetail)
 
   function DiscriptionApi() {
@@ -39,7 +41,6 @@ function Discription(props) {
       console.log('Failed')
     })
   }
-
   
   useEffect(() => {
     DiscriptionApi()
@@ -49,7 +50,6 @@ function Discription(props) {
 
   function DeleteGood(){
 
-    // function DeleteGoodApi(){
       return(
         axios({
           method: 'delete',
@@ -62,11 +62,6 @@ function Discription(props) {
           console.log('삭제 post 실패')
         })
       )
-    // }
-  
-    // useEffect(() => {
-    //   DeleteGoodApi()
-    // }, [])
   
   }
   
@@ -91,14 +86,9 @@ function Discription(props) {
 
   console.log(productDetail)
 
-  const productId = productDetail.productId
-
   return (
     <div>
       <div className="decriptionBox">
-        <div>
-          {/* <img src={productDetail.imgURIs} width="500px" height="400px" alt="DetailImg" /> */}
-        </div>
         <div className='imagesBox'>
           {
             detailURIS.map((imgURI) => {
@@ -141,34 +131,20 @@ function Discription(props) {
               <p>{productDetail.sellerNickname}</p>
               <p>{productDetail.location}</p>
             </div>
-              <span><button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button></span>
-            {/* {
-              productDetail.sellerId === userDetail?.id ?
-              null :
-              <span><button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button></span>
-            } */}
+              <span><button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>채팅</button></span>
           </div>
           {
             productDetail.sellerId === userDetail?.id ?
             <div>
-              <button onClick={() => (navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 시작</button>
+              <button onClick={() => (navigate(`/live_sell/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 시작</button>
             </div>
             :
             <div>
-              <button onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</button>
-              <button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail.id}` , sellerId : `${productDetail.sellerId}`}} ))}>즉시구매</button>
+              <button onClick={() => (navigate(`/live_buy/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}}))}>라이브 참여</button>
+              <button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>즉시구매</button>
             </div>
           }
         </div>
-        {/* <div>
-          <img src={"https://codingapple1.github.io/shop/shoes" + (Number(props.id) + 1)+ ".jpg"} width="500px" height="400px" alt="" />
-          </div>
-          <div>
-          <h1>{products[props.id].title}</h1>
-          <div className="priceBox">
-          <p>{products[props.id].price}</p>
-          </div>
-        </div> */}
       </div>
       <br />
       <div className='contentBox'>

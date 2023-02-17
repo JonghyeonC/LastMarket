@@ -73,8 +73,7 @@ function Discription(props) {
   const Delete = (() => {
     return(
       DeleteGood(),
-      navigate('/'),
-      
+      navigate('/')
     )
   })
 

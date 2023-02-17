@@ -26,27 +26,6 @@ function Signup() {
       })
       )
     })
-
-  
-    const Kor = (({style}) => {
-      if (style === 'MINIMAL'){
-        return <p>'미니멀 라이프'</p>
-      } else if (style === 'HOMELIFE'){
-        return'집돌이/집순이 라이프'
-      } else if (style === 'ECOVEGAN'){
-        return'친환경/비건 라이프'
-      } else if (style === 'WELLBEING'){
-        return'웰빙 라이프'
-      } else if (style === 'SLOWLIFE'){
-        return'슬로우 라이프'
-      } else if (style === 'FLEX'){
-        return'플렉스 라이프'
-      } else if (style === 'DIY'){
-        return'DIY 라이프'
-      } else if (style === 'EARLYADOPTER'){
-        return'얼리어답터 라이프'
-      }
-    })
   
   const Korea = {
     'MINIMAL' : '미니멀 라이프',
@@ -58,30 +37,6 @@ function Signup() {
     'DIY' : 'DIY 라이프',
     'EARLYADOPTER' : '얼리어답터 라이프',
   }
-  // function lifestyle_trans() {
-  //   if (`${life}` === 'MINIMAL'){
-  //     setlifeStyle_Kor('미니멀 라이프')
-  //   } else if (`${life}` === 'HOMELIFE'){
-  //     setlifeStyle_Kor('집돌이/집순이 라이프')
-  //   } else if (`${life}` === 'ECOVEGAN'){
-  //     setlifeStyle_Kor('친환경/비건 라이프')
-  //   } else if (`${life}` === 'WELLBEING'){
-  //     setlifeStyle_Kor('웰빙 라이프')
-  //   } else if (`${life}` === 'SLOWLIFE'){
-  //     setlifeStyle_Kor('슬로우 라이프')
-  //   } else if (`${life}` === 'FLEX'){
-  //     setlifeStyle_Kor('플렉스 라이프')
-  //   } else if (`${life}` === 'DIY'){
-  //     setlifeStyle_Kor('DIY 라이프')
-  //   } else if (`${life}` === 'EARLYADOPTER'){
-  //     setlifeStyle_Kor('얼리어답터 라이프')
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   lifestyle_trans();
-  // }, [life])
-
 
     console.log(`${loca.address_name?.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`)
     const sendInfor = (() => {
@@ -93,7 +48,8 @@ function Signup() {
             "nickname" : nickName,
             "lifestyle" : lifestyle,
             "categories" : [],
-            "addr" : `${loca.address_name?.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`
+            // "addr" : `${loca.address_name?.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`
+            "addr" : `경상북도 구미시 임수동`
           },
           withCredentials: true,
         })
@@ -179,7 +135,7 @@ function Signup() {
           <div className='signupbox'>
             <span>{location.split(' ')[0]} </span>
             <span>{location.split(' ')[1]} </span>
-            <span>{location.split(' ')[2]}</span>
+            <span>{location.split(' ')[2]}</span> */}
           </div>
         </div>
         <br />

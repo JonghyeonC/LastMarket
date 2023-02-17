@@ -239,6 +239,12 @@ function Discription(props) {
               <button onClick={() => (navigate(`/Chat_onetoone/${productDetail.productId}`, { state : {productId : `${productDetail.productId}` , id : `${userDetail?.id}` , sellerId : `${productDetail.sellerId}`}} ))}>즉시구매</button> */}
             </div>
           }
+          <br />
+          <div className='contentContainer'>
+            <div className='contentBox'>
+              {productDetail.content}
+            </div>
+          </div>
         </div>
       </div>
       <br />

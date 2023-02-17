@@ -48,7 +48,7 @@ function Main() {
   console.log(a)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
-  console.log(getCookie("Authentication"))
+  // console.log(getCookie("Authentication"))
 
   return (
     <div>

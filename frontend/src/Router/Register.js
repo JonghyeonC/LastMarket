@@ -121,7 +121,7 @@ function Register() {
       method: "post",
       url: URL,
       data: formData,
-      headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc1OTE2MTQ5MDM5LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiIiLCJuaWNrbmFtZSI6Iu2MkOunpOq4gCDsnpHshLEg7YWM7Iqk7Yq4IOqzhOyglSIsImlkIjoxNTA3MiwidXNlcm5hbWUiOiJrYWthb18yNjI4MDMwNDY1IiwiZXhwIjoxNjc1OTE3OTQ5fQ.CH95W-Q-k9ZtR5sWeTu2qSNSmX-9axyEUW1_DQkztu4"}
+      headers: { "Content-Type" : "multipart/form-data", Authorization: "eyJyZWdEYXRlIjoxNjc2MDA0ODkzODQ4LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInByb2ZpbGUiOiIiLCJsb2NhbHRpb24iOiLqsr3sg4HrtoHrj4Qg6rWs66-47IucIOyehOyImOuPmSIsIm5pY2tuYW1lIjoi7J20IOycoOyggOuKlCDrtojrn4kg7Jyg7KCA7J6F64uI64ukIiwiaWQiOjE1MTE3LCJ1c2VybmFtZSI6Imtha2FvXzI2MjgwMzA0NjUiLCJleHAiOjE2NzYwMDY2OTN9.Js_9zu1eYTXMvOw2FCNg6RGcf9C5aGmV4udOrBZb9v0"}
     })
     .then((res) => {
       console.log("axios 성공")
@@ -137,7 +137,7 @@ function Register() {
 
   return (
     <div>
-      <div className='registerBox'>
+      <div className='registerBox' encType="multipart/form-data">
         <div className='uploadBox'>
           <UploadPage setImageUrls={setImageUrls} />
         </div>

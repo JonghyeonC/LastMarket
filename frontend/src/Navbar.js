@@ -34,6 +34,13 @@ function Navbar() {
               <img className="signup_icon" src="signup_icon.png" alt="signup_icon" onClick={() => navigate('/signup')} />
             </div>
           </span>
+          {/* <br />
+          <span>
+            <div class="nav_btn_box">
+              <a href="https://www.kakaocorp.com/"><img className="login_icon" src="login_icon.png" alt="login_icon" /></a>
+              <a href="https://www.coupang.com/"><img className="signup_icon" src="signup_icon.png" alt="signup_icon" /></a>
+            </div>
+          </span> */}
         </span>
       </div>
       <hr className="nav_line2"/>

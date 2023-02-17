@@ -5,6 +5,7 @@ import GoodsListSwiper from "../Components/GoodsListSwiper"
 import GoodsList from "../Components/GoodsList"
 import axios from "axios"
 import { useEffect, useState } from "react"
+
 // import GoodsListCard from "../Components/GoodsListCard"
 import { useSelector, useDispatch } from 'react-redux'
 import { addUserInfo } from '../redux/store'
@@ -14,9 +15,9 @@ import { getCookie } from "../Hooks/Cookies"
 
 function Main() {
   const location = useLocation();
-  
   // 이 부분부터 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
   const URL = `https://i8d206.p.ssafy.io/api/user`
+
   const [ lifestyles, setLifestyles ] = useState('')
   const [ addrs, setAddrs ] = useState('')
 
@@ -40,7 +41,7 @@ function Main() {
   // console.log(1)
   useEffect(() => {
     getUserInfo()
-    console.log(location.search.getitem("token"))
+    console.log(location.search)
   },[])
 
   let a = useSelector((state) => {return state})
@@ -48,7 +49,6 @@ function Main() {
   console.log(a)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
-  // console.log(getCookie("Authentication"))
 
   return (
     <div>

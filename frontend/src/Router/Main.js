@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 
 // import GoodsListCard from "../Components/GoodsListCard"
 import { useSelector, useDispatch } from 'react-redux'
-import { addUserInfo, addToken } from '../redux/store'
+import { addUserInfo, addToken, addInfo } from '../redux/store'
 import { useLocation } from 'react-router-dom';
 import { getCookie } from "../Hooks/Cookies"
 // axios
@@ -38,16 +38,18 @@ function Main() {
     )
   })
 
+  // let reduxData = useSelector((state) => {return state})
+
+
   // console.log(1)
   useEffect(() => {
     getUserInfo()
     dispatch(addToken(location.search.substring(7)))
+    dispatch(addInfo(jwt_decode(useSelector((state) => {return state}).token)))
   },[])
-
-  let a = useSelector((state) => {return state})
+  
   console.log('리덕스')
-  console.log(a.user)
-  console.log(a.token)
+  console.log(reduxData.userInfo)
   
   // 이 부분까지 유저 정보 axios 입니다. redux 사용시 대체할 수 있습니다
 

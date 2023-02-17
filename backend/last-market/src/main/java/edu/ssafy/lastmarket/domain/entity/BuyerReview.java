@@ -14,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class BuyerReview extends BaseEntity{
     @Id
+    @GeneratedValue
     @Column(name = "send_review_id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)

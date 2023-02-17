@@ -39,11 +39,19 @@ function Discription(props) {
     })
   }
 
-  const navigate = useNavigate()
-
+  
   useEffect(() => {
     DiscriptionApi()
   }, [])
+  
+  const navigate = useNavigate()
+
+  const Delete = (() => {
+    return(
+      DeleteGood(`${props.id}`),
+      navigate('/')
+    )
+  })
 
   console.log(productDetail)
 

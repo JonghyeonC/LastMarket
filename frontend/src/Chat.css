@@ -1,0 +1,41 @@
+.chatContainer {
+  display: flex;
+  width:450px;
+  height: 600px;
+  flex-direction: row;
+}
+
+.chattBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.chatContent {
+  border: 0.5rem #D0EDEF solid;
+  color: black;
+  border-radius: 1.5px;
+}
+
+.chatInput {
+  display: flex;
+  justify-content: end;
+}
+
+.btnSet {
+  display: flex;
+  flex-direction: row;
+}
+
+.yourMsg {
+  display: flex;
+  justify-content: left;
+  width: 200px;
+  background-color: blueviolet;
+}
+
+.myMsg {
+  display: flex;
+  justify-content: right;
+  width: 200px;
+  background-color: coral;
+}

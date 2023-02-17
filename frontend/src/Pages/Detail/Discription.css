@@ -1,0 +1,76 @@
+/* 지마켓 산스체 */
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.decriptionBox {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.detailBox{
+  display: flex;
+  flex-direction: column;
+}
+
+.imagesBox {
+  padding-top: 35px;
+  width: 600px;
+  height: 570px;
+  display: flex;
+  flex-direction: column;
+  background: black;
+  border-radius: 5px;
+}
+
+.SwiperBox{
+  width: 600px;
+  padding-left: 25px;
+}
+
+.Small_Img{
+  width : 100px;
+  height : 80px;
+  cursor: pointer;
+}
+
+.priceBox{
+  background-color: grey;
+  font-size: x-large;
+  
+}
+
+.profileBox {
+  display: flex;
+  flex-direction: row;
+}
+
+.likeBtn{
+  display: flex;
+  flex-direction: row;
+}
+
+.contentContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.contentBox {
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+  border: 0.2ch solid rgb(9, 0, 2);
+  padding: 10px;
+  background-color: white;
+  font-size: 20px;
+  font-family: 'GmarketSansMedium';
+  width: 600px;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}

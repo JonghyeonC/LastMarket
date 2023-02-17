@@ -1,0 +1,485 @@
+/* 배경 */
+.App {
+    background: white;
+    background: linear-gradient(to bottom, white, #CCD3D9);
+}
+            .hero.is-relative {
+    position: relative;
+}
+            #demo-canvas {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* 이사만루체 */
+@font-face {
+  font-family: 'GongGothicMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 지마켓 산스체 */
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'establishRetrosansOTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/establishRetrosansOTF.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KyoboHandwriting2020A';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/KyoboHandwriting2020A.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.App {
+  text-align: center;
+}
+
+/* .App-logo {
+  height: 40vmin;
+  pointer-events: none;
+} */
+
+.input {
+  width: 200px;
+}
+
+.Nav{
+  height: 117px;
+  position:sticky;
+  top: 0;
+  background: white;
+  z-index: 2;
+}
+
+.nav_last{
+  height: 80px;
+  display: flex;
+  justify-content: left;
+}
+
+.navbar_up {
+  display: flex;
+  justify-content: space-between;
+}
+.navbar_up > a {
+  text-decoration : none;
+  color : black;
+}
+
+.navbar_down {
+  display: flex;
+  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
+}
+
+/* @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+} */
+
+
+/* 앱 다운로드 로고 */
+.App-logo {
+  width: 25px;
+  height: 25px;
+  margin: 5px 7px 0px 5px;
+  cursor: pointer;
+}
+
+/* 로고 */
+.W_logo {
+  padding-top: 0px;
+  padding-left: 0px;
+  /* width: 400px; */
+  /* height: 50px; */
+  width: 180px;
+  height: 90px;
+  cursor: pointer;
+}
+
+/* 로고 영역 */
+.W_logo_box {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  margin-right: 200px;
+  margin-bottom: 10px;
+}
+
+/* 네브바 상단 라인 */
+.nav_line1 {
+  border: 2px solid #818dcc;
+  margin-bottom: 20px;
+}
+
+/* 네브바 하단 라인 */
+.nav_line2 {
+  border: 2px solid #C9CEE9;
+  margin-top: 15px;
+  /* filter: drop-shadow(0px 8px 5px #5D6DBE); */
+}
+
+.input_box_box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 50px;
+}
+
+/* 검색창 */
+.nav_input {
+  /* margin: 0px 30px 0px 20px; */
+  border: 4px solid #C9CEE9;
+  border-radius: 0px;
+  width: 700px;
+  height: 50px;
+  font-size: 30px;
+  font-family: 'GmarketSansMedium';
+}
+
+/* 회원가입, 로그인/아웃, 채팅, 프로필 영역 */
+.nav_btn_box {
+  width: 220px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-right: 100px; */
+  /* padding: 10px 15px 5px 15px; */
+  /* border : 4px solid #C9CEE9; */
+  /* border-radius: 25px; */
+}
+
+/* 채팅 버튼 */
+.chat_icon{
+  width: 70px;
+  height: 80px;
+  margin: 0px 10px;
+  cursor: pointer;
+}
+
+/* 채팅 버튼 마우스 올릴 때 */
+.chat_icon:hover{
+  width: 75px;
+  height: 85px;
+  margin: 0px 7px;
+}
+
+/* 프로필 버튼 */
+.myprofile_icon{
+  width: 70px;
+  height: 80px;
+  margin: 0px 10px;
+  cursor: pointer;
+}
+
+/* 프로필 버튼 마우스 올릴 때 */
+.myprofile_icon:hover{
+  width: 75px;
+  height: 85px;
+  margin: 0px 7px;
+}
+
+/* 로그아웃 버튼 */
+.logout_icon{
+  width: 70px;
+  height: 80px;
+  margin: 0px 10px;
+  cursor: pointer;
+}
+
+/* 로그아웃 버튼 마우스 올릴 때 */
+.logout_icon:hover{
+  width: 75px;
+  height: 85px;
+  margin: 0px 7px;
+}
+
+/* 로그인 버튼 */
+.login_icon {
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+/* 로그인 버튼 마우스 올릴 때 */
+.login_icon:hover{
+  width: 105px;
+  height: 55px;
+  margin: 0px 8px;
+}
+
+/* 회원가입 버튼 */
+.signup_icon{
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+/* 회원가입 버튼 마우스 올릴 때 */
+.signup_icon:hover{
+  width: 105px;
+  height: 55px;
+  margin: 0px 8px;
+}
+
+/* 카테고리 버튼 */
+.category_btn1 {
+  width: 50px;
+  height: 50px;
+  float: left;
+  cursor: pointer;
+}
+/* 
+.me-2 {
+  width: 0px;
+  height: 0px;
+  float: left;
+  border : 1px solid #C9CEE9;
+} */
+
+/* 카테고리 영역 */
+.cate_zone {
+  font-size: 20px;
+  text-decoration: none;
+  /* background-color: #C9CEE9; */
+  width: 250px;
+  transition: 2s;
+  filter: drop-shadow(5px 5px 2px #818dcc);
+}
+
+/* 카테고리 제목 */
+.cate_title{
+  margin-top: 30px;
+  margin-left: 30px;
+  font-size: 30px;
+  /* font-weight: bolder; */
+  font-family: 'GongGothicMedium';
+  /* font-family: 'establishRetrosansOTF'; */
+
+}
+
+/* 카테고리 목록 */
+.cate_name{
+  font-size: 25px;
+  cursor: pointer;
+  padding-left: 30px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  /* font-weight: bold; */
+  font-family: 'GongGothicMedium';
+  /* font-family: 'establishRetrosansOTF'; */
+
+}
+
+/* 카테고리 목록에 마우스 올릴 때 */
+.cate_name:hover{
+  font-size: 35px;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-left: 30px;
+  text-shadow: 10px 10px 4px #C9CEE9;
+  font-weight: bolder;
+}
+
+/* 판매하기 버튼 */
+.sell_icon {
+  width: 120px;
+  height: 40px;
+  float: right;
+  margin-right: 150px;
+  cursor: pointer;
+}
+
+/* 판매하기 버튼에 마우스 올릴 때 */
+.sell_icon:hover {
+  background-color: #8fdfd6;
+  border-radius: 5px;
+  height: 45px;
+  box-shadow: 5px 5px 5px #D0EDEF;
+}
+
+.side_banner_div{
+  position:sticky;
+  top: 510px;
+}
+
+.side_banner{
+  width: 90px;
+  height: 180px;
+  float: right;
+  margin-right: 10px;
+  margin-top: 10px;
+
+}
+
+/* 상품 리스트 제목 */
+.ListTitle{
+  /* display:inline-flex;
+  justify-items: end; */
+  display: flex;
+  justify-content: flex-start;
+  font-size: 60px;
+    /* font-family: 'GmarketSansMedium'; */
+  font-family: 'GongGothicMedium';
+  /* font-family: 'establishRetrosansOTF'; */
+  color: #3FC8BA;
+}
+
+.Hot{
+  color: red !important;
+}
+
+/* 상품 리스트 제목 이미지
+.ListTitleLetterPic {
+  width:120px;
+  height: 50px;
+  padding-bottom: 10px;
+  z-index: 1;
+} */
+
+/* 제품목록(낱개) */
+.GoodsCard{
+  padding-top: 11px;
+  margin-bottom: 50px;
+  width: 220px;
+  height: 275px;
+  background-color: #E8E8E8;
+  border-radius: 5px;
+  box-shadow: 6px 6px 1px #C9CEE9;
+  cursor: pointer;
+  font-family: 'GmarketSansMedium';
+}
+
+/* 제품 목록(낱개)에 마우스 올릴 때 */
+.GoodsCard:hover {
+  background-color: #D0EDEF;
+  box-shadow: 5px 5px 3px 2px #8fdfd6;
+}
+
+.SignupFormBox {
+  margin-top: 50px;
+  font-size: 19px;
+}
+
+/* 검색결과 필터링 버튼 */
+.SearchDropDownBox {
+  float: right;
+  margin-right: 170px;
+  margin-top: 5px;
+}
+
+/* 검색 결과 컴포넌트 */
+.SearchResult {
+  margin-left: 170px;
+}
+
+.Profile_title{
+  margin-top: 100px;
+  font-family: 'GmarketSansMedium';
+}
+
+/* 마이페이지 프로필 영역 */
+.profile_Profile_Info_Com{
+  /* border: solid; */
+  width: 1200px;
+  height: 400px;
+  margin-left: 80px;
+  margin-right: 10px;
+  padding: 50px 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 마이페이지 회원정보 영역 사진 부분 */
+/* .profile_Profile_Info_Com_Img{
+
+} */
+
+/* 마이페이지 회원정보 영역 글자 부분 */
+.profile_Profile_Info_Com_Text{
+  font-size: 30px;
+  font-family: 'GongGothicMedium';
+  width: 400px;
+  justify-content: flex-start;
+  margin-right: 100px;
+}
+
+/* 마이페이지 회원정보 영역 회원정보 수정 버튼 */
+.profile_Profile_Info_Com_Btn{
+  height: 300px;
+  align-items: flex-end;  
+}
+
+/* 마이페이지 컴포넌트 영역 */
+.profile_Compbox{
+  width: 1280px;
+  margin-top: 40px;
+  margin-left: 80px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  border-top: 4px solid #CCD3D9;
+}
+
+/* 마이페이지 상품 목록 영역 */
+.profile_Profile_Good_Com{
+  /* border: solid; */
+  border-right: 2px solid #CCD3D9;
+  width: 800px;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+/* 마이페이지 채팅 목록 영역 */
+.profile_Chat_Com{
+  /* border: solid; */
+  border-left: 2px solid #CCD3D9;
+  padding-left: 20px;
+  width: 480px;
+  padding-top: 10px;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

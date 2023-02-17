@@ -10,7 +10,13 @@ import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { addUserInfo, addToken, addInfo } from '../redux/store'
 import { useLocation } from 'react-router-dom';
+<<<<<<< HEAD
 import { getCookie } from "../Hooks/Cookies"
+=======
+import Cookies from 'js-cookie'
+import jwt_decode from "jwt-decode"
+
+>>>>>>> 013b610 (Fix error)
 // axios
 
 function Main() {

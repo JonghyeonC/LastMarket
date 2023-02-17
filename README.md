@@ -74,5 +74,6 @@
 - 채팅을 주고받으며 거래장소와 시간을 정하고 거래완료 버튼을 눌렀을 때 리뷰를 남길 수 있다.
 - WebSocket 통신을 사용하여 구현되어있다.
 
-[화면 설명서-웹] (https://docs.google.com/presentation/d/1b_4iXUtIA4F08hrXCy_Ubf8PYQ2QFtVf/edit?usp=share_link&ouid=113136065755976595387&rtpof=true&sd=true) 
+[화면 설명서-웹](https://docs.google.com/presentation/d/1b_4iXUtIA4F08hrXCy_Ubf8PYQ2QFtVf/edit?usp=share_link&ouid=113136065755976595387&rtpof=true&sd=true) 
+
 [화면 설명서-모바일](https://docs.google.com/presentation/d/1IktfAI5ynyiodvc0Zac6WZf_Izmf28Ps/edit?usp=share_link&ouid=113136065755976595387&rtpof=true&sd=true)

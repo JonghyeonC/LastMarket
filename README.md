@@ -1,4 +1,4 @@
-# <img src="https://lab.ssafy.com/s08-webmobile1-sub2/S08P12D206/-/raw/main/img/App_logo.png" width="30" height="30"> Last Market -진평동 인력사무소
+#  Last Market -진평동 인력사무소
 
 
 ##  개요 
@@ -30,7 +30,7 @@
 | ------ | ------ |------|
 |React      |  RDS      |Android Studio (Kotlin, Java)|
 |Styled-Component       |Redis        |Retrofit(API통신)|
-||Spring Boot|OkHTTP(OpenVidu)|
+|Redux|Spring Boot|OkHTTP(OpenVidu)|
 ||Spring Data JPA|Stomp Library(Chat)|
 ||Spring Security|MVVM pattern|
 ||AWS EC2|Material Design3|

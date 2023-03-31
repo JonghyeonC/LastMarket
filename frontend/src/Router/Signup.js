@@ -48,8 +48,7 @@ function Signup() {
             "nickname" : nickName,
             "lifestyle" : lifestyle,
             "categories" : [],
-            // "addr" : `${loca.address_name?.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`
-            "addr" : `경상북도 구미시 임수동`
+            "addr" : `${loca.address_name?.split(' ')[0]} ${location.split(' ')[1]} ${location.split(' ')[2]}`
           },
           withCredentials: true,
         })
@@ -92,7 +91,7 @@ function Signup() {
     //kakao REST API에 get 요청을 보낸다.
     //파라미터 x,y에 lon,lat을 넣어주고 API_KEY를 Authorization헤더에 넣어준다.
     axios.get(`https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}&input_coord=WGS84`
-    ,{headers:{Authorization:`KakaoAK fb48a90139fb5e563023ad03ca49e216`}}
+    ,{headers:{Authorization:``}}
     )
     .then(res=>{
         setLocation(res.data.documents[0].address.address_name)
